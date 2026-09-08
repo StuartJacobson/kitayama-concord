@@ -1,0 +1,1045 @@
+﻿kc_concord_council_law = {
+	type = international_organization
+	law_category = administrative
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_hereditary_council_policy = {
+		years = 2
+		country_modifier = {
+			nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+			monthly_legitimacy = 0.05
+			monthly_towards_plutocracy = societal_value_minor_monthly_move
+			country_cabinet_efficiency = -0.05
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 20
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_diplomat_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_rotating_council_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			country_cabinet_efficiency = 0.05
+			change_policy_cost_modifier = -0.05
+			monthly_towards_innovative = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 20
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_administrative_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_wealth_weighted_council_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			country_cabinet_efficiency = 0.15
+			change_policy_cost_modifier = -0.15
+			monthly_towards_plutocracy = societal_value_monthly_move
+			monthly_towards_capital_economy = societal_value_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 10
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_capitalist_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+kc_concord_market_law = {
+	type = international_organization
+	law_category = socioeconomic
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_protected_guilds_policy = {
+		years = 2
+		country_modifier = {
+			trade_income = 0.03
+			global_merchant_capacity_modifier = -0.05
+			burghers_estate_target_satisfaction = medium_permanent_target_satisfaction
+			monthly_towards_capital_economy = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_licensed_exchanges_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			trade_income = 0.05
+			global_merchant_power = 0.025
+			global_merchant_capacity_modifier = 0.025
+			global_monthly_development = 0.0005
+			monthly_towards_innovative = societal_value_minor_monthly_move
+			monthly_towards_capital_economy = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_open_exchange_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			global_merchant_power = 0.075
+			trade_range_modifier = 0.10
+			research_speed_modifier = 0.05
+			global_monthly_development = 0.001
+			monthly_towards_innovative = societal_value_minor_monthly_move
+			monthly_towards_capital_economy = societal_value_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 20
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_capitalist_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+kc_concord_arms_law = {
+	type = international_organization
+	law_category = military
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_house_retinues_policy = {
+		years = 2
+		country_modifier = {
+			monthly_army_tradition = 0.05
+			global_manpower_modifier = 0.05
+			nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+		}
+		country_modifier = {
+			potential_trigger = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			expected_army_size_modifier = 0.50
+			global_manpower_modifier = 0.05
+			army_maintenance_efficiency = 0.50
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 20
+			}
+			add = {
+				desc = "KC_UNQUIET_PEACE_WATCHES_MANDATE"
+				if = {
+					limit = {
+						has_country_modifier = kc_unquiet_peace_watches_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_militarist_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_registered_retinues_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			regiment_recruit_speed = 0.10
+			army_maintenance_efficiency = 0.025
+			country_cabinet_efficiency = 0.05
+		}
+		country_modifier = {
+			potential_trigger = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			expected_army_size_modifier = -0.25
+			army_maintenance_efficiency = -0.025
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "KC_UNQUIET_PEACE_WATCHES_MANDATE"
+				if = {
+					limit = {
+						has_country_modifier = kc_unquiet_peace_watches_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_common_arsenals_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			global_manpower_modifier = 0.10
+			global_rgo_build_time = -0.05
+			monthly_towards_plutocracy = societal_value_minor_monthly_move
+		}
+		country_modifier = {
+			potential_trigger = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			expected_army_size_modifier = -0.75
+			global_manpower_modifier = -0.10
+			army_maintenance_efficiency = -0.50
+			regiment_recruit_speed = -0.25
+		}
+		country_modifier = {
+			potential_trigger = { tag = JAP }
+			expected_army_size_modifier = 0.25
+			army_maintenance_efficiency = 0.10
+			regiment_recruit_speed = 0.10
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 20
+			}
+			add = {
+				desc = "KC_UNQUIET_PEACE_CONSTABULARY_MANDATE"
+				if = {
+					limit = {
+						has_country_modifier = kc_unquiet_peace_constabulary_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_administrative_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+# The Arms law determines what military establishment each House may keep.
+# War Service separately determines whether JAP may mobilize those forces.
+kc_concord_war_service_law = {
+	type = international_organization
+	law_category = military
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+	}
+
+	allow = { always = yes }
+
+	kc_house_war_exemption_policy = {
+		years = 2
+		country_modifier = {
+			potential_trigger = { has_reform = government_reform:kc_chartered_buke_house }
+			land_morale = 0.025
+			naval_morale = 0.025
+		}
+		wants_this_policy_bias = {
+			add = { desc = "VOTE_BASE_VALUE" value = 30 }
+			add = { desc = "BIAS_FROM_RULER_TRAITS" value = modifier:bias_for_diplomat_policies }
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_discretionary_house_service_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			potential_trigger = { tag = JAP }
+			global_manpower_modifier = 0.025
+		}
+		country_modifier = {
+			potential_trigger = { has_reform = government_reform:kc_chartered_buke_house }
+			army_maintenance_efficiency = 0.05
+			navy_maintenance_efficiency = 0.05
+		}
+		wants_this_policy_bias = {
+			add = { desc = "VOTE_BASE_VALUE" value = 35 }
+			add = { desc = "BIAS_FROM_RULER_TRAITS" value = modifier:bias_for_balanced_policies }
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_universal_house_mobilization_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			potential_trigger = { tag = JAP }
+			global_manpower_modifier = 0.05
+			army_maintenance_efficiency = 0.05
+		}
+		country_modifier = {
+			potential_trigger = { has_reform = government_reform:kc_chartered_buke_house }
+			regiment_recruit_speed = 0.10
+			ship_build_speed = 0.10
+		}
+		wants_this_policy_bias = {
+			add = { desc = "VOTE_BASE_VALUE" value = 20 }
+			add = { desc = "BIAS_FROM_RULER_TRAITS" value = modifier:bias_for_militarist_policies }
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+kc_concord_roads_law = {
+	type = international_organization
+	law_category = socioeconomic
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_house_tolls_policy = {
+		years = 2
+		country_modifier = {
+			tax_income_efficiency = 0.05
+			global_merchant_power = -0.025
+			global_rgo_build_time = 0.05
+			nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_diplomat_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_shared_road_fund_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			global_rgo_build_time = -0.025
+			global_monthly_development = 0.001
+			global_build_buildings_efficiency = 0.03
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "KC_UNQUIET_PEACE_NETWORK_MANDATE"
+				if = {
+					limit = {
+						has_country_modifier = kc_unquiet_peace_network_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_central_kaido_assessment_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			global_rgo_build_time = -0.05
+			global_monthly_development = 0.0015
+			global_max_control = 0.025
+			monthly_towards_capital_economy = societal_value_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 10
+			}
+			add = {
+				desc = "KC_UNQUIET_PEACE_NETWORK_MANDATE"
+				if = {
+					limit = {
+						has_country_modifier = kc_unquiet_peace_network_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_administrative_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+# Entrenchment 20: common commercial procedure grows out of repeated,
+# negotiated settlements between hereditary Houses.
+kc_concord_arbitration_law = {
+	type = international_organization
+	law_category = administrative
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+		var:kc_concord_entrenchment >= 20
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_lineage_arbitration_policy = {
+		years = 2
+		country_modifier = {
+			nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+			monthly_legitimacy = 0.05
+			monthly_towards_traditionalist = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_diplomat_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_mixed_commercial_benches_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			country_cabinet_efficiency = 0.05
+			change_policy_cost_modifier = -0.05
+			stability_cost_efficiency = 0.05
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_concord_commercial_court_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			country_cabinet_efficiency = 0.10
+			change_policy_cost_modifier = -0.10
+			research_speed_modifier = 0.025
+			global_max_control = 0.025
+			monthly_towards_innovative = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 15
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_administrative_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+# Entrenchment 40: local measures and assessments can be compared, registered,
+# and eventually replaced by a common survey.
+kc_concord_assessment_law = {
+	type = international_organization
+	law_category = administrative
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+		var:kc_concord_entrenchment >= 40
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_customary_assessments_policy = {
+		years = 2
+		country_modifier = {
+			tax_income_efficiency = 0.025
+			nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+			global_rgo_build_time = 0.025
+			monthly_towards_traditionalist = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "KC_VOTE_GREAT_RECKONING_GUARANTEE"
+				if = {
+					limit = {
+						has_country_modifier = kc_great_reckoning_guarantee_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_diplomat_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_registered_cadasters_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			tax_income_efficiency = 0.0375
+			global_rgo_build_time = -0.015
+			global_max_control = 0.015
+			global_monthly_development = 0.0005
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "KC_VOTE_GREAT_RECKONING_REGISTER"
+				if = {
+					limit = {
+						has_country_modifier = kc_great_reckoning_register_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_common_kenchi_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			tax_income_efficiency = 0.05
+			global_rgo_build_time = -0.025
+			global_monthly_development = 0.001
+			country_cabinet_efficiency = 0.10
+			monthly_towards_capital_economy = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 15
+			}
+			add = {
+				desc = "KC_VOTE_GREAT_RECKONING_PUBLIC"
+				if = {
+					limit = {
+						has_country_modifier = kc_great_reckoning_public_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_administrative_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+# Entrenchment 60: maritime security evolves from privileged House ports into
+# a common system of convoy licenses, charts, and coastal administration.
+kc_concord_maritime_law = {
+	type = international_organization
+	law_category = military
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+		var:kc_concord_entrenchment >= 60
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_house_port_privileges_policy = {
+		years = 2
+		country_modifier = {
+			global_merchant_power = 0.025
+			global_sailors_modifier = 0.05
+			nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+			monthly_towards_traditionalist = societal_value_minor_monthly_move
+		}
+		country_modifier = {
+			potential_trigger = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			expected_navy_size_modifier = 0.50
+			navy_maintenance_efficiency = 0.50
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "KC_VOTE_GREAT_RECKONING_GUARANTEE"
+				if = {
+					limit = {
+						has_country_modifier = kc_great_reckoning_guarantee_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_militarist_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_licensed_coastal_convoys_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			global_merchant_power = 0.035
+			global_sailors_modifier = 0.10
+			navy_maintenance_efficiency = 0.05
+		}
+		country_modifier = {
+			potential_trigger = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			# Age 1 already applies -80% expected navy size globally. A positive
+			# value here still leaves licensed fleets much smaller than under
+			# House Port Privileges without reducing their target to zero.
+			expected_navy_size_modifier = 0.10
+			navy_maintenance_efficiency = -0.05
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "KC_VOTE_GREAT_RECKONING_REGISTER"
+				if = {
+					limit = {
+						has_country_modifier = kc_great_reckoning_register_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_concord_maritime_board_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			trade_range_modifier = 0.25
+			global_sailors_modifier = 0.20
+			monthly_navy_tradition = 0.05
+			monthly_towards_innovative = societal_value_minor_monthly_move
+		}
+		country_modifier = {
+			potential_trigger = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			# Keep a small grandfathered House fleet target after the global
+			# early-age naval penalty instead of forcing the AI to zero ships.
+			expected_navy_size_modifier = -0.15
+			global_sailors_modifier = -0.20
+			navy_maintenance_efficiency = -0.50
+			ship_build_speed = -0.25
+		}
+		country_modifier = {
+			potential_trigger = { tag = JAP }
+			expected_navy_size_modifier = 0.25
+			navy_maintenance_efficiency = 0.10
+			ship_build_speed = 0.10
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 15
+			}
+			add = {
+				desc = "KC_VOTE_GREAT_RECKONING_PUBLIC"
+				if = {
+					limit = {
+						has_country_modifier = kc_great_reckoning_public_mandate
+					}
+					value = 300
+				}
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_capitalist_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+# Entrenchment 80: temple guarantees and private House ledgers mature into
+# clearinghouses capable of issuing instruments accepted across Japan.
+kc_concord_credit_law = {
+	type = international_organization
+	law_category = socioeconomic
+	requires_vote = yes
+	custom_tags = { forbids_no_policy }
+
+	potential = {
+		international_organization_type = international_organization_type:kc_kitayama_concord
+		var:kc_concord_entrenchment >= 80
+	}
+
+	allow = {
+		always = yes
+	}
+
+	kc_temple_guaranteed_credit_policy = {
+		years = 2
+		country_modifier = {
+			clergy_estate_target_satisfaction = medium_permanent_target_satisfaction
+			bank_interest = -0.005
+			total_loan_capacity_modifier = 0.05
+			monthly_towards_traditionalist = societal_value_minor_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_diplomat_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+
+	kc_house_clearinghouses_policy = {
+		years = 2
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.02
+			bank_interest = -0.01
+			global_merchant_capacity_modifier = 0.035
+			total_loan_capacity_modifier = 0.10
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 25
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_balanced_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = 200
+    }
+   }
+		}
+	}
+
+	kc_concord_notes_policy = {
+		years = 3
+		country_modifier = {
+			monthly_concord_law_cohesion = -0.04
+			bank_interest = -0.02
+			global_merchant_capacity_modifier = 0.05
+			total_loan_capacity_modifier = 0.20
+			research_speed_modifier = 0.05
+			global_monthly_development = 0.0005
+			monthly_towards_capital_economy = societal_value_monthly_move
+		}
+		wants_this_policy_bias = {
+			add = {
+				desc = "VOTE_BASE_VALUE"
+				value = 15
+			}
+			add = {
+				desc = "BIAS_FROM_RULER_TRAITS"
+				value = modifier:bias_for_capitalist_policies
+			}
+		
+			add = {
+    if = {
+     limit = { is_ai = yes has_global_variable = kc_house_player_campaign }
+     value = -200
+    }
+   }
+		}
+	}
+}
+
+

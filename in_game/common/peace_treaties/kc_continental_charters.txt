@@ -1,0 +1,190 @@
+﻿# One-war Korean settlement. The settlement event decides whether the land is
+# governed directly, as one commercial protectorate, or as four commissions.
+kc_impose_korean_settlement = {
+	blocks_full_annexation = yes
+	category = country
+	select_trigger = {
+		looking_for_a = region
+		source = world
+		target_flag = target
+		name = "kc_impose_korean_settlement_select_region"
+		tooltip_msg_key = "kc_impose_korean_settlement_region_tt"
+		none_available_msg_key = "kc_impose_korean_settlement_no_region"
+		column = { data = name }
+		visible = { this = region:korea_region }
+		enabled = { this = region:korea_region }
+		map_color = {
+			if = {
+				limit = { region = region:korea_region }
+				value = define:NMapColors|MAP_COLOR_HIGH
+			}
+		}
+		only_color_selectable = no
+	}
+	potential = {
+		scope:winner = { tag = JAP has_variable = kc_korean_settlement_cb_authorized }
+		scope:loser = { tag = KOR }
+		scope:war = { casus_belli ?= casus_belli:kc_cb_continental_settlement }
+	}
+	allow = { scope:loser = { any_owned_location = { region = region:korea_region } } }
+	cost = { add = { desc = kc_fixed_korean_settlement_cost value = 60 } }
+	base_antagonism = 35
+	antagonism_type = antagonism_kc_korean_settlement
+	effect = {
+		scope:loser = {
+			every_owned_location = {
+				limit = { region = region:korea_region }
+				change_location_owner = scope:winner
+			}
+		}
+		scope:winner = {
+			remove_variable = kc_korean_settlement_cb_authorized
+			set_variable = { name = kc_korean_settlement_pending value = yes }
+			trigger_event_non_silently = { id = kc_continental.4 days = 5 }
+		}
+	}
+	ai_desire = { value = 1000 }
+}
+
+# A selected treaty-coast sector becomes a new, locally governed Concord
+# subject. Five sectors cost 20 war score each, so the complete settlement is
+# exactly 100 while a partial victory can still secure one or more coasts.
+kc_charter_coastal_protectorate = {
+	blocks_full_annexation = yes
+	category = area
+	potential = {
+		scope:winner = { tag = JAP has_variable = kc_china_charters_authorized }
+		scope:loser = { tag = CHI }
+		scope:war = { casus_belli ?= casus_belli:kc_cb_chartered_treaty_coast }
+	}
+	select_trigger = {
+		looking_for_a = area
+		target_flag = target
+		name = kc_select_treaty_coast_area
+		none_available_msg_key = kc_no_treaty_coast_areas
+		column = { data = name }
+		visible = {
+			OR = {
+				this = area:haiyou_area
+				this = area:zhejiang_area
+				this = area:fujian_area
+				this = area:guangdong_area
+				this = area:haibei_hainan_area
+			}
+			any_location_in_area = {
+				has_owner = yes
+				owner = scope:recipient
+				is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+			}
+		}
+		enabled = {
+			any_location_in_area = {
+				has_owner = yes
+				owner = scope:recipient
+				is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+			}
+		}
+	}
+	cost = { add = { desc = kc_fixed_treaty_coast_cost value = 20 } }
+	base_antagonism = 12
+	antagonism_type = antagonism_kc_commercial_treaty_coast
+	effect = {
+		scope:target = {
+			ordered_location_in_area = {
+				limit = {
+					has_owner = yes
+					owner = scope:loser
+					is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+				}
+				order_by = population
+				max = 1
+				create_country_from_location = {
+					overlord = scope:winner
+					subject_type = subject_type:kc_commercial_protectorate
+					save_scope_as = kc_new_coastal_subject
+				}
+			}
+			every_location_in_area = {
+				limit = {
+					has_owner = yes
+					owner = scope:loser
+					is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+				}
+				change_location_owner = scope:kc_new_coastal_subject
+			}
+		}
+		scope:kc_new_coastal_subject = { set_variable = { name = kc_concord_treaty_coast_subject value = yes } }
+		scope:winner = { trigger_event_non_silently = { id = kc_continental.7 days = 3 } }
+	}
+	ai_desire = { value = 40 }
+}
+
+kc_establish_coastal_extraction_commission = {
+	blocks_full_annexation = yes
+	category = area
+	potential = {
+		scope:winner = { tag = JAP has_variable = kc_china_charters_authorized }
+		scope:loser = { tag = CHI }
+		scope:war = { casus_belli ?= casus_belli:kc_cb_extraction_treaty_coast }
+	}
+	select_trigger = {
+		looking_for_a = area
+		target_flag = target
+		name = kc_select_extraction_coast_area
+		none_available_msg_key = kc_no_treaty_coast_areas
+		column = { data = name }
+		visible = {
+			OR = {
+				this = area:haiyou_area
+				this = area:zhejiang_area
+				this = area:fujian_area
+				this = area:guangdong_area
+				this = area:haibei_hainan_area
+			}
+			any_location_in_area = {
+				has_owner = yes
+				owner = scope:recipient
+				is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+			}
+		}
+		enabled = {
+			any_location_in_area = {
+				has_owner = yes
+				owner = scope:recipient
+				is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+			}
+		}
+	}
+	cost = { add = { desc = kc_fixed_treaty_coast_cost value = 20 } }
+	base_antagonism = 25
+	antagonism_type = antagonism_kc_extraction_treaty_coast
+	effect = {
+		scope:target = {
+			ordered_location_in_area = {
+				limit = {
+					has_owner = yes
+					owner = scope:loser
+					is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+				}
+				order_by = population
+				max = 1
+				create_country_from_location = {
+					overlord = scope:winner
+					subject_type = subject_type:kc_chartered_extraction_commission
+					save_scope_as = kc_new_coastal_subject
+				}
+			}
+			every_location_in_area = {
+				limit = {
+					has_owner = yes
+					owner = scope:loser
+					is_in_scripted_geography = scripted_geography:kc_china_treaty_coasts
+				}
+				change_location_owner = scope:kc_new_coastal_subject
+			}
+		}
+		scope:kc_new_coastal_subject = { set_variable = { name = kc_concord_treaty_coast_subject value = yes } }
+		scope:winner = { change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 } }
+	}
+	ai_desire = { value = 55 }
+}

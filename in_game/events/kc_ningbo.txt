@@ -1,0 +1,283 @@
+﻿namespace = kc_ningbo
+
+# ---------------------------------------------------------------------------
+# 1518-1523: THE TALLIES OF NINGBO
+# ---------------------------------------------------------------------------
+# Historically the rival Hosokawa and Ouchi missions fought in Ningbo in
+# 1523. In the Concord timeline their dispute is redirected into registries,
+# commercial liability, and a common maritime compact.
+
+kc_ningbo.1 = {
+	type = country_event
+	title = kc_ningbo.1.title
+	desc = kc_ningbo.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	immediate = { c:CHI ?= { save_scope_as = china } }
+
+	option = {
+		name = kc_ningbo.1.a
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				gold >= { value = kc_historical_moderate_treasury_cost }
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+			change_variable = { name = kc_concord_cohesion add = 1 }
+		}
+		remove_variable = kc_ningbo_house_direction
+		remove_variable = kc_ningbo_court_direction
+		set_variable = { name = kc_ningbo_common_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_common_embassy years = 5 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.2 months = 8 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_ningbo.1.b
+		remove_variable = kc_ningbo_common_direction
+		remove_variable = kc_ningbo_court_direction
+		set_variable = { name = kc_ningbo_house_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_house_missions years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_bonus }
+		international_organization:kc_kitayama_concord = {
+			change_variable = { name = kc_concord_cohesion add = -2 }
+		}
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 2 }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.2 months = 8 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_ningbo.1.c
+		trigger = { gold >= { value = kc_historical_minor_national_cost } }
+		add_gold = { value = kc_historical_minor_national_cost multiply = -1 }
+		remove_variable = kc_ningbo_common_direction
+		remove_variable = kc_ningbo_house_direction
+		set_variable = { name = kc_ningbo_court_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_court_tallies years = 5 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.2 months = 8 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_ningbo.2 = {
+	type = country_event
+	title = kc_ningbo.2.title
+	desc = kc_ningbo.2.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	immediate = { c:CHI ?= { save_scope_as = china } }
+
+	option = {
+		name = kc_ningbo.2.a
+		remove_variable = kc_ningbo_house_direction
+		remove_variable = kc_ningbo_court_direction
+		set_variable = { name = kc_ningbo_common_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_registered_precedence years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_public_order_central_selected }
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		if = {
+			limit = { has_variable = kc_ports_concord_selected }
+			add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		}
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.3 months = 8 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_ningbo.2.b
+		remove_variable = kc_ningbo_common_direction
+		remove_variable = kc_ningbo_court_direction
+		set_variable = { name = kc_ningbo_house_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_joint_quotas years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_public_order_house_selected }
+			add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		}
+		if = {
+			limit = { has_variable = kc_ports_house_selected }
+			add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		}
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.3 months = 8 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_ningbo.2.c
+		remove_variable = kc_ningbo_common_direction
+		remove_variable = kc_ningbo_house_direction
+		set_variable = { name = kc_ningbo_court_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_court_seal_registry years = 5 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		if = {
+			limit = { has_variable = kc_ports_municipal_selected }
+			add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_penalty }
+		}
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.3 months = 8 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_ningbo.3 = {
+	type = country_event
+	title = kc_ningbo.3.title
+	desc = kc_ningbo.3.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	immediate = {
+		c:CHI ?= { save_scope_as = china }
+		if = {
+			limit = { has_variable = kc_public_order_disorder_selected }
+			add_country_modifier = { modifier = kc_ningbo_broken_tallies years = 10 mode = replace }
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		}
+	}
+
+	option = {
+		name = kc_ningbo.3.a
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				gold >= { value = kc_historical_moderate_treasury_cost }
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+			change_variable = { name = kc_concord_cohesion add = 1 }
+		}
+		remove_variable = kc_ningbo_house_direction
+		remove_variable = kc_ningbo_court_direction
+		set_variable = { name = kc_ningbo_common_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_quay_arbitration years = 10 mode = replace }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.4 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.4 months = 10 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_ningbo.3.b
+		remove_variable = kc_ningbo_common_direction
+		remove_variable = kc_ningbo_court_direction
+		set_variable = { name = kc_ningbo_house_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_first_license years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.4 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.4 months = 10 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_ningbo.3.c
+		trigger = { gold >= { value = kc_historical_moderate_national_cost } }
+		add_gold = { value = kc_historical_moderate_national_cost multiply = -1 }
+		remove_variable = kc_ningbo_common_direction
+		remove_variable = kc_ningbo_house_direction
+		set_variable = { name = kc_ningbo_court_direction value = yes }
+		add_country_modifier = { modifier = kc_ningbo_court_indemnity years = 10 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_ningbo.4 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_ningbo.4 months = 10 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_ningbo.4 = {
+	type = country_event
+	title = kc_ningbo.4.title
+	desc = kc_ningbo.4.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	immediate = { c:CHI ?= { save_scope_as = china } }
+
+	option = {
+		name = kc_ningbo.4.a
+		trigger = { has_variable = kc_ningbo_common_direction }
+		add_country_modifier = { modifier = kc_ningbo_national_registry years = -1 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 4 }
+		kc_complete_ningbo_compact = yes
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  has_variable = kc_ningbo_house_direction  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ningbo.4.b
+		trigger = { has_variable = kc_ningbo_house_direction }
+		add_country_modifier = { modifier = kc_ningbo_maritime_league years = -1 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -4 }
+		kc_complete_ningbo_compact = yes
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  has_variable = kc_ningbo_house_direction  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_ningbo.4.c
+		trigger = { has_variable = kc_ningbo_court_direction }
+		add_country_modifier = { modifier = kc_ningbo_court_seals years = -1 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 4 }
+		kc_complete_ningbo_compact = yes
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  has_variable = kc_ningbo_house_direction  factor = 0 }
+		}
+	}
+}

@@ -1,0 +1,152 @@
+﻿kc_regulation_open_seas = {
+	monthly_spawn_chance = 0
+	can_start = { always = no }
+
+	can_end = {
+		custom_tooltip = {
+			text = kc_regulation_open_seas_end_tt
+			OR = {
+				var:kc_ros_progress >= 100
+				NOT = { country_exists = c:JAP }
+				NOT = { exists = international_organization:kc_kitayama_concord }
+				c:JAP ?= {
+					OR = {
+						NOT = { has_reform = government_reform:kc_kitayama_concordate }
+						has_variable = kc_concord_collapsed
+					}
+				}
+			}
+		}
+	}
+
+	visible = {
+		OR = {
+			tag = JAP
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+	}
+
+	on_start = {
+		set_variable = { name = kc_ros_progress value = 0 }
+		set_variable = { name = kc_ros_monthly_progress value = 0.70 }
+		set_variable = { name = kc_ros_house_influence value = 0 }
+		set_variable = { name = kc_ros_registered_influence value = 0 }
+		set_variable = { name = kc_ros_national_influence value = 0 }
+		c:JAP ?= {
+			remove_variable = kc_ros_house_influence_dominant
+			remove_variable = kc_ros_registered_influence_dominant
+			remove_variable = kc_ros_national_influence_dominant
+		}
+
+		# The provisional Age 2 constitution is the strongest initial precedent.
+		if = { limit = { c:JAP ?= { has_reform = government_reform:kc_council_of_licensed_ports } } change_variable = { name = kc_ros_house_influence add = 4 } }
+		if = { limit = { c:JAP ?= { has_reform = government_reform:kc_national_board_of_exchange } } change_variable = { name = kc_ros_national_influence add = 4 } }
+
+		# Earlier maritime settlements contribute smaller, cumulative precedents.
+		if = { limit = { c:JAP ?= { has_variable = kc_red_seal_house_concessions } } change_variable = { name = kc_ros_house_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_variable = kc_red_seal_common_register } } change_variable = { name = kc_ros_registered_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_variable = kc_red_seal_court_convoys } } change_variable = { name = kc_ros_national_influence add = 2 } }
+
+		if = { limit = { c:JAP ?= { has_variable = kc_competing_house_brokers } } change_variable = { name = kc_ros_house_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_variable = kc_competing_common_register } } change_variable = { name = kc_ros_registered_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_variable = kc_competing_national_registry } } change_variable = { name = kc_ros_national_influence add = 2 } }
+
+		if = { limit = { c:JAP ?= { has_variable = kc_overseas_house_consular_network } } change_variable = { name = kc_ros_house_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_variable = kc_overseas_municipal_compact } } change_variable = { name = kc_ros_registered_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_variable = kc_overseas_national_consular_service } } change_variable = { name = kc_ros_national_influence add = 2 } }
+
+		if = { limit = { c:JAP ?= { has_variable = kc_ryukyu_house_outcome } } change_variable = { name = kc_ros_house_influence add = 1 } }
+		if = { limit = { c:JAP ?= { OR = { has_variable = kc_ryukyu_partnership_outcome has_variable = kc_ryukyu_protectorate_outcome } } } change_variable = { name = kc_ros_registered_influence add = 1 } }
+		if = { limit = { c:JAP ?= { has_variable = kc_ryukyu_direct_outcome } } change_variable = { name = kc_ros_national_influence add = 1 } }
+
+		if = { limit = { c:JAP ?= { has_country_modifier = kc_sse_chartered_southern_exchange } } change_variable = { name = kc_ros_house_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_country_modifier = kc_sse_court_regulated_treaty_ports } } change_variable = { name = kc_ros_registered_influence add = 2 } }
+		if = { limit = { c:JAP ?= { has_country_modifier = kc_sse_national_maritime_exchange } } change_variable = { name = kc_ros_national_influence add = 2 } }
+
+		international_organization:kc_kitayama_concord ?= { set_variable = { name = kc_regulation_open_seas_active value = yes } }
+		c:JAP ?= { trigger_event_non_silently = kc_regulation_open_seas.1 }
+	}
+
+	on_monthly = {
+		custom_tooltip = kc_regulation_open_seas_monthly_tt
+		hidden_effect = {
+			set_variable = { name = kc_ros_monthly_progress value = 0.70 }
+
+			if = {
+				limit = {
+					c:JAP ?= {
+						has_bureaucracy_of_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy
+						modifier:kc_maritime_office_funding >= 0.50
+					}
+				}
+				change_variable = { name = kc_ros_monthly_progress add = 0.20 }
+			}
+			if = { limit = { c:JAP ?= { has_variable = kc_red_seal_charters_completed } } change_variable = { name = kc_ros_monthly_progress add = 0.05 } }
+			if = {
+				limit = {
+					c:JAP ?= {
+						any_subject = { OR = { is_subject_type = colonial_nation is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } }
+					}
+				}
+				change_variable = { name = kc_ros_monthly_progress add = 0.05 }
+			}
+			if = { limit = { c:JAP ?= { at_war = no } } change_variable = { name = kc_ros_monthly_progress add = 0.05 } }
+			if = { limit = { c:JAP ?= { at_war = yes } } change_variable = { name = kc_ros_monthly_progress add = -0.15 } }
+			if = { limit = { international_organization:kc_kitayama_concord ?= { var:kc_concord_cohesion < 20 } } change_variable = { name = kc_ros_monthly_progress add = -0.15 } }
+
+			change_variable = { name = kc_ros_progress add = var:kc_ros_monthly_progress }
+			clamp_variable = { name = kc_ros_progress min = 0 max = 100 }
+
+			if = { limit = { var:kc_ros_progress >= 15 NOT = { has_variable = kc_ros_warrants_ratified } } set_variable = { name = kc_ros_warrants_ratified value = yes } c:JAP ?= { trigger_event_non_silently = kc_regulation_open_seas.2 } }
+			if = { limit = { var:kc_ros_progress >= 30 NOT = { has_variable = kc_ros_residence_ratified } } set_variable = { name = kc_ros_residence_ratified value = yes } c:JAP ?= { trigger_event_non_silently = kc_regulation_open_seas.3 } }
+			if = { limit = { var:kc_ros_progress >= 45 NOT = { has_variable = kc_ros_faith_law_ratified } } set_variable = { name = kc_ros_faith_law_ratified value = yes } c:JAP ?= { trigger_event_non_silently = kc_regulation_open_seas.4 } }
+			if = { limit = { var:kc_ros_progress >= 60 NOT = { has_variable = kc_ros_communities_ratified } } set_variable = { name = kc_ros_communities_ratified value = yes } c:JAP ?= { trigger_event_non_silently = kc_regulation_open_seas.5 } }
+			if = { limit = { var:kc_ros_progress >= 75 NOT = { has_variable = kc_ros_fleets_ratified } } set_variable = { name = kc_ros_fleets_ratified value = yes } c:JAP ?= { trigger_event_non_silently = kc_regulation_open_seas.6 } }
+			if = { limit = { var:kc_ros_progress >= 90 NOT = { has_variable = kc_ros_customs_ratified } } set_variable = { name = kc_ros_customs_ratified value = yes } c:JAP ?= { trigger_event_non_silently = kc_regulation_open_seas.7 } }
+		}
+	}
+
+	on_ending = {
+		if = {
+			limit = {
+				var:kc_ros_progress >= 100
+				country_exists = c:JAP
+				exists = international_organization:kc_kitayama_concord
+				c:JAP ?= { has_reform = government_reform:kc_kitayama_concordate NOT = { has_variable = kc_concord_collapsed } }
+			}
+			international_organization:kc_kitayama_concord ?= {
+				remove_variable = kc_regulation_open_seas_active
+				set_variable = { name = kc_late_maritime_works_available value = yes }
+			}
+			if = { limit = { var:kc_ros_house_influence >= 12 } c:JAP ?= { set_variable = { name = kc_ros_house_influence_dominant value = yes } } }
+			if = { limit = { var:kc_ros_registered_influence >= 12 } c:JAP ?= { set_variable = { name = kc_ros_registered_influence_dominant value = yes } } }
+			if = { limit = { var:kc_ros_national_influence >= 12 } c:JAP ?= { set_variable = { name = kc_ros_national_influence_dominant value = yes } } }
+			c:JAP ?= {
+				set_variable = { name = kc_regulation_open_seas_completed value = yes }
+				remove_variable = kc_historical_chain_active
+				trigger_event_non_silently = kc_regulation_open_seas.10
+			}
+		}
+		else = {
+			international_organization:kc_kitayama_concord ?= { remove_variable = kc_regulation_open_seas_active }
+			c:JAP ?= {
+				remove_variable = kc_historical_chain_active
+				trigger_event_non_silently = kc_regulation_open_seas.11
+			}
+		}
+	}
+
+	tooltip = {
+		if = { limit = { owner ?= { tag = JAP } } custom_tooltip = kc_regulation_open_seas_map_state_tt }
+		else_if = { limit = { owner ?= { is_member_of_international_organization = international_organization:kc_kitayama_concord } } custom_tooltip = kc_regulation_open_seas_map_house_tt }
+	}
+
+	map_color = {
+		if = { limit = { owner ?= { tag = JAP } } value = define:NMapColors|MAP_COLOR_HIGH }
+		else_if = { limit = { owner ?= { is_member_of_international_organization = international_organization:kc_kitayama_concord } } value = define:NMapColors|MAP_COLOR_MID }
+		else = { value = define:NMapColors|DEFAULT_COLOR }
+	}
+
+	legend_key = { desc = "KC_ROS_LEGEND_STATE" color = define:NMapColors|MAP_COLOR_HIGH }
+	legend_key = { desc = "KC_ROS_LEGEND_HOUSES" color = define:NMapColors|MAP_COLOR_MID }
+}

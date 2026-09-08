@@ -1,0 +1,49 @@
+﻿# The deliberately limited mainland footprint of the Concord's China
+# settlement. These are the locations held by JAP in the player's
+# "China Land to take example" save. The five parent areas are separate
+# 20-war-score settlements; Taiwan is intentionally excluded.
+kc_china_treaty_coasts = {
+	location = {
+		# Haiyou treaty coast
+		penglai dasong jiangshan_laiyang laiyang huangxian qixia zhaoyuan
+		jiaoxi fushan_jiaozhou jimo lingshanwei
+		yexian_laizhou changyi gaomi luxiang jiaoshui beihai
+		zhucheng anqiu changle wulian
+		muping chengshan fushan_muping rushan weihai wendeng
+
+		# Zhejiang treaty coast
+		daxue xiangshan
+		linhai xianzhu huangyan ninghai wenling tiantai xianju
+		yongjia pingyang yueqing luoyang_wenzhou ruian shuangxi
+
+		# Fujian treaty coast
+		ningde fuan changshi
+		minxian lianjiang luoyuan houguan minqing changle_fujian gutian yongfu_fuzhou
+		jinjiang tongan anxi dehua huian yongchun nanan_quanzhou
+		yongding_shanghang
+		putian fuqing xianyou
+		datian youxi
+		longxi zhaoan huafeng longyan pinghe nansheng zhangpu changtai zhangping
+
+		# Guangdong treaty coast
+		haiyang sanhe_chaozhou pantian chengxiang huilai chaoyang pingyuan_mei puning sanrao jieyang
+		duanxi shuangshui ducheng jinkang
+		dongguan baoan_dongguan guanfu
+		guangzhou shunde nanhai qingyuan panyu
+		heyuan heping lankou lianping
+		guishan khuzhupai haifeng lufeng_haifeng boluo pingshan_huiyang qinjiang zuokeng
+		yangjiang yangchun enping guliang duling xinxing_nanen
+		conghua xinfeng_panyu zhengcheng longmen
+		xinhui guanghai xiangshan_xinhui
+		longchuan_xunzhou changle_xunzhou xingning
+		gaoyao gaoming sanshui sihui
+
+		# Haibei and Hainan treaty coast
+		maoming xinyi_gaozhou dianbai baoning
+		shilong shicheng wuchuan_huazhou
+		haikang qingdao zhanchuan suixi xuwen
+		yilun yande ganen changhua
+		qiongshan shuihui dingan lehui chengmai lingao wenchang
+		wanan_wananjun lingshui ningyuan_wananjun limushan
+	}
+}

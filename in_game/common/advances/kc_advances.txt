@@ -1,0 +1,184 @@
+﻿kc_house_ledgers = {
+	age = age_1_traditions
+	icon = written_alphabet
+
+	potential = {
+		OR = {
+			has_reform = government_reform:kc_chartered_buke_house
+			has_reform = government_reform:kc_kitayama_concordate
+		}
+	}
+
+	requires = written_alphabet
+
+	global_merchant_power = 0.05
+	global_merchant_capacity_modifier = 0.025
+}
+
+kc_kaido_stewardship = {
+	age = age_1_traditions
+	icon = agriculture_advance
+
+	potential = {
+		OR = {
+			has_reform = government_reform:kc_chartered_buke_house
+			has_reform = government_reform:kc_kitayama_concordate
+		}
+	}
+
+	requires = agriculture_advance
+
+	global_rgo_build_time = -0.025
+	global_monthly_development = 0.001
+}
+
+kc_temple_credit = {
+	age = age_1_traditions
+	icon = mining_advance
+
+	potential = {
+		OR = {
+			has_reform = government_reform:kc_chartered_buke_house
+			has_reform = government_reform:kc_kitayama_concordate
+		}
+	}
+
+	requires = mining_advance
+
+	research_speed_modifier = 0.05
+	bank_interest = -0.01
+}
+
+#####################################
+# Phase 2: the Concord's second century
+#####################################
+
+# This is the one immediately available Phase 2 node. Its extra bureaucracy
+# slot is consumed by the Office of Maritime Exchange on the next monthly
+# pulse, so it expands administration rather than providing an empty slot.
+kc_registers_open_sea = {
+	age = age_2_renaissance
+	icon = otm_nanban_trade
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+	}
+
+	requires = renaissance_thought
+
+	global_max_bureaucracy_slots = 1
+	diplomatic_reputation = 0.25
+	global_merchant_capacity_modifier = 0.025
+
+	ai_weight = { add = 5 }
+}
+
+# The remaining nodes are complete but stay hidden until their corresponding
+# story chain records the relevant institutional settlement. Debug event 41
+# can expose the full tree without pre-empting those future narratives.
+kc_licensed_oceanic_convoys = {
+	age = age_2_renaissance
+	icon = maritime_advance_age_2
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_phase2_convoys_unlocked
+	}
+
+	requires = kc_registers_open_sea
+
+	naval_range = 150
+	colonial_range = 100
+	global_maritime_presence_modifier = 0.05
+	navy_maintenance_efficiency = 0.10
+
+	ai_weight = { add = 5 }
+}
+
+kc_standardized_teppo_workshops = {
+	age = age_2_renaissance
+	icon = oda_triple_firing
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_phase2_firearms_unlocked
+	}
+
+	requires = kc_registers_open_sea
+
+	global_firearms_output_modifier = 0.10
+	army_heavy_infantry_power = 0.05
+	army_heavy_infantry_build_cost_modifier = -0.05
+
+	ai_weight = { add = 5 }
+}
+
+kc_houses_of_translation = {
+	age = age_2_renaissance
+	icon = written_alphabet
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_phase2_translation_unlocked
+	}
+
+	requires = kc_registers_open_sea
+
+	global_institution_growth_modifier = 0.10
+	research_speed_modifier = 0.025
+	diplomatic_reputation = 0.25
+
+	ai_weight = { add = 5 }
+}
+
+kc_silver_clearing_exchanges = {
+	age = age_2_renaissance
+	icon = standardized_coins
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_phase2_silver_clearing_unlocked
+	}
+
+	requires = kc_registers_open_sea
+
+	bank_interest = -0.005
+	merchant_maintenance_efficiency = 0.10
+	global_merchant_capacity_modifier = 0.05
+	monthly_inflation = -0.0001
+
+	ai_weight = { add = 5 }
+}
+
+kc_colonial_survey_registers = {
+	age = age_2_renaissance
+	icon = route_to_the_indies_advance
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_phase2_colonial_surveys_unlocked
+	}
+
+	requires = kc_licensed_oceanic_convoys
+
+	colonial_range = 200
+	naval_range = 100
+	colonial_range_modifier = 0.10
+	exploration_preparation_time_modifier = -0.05
+
+	ai_weight = { add = 5 }
+}
+
+

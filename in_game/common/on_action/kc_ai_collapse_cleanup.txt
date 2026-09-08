@@ -1,0 +1,13 @@
+﻿monthly_country_pulse = {
+	on_actions = { kc_ai_collapse_cleanup_watchdog }
+}
+
+kc_ai_collapse_cleanup_watchdog = {
+	trigger = {
+		tag = JAP
+		is_ai = yes
+		has_variable = kc_concord_collapsed
+		NOT = { has_variable = kc_ai_collapse_cleanup_queued }
+	}
+	effect = { kc_queue_ai_collapse_cleanup = yes }
+}

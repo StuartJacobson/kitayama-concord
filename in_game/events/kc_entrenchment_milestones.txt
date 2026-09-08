@@ -1,0 +1,77 @@
+﻿namespace = kc_entrenchment
+
+# These are informational milestones. The accommodating default has already
+# been installed by the Concord's monthly effect; stronger alternatives remain
+# subject to an ordinary council vote.
+kc_entrenchment.1 = {
+	type = country_event
+	title = kc_entrenchment.1.title
+	desc = kc_entrenchment.1.desc
+	outcome = positive
+
+	option = {
+		name = kc_entrenchment.1.a
+	}
+}
+
+kc_entrenchment.2 = {
+	type = country_event
+	title = kc_entrenchment.2.title
+	desc = kc_entrenchment.2.desc
+	outcome = positive
+
+	option = {
+		name = kc_entrenchment.2.a
+	}
+}
+
+kc_entrenchment.3 = {
+	type = country_event
+	title = kc_entrenchment.3.title
+	desc = kc_entrenchment.3.desc
+	outcome = positive
+
+	option = {
+		name = kc_entrenchment.3.a
+	}
+}
+
+kc_entrenchment.4 = {
+	type = country_event
+	title = kc_entrenchment.4.title
+	desc = kc_entrenchment.4.desc
+	outcome = positive
+
+	option = {
+		name = kc_entrenchment.4.a
+	}
+}
+
+# This precedes the four law milestones numerically in Entrenchment, but uses
+# event id 5 to preserve the established ids of existing save notifications.
+kc_entrenchment.5 = {
+	type = country_event
+	title = kc_entrenchment.5.title
+	desc = kc_entrenchment.5.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/institutions/banking.dds"
+
+	option = {
+		name = kc_entrenchment.5.a
+	}
+}
+
+# Fifty Entrenchment does not add another law category. It gives the common
+# institutions a permanent architectural seat in Japan's capital.
+kc_entrenchment.6 = {
+	type = country_event
+	title = kc_entrenchment.6.title
+	desc = kc_entrenchment.6.desc
+	outcome = positive
+
+	option = {
+		name = kc_entrenchment.6.a
+	}
+}
+
+

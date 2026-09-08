@@ -1,0 +1,5 @@
+﻿io_opinion_kc_kitayama_concord = {
+	value = 10
+}
+
+

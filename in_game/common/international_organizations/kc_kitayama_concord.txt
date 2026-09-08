@@ -1,0 +1,1898 @@
+﻿kc_kitayama_concord = {
+	has_target = no
+	unique = yes
+	has_buildings = yes
+	custom_name = kc_kitayama_concord_dynamic_name
+	has_leader_country = yes
+	disband_if_no_leader = no
+	expel_members_who_are_targets_of_other_members = no
+
+	land_ownership_rule = kc_kitayama_land_ownership
+	antagonism_modifier_for_taking_land_from_fellow_member = 0.75
+
+	leader_title_key = "KC_CONCORD_LEADER"
+	leader_type = character
+	leader = {
+		leader_country ?= {
+			if = {
+				limit = {
+					NOT = {
+						is_member_of_international_organization = root
+					}
+				}
+				root = {
+					add_country_to_international_organization = prev
+				}
+			}
+
+			if = {
+				limit = { has_regent = yes }
+				heir ?= {
+					add_to_list = leaders
+				}
+			}
+			else = {
+				ruler ?= {
+					add_to_list = leaders
+				}
+			}
+		}
+	}
+
+	leader_change_trigger_type = rulerchange
+	leader_change_method = vote
+	leadership_election_resolution = kc_concord_election
+
+	create_visible_trigger = {
+		always = no
+	}
+
+	invite_visible_trigger = {
+		always = no
+	}
+
+	invite_enabled_trigger = {
+		always = no
+	}
+
+	can_lead_trigger = {
+		trigger_if = {
+			limit = {
+				international_organization:kc_kitayama_concord = {
+					has_variable = kc_concord_collapsed
+				}
+			}
+			tag = JAP
+		}
+		trigger_else = {
+			country_type = building
+			has_ruler = yes
+			OR = {
+				has_reform = government_reform:kc_chartered_buke_house
+				has_reform = government_reform:kc_kitayama_concordate
+			}
+			NOT = {
+				has_special_status_in_international_organization = {
+					type = special_status:japanese_emperor
+					international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+	}
+
+	# Mutual defence of a House still brings Japan and the other Houses to its
+	# aid. When JAP itself is the belligerent, however, House participation is
+	# governed by the separate War Service law below.
+	join_defensive_wars_auto_call = {
+		NOT = { has_variable = kc_concord_collapsed }
+		scope:target ?= {
+			NOT = { is_member_of_international_organization = root }
+		}
+		scope:actor ?= { NOT = { tag = JAP } }
+	}
+
+	join_defensive_wars_can_call = {
+		NOT = { has_variable = kc_concord_collapsed }
+		scope:actor ?= { tag = JAP }
+		scope:recipient ?= { has_reform = government_reform:kc_chartered_buke_house }
+		international_organization_has_policy = policy:kc_discretionary_house_service_policy
+	}
+
+	join_defensive_wars_always = {
+		NOT = { has_variable = kc_concord_collapsed }
+		scope:actor ?= { tag = JAP }
+		scope:recipient ?= { has_reform = government_reform:kc_chartered_buke_house }
+		international_organization_has_policy = policy:kc_universal_house_mobilization_policy
+	}
+
+	join_offensive_wars_can_call = {
+		NOT = { has_variable = kc_concord_collapsed }
+		scope:actor ?= { tag = JAP }
+		scope:recipient ?= { has_reform = government_reform:kc_chartered_buke_house }
+		international_organization_has_policy = policy:kc_discretionary_house_service_policy
+	}
+
+	join_offensive_wars_always = {
+		NOT = { has_variable = kc_concord_collapsed }
+		scope:actor ?= { tag = JAP }
+		scope:recipient ?= { has_reform = government_reform:kc_chartered_buke_house }
+		international_organization_has_policy = policy:kc_universal_house_mobilization_policy
+	}
+
+	can_declare_war = {
+		trigger_if = {
+			limit = {
+				scope:attacker ?= {
+					is_member_of_international_organization = scope:recipient
+				}
+				scope:defender ?= {
+					is_member_of_international_organization = scope:recipient
+				}
+			}
+			trigger_if = {
+				limit = {
+					scope:recipient = {
+						has_variable = kc_concord_collapsed
+					}
+				}
+				always = yes
+			}
+			trigger_else = {
+				custom_tooltip = {
+					text = kc_internal_wars_forbidden_tt
+					always = no
+				}
+			}
+		}
+		trigger_else = {
+			always = yes
+		}
+	}
+
+	can_initiate_policy_votes = {
+		scope:recipient = {
+			NOT = {
+				has_variable = kc_concord_collapsed
+			}
+		}
+		scope:recipient = {
+			has_member = root
+		}
+		OR = {
+			tag = JAP
+			is_human = yes
+		}
+	}
+
+	gives_food_access_to_members = yes
+	gives_military_access_to_all_when_at_war = yes
+	gold = yes
+
+	has_military_access = {
+		scope:war = yes
+		scope:recipient ?= {
+			is_member_of_international_organization = root
+		}
+		scope:actor ?= {
+			country_type = building
+		}
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						has_variable = kc_concord_collapsed
+					}
+				}
+				value = 0
+			}
+			else = {
+				value = 1
+			}
+		}
+		block_from_change_to_kingdom_rank = yes
+		block_from_change_to_empire_rank = yes
+	}
+
+	modifier = {
+		scale = {
+			value = scope:recipient.var:kc_concord_cohesion
+			divide = 100
+		}
+		global_rgo_build_time = -0.025
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+					scope:recipient.var:kc_concord_cohesion < 25
+				}
+				value = 1
+			}
+			else = {
+				value = 0
+			}
+		}
+		global_merchant_power = -0.20
+		global_merchant_capacity_modifier = -0.10
+		tax_income_efficiency = -0.10
+		global_rgo_build_time = 0.15
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+					scope:recipient.var:kc_concord_cohesion >= 25
+					scope:recipient.var:kc_concord_cohesion < 50
+				}
+				value = 1
+			}
+			else = {
+				value = 0
+			}
+		}
+		global_merchant_power = -0.10
+		global_merchant_capacity_modifier = -0.05
+		global_rgo_build_time = 0.05
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+					scope:recipient.var:kc_concord_cohesion >= 75
+					scope:recipient.var:kc_concord_cohesion < 90
+				}
+				value = 1
+			}
+			else = {
+				value = 0
+			}
+		}
+		global_merchant_power = 0.025
+		global_merchant_capacity_modifier = 0.015
+		global_rgo_build_time = -0.015
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+					scope:recipient.var:kc_concord_cohesion >= 90
+				}
+				value = 1
+			}
+			else = {
+				value = 0
+			}
+		}
+		global_merchant_power = 0.025
+		global_merchant_capacity_modifier = 0.025
+		research_speed_modifier = 0.02
+		global_rgo_build_time = -0.025
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						has_variable = kc_fiscal_settlement_house_guarantees
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+				}
+				value = 1
+			}
+			else = {
+				value = 0
+			}
+		}
+		trade_income = 0.03
+		global_merchant_power = 0.02
+		nobles_estate_target_satisfaction = small_permanent_target_satisfaction
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						has_variable = kc_fiscal_settlement_registered_apportionment
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+				}
+				value = 1
+			}
+			else = {
+				value = 0
+			}
+		}
+		global_merchant_capacity_modifier = 0.025
+	}
+
+	modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						has_variable = kc_fiscal_settlement_common_treasury
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+				}
+				value = 1
+			}
+			else = {
+				value = 0
+			}
+		}
+		country_cabinet_efficiency = 0.05
+		global_rgo_build_time = -0.025
+		global_monthly_development = 0.003
+	}
+
+	leader_modifier = {
+		scale = {
+			if = {
+				limit = {
+					scope:recipient = {
+						has_variable = kc_concord_collapsed
+					}
+				}
+				value = 0
+			}
+			else = {
+				value = 1
+			}
+		}
+		monthly_prestige = 0.10
+		diplomatic_reputation = diplomatic_reputation_weak_bonus
+		change_policy_cost_modifier = -0.10
+	}
+
+	can_join_trigger = {
+		culture = {
+			has_culture_group = culture_group:japanese_group
+		}
+		capital.region = region:japan_region
+	}
+
+	can_leave_trigger = {
+		always = no
+	}
+
+	auto_leave_trigger = {
+		always = no
+	}
+
+	auto_disband_trigger = {
+		always = no
+	}
+
+	on_creation = {
+	}
+
+	on_joined = {
+		if = {
+			limit = {
+				country_type = building
+				NOT = {
+					has_reform = government_reform:japanese_imperial_family
+				}
+			}
+			if = {
+				limit = {
+					has_reform = government_reform:japanese_clan
+				}
+				remove_reform = government_reform:japanese_clan
+			}
+			if = {
+				limit = {
+					has_reform = government_reform:shogunate
+				}
+				remove_reform = government_reform:shogunate
+			}
+			if = {
+				limit = {
+					tag = JAP
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_reform = government_reform:kc_chartered_buke_house
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_reform = government_reform:kc_kitayama_concordate
+						}
+					}
+					add_reform = government_reform:kc_kitayama_concordate
+				}
+				change_country_name = KC_JAPAN_COUNTRY
+				change_country_adjective = KC_JAPAN_COUNTRY_ADJ
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = {
+							has_reform = government_reform:kc_chartered_buke_house
+						}
+					}
+					add_reform = government_reform:kc_chartered_buke_house
+				}
+			}
+		}
+	}
+
+	on_left = {
+		if = {
+			limit = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			remove_reform = government_reform:kc_chartered_buke_house
+		}
+	}
+
+	monthly_effect = {
+		custom_tooltip = { text = kc_concord_monthly_maintenance_tt }
+		hidden_effect = {
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_concord_collapsed
+				}
+			}
+		# Native ruler-change elections retain the first opportunity to fill a
+		# vacancy. If the engine leaves the Concord leaderless for three monthly
+		# pulses, choose the richest eligible member as a bounded fallback.
+		# This never annexes or transfers the player country.
+		if = {
+			limit = {
+				international_organization_has_leader = no
+				NOT = {
+					has_variable = kc_concord_vacancy_observed
+				}
+			}
+			set_variable = {
+				name = kc_concord_vacancy_observed
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_vacancy_grace
+				value = yes
+				months = 3
+			}
+		}
+		else_if = {
+			limit = {
+				international_organization_has_leader = no
+				has_variable = kc_concord_vacancy_observed
+				NOT = {
+					has_variable = kc_concord_vacancy_grace
+				}
+				any_international_organization_member = {
+					can_lead_international_organization = root
+				}
+			}
+			update_leader_country = yes
+			remove_variable = kc_concord_vacancy_observed
+		}
+		else_if = {
+			limit = {
+				international_organization_has_leader = yes
+				has_variable = kc_concord_vacancy_observed
+			}
+			remove_variable = kc_concord_vacancy_observed
+			remove_variable = kc_concord_vacancy_grace
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = imperial_authority
+				}
+			}
+			set_variable = {
+				name = imperial_authority
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_last_annual_assessment
+				}
+			}
+			set_variable = {
+				name = kc_last_annual_assessment
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_last_assessment_arrears
+				}
+			}
+			set_variable = {
+				name = kc_last_assessment_arrears
+				value = 0
+			}
+		}
+
+		# A funded Secretariat returns part of its nominal maintenance budget to
+		# the common reserve. The current country modifier contains maintenance
+		# and bureaucracy Entrenchment: 25% at zero Entrenchment, rising linearly
+		# to 50% at 100. The remainder represents salaries, offices, couriers, and
+		# other expenditure that never enters the discretionary Treasury.
+		# EU5 permits a small floating overshoot after native Entrenchment reaches
+		# 100, so normalize this bureaucracy before calculating its remittance.
+		if = {
+			limit = { country_exists = c:JAP }
+			c:JAP = {
+				every_current_bureaucracy = {
+					limit = {
+						OR = {
+							bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+							bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy
+						}
+						entrenchment > 100
+					}
+					set_entrenchment = 100
+				}
+			}
+		}
+		set_variable = { name = kc_secretariat_treasury_share_display value = 0 }
+		set_variable = { name = kc_last_secretariat_remittance value = 0 }
+		set_variable = { name = kc_secretariat_annual_remittance_estimate value = 0 }
+		if = {
+			limit = {
+				country_exists = c:JAP
+				c:JAP ?= {
+					has_bureaucracy_of_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+					modifier:kc_concord_secretariat_treasury_share > 0
+				}
+			}
+			set_variable = {
+				name = kc_secretariat_treasury_share_display
+				value = {
+					value = kc_secretariat_current_treasury_share
+					multiply = 100
+				}
+			}
+			set_variable = {
+				name = kc_last_secretariat_remittance
+				value = kc_secretariat_monthly_treasury_remittance
+			}
+			set_variable = {
+				name = kc_secretariat_annual_remittance_estimate
+				value = {
+					value = kc_secretariat_monthly_treasury_remittance
+					multiply = 12
+				}
+			}
+			add_gold = kc_secretariat_monthly_treasury_remittance
+		}
+
+		# Vanilla Middle Kingdom membership admits a Shogunate member only if
+		# it leads the Shogunate. Existing Concord saves may already contain
+		# dozens of House tributaries from the missing equivalent restriction;
+		# remove those subordinate memberships once, while leaving JAP free to
+		# conduct centralized tally-trade diplomacy.
+		if = {
+			limit = { exists = international_organization:middle_kingdom }
+			# Bound the migration to twelve Houses per month; bulk mutation of a
+			# hundred-plus-member native organization is needlessly risky.
+			ordered_international_organization_member = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+					is_member_of_international_organization = international_organization:middle_kingdom
+				}
+				order_by = country_tax_base
+				max = 12
+				check_range_bounds = no
+				save_scope_as = kc_middle_kingdom_house
+				international_organization:middle_kingdom = {
+					remove_country_from_international_organization = scope:kc_middle_kingdom_house
+				}
+			}
+		}
+
+		# Stabilize House Credit uses the strongest House tax base as its
+		# benchmark instead of Japan's much larger national trade-and-tax income.
+		set_variable = {
+			name = kc_richest_house_tax_base
+			value = 1
+		}
+		ordered_international_organization_member = {
+			limit = {
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			order_by = country_tax_base
+			max = 1
+			check_range_bounds = no
+			save_scope_as = kc_richest_house
+			root = {
+				set_variable = {
+					name = kc_richest_house_tax_base
+					value = scope:kc_richest_house.country_tax_base
+				}
+			}
+		}
+
+		# Great-project stages are explicit IO variables so the Treasury ledger,
+		# dynamic costs, and save files always agree. Missing variables from old
+		# saves begin at zero.
+		# EU5 discards numeric variables set to exact zero. A non-visible epsilon
+		# preserves the stage scope while still formatting and behaving as Stage 0.
+		if = { limit = { NOT = { has_variable = kc_project_irrigation_stage } } set_variable = { name = kc_project_irrigation_stage value = 0.0001 } }
+		if = { limit = { NOT = { has_variable = kc_project_kaido_stage } } set_variable = { name = kc_project_kaido_stage value = 0.0001 } }
+		if = { limit = { NOT = { has_variable = kc_project_harbors_stage } } set_variable = { name = kc_project_harbors_stage value = 0.0001 } }
+		if = { limit = { NOT = { has_variable = kc_project_floodworks_stage } } set_variable = { name = kc_project_floodworks_stage value = 0.0001 } }
+		if = { limit = { NOT = { has_variable = kc_project_tunnels_stage } } set_variable = { name = kc_project_tunnels_stage value = 0.0001 } }
+		if = { limit = { NOT = { has_variable = kc_project_waterworks_stage } } set_variable = { name = kc_project_waterworks_stage value = 0.0001 } }
+
+		# Alpha.20/21 used one-click completion flags and full-strength modifiers.
+		# Preserve those investments as stage I rather than discarding them.
+		if = {
+			limit = { has_variable = kc_project_irrigation_completed }
+			remove_variable = kc_project_irrigation_completed
+			set_variable = { name = kc_project_irrigation_stage value = 1 }
+			c:JAP ?= {
+				remove_country_modifier = kc_project_grand_irrigation
+				add_country_modifier = { modifier = kc_project_grand_irrigation_1 years = -1 mode = replace }
+			}
+		}
+		if = {
+			limit = { has_variable = kc_project_kaido_completed }
+			remove_variable = kc_project_kaido_completed
+			set_variable = { name = kc_project_kaido_stage value = 1 }
+			c:JAP ?= {
+				remove_country_modifier = kc_project_kaido_spine
+				add_country_modifier = { modifier = kc_project_kaido_spine_1 years = -1 mode = replace }
+			}
+		}
+		if = {
+			limit = { has_variable = kc_project_harbors_completed }
+			remove_variable = kc_project_harbors_completed
+			set_variable = { name = kc_project_harbors_stage value = 1 }
+			c:JAP ?= {
+				remove_country_modifier = kc_project_inland_sea_harbors
+				add_country_modifier = { modifier = kc_project_inland_sea_harbors_1 years = -1 mode = replace }
+			}
+		}
+		if = {
+			limit = { has_variable = kc_project_floodworks_completed }
+			remove_variable = kc_project_floodworks_completed
+			set_variable = { name = kc_project_floodworks_stage value = 1 }
+			c:JAP ?= {
+				remove_country_modifier = kc_project_floodworks
+				add_country_modifier = { modifier = kc_project_floodworks_1 years = -1 mode = replace }
+			}
+		}
+		if = {
+			limit = { has_variable = kc_project_tunnels_completed }
+			remove_variable = kc_project_tunnels_completed
+			set_variable = { name = kc_project_tunnels_stage value = 1 }
+			c:JAP ?= {
+				remove_country_modifier = kc_project_mountain_tunnels
+				add_country_modifier = { modifier = kc_project_mountain_tunnels_1 years = -1 mode = replace }
+			}
+		}
+
+		# Alpha.24 localizes the scalable economic effects to the Japan region.
+		# Rebuild the appropriate province/location tier once for existing saves.
+		if = {
+			limit = { NOT = { has_variable = kc_projects_localized_v1 } }
+			set_variable = { name = kc_projects_localized_v1 value = yes }
+			c:JAP ?= {
+				remove_country_modifier = kc_project_grand_irrigation_1
+				remove_country_modifier = kc_project_grand_irrigation_2
+				remove_country_modifier = kc_project_grand_irrigation_3
+				remove_country_modifier = kc_project_grand_irrigation_4
+				remove_country_modifier = kc_project_grand_irrigation_5
+				remove_country_modifier = kc_project_floodworks_1
+				remove_country_modifier = kc_project_floodworks_2
+				remove_country_modifier = kc_project_floodworks_3
+				remove_country_modifier = kc_project_floodworks_4
+				remove_country_modifier = kc_project_floodworks_5
+				remove_country_modifier = kc_project_urban_waterworks_1
+				remove_country_modifier = kc_project_urban_waterworks_2
+				remove_country_modifier = kc_project_urban_waterworks_3
+				remove_country_modifier = kc_project_urban_waterworks_4
+				remove_country_modifier = kc_project_urban_waterworks_5
+			}
+			region:japan_region = {
+				every_area_in_region = {
+					every_province_in_area = {
+						kc_restore_concord_province_project_effect = { stage = kc_project_irrigation_stage tier_1 = kc_project_grand_irrigation_province_1 tier_2 = kc_project_grand_irrigation_province_2 tier_3 = kc_project_grand_irrigation_province_3 tier_4 = kc_project_grand_irrigation_province_4 tier_5 = kc_project_grand_irrigation_province_5 }
+						kc_restore_concord_province_project_effect = { stage = kc_project_floodworks_stage tier_1 = kc_project_floodworks_province_1 tier_2 = kc_project_floodworks_province_2 tier_3 = kc_project_floodworks_province_3 tier_4 = kc_project_floodworks_province_4 tier_5 = kc_project_floodworks_province_5 }
+						kc_restore_concord_province_project_effect = { stage = kc_project_kaido_stage tier_1 = kc_project_kaido_spine_province_1 tier_2 = kc_project_kaido_spine_province_2 tier_3 = kc_project_kaido_spine_province_3 tier_4 = kc_project_kaido_spine_province_4 tier_5 = kc_project_kaido_spine_province_5 }
+					}
+				}
+				every_location_in_region = {
+					if = {
+						limit = {
+							is_land = yes
+							is_coastal = yes
+							any_neighbor_location = { province_definition = province_definition:seto_sea }
+						}
+						kc_restore_concord_location_project_effect = { stage = kc_project_harbors_stage tier_1 = kc_project_inland_sea_harbors_location_1 tier_2 = kc_project_inland_sea_harbors_location_2 tier_3 = kc_project_inland_sea_harbors_location_3 tier_4 = kc_project_inland_sea_harbors_location_4 tier_5 = kc_project_inland_sea_harbors_location_5 }
+					}
+				}
+			}
+		}
+
+		# Alpha.26 converts Irrigation, Harbors, Floodworks, and Waterworks into
+		# staffed local building networks. Preserve each paid national stage as
+		# its new building-level cap, but remove the retired automatic benefits.
+		if = {
+			limit = { NOT = { has_variable = kc_project_building_networks_v1 } }
+			set_variable = { name = kc_project_building_networks_v1 value = yes }
+			if = {
+				limit = { has_variable = kc_waterworks_reconciliation_cooldown }
+				remove_variable = kc_waterworks_reconciliation_cooldown
+			}
+			if = {
+				limit = { has_variable = kc_waterworks_auto_v1 }
+				remove_variable = kc_waterworks_auto_v1
+			}
+			c:JAP ?= {
+				remove_country_modifier = kc_project_grand_irrigation
+				remove_country_modifier = kc_project_floodworks
+				remove_country_modifier = kc_project_grand_irrigation_1
+				remove_country_modifier = kc_project_grand_irrigation_2
+				remove_country_modifier = kc_project_grand_irrigation_3
+				remove_country_modifier = kc_project_grand_irrigation_4
+				remove_country_modifier = kc_project_grand_irrigation_5
+				remove_country_modifier = kc_project_floodworks_1
+				remove_country_modifier = kc_project_floodworks_2
+				remove_country_modifier = kc_project_floodworks_3
+				remove_country_modifier = kc_project_floodworks_4
+				remove_country_modifier = kc_project_floodworks_5
+				remove_country_modifier = kc_project_urban_waterworks_1
+				remove_country_modifier = kc_project_urban_waterworks_2
+				remove_country_modifier = kc_project_urban_waterworks_3
+				remove_country_modifier = kc_project_urban_waterworks_4
+				remove_country_modifier = kc_project_urban_waterworks_5
+			}
+			region:japan_region = {
+				every_area_in_region = {
+					every_province_in_area = {
+						kc_remove_retired_concord_network_province_modifiers = yes
+					}
+				}
+				every_location_in_region = {
+					kc_remove_retired_concord_network_location_modifiers = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_common_works_licenses
+				}
+			}
+			set_variable = {
+				name = kc_common_works_licenses
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_common_works_licenses_issued
+				}
+			}
+			set_variable = {
+				name = kc_common_works_licenses_issued
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_common_works_next_cost
+				}
+			}
+			set_variable = {
+				name = kc_common_works_next_cost
+				value = 500
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_senior_house_slots
+				}
+			}
+			set_variable = {
+				name = kc_senior_house_slots
+				value = 3
+			}
+		}
+
+		# Existing saves receive the Concord's native bureaucracy on their next
+		# monthly pulse. New formations begin at half maintenance so that the
+		# player immediately sees both a real expense and an adjustable policy.
+		if = {
+			limit = {
+				country_exists = c:JAP
+				c:JAP ?= {
+					has_reform = government_reform:kc_kitayama_concordate
+					NOT = {
+						has_bureaucracy_of_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+					}
+				}
+			}
+			c:JAP = {
+				add_bureaucracy = bureaucracy_type:kc_concord_secretariat_bureaucracy
+				every_current_bureaucracy = {
+					limit = {
+						bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+					}
+					set_maintenance = 0.50
+				}
+			}
+		}
+
+		# Three Senior charters exist at foundation. One additional seat opens
+		# at every ten points of Entrenchment, reaching thirteen at 100.
+		set_variable = {
+			name = kc_senior_house_slots
+			value = 3
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 10 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 20 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 30 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 40 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 50 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 60 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 70 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 80 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 90 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+		if = {
+			limit = { var:kc_concord_entrenchment >= 100 }
+			change_variable = { name = kc_senior_house_slots add = 1 }
+		}
+
+		# Works licenses are purchased in batches of five. The first twenty
+		# issued licenses remain attainable; every later batch doubles in fixed
+		# gold cost, turning extensive expansion into a late-game investment.
+		if = {
+			limit = {
+				has_variable = kc_common_works_licenses_issued
+				var:kc_common_works_licenses_issued >= 40
+			}
+			set_variable = { name = kc_common_works_next_cost value = 16000 }
+		}
+		else_if = {
+			limit = {
+				has_variable = kc_common_works_licenses_issued
+				var:kc_common_works_licenses_issued >= 35
+			}
+			set_variable = { name = kc_common_works_next_cost value = 8000 }
+		}
+		else_if = {
+			limit = {
+				has_variable = kc_common_works_licenses_issued
+				var:kc_common_works_licenses_issued >= 30
+			}
+			set_variable = { name = kc_common_works_next_cost value = 4000 }
+		}
+		else_if = {
+			limit = {
+				has_variable = kc_common_works_licenses_issued
+				var:kc_common_works_licenses_issued >= 25
+			}
+			set_variable = { name = kc_common_works_next_cost value = 2000 }
+		}
+		else_if = {
+			limit = {
+				has_variable = kc_common_works_licenses_issued
+				var:kc_common_works_licenses_issued >= 20
+			}
+			set_variable = { name = kc_common_works_next_cost value = 1000 }
+		}
+		else = {
+			set_variable = { name = kc_common_works_next_cost value = 500 }
+		}
+		# The IO panel previews monthly effects before the first real tick. Keep
+		# numeric comparisons behind a saved-variable guard so preview mode
+		# never evaluates an unset Works-license value.
+		if = {
+			limit = {
+				has_variable = kc_common_works_licenses
+			}
+			if = {
+				limit = {
+					var:kc_common_works_licenses >= 1
+					NOT = {
+						has_variable = kc_common_works_licenses_available
+					}
+				}
+				set_variable = {
+					name = kc_common_works_licenses_available
+					value = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:kc_common_works_licenses < 1
+					has_variable = kc_common_works_licenses_available
+				}
+				remove_variable = kc_common_works_licenses_available
+			}
+		}
+
+		# Backfill the displayed annual rates for saves that completed the
+		# Great Reckoning before the Treasury ledger began showing them.
+		if = {
+			limit = {
+				has_variable = kc_great_reckoning_completed
+				OR = {
+					NOT = {
+						has_variable = kc_assessment_senior_rate
+					}
+					NOT = {
+						has_variable = kc_assessment_ordinary_rate
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = kc_fiscal_settlement_house_guarantees
+				}
+				set_variable = {
+					name = kc_assessment_senior_rate
+					value = 4
+				}
+				set_variable = {
+					name = kc_assessment_ordinary_rate
+					value = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					has_variable = kc_fiscal_settlement_registered_apportionment
+				}
+				set_variable = {
+					name = kc_assessment_senior_rate
+					value = 2
+				}
+				set_variable = {
+					name = kc_assessment_ordinary_rate
+					value = 2
+				}
+			}
+			else_if = {
+				limit = {
+					has_variable = kc_fiscal_settlement_common_treasury
+				}
+				set_variable = {
+					name = kc_assessment_senior_rate
+					value = 4
+				}
+				set_variable = {
+					name = kc_assessment_ordinary_rate
+					value = 4
+				}
+			}
+		}
+
+		# Save migration for campaigns that completed the Great Reckoning
+		# before 0.2.6.2 added Renaissance as its institutional reward.
+		if = {
+			limit = {
+				country_exists = c:JAP
+				has_variable = kc_great_reckoning_completed
+				NOT = {
+					has_variable = kc_renaissance_reward_granted
+				}
+			}
+			set_variable = {
+				name = kc_renaissance_reward_granted
+				value = yes
+			}
+			c:JAP = {
+				capital ?= {
+					change_institution_progress = {
+						type = institution:renaissance
+						value = 100
+					}
+				}
+			}
+		}
+
+		# Once the Great Reckoning establishes a fiscal constitution, Houses
+		# remit a small annual share of current trade-and-tax income. Collection
+		# is aggregated into the native IO Treasury and reported only once,
+		# while arrears remain visible in the dedicated Treasury tab.
+		if = {
+			limit = {
+				has_variable = kc_great_reckoning_completed
+				NOT = {
+					has_variable = kc_concord_annual_assessment_timer
+				}
+				OR = {
+					has_variable = kc_fiscal_settlement_house_guarantees
+					has_variable = kc_fiscal_settlement_registered_apportionment
+					has_variable = kc_fiscal_settlement_common_treasury
+				}
+			}
+			set_variable = {
+				name = kc_last_annual_assessment
+				value = 0
+			}
+			set_variable = {
+				name = kc_last_assessment_arrears
+				value = 0
+			}
+
+			every_international_organization_member = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+				}
+				save_scope_as = kc_assessed_house
+
+				if = {
+					limit = {
+						root = {
+							has_variable = kc_fiscal_settlement_house_guarantees
+						}
+						has_special_status_in_international_organization = {
+							type = special_status:kc_senior_chartered_house
+							international_organization = root
+						}
+					}
+					if = {
+						limit = {
+							gold >= {
+								value = monthly_income_trade_and_tax
+								multiply = 0.48
+							}
+						}
+						add_gold = {
+							value = monthly_income_trade_and_tax
+							multiply = -0.48
+						}
+						remove_country_modifier = kc_concord_assessment_arrears
+						root = {
+							add_gold = {
+								value = scope:kc_assessed_house.monthly_income_trade_and_tax
+								multiply = 0.48
+							}
+							change_variable = {
+								name = kc_last_annual_assessment
+								add = {
+									value = scope:kc_assessed_house.monthly_income_trade_and_tax
+									multiply = 0.48
+								}
+							}
+						}
+					}
+					else = {
+						add_country_modifier = {
+							modifier = kc_concord_assessment_arrears
+							years = 2
+							mode = replace
+						}
+						root = {
+							change_variable = {
+								name = kc_last_assessment_arrears
+								add = 1
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						root = {
+							has_variable = kc_fiscal_settlement_house_guarantees
+						}
+					}
+					if = {
+						limit = {
+							gold >= {
+								value = monthly_income_trade_and_tax
+								multiply = 0.06
+							}
+						}
+						add_gold = {
+							value = monthly_income_trade_and_tax
+							multiply = -0.06
+						}
+						remove_country_modifier = kc_concord_assessment_arrears
+						root = {
+							add_gold = {
+								value = scope:kc_assessed_house.monthly_income_trade_and_tax
+								multiply = 0.06
+							}
+							change_variable = {
+								name = kc_last_annual_assessment
+								add = {
+									value = scope:kc_assessed_house.monthly_income_trade_and_tax
+									multiply = 0.06
+								}
+							}
+						}
+					}
+					else = {
+						add_country_modifier = {
+							modifier = kc_concord_assessment_arrears
+							years = 2
+							mode = replace
+						}
+						root = {
+							change_variable = {
+								name = kc_last_assessment_arrears
+								add = 1
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						root = {
+							has_variable = kc_fiscal_settlement_registered_apportionment
+						}
+					}
+					if = {
+						limit = {
+							gold >= {
+								value = monthly_income_trade_and_tax
+								multiply = 0.24
+							}
+						}
+						add_gold = {
+							value = monthly_income_trade_and_tax
+							multiply = -0.24
+						}
+						remove_country_modifier = kc_concord_assessment_arrears
+						root = {
+							add_gold = {
+								value = scope:kc_assessed_house.monthly_income_trade_and_tax
+								multiply = 0.24
+							}
+							change_variable = {
+								name = kc_last_annual_assessment
+								add = {
+									value = scope:kc_assessed_house.monthly_income_trade_and_tax
+									multiply = 0.24
+								}
+							}
+						}
+					}
+					else = {
+						add_country_modifier = {
+							modifier = kc_concord_assessment_arrears
+							years = 2
+							mode = replace
+						}
+						root = {
+							change_variable = {
+								name = kc_last_assessment_arrears
+								add = 1
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						root = {
+							has_variable = kc_fiscal_settlement_common_treasury
+						}
+					}
+					if = {
+						limit = {
+							gold >= {
+								value = monthly_income_trade_and_tax
+								multiply = 0.48
+							}
+						}
+						add_gold = {
+							value = monthly_income_trade_and_tax
+							multiply = -0.48
+						}
+						remove_country_modifier = kc_concord_assessment_arrears
+						root = {
+							add_gold = {
+								value = scope:kc_assessed_house.monthly_income_trade_and_tax
+								multiply = 0.48
+							}
+							change_variable = {
+								name = kc_last_annual_assessment
+								add = {
+									value = scope:kc_assessed_house.monthly_income_trade_and_tax
+									multiply = 0.48
+								}
+							}
+						}
+					}
+					else = {
+						add_country_modifier = {
+							modifier = kc_concord_assessment_arrears
+							years = 2
+							mode = replace
+						}
+						root = {
+							change_variable = {
+								name = kc_last_assessment_arrears
+								add = 1
+							}
+						}
+					}
+				}
+			}
+
+			set_variable = {
+				name = kc_concord_annual_assessment_timer
+				value = yes
+				years = 1
+			}
+
+			if = {
+				limit = {
+					var:kc_last_assessment_arrears >= 10
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = -2
+				}
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_first_assessment_reported
+					}
+				}
+				set_variable = {
+					name = kc_first_assessment_reported
+					value = yes
+				}
+				c:JAP = {
+					trigger_event_non_silently = kc_great_reckoning.13
+				}
+			}
+			else_if = {
+				limit = {
+					var:kc_last_assessment_arrears >= 10
+					NOT = {
+						has_variable = kc_assessment_arrears_warning_timer
+					}
+				}
+				set_variable = {
+					name = kc_assessment_arrears_warning_timer
+					value = yes
+					years = 5
+				}
+				c:JAP = {
+					trigger_event_non_silently = kc_great_reckoning.14
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = { international_organization_has_policy = policy:kc_house_war_exemption_policy }
+				NOT = { international_organization_has_policy = policy:kc_discretionary_house_service_policy }
+				NOT = { international_organization_has_policy = policy:kc_universal_house_mobilization_policy }
+			}
+			add_policy_to_international_organization = policy:kc_house_war_exemption_policy
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					international_organization_has_policy = policy:kc_house_tolls_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_shared_road_fund_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_central_kaido_assessment_policy
+				}
+			}
+			add_policy_to_international_organization = policy:kc_house_tolls_policy
+		}
+
+		# Repeated accounting, inter-House remittances, and Kaisho credit give
+		# Japan a slow indigenous route toward Banking once the Concord has
+		# survived its first decade of institutional development. This is a
+		# direct Banking-only pulse rather than a generic institution modifier.
+		if = {
+			limit = {
+				country_exists = c:JAP
+				var:kc_concord_entrenchment >= 10
+			}
+			c:JAP = {
+				capital ?= {
+					if = {
+						limit = {
+							institution_progress:banking < 100
+						}
+						change_institution_progress = {
+							type = institution:banking
+							value = 0.8
+						}
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				var:kc_concord_entrenchment >= 20
+				NOT = {
+					international_organization_has_policy = policy:kc_lineage_arbitration_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_mixed_commercial_benches_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_concord_commercial_court_policy
+				}
+			}
+			add_policy_to_international_organization = policy:kc_lineage_arbitration_policy
+		}
+
+		if = {
+			limit = {
+				var:kc_concord_entrenchment >= 40
+				NOT = {
+					international_organization_has_policy = policy:kc_customary_assessments_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_registered_cadasters_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_common_kenchi_policy
+				}
+			}
+			add_policy_to_international_organization = policy:kc_customary_assessments_policy
+		}
+
+		if = {
+			limit = {
+				var:kc_concord_entrenchment >= 60
+				NOT = {
+					international_organization_has_policy = policy:kc_house_port_privileges_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_concord_maritime_board_policy
+				}
+			}
+			add_policy_to_international_organization = policy:kc_house_port_privileges_policy
+		}
+
+		if = {
+			limit = {
+				var:kc_concord_entrenchment >= 80
+				NOT = {
+					international_organization_has_policy = policy:kc_temple_guaranteed_credit_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_house_clearinghouses_policy
+				}
+				NOT = {
+					international_organization_has_policy = policy:kc_concord_notes_policy
+				}
+			}
+			add_policy_to_international_organization = policy:kc_temple_guaranteed_credit_policy
+		}
+
+		# Notify Japan of at most one newly reached institutional milestone per
+		# month. Existing saves above several thresholds therefore receive the
+		# historical sequence in order rather than simultaneous events.
+		if = {
+			limit = {
+				country_exists = c:JAP
+				var:kc_concord_entrenchment >= 10
+				NOT = {
+					has_variable = kc_entrenchment_milestone_10_notified
+				}
+			}
+			set_variable = kc_entrenchment_milestone_10_notified
+			c:JAP = {
+				trigger_event_non_silently = kc_entrenchment.5
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:JAP
+				var:kc_concord_entrenchment >= 20
+				NOT = {
+					has_variable = kc_entrenchment_milestone_20_notified
+				}
+			}
+			set_variable = kc_entrenchment_milestone_20_notified
+			c:JAP = {
+				trigger_event_non_silently = kc_entrenchment.1
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:JAP
+				var:kc_concord_entrenchment >= 40
+				NOT = {
+					has_variable = kc_entrenchment_milestone_40_notified
+				}
+			}
+			set_variable = kc_entrenchment_milestone_40_notified
+			c:JAP = {
+				trigger_event_non_silently = kc_entrenchment.2
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:JAP
+				var:kc_concord_entrenchment >= 50
+				NOT = {
+					has_variable = kc_entrenchment_milestone_50_notified
+				}
+			}
+			set_variable = kc_entrenchment_milestone_50_notified
+			c:JAP = {
+				trigger_event_non_silently = kc_entrenchment.6
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:JAP
+				var:kc_concord_entrenchment >= 60
+				NOT = {
+					has_variable = kc_entrenchment_milestone_60_notified
+				}
+			}
+			set_variable = kc_entrenchment_milestone_60_notified
+			c:JAP = {
+				trigger_event_non_silently = kc_entrenchment.3
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:JAP
+				var:kc_concord_entrenchment >= 80
+				NOT = {
+					has_variable = kc_entrenchment_milestone_80_notified
+				}
+			}
+			set_variable = kc_entrenchment_milestone_80_notified
+			c:JAP = {
+				trigger_event_non_silently = kc_entrenchment.4
+			}
+		}
+
+		leader_country ?= {
+			if = {
+				limit = {
+					root = {
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+					tag = JAP
+					NOT = {
+						has_reform = government_reform:kc_kitayama_concordate
+					}
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:japanese_clan
+					}
+					remove_reform = government_reform:japanese_clan
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:shogunate
+					}
+					remove_reform = government_reform:shogunate
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_reform = government_reform:kc_chartered_buke_house
+				}
+				add_reform = government_reform:kc_kitayama_concordate
+				change_country_name = KC_JAPAN_COUNTRY
+				change_country_adjective = KC_JAPAN_COUNTRY_ADJ
+			}
+		}
+
+		every_international_organization_member = {
+			limit = {
+				root = {
+					NOT = {
+						has_variable = kc_concord_collapsed
+					}
+				}
+				tag = JAP
+				country_type = building
+				NOT = {
+					has_reform = government_reform:kc_kitayama_concordate
+				}
+			}
+			if = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+				}
+				remove_reform = government_reform:kc_chartered_buke_house
+			}
+			if = {
+				limit = {
+					has_reform = government_reform:shogunate
+				}
+				remove_reform = government_reform:shogunate
+			}
+			add_reform = government_reform:kc_kitayama_concordate
+			change_country_name = KC_JAPAN_COUNTRY
+			change_country_adjective = KC_JAPAN_COUNTRY_ADJ
+		}
+
+		every_international_organization_owned_location = {
+			limit = {
+				is_capital = yes
+				owner = {
+					NOT = { is_member_of_international_organization = root }
+					country_can_join_international_organization = root
+				}
+			}
+			root = {
+				add_country_to_international_organization = prev.owner
+			}
+		}
+		}
+		}
+	}
+
+	variables = {
+		kc_concord_cohesion = {
+			format = "KC_COHESION_DISPLAY"
+			change_format = "VARIABLE_CHANGE_FORMAT"
+			min = 0
+			max = 100
+			start = 50
+			monthly_change = {
+				if = {
+					limit = {
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+				# Cohesion has a ten-point diminishing recovery curve. The
+				# bands are tuned around the accumulated cost of nine laws:
+				# with a funded Secretariat and the ordinary constitutional
+				# sources, accommodating laws tend toward 80-100, mixed laws
+				# toward 60-80, and ambitious laws toward 40-60. A fully
+				# ambitious government should sit outside disaster territory
+				# but remain one severe incident away from it.
+				# Institutional self-preservation supplies no free growth at
+				# 80 or above.
+				add = {
+					desc = "KC_COHESION_PASSIVE_RECOVERY"
+					if = {
+						limit = {
+							var:kc_concord_cohesion < 10
+						}
+						value = 0.50
+					}
+					else_if = {
+						limit = {
+							var:kc_concord_cohesion < 20
+						}
+						value = 0.40
+					}
+					else_if = {
+						limit = {
+							var:kc_concord_cohesion < 30
+						}
+						value = 0.32
+					}
+					else_if = {
+						limit = {
+							var:kc_concord_cohesion < 40
+						}
+						value = 0.24
+					}
+					else_if = {
+						limit = {
+							var:kc_concord_cohesion < 50
+						}
+						value = 0.18
+					}
+					else_if = {
+						limit = {
+							var:kc_concord_cohesion < 60
+						}
+						value = 0.12
+					}
+					else_if = {
+						limit = {
+							var:kc_concord_cohesion < 70
+						}
+						value = 0.07
+					}
+					else_if = {
+						limit = {
+							var:kc_concord_cohesion < 80
+						}
+						value = 0.03
+					}
+				}
+
+				# The native bureaucracy maintenance slider controls how much
+				# of the Secretariat's positive effects Japan actually funds.
+				add = {
+					desc = "KC_COHESION_FUNDED_SECRETARIAT"
+					if = {
+						limit = {
+							country_exists = c:JAP
+							c:JAP ?= {
+								has_bureaucracy_of_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+							}
+						}
+						value = c:JAP.modifier:monthly_concord_bureaucracy_cohesion
+					}
+				}
+
+				# Every middle law costs 0.02 monthly Cohesion and every
+				# ambitious law costs 0.04. The country modifier is applied by
+				# the active policies, summed on JAP, and shown directly in
+				# both policy and monthly-Cohesion tooltips.
+				add = {
+					desc = "KC_COHESION_LAW_COMMITMENTS"
+					if = {
+						limit = {
+							country_exists = c:JAP
+						}
+						value = c:JAP.modifier:monthly_concord_law_cohesion
+					}
+				}
+
+				# Societal values and the future post-capstone reforms remain
+				# exceptional constitutional sources outside the bureaucracy.
+				add = {
+					desc = "KC_COHESION_HOUSE_PRIVILEGE"
+					if = {
+						limit = {
+							c:JAP ?= {
+								has_variable = kc_concord_capstone_completed
+							}
+						}
+						value = c:JAP.modifier:monthly_concord_cohesion
+					}
+				}
+
+				subtract = {
+					desc = "KC_INTERNAL_CONFLICT"
+					if = {
+						limit = {
+							international_organization_has_internal_peace = no
+						}
+						value = 1
+					}
+				}
+				subtract = {
+					desc = "KC_COHESION_GREAT_RECKONING"
+					if = {
+						limit = {
+							has_variable = kc_entrenchment_crisis_active
+							var:kc_concord_entrenchment >= 70
+							NOT = {
+								has_variable = kc_great_reckoning_completed
+							}
+						}
+						value = 0.10
+					}
+				}
+				subtract = {
+					desc = "KC_COHESION_WAR_THAT_NEVER_WAS"
+					if = {
+						limit = {
+							has_variable = kc_war_that_never_was_active
+						}
+						value = 0.15
+					}
+				}
+				subtract = {
+					desc = "KC_COHESION_FRACTURING_CONCORD"
+					if = {
+						limit = {
+							has_variable = kc_fracturing_concord_active
+						}
+						value = 0.50
+					}
+				}
+				subtract = {
+					desc = "KC_SENIOR_HOUSE_RIVALRY"
+					value = "num_countries_with_special_status(special_status:kc_senior_chartered_house)"
+					multiply = 0.01
+				}
+				subtract = {
+					desc = "KC_UNCHARTERED_SHOGUN"
+					if = {
+						limit = {
+							leader_country ?= {
+								NOT = { tag = JAP }
+								NOT = {
+									has_special_status_in_international_organization = {
+										type = special_status:kc_senior_chartered_house
+										international_organization = root
+									}
+								}
+							}
+						}
+						value = 0.05
+					}
+				}
+				}
+			}
+		}
+
+		kc_concord_entrenchment = {
+			format = "KC_ENTRENCHMENT_DISPLAY"
+			change_format = "VARIABLE_CHANGE_FORMAT"
+			min = 0
+			max = 100
+			start = 0
+			monthly_change = {
+				if = {
+					limit = {
+						NOT = {
+							has_variable = kc_concord_collapsed
+						}
+					}
+				add = {
+					desc = "KC_ENTRENCHMENT_FOUNDATION"
+					if = {
+						limit = {
+							NOT = {
+								has_variable = kc_entrenchment_crisis_active
+							}
+							OR = {
+								var:kc_concord_entrenchment < 30
+								has_variable = kc_unquiet_peace_completed
+							}
+						}
+						value = 0.05
+					}
+				}
+				add = {
+					desc = "KC_ENTRENCHMENT_FUNCTIONAL"
+					if = {
+						limit = {
+							NOT = {
+								has_variable = kc_entrenchment_crisis_active
+							}
+							OR = {
+								var:kc_concord_entrenchment < 30
+								has_variable = kc_unquiet_peace_completed
+							}
+							var:kc_concord_cohesion >= 50
+						}
+						value = 0.0167
+					}
+				}
+				add = {
+					desc = "KC_ENTRENCHMENT_INTEGRATED"
+					if = {
+						limit = {
+							NOT = {
+								has_variable = kc_entrenchment_crisis_active
+							}
+							OR = {
+								var:kc_concord_entrenchment < 30
+								has_variable = kc_unquiet_peace_completed
+							}
+							var:kc_concord_cohesion >= 75
+						}
+						value = 0.0167
+					}
+				}
+				add = {
+					desc = "KC_ENTRENCHMENT_PEACE"
+					if = {
+						limit = {
+							NOT = {
+								has_variable = kc_entrenchment_crisis_active
+							}
+							OR = {
+								var:kc_concord_entrenchment < 30
+								has_variable = kc_unquiet_peace_completed
+							}
+							var:kc_concord_cohesion >= 90
+						}
+						value = 0.0166
+					}
+				}
+				}
+			}
+		}
+	}
+
+	special_statuses_implemented = {
+		japanese_emperor
+		kc_chartered_house
+		kc_senior_chartered_house
+		kc_concord_state
+		kc_presiding_house
+	}
+
+	ai_desire_to_join = {
+		add = {
+			desc = "WE_WANT_THE_ORGANIZATION_TO_GROW"
+			value = 100
+		}
+	}
+
+	ai_desire_to_allow_new_member = {
+		add = {
+			desc = "WE_WANT_THE_ORGANIZATION_TO_GROW"
+			value = 100
+		}
+	}
+}
+
+

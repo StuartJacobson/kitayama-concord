@@ -1,0 +1,149 @@
+﻿situation_panel = {
+
+	blockoverride "situation_top_subheader_content" {
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			margin = { 8 5 }
+			spacing = 8
+			using = bg_cabinet_card_frame
+
+			icon = {
+				size = { 28 28 }
+				texture = "[SituationView.GetActiveSituation.GetIcon]"
+			}
+
+			vbox = {
+				minimumsize = { 115 -1 }
+				text_single = {
+					text = "KC_WNW_SETTLEMENT_PROGRESS"
+					default_format = "#subtle_name"
+				}
+				text_single = {
+					text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_settlement_progress').GetValue|2]"
+					default_format = "#yellow_titles"
+				}
+			}
+
+			progressbar = {
+				layoutpolicy_horizontal = expanding
+				size = { -1 12 }
+				using = morale_progressbar_bar
+				min = 0
+				max = 100
+				value = "[FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_settlement_progress').GetValue)]"
+			}
+
+			vbox = {
+				minimumsize = { 95 -1 }
+				text_single = {
+					align = right|nobaseline
+					text = "KC_WNW_MONTHLY_PROGRESS"
+					default_format = "#subtle_name"
+				}
+				text_single = {
+					align = right|nobaseline
+					text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_monthly_progress').GetValue|+=2]"
+				}
+			}
+		}
+	}
+
+	blockoverride "situation_subheader_content" {}
+
+	blockoverride "situation_panel_main_content" {
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'kc_wnw_overview_toggled' )]"
+			}
+			blockoverride "header_text" { text = "KC_WNW_COUNCIL_OVERVIEW" }
+			blockoverride "header_icon" { texture = "gfx/interface/icons/flat_icons/parliament.dds" }
+			blockoverride "visible_hint" {}
+			blockoverride "bottom_content" {
+				text_multi = {
+					layoutpolicy_horizontal = expanding
+					maximumsize = { 470 -1 }
+					autoresize = yes
+					text = "KC_WNW_PANEL_OVERVIEW"
+				}
+			}
+			blockoverride "bottom_content_onclick" { visible = "[LateralView.Vars.Exists( 'kc_wnw_overview_toggled' )]" }
+			blockoverride "icon_replace_visible_yes" { visible = "[LateralView.Vars.Exists( 'kc_wnw_overview_toggled' )]" }
+			blockoverride "icon_replace_visible_not" { visible = "[Not(LateralView.Vars.Exists( 'kc_wnw_overview_toggled' ))]" }
+		}
+
+		situation_card_one_line = {
+			blockoverride "header_icon" { texture = "[SituationView.GetActiveSituation.GetIcon]" }
+			blockoverride "header_text" { text = "KC_WNW_ELECTION_MILESTONE" }
+			blockoverride "header_content_rest" {
+				text_single = {
+					visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_election_incident').IsSet]"
+					text = "KC_WNW_INCIDENT_COMPLETE"
+					default_format = "#color_green"
+				}
+				text_single = {
+					visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_election_incident').IsSet)]"
+					text = "KC_WNW_INCIDENT_PENDING"
+					default_format = "#subtle_name"
+				}
+			}
+		}
+
+		situation_card_one_line = {
+			blockoverride "header_icon" { texture = "[SituationView.GetActiveSituation.GetIcon]" }
+			blockoverride "header_text" { text = "KC_WNW_CREDIT_MILESTONE" }
+			blockoverride "header_content_rest" {
+				text_single = { visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_credit_incident').IsSet]" text = "KC_WNW_INCIDENT_COMPLETE" default_format = "#color_green" }
+				text_single = { visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_credit_incident').IsSet)]" text = "KC_WNW_INCIDENT_PENDING" default_format = "#subtle_name" }
+			}
+		}
+
+		situation_card_one_line = {
+			blockoverride "header_icon" { texture = "[SituationView.GetActiveSituation.GetIcon]" }
+			blockoverride "header_text" { text = "KC_WNW_WAREHOUSE_MILESTONE" }
+			blockoverride "header_content_rest" {
+				text_single = { visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_warehouse_incident').IsSet]" text = "KC_WNW_INCIDENT_COMPLETE" default_format = "#color_green" }
+				text_single = { visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_warehouse_incident').IsSet)]" text = "KC_WNW_INCIDENT_PENDING" default_format = "#subtle_name" }
+			}
+		}
+
+		situation_card_one_line = {
+			blockoverride "header_icon" { texture = "[SituationView.GetActiveSituation.GetIcon]" }
+			blockoverride "header_text" { text = "KC_WNW_ORDER_MILESTONE" }
+			blockoverride "header_content_rest" {
+				text_single = { visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_order_incident').IsSet]" text = "KC_WNW_INCIDENT_COMPLETE" default_format = "#color_green" }
+				text_single = { visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_order_incident').IsSet)]" text = "KC_WNW_INCIDENT_PENDING" default_format = "#subtle_name" }
+			}
+		}
+
+		situation_card_one_line = {
+			blockoverride "header_icon" { texture = "[SituationView.GetActiveSituation.GetIcon]" }
+			blockoverride "header_text" { text = "KC_WNW_TALLIES_MILESTONE" }
+			blockoverride "header_content_rest" {
+				text_single = { visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_tallies_incident').IsSet]" text = "KC_WNW_INCIDENT_COMPLETE" default_format = "#color_green" }
+				text_single = { visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_tallies_incident').IsSet)]" text = "KC_WNW_INCIDENT_PENDING" default_format = "#subtle_name" }
+			}
+		}
+
+		situation_card_one_line = {
+			blockoverride "header_icon" { texture = "[SituationView.GetActiveSituation.GetIcon]" }
+			blockoverride "header_text" { text = "KC_WNW_CONVENTION_MILESTONE" }
+			blockoverride "header_content_rest" {
+				text_single = { visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_final_convention').IsSet]" text = "KC_WNW_INCIDENT_COMPLETE" default_format = "#color_green" }
+				text_single = { visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('kc_wnw_final_convention').IsSet)]" text = "KC_WNW_INCIDENT_PENDING" default_format = "#subtle_name" }
+			}
+		}
+
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" { onclick = "[LateralView.Vars.Toggle( 'kc_wnw_requirements_toggled' )]" }
+			blockoverride "header_text" { text = "END_REQUIREMENTS" }
+			blockoverride "header_icon" { texture = "gfx/interface/icons/disasters/end_requirements_green.dds" }
+			blockoverride "visible_hint" {}
+			blockoverride "bottom_content" {
+				TooltipRequirementsList = { textcontext = "[SituationView.GetActiveSituation.GetSituation.GetEndConditions]" }
+			}
+			blockoverride "bottom_content_onclick" { visible = "[LateralView.Vars.Exists( 'kc_wnw_requirements_toggled' )]" }
+			blockoverride "icon_replace_visible_yes" { visible = "[LateralView.Vars.Exists( 'kc_wnw_requirements_toggled' )]" }
+			blockoverride "icon_replace_visible_not" { visible = "[Not(LateralView.Vars.Exists( 'kc_wnw_requirements_toggled' ))]" }
+		}
+	}
+}

@@ -1,0 +1,181 @@
+﻿namespace = kc_continental
+
+# The historical invasion of Korea is displaced into a late-century argument
+# over whether the Concord may carry its commercial constitution onto the
+# continent at sword point.
+kc_continental.1 = {
+	type = country_event
+	title = kc_continental.1.title
+	desc = kc_continental.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	immediate = {
+		set_variable = { name = kc_continental_question_opened value = yes }
+		if = { limit = { exists = c:CHI } c:CHI = { save_scope_as = china } }
+	}
+
+	option = {
+		name = kc_continental.1.a
+		set_variable = { name = kc_continental_path_diplomatic value = yes }
+		set_variable = { name = kc_continental_question_completed value = yes }
+		add_country_modifier = { modifier = kc_strait_embassies years = 20 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 5 }
+		trigger_event_non_silently = { id = kc_continental.3 days = 30 }
+		ai_chance = { factor = 70 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_continental.1.b
+		set_variable = { name = kc_continental_path_commercial value = yes }
+		set_variable = { name = kc_continental_question_completed value = yes }
+		add_country_modifier = { modifier = kc_strait_exchange_compacts years = 20 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		trigger_event_non_silently = { id = kc_continental.3 days = 30 }
+		ai_chance = { factor = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_continental.1.c
+		set_variable = { name = kc_continental_path_war value = yes }
+		set_variable = { name = kc_korean_settlement_cb_authorized value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -8 } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = -8 }
+		trigger_event_non_silently = { id = kc_continental.2 days = 15 }
+		ai_chance = { factor = 5 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_continental.2 = {
+	type = country_event title = kc_continental.2.title desc = kc_continental.2.desc outcome = negative
+	option = {
+		name = kc_continental.2.a
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				trigger_if = {
+					limit = { has_variable = kc_concord_treasury }
+					var:kc_concord_treasury >= 1500
+				}
+				trigger_else = { always = no }
+			}
+		}
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_treasury add = -1500 } }
+		add_country_modifier = { modifier = kc_continental_common_magazines years = 10 mode = replace }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_continental.2.b
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -5 } }
+		add_country_modifier = { modifier = kc_continental_house_contracts years = 10 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_continental.2.c
+		add_country_modifier = { modifier = kc_continental_unprepared_mobilization years = 8 mode = replace }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	after = {
+		if = { limit = { exists = c:KOR } add_casus_belli = { target = c:KOR type = casus_belli:kc_cb_continental_settlement } }
+	}
+}
+
+kc_continental.3 = {
+	type = country_event title = kc_continental.3.title desc = kc_continental.3.desc outcome = positive
+	option = { name = kc_continental.3.a }
+}
+
+# Fired by the Korean settlement peace term after the region has transferred
+# to JAP. Subject creation is deferred until this panel so the player cannot
+# be unexpectedly switched or annexed by a subject operation during peace.
+kc_continental.4 = {
+	type = country_event title = kc_continental.4.title desc = kc_continental.4.desc outcome = neutral
+	immediate = { remove_variable = kc_korean_settlement_pending }
+	option = {
+		name = kc_continental.4.a
+		kc_make_unified_korean_protectorate = yes
+		set_variable = { name = kc_korean_settlement_commercial value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 3 } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 3 }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_continental.4.b
+		kc_make_four_korean_commissions = yes
+		set_variable = { name = kc_korean_settlement_extraction value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -6 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -8 }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_continental.4.c
+		set_variable = { name = kc_korean_settlement_direct value = yes }
+		add_country_modifier = { modifier = kc_direct_korean_administration years = 20 mode = replace }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -10 } }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	after = {
+		set_variable = { name = kc_korean_settlement_completed value = yes }
+		set_variable = { name = kc_continental_question_completed value = yes }
+		trigger_event_non_silently = { id = kc_continental.5 days = 30 }
+	}
+}
+
+# Korea is the gateway, not a blank cheque. The Concord may authorize two
+# separate treaty-coast doctrines against the current CHI mandate holder.
+kc_continental.5 = {
+	type = country_event title = kc_continental.5.title desc = kc_continental.5.desc outcome = neutral
+	immediate = { if = { limit = { exists = c:CHI } c:CHI = { save_scope_as = china } } }
+	option = {
+		name = kc_continental.5.a
+		set_variable = { name = kc_china_charters_authorized value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -5 } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = -5 }
+		if = {
+			limit = { exists = c:CHI }
+			add_casus_belli = { target = c:CHI type = casus_belli:kc_cb_chartered_treaty_coast }
+			add_casus_belli = { target = c:CHI type = casus_belli:kc_cb_extraction_treaty_coast }
+		}
+	}
+	option = {
+		name = kc_continental.5.b
+		set_variable = { name = kc_china_charters_renounced value = yes }
+		add_country_modifier = { modifier = kc_korean_terminal_settlement years = 20 mode = replace }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 5 } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 5 }
+	}
+}
+
+kc_continental.7 = {
+	type = country_event title = kc_continental.7.title desc = kc_continental.7.desc outcome = positive
+	option = { name = kc_continental.7.a international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+}
+
+kc_continental.8 = {
+	type = country_event title = kc_continental.8.title desc = kc_continental.8.desc outcome = negative
+	# The subject type's on_enable has already charged the Cohesion cost. This
+	# event exists to tell the player why the bar moved.
+	option = { name = kc_continental.8.a }
+}

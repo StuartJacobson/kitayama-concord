@@ -1,0 +1,501 @@
+﻿kc_great_reckoning = {
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	monthly_spawn_chance = monthly_spawn_chance_unique
+	fire_only_once = yes
+
+	can_start = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		has_any_active_disaster = no
+		in_civil_war = no
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_unquiet_peace_completed
+			var:kc_concord_entrenchment >= 70
+			NOT = {
+				has_variable = kc_great_reckoning_completed
+			}
+		}
+	}
+
+	can_end = {
+		OR = {
+			has_variable = kc_great_reckoning_debug_resolve
+			custom_tooltip = {
+				text = kc_great_reckoning_completion_action_tt
+				has_variable = kc_great_reckoning_program_completed
+			}
+			AND = {
+				is_ai = yes
+				NOT = {
+					has_variable = kc_great_reckoning_ai_deadline
+				}
+			}
+		}
+	}
+
+	modifier = {
+		country_cabinet_efficiency = -0.10
+		monthly_legitimacy = -0.10
+	}
+
+	on_start = {
+		set_variable = {
+			name = kc_reckoning_public_precedent
+			value = 0
+		}
+		set_variable = {
+			name = kc_reckoning_registered_precedent
+			value = 0
+		}
+		set_variable = {
+			name = kc_reckoning_house_precedent
+			value = 0
+		}
+		set_variable = {
+			name = kc_great_reckoning_ledger_office_authorized
+			value = yes
+		}
+		set_variable = {
+			name = kc_great_reckoning_ledgers_timer
+			value = yes
+			years = 1
+		}
+		set_variable = {
+			name = kc_great_reckoning_tolls_timer
+			value = yes
+			years = 3
+		}
+		set_variable = {
+			name = kc_great_reckoning_credit_timer
+			value = yes
+			years = 5
+		}
+		set_variable = {
+			name = kc_great_reckoning_minimum_term
+			value = yes
+			years = 7
+		}
+		set_variable = {
+			name = kc_great_reckoning_ai_deadline
+			value = yes
+			years = 15
+		}
+
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_entrenchment_crisis_active
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 70
+			}
+			every_international_organization_member = {
+				add_country_modifier = {
+					modifier = kc_great_reckoning_disputed_accounts
+					years = -1
+					mode = replace
+				}
+			}
+		}
+
+		trigger_event_non_silently = kc_great_reckoning.1
+
+		international_organization:kc_kitayama_concord ?= {
+			every_international_organization_member = {
+				limit = {
+					is_human = yes
+					NOT = { tag = JAP }
+				}
+				trigger_event_non_silently = kc_great_reckoning.2
+			}
+		}
+	}
+
+	on_monthly = {
+		international_organization:kc_kitayama_concord ?= {
+			every_international_organization_member = {
+				if = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					if = {
+						limit = {
+							c:JAP = {
+								has_variable = kc_great_reckoning_guarantees_preparation
+							}
+							NOT = {
+								has_country_modifier = kc_great_reckoning_guarantee_mandate
+							}
+						}
+						remove_country_modifier = kc_great_reckoning_disputed_accounts
+						remove_country_modifier = kc_great_reckoning_register_mandate
+						remove_country_modifier = kc_great_reckoning_public_mandate
+						add_country_modifier = {
+							modifier = kc_great_reckoning_guarantee_mandate
+							years = -1
+							mode = replace
+						}
+					}
+					else_if = {
+						limit = {
+							c:JAP = {
+								has_variable = kc_great_reckoning_register_preparation
+							}
+							NOT = {
+								has_country_modifier = kc_great_reckoning_register_mandate
+							}
+						}
+						remove_country_modifier = kc_great_reckoning_disputed_accounts
+						remove_country_modifier = kc_great_reckoning_guarantee_mandate
+						remove_country_modifier = kc_great_reckoning_public_mandate
+						add_country_modifier = {
+							modifier = kc_great_reckoning_register_mandate
+							years = -1
+							mode = replace
+						}
+					}
+					else_if = {
+						limit = {
+							c:JAP = {
+								has_variable = kc_great_reckoning_public_preparation
+							}
+							NOT = {
+								has_country_modifier = kc_great_reckoning_public_mandate
+							}
+						}
+						remove_country_modifier = kc_great_reckoning_disputed_accounts
+						remove_country_modifier = kc_great_reckoning_guarantee_mandate
+						remove_country_modifier = kc_great_reckoning_register_mandate
+						add_country_modifier = {
+							modifier = kc_great_reckoning_public_mandate
+							years = -1
+							mode = replace
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						NOT = {
+							has_country_modifier = kc_great_reckoning_disputed_accounts
+						}
+					}
+					add_country_modifier = {
+						modifier = kc_great_reckoning_disputed_accounts
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_great_reckoning_ledgers_incident
+				}
+				NOT = {
+					has_variable = kc_great_reckoning_ledgers_timer
+				}
+			}
+			set_variable = {
+				name = kc_great_reckoning_ledgers_incident
+				value = yes
+			}
+			trigger_event_non_silently = kc_great_reckoning.3
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_great_reckoning_tolls_incident
+				}
+				NOT = {
+					has_variable = kc_great_reckoning_tolls_timer
+				}
+			}
+			set_variable = {
+				name = kc_great_reckoning_tolls_incident
+				value = yes
+			}
+			trigger_event_non_silently = kc_great_reckoning.4
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_great_reckoning_credit_incident
+				}
+				NOT = {
+					has_variable = kc_great_reckoning_credit_timer
+				}
+			}
+			set_variable = {
+				name = kc_great_reckoning_credit_incident
+				value = yes
+			}
+			trigger_event_non_silently = kc_great_reckoning.5
+		}
+	}
+
+	on_end = {
+		if = {
+			limit = {
+				NOT = {
+					OR = {
+						has_variable = kc_great_reckoning_guarantees_path
+						has_variable = kc_great_reckoning_registered_path
+						has_variable = kc_great_reckoning_common_path
+					}
+				}
+			}
+			set_variable = {
+				name = kc_great_reckoning_fallback_settlement
+				value = yes
+			}
+			if = {
+				limit = {
+					OR = {
+						has_variable = kc_great_reckoning_public_preparation
+						international_organization:kc_kitayama_concord ?= {
+							international_organization_has_policy = policy:kc_common_kenchi_policy
+						}
+					}
+				}
+				set_variable = {
+					name = kc_great_reckoning_common_path
+					value = yes
+				}
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_variable = kc_great_reckoning_register_preparation
+						international_organization:kc_kitayama_concord ?= {
+							international_organization_has_policy = policy:kc_registered_cadasters_policy
+						}
+					}
+				}
+				set_variable = {
+					name = kc_great_reckoning_registered_path
+					value = yes
+				}
+			}
+			else = {
+				set_variable = {
+					name = kc_great_reckoning_guarantees_path
+					value = yes
+				}
+			}
+		}
+
+		# The fifteen-year AI deadline and the debug resolver use the prepared
+		# settlement, but they do not waive its public cost. If the Treasury
+		# cannot meet that charge, the settlement is imposed at a substantial
+		# Cohesion loss so an AI Concord cannot remain trapped indefinitely.
+		if = {
+			limit = {
+				has_variable = kc_great_reckoning_fallback_settlement
+			}
+			international_organization:kc_kitayama_concord ?= {
+				if = {
+					limit = {
+						root = {
+							has_variable = kc_great_reckoning_guarantees_path
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 6
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -6
+					}
+				}
+				else_if = {
+					limit = {
+						root = {
+							has_variable = kc_great_reckoning_registered_path
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 10
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -10
+					}
+				}
+				else_if = {
+					limit = {
+						root = {
+							has_variable = kc_great_reckoning_common_path
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 15
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -15
+					}
+				}
+				else = {
+					change_variable = {
+						name = kc_concord_cohesion
+						add = -10
+					}
+				}
+			}
+		}
+
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_entrenchment_crisis_active
+			remove_variable = kc_fiscal_settlement_house_guarantees
+			remove_variable = kc_fiscal_settlement_registered_apportionment
+			remove_variable = kc_fiscal_settlement_common_treasury
+			set_variable = {
+				name = kc_great_reckoning_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_renaissance_reward_granted
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_annual_assessment_timer
+				value = yes
+				years = 1
+			}
+			every_international_organization_member = {
+				remove_country_modifier = kc_great_reckoning_disputed_accounts
+				remove_country_modifier = kc_great_reckoning_guarantee_mandate
+				remove_country_modifier = kc_great_reckoning_register_mandate
+				remove_country_modifier = kc_great_reckoning_public_mandate
+			}
+		}
+
+		# Every fiscal constitution resolves the same intellectual problem:
+		# comparable measures, copied accounts, and public verification. The
+		# capital therefore becomes a full center of Renaissance knowledge
+		# regardless of which political settlement won the council.
+		capital ?= {
+			change_institution_progress = {
+				type = institution:renaissance
+				value = 100
+			}
+		}
+
+		if = {
+			limit = {
+				has_variable = kc_great_reckoning_guarantees_path
+			}
+			international_organization:kc_kitayama_concord ?= {
+				set_variable = {
+					name = kc_fiscal_settlement_house_guarantees
+					value = yes
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 5
+				}
+				set_variable = {
+					name = kc_assessment_senior_rate
+					value = 4
+				}
+				set_variable = {
+					name = kc_assessment_ordinary_rate
+					value = 0.5
+				}
+			}
+			add_country_modifier = {
+				modifier = kc_great_reckoning_house_legacy
+				years = 20
+				mode = replace
+			}
+			trigger_event_non_silently = kc_great_reckoning.10
+		}
+		else_if = {
+			limit = {
+				has_variable = kc_great_reckoning_registered_path
+			}
+			international_organization:kc_kitayama_concord ?= {
+				set_variable = {
+					name = kc_fiscal_settlement_registered_apportionment
+					value = yes
+				}
+				set_variable = {
+					name = kc_assessment_senior_rate
+					value = 2
+				}
+				set_variable = {
+					name = kc_assessment_ordinary_rate
+					value = 2
+				}
+			}
+			add_country_modifier = {
+				modifier = kc_great_reckoning_registered_legacy
+				years = 20
+				mode = replace
+			}
+			trigger_event_non_silently = kc_great_reckoning.11
+		}
+		else = {
+			international_organization:kc_kitayama_concord ?= {
+				set_variable = {
+					name = kc_fiscal_settlement_common_treasury
+					value = yes
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = -5
+				}
+				set_variable = {
+					name = kc_assessment_senior_rate
+					value = 4
+				}
+				set_variable = {
+					name = kc_assessment_ordinary_rate
+					value = 4
+				}
+			}
+			add_country_modifier = {
+				modifier = kc_great_reckoning_common_legacy
+				years = 20
+				mode = replace
+			}
+			trigger_event_non_silently = kc_great_reckoning.12
+		}
+
+		remove_variable = kc_great_reckoning_guarantees_path
+		remove_variable = kc_great_reckoning_registered_path
+		remove_variable = kc_great_reckoning_common_path
+		remove_variable = kc_great_reckoning_guarantees_preparation
+		remove_variable = kc_great_reckoning_register_preparation
+		remove_variable = kc_great_reckoning_public_preparation
+		remove_variable = kc_great_reckoning_program_completed
+		remove_variable = kc_great_reckoning_ledgers_timer
+		remove_variable = kc_great_reckoning_tolls_timer
+		remove_variable = kc_great_reckoning_credit_timer
+		remove_variable = kc_great_reckoning_minimum_term
+		remove_variable = kc_great_reckoning_ai_deadline
+		remove_variable = kc_great_reckoning_ledgers_incident
+		remove_variable = kc_great_reckoning_tolls_incident
+		remove_variable = kc_great_reckoning_credit_incident
+		remove_variable = kc_great_reckoning_debug_resolve
+		remove_variable = kc_great_reckoning_fallback_settlement
+	}
+}
+
+

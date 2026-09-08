@@ -1,0 +1,33 @@
+﻿kc_chartered_house_can_participate_in_parliament = {
+	positive = "gfx/interface/icons/modifier_types/elector_can_participate_in_parliament.dds"
+}
+
+kc_chartered_house_agenda_impact = {
+	positive = "gfx/interface/icons/modifier_types/elector_agenda_impact.dds"
+}
+
+kc_senior_chartered_house_can_participate_in_parliament = {
+	positive = "gfx/interface/icons/modifier_types/elector_can_participate_in_parliament.dds"
+}
+
+kc_senior_chartered_house_agenda_impact = {
+	positive = "gfx/interface/icons/modifier_types/elector_agenda_impact.dds"
+}
+
+kc_concord_state_can_participate_in_parliament = {
+	positive = "gfx/interface/icons/modifier_types/emperor_can_participate_in_parliament.dds"
+}
+
+kc_concord_state_agenda_impact = {
+	positive = "gfx/interface/icons/modifier_types/emperor_agenda_impact.dds"
+}
+
+kc_presiding_house_can_participate_in_parliament = {
+	positive = "gfx/interface/icons/modifier_types/emperor_can_participate_in_parliament.dds"
+}
+
+kc_presiding_house_agenda_impact = {
+	positive = "gfx/interface/icons/modifier_types/emperor_agenda_impact.dds"
+}
+
+

@@ -1,0 +1,596 @@
+﻿namespace = kc_capstone
+
+# One century of accumulated precedent opens a constitutional convention.
+kc_capstone.1 = {
+	type = country_event
+	title = kc_capstone.1.title
+	desc = kc_capstone.1.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_capstone.1.a
+		custom_tooltip = kc_capstone_convention_start_tt
+	}
+}
+
+# First reading: are the common institutions agents of the Houses or holders
+# of authority in their own right?
+kc_capstone.7 = {
+	type = country_event
+	category = situation_event
+	title = kc_capstone.7.title
+	desc = kc_capstone.7.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_capstone.7.a
+		custom_tooltip = kc_capstone_first_reading_house_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_chartered_authority
+				value = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 4
+				}
+				clamp_variable = {
+					name = kc_concord_cohesion
+					min = 0
+					max = 100
+				}
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 5
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.7.b
+		custom_tooltip = kc_capstone_first_reading_compromise_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_joint_authority
+				value = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 2
+				}
+				clamp_variable = {
+					name = kc_concord_cohesion
+					min = 0
+					max = 100
+				}
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 3
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.7.c
+		custom_tooltip = kc_capstone_first_reading_common_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_common_authority
+				value = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					subtract = 3
+				}
+				clamp_variable = {
+					name = kc_concord_cohesion
+					min = 0
+					max = 100
+				}
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 8
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# Second reading: decide whether the constitution belongs to specialists,
+# ordinary petitioners, or the language of the court.
+kc_capstone.8 = {
+	type = country_event
+	category = situation_event
+	title = kc_capstone.8.title
+	desc = kc_capstone.8.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_capstone.8.a
+		custom_tooltip = kc_capstone_second_reading_house_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_house_commentaries
+				value = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 3
+				}
+				clamp_variable = {
+					name = kc_concord_cohesion
+					min = 0
+					max = 100
+				}
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 6
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+			add_prestige = prestige_mild_bonus
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.8.b
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 3
+				}
+			}
+		}
+		custom_tooltip = kc_capstone_second_reading_public_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_public_language
+				value = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				add_gold = {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = -3
+				}
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 10
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.8.c
+		custom_tooltip = kc_capstone_second_reading_court_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_court_recension
+				value = yes
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 4
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+			add_legitimacy = legitimacy_mild_bonus
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# Publication reading: the mechanics chosen to reproduce the Articles become
+# a twenty-year legacy after ratification.
+kc_capstone.9 = {
+	type = country_event
+	category = situation_event
+	title = kc_capstone.9.title
+	desc = kc_capstone.9.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_capstone.9.a
+		custom_tooltip = kc_capstone_publication_house_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_house_imprints
+				value = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 5
+				}
+				clamp_variable = {
+					name = kc_concord_cohesion
+					min = 0
+					max = 100
+				}
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 8
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.9.b
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 6
+				}
+			}
+		}
+		custom_tooltip = kc_capstone_publication_common_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_common_edition
+				value = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				add_gold = {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = -6
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					subtract = 2
+				}
+				clamp_variable = {
+					name = kc_concord_cohesion
+					min = 0
+					max = 100
+				}
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 15
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.9.c
+		trigger = {
+			gold >= {
+				value = monthly_income_trade_and_tax
+				min = 1
+				multiply = 6
+			}
+		}
+		custom_tooltip = kc_capstone_publication_type_tt
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_movable_type
+				value = yes
+			}
+			add_gold = {
+				value = monthly_income_trade_and_tax
+				min = 1
+				multiply = -6
+			}
+			change_societal_value = {
+				type = traditionalist_vs_innovative
+				value = societal_value_minor_move_to_right
+			}
+			situation:kc_hundred_year_concord ?= {
+				change_variable = {
+					name = kc_articles_progress
+					add = 12
+				}
+				clamp_variable = {
+					name = kc_articles_progress
+					min = 0
+					max = 100
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# Successful conclusion: the on_ending hook has already applied the
+# constitutional precedents, Printing Press reward, and publication legacy.
+kc_capstone.10 = {
+	type = country_event
+	category = situation_event
+	title = kc_capstone.10.title
+	desc = kc_capstone.10.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_capstone.10.a
+		custom_tooltip = kc_capstone_ratification_tt
+	}
+}
+
+# The only abort path is the destruction or constitutional collapse of the
+# Concord while the Articles are still being drafted.
+kc_capstone.11 = {
+	type = country_event
+	category = situation_event
+	title = kc_capstone.11.title
+	desc = kc_capstone.11.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_fracturing_concord.dds"
+
+	option = {
+		name = kc_capstone.11.a
+	}
+}
+
+# A low-Cohesion roll has opened the post-capstone collapse disaster. The
+# player may still restore the Concord to 40 Cohesion before it reaches 1.
+kc_capstone.2 = {
+	type = country_event
+	title = kc_capstone.2.title
+	desc = kc_capstone.2.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_fracturing_concord.dds"
+
+	option = {
+		name = kc_capstone.2.a
+		custom_tooltip = kc_fracturing_concord_start_tt
+	}
+}
+
+# Annual emergency conference while the Hundred-Year Articles are fracturing.
+kc_capstone.3 = {
+	type = country_event
+	title = kc_capstone.3.title
+	desc = kc_capstone.3.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_fracturing_concord.dds"
+
+	option = {
+		name = kc_capstone.3.a
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 6
+				}
+			}
+		}
+		custom_tooltip = kc_fracturing_concord_treasury_tt
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				add_gold = {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = -6
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 8
+				}
+			}
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.3.b
+		custom_tooltip = kc_fracturing_concord_privilege_tt
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 10
+				}
+			}
+			if = {
+				limit = {
+					has_variable = kc_concord_capstone_completed
+				}
+				change_societal_value = {
+					type = house_privilege_vs_concord_commonwealth
+					value = -10
+				}
+			}
+			add_legitimacy = legitimacy_mild_penalty
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_capstone.3.c
+		custom_tooltip = kc_fracturing_concord_commonwealth_tt
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 6
+				}
+			}
+			if = {
+				limit = {
+					has_variable = kc_concord_capstone_completed
+				}
+				change_societal_value = {
+					type = house_privilege_vs_concord_commonwealth
+					value = 10
+				}
+			}
+			add_stability = stability_mild_penalty
+		}
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# Cohesion reached the disaster's collapse threshold.
+kc_capstone.4 = {
+	type = country_event
+	title = kc_capstone.4.title
+	desc = kc_capstone.4.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_fracturing_concord.dds"
+
+	option = {
+		name = kc_capstone.4.a
+		custom_tooltip = kc_concord_dissolution_tt
+
+		hidden_effect = {
+			set_variable = {
+				name = kc_concord_collapsed
+				value = yes
+			}
+			set_variable = {
+				name = kc_fracturing_concord_collapsed
+				value = yes
+			}
+		}
+	}
+}
+
+# The player rebuilt enough consent to end the disaster.
+kc_capstone.5 = {
+	type = country_event
+	title = kc_capstone.5.title
+	desc = kc_capstone.5.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_capstone.5.a
+		hidden_effect = {
+			set_variable = {
+				name = kc_fracturing_concord_recovered
+				value = yes
+			}
+			add_stability = stability_mild_bonus
+			add_prestige = prestige_mild_bonus
+		}
+	}
+}
+
+# Close the visible collapse event before landing the bounded warring Houses.
+# The existing Concord IO remains alive throughout the conversion.
+kc_capstone.6 = {
+	type = country_event
+	title = empty_text
+	desc = empty_text
+	outcome = neutral
+	hidden = yes
+
+	immediate = {
+		kc_dissolve_concord_into_warring_states = yes
+	}
+}

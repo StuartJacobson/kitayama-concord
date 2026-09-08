@@ -1,0 +1,8 @@
+﻿l_english:
+ KC_ELECTION_PERSONAL_OPINION: "Opinion of the candidate"
+ KC_ELECTION_OWN_HOUSE: "Our own House"
+ KC_ELECTION_ALLIED_HOUSE: "An allied House"
+ KC_ELECTION_RIVAL_HOUSE: "A rival House"
+ KC_ELECTION_DIPLOMATIC_OUTLOOK: "Shared diplomatic interests"
+ KC_ELECTION_ADMINISTRATIVE_OUTLOOK: "Shared administrative interests"
+ KC_ELECTION_COMMERCIAL_OUTLOOK: "Shared commercial interests"

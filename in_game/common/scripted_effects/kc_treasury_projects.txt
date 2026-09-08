@@ -1,0 +1,279 @@
+﻿# Preview the next tier of a five-stage Treasury project. The calling action
+# supplies the IO variable and five country modifiers. This effect is used
+# only inside show_as_tooltip, so the native modifier breakdown remains the
+# authoritative description of an upgrade.
+kc_preview_treasury_project_upgrade_effect = {
+	if = {
+		limit = { scope:recipient.var:$stage$ < 1 }
+		add_country_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 2 }
+		add_country_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 3 }
+		add_country_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 4 }
+		add_country_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 5 }
+		add_country_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+	}
+}
+
+# Replace the current tier with the next one. The action deducts Treasury gold
+# before calling this effect and increments the IO stage afterwards.
+kc_apply_treasury_project_upgrade_effect = {
+	if = {
+		limit = { scope:recipient.var:$stage$ < 1 }
+		add_country_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 2 }
+		remove_country_modifier = $tier_1$
+		add_country_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 3 }
+		remove_country_modifier = $tier_2$
+		add_country_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 4 }
+		remove_country_modifier = $tier_3$
+		add_country_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 5 }
+		remove_country_modifier = $tier_4$
+		add_country_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+	}
+}
+
+# Province and location variants keep the great works geographically bounded
+# while retaining the same five-stage IO accounting used by country projects.
+kc_preview_treasury_province_project_upgrade_effect = {
+	if = {
+		limit = { scope:recipient.var:$stage$ < 1 }
+		add_province_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 2 }
+		add_province_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 3 }
+		add_province_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 4 }
+		add_province_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 5 }
+		add_province_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+	}
+}
+
+kc_apply_treasury_province_project_upgrade_effect = {
+	if = {
+		limit = { scope:recipient.var:$stage$ < 1 }
+		add_province_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 2 }
+		remove_province_modifier = $tier_1$
+		add_province_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 3 }
+		remove_province_modifier = $tier_2$
+		add_province_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 4 }
+		remove_province_modifier = $tier_3$
+		add_province_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 5 }
+		remove_province_modifier = $tier_4$
+		add_province_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+	}
+}
+
+kc_preview_treasury_location_project_upgrade_effect = {
+	if = {
+		limit = { scope:recipient.var:$stage$ < 1 }
+		add_location_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 2 }
+		add_location_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 3 }
+		add_location_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 4 }
+		add_location_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 5 }
+		add_location_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+	}
+}
+
+kc_apply_treasury_location_project_upgrade_effect = {
+	if = {
+		limit = { scope:recipient.var:$stage$ < 1 }
+		add_location_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 2 }
+		remove_location_modifier = $tier_1$
+		add_location_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 3 }
+		remove_location_modifier = $tier_2$
+		add_location_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 4 }
+		remove_location_modifier = $tier_3$
+		add_location_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+	}
+	else_if = {
+		limit = { scope:recipient.var:$stage$ < 5 }
+		remove_location_modifier = $tier_4$
+		add_location_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+	}
+}
+
+# Save migration helpers read the permanent Concord directly because their
+# province/location scopes are nested beneath the IO's monthly effect.
+kc_restore_concord_province_project_effect = {
+	if = {
+		limit = { international_organization:kc_kitayama_concord ?= { has_variable = $stage$ } }
+		if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 5 }
+			add_province_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 4 }
+			add_province_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 3 }
+			add_province_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 2 }
+			add_province_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 1 }
+			add_province_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+		}
+	}
+}
+
+kc_restore_concord_location_project_effect = {
+	if = {
+		limit = { international_organization:kc_kitayama_concord ?= { has_variable = $stage$ } }
+		if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 5 }
+			add_location_modifier = { modifier = $tier_5$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 4 }
+			add_location_modifier = { modifier = $tier_4$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 3 }
+			add_location_modifier = { modifier = $tier_3$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 2 }
+			add_location_modifier = { modifier = $tier_2$ years = -1 mode = replace }
+		}
+		else_if = {
+			limit = { international_organization:kc_kitayama_concord.var:$stage$ >= 1 }
+			add_location_modifier = { modifier = $tier_1$ years = -1 mode = replace }
+		}
+	}
+}
+
+kc_remove_all_concord_province_project_modifiers = {
+	remove_province_modifier = kc_project_grand_irrigation_province_1
+	remove_province_modifier = kc_project_grand_irrigation_province_2
+	remove_province_modifier = kc_project_grand_irrigation_province_3
+	remove_province_modifier = kc_project_grand_irrigation_province_4
+	remove_province_modifier = kc_project_grand_irrigation_province_5
+	remove_province_modifier = kc_project_floodworks_province_1
+	remove_province_modifier = kc_project_floodworks_province_2
+	remove_province_modifier = kc_project_floodworks_province_3
+	remove_province_modifier = kc_project_floodworks_province_4
+	remove_province_modifier = kc_project_floodworks_province_5
+	remove_province_modifier = kc_project_kaido_spine_province_1
+	remove_province_modifier = kc_project_kaido_spine_province_2
+	remove_province_modifier = kc_project_kaido_spine_province_3
+	remove_province_modifier = kc_project_kaido_spine_province_4
+	remove_province_modifier = kc_project_kaido_spine_province_5
+}
+
+kc_remove_all_concord_location_project_modifiers = {
+	remove_location_modifier = kc_project_inland_sea_harbors_location_1
+	remove_location_modifier = kc_project_inland_sea_harbors_location_2
+	remove_location_modifier = kc_project_inland_sea_harbors_location_3
+	remove_location_modifier = kc_project_inland_sea_harbors_location_4
+	remove_location_modifier = kc_project_inland_sea_harbors_location_5
+	remove_location_modifier = kc_project_urban_waterworks_location_1
+	remove_location_modifier = kc_project_urban_waterworks_location_2
+	remove_location_modifier = kc_project_urban_waterworks_location_3
+	remove_location_modifier = kc_project_urban_waterworks_location_4
+	remove_location_modifier = kc_project_urban_waterworks_location_5
+}
+
+kc_remove_all_concord_urban_waterworks_modifiers = {
+	remove_location_modifier = kc_project_urban_waterworks_location_1
+	remove_location_modifier = kc_project_urban_waterworks_location_2
+	remove_location_modifier = kc_project_urban_waterworks_location_3
+	remove_location_modifier = kc_project_urban_waterworks_location_4
+	remove_location_modifier = kc_project_urban_waterworks_location_5
+}
+
+# Alpha.26 building-network migration. The Kaido provincial layer and the
+# Harbor Chain's national port-proximity tier remain active and are therefore
+# deliberately not included here.
+kc_remove_retired_concord_network_province_modifiers = {
+	remove_province_modifier = kc_project_grand_irrigation_province_1
+	remove_province_modifier = kc_project_grand_irrigation_province_2
+	remove_province_modifier = kc_project_grand_irrigation_province_3
+	remove_province_modifier = kc_project_grand_irrigation_province_4
+	remove_province_modifier = kc_project_grand_irrigation_province_5
+	remove_province_modifier = kc_project_floodworks_province_1
+	remove_province_modifier = kc_project_floodworks_province_2
+	remove_province_modifier = kc_project_floodworks_province_3
+	remove_province_modifier = kc_project_floodworks_province_4
+	remove_province_modifier = kc_project_floodworks_province_5
+}
+
+kc_remove_retired_concord_network_location_modifiers = {
+	remove_location_modifier = kc_project_inland_sea_harbors_location_1
+	remove_location_modifier = kc_project_inland_sea_harbors_location_2
+	remove_location_modifier = kc_project_inland_sea_harbors_location_3
+	remove_location_modifier = kc_project_inland_sea_harbors_location_4
+	remove_location_modifier = kc_project_inland_sea_harbors_location_5
+	remove_location_modifier = kc_project_urban_waterworks_location_1
+	remove_location_modifier = kc_project_urban_waterworks_location_2
+	remove_location_modifier = kc_project_urban_waterworks_location_3
+	remove_location_modifier = kc_project_urban_waterworks_location_4
+	remove_location_modifier = kc_project_urban_waterworks_location_5
+}

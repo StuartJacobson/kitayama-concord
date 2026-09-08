@@ -1,0 +1,26 @@
+﻿kc_hundred_year_house_imprints = {
+	game_data = {
+		category = country
+	}
+
+	global_merchant_power = 0.05
+	global_estate_satisfaction_recovery = 0.002
+}
+
+kc_hundred_year_common_edition = {
+	game_data = {
+		category = country
+	}
+
+	country_cabinet_efficiency = 0.05
+	change_policy_cost_modifier = -0.10
+}
+
+kc_hundred_year_movable_type = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_literacy = 0.01
+	global_institution_growth_modifier = 0.10
+}

@@ -1,0 +1,48 @@
+﻿kc_kitayama_action_list = {
+	potential = {
+		culture = {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+	actions = {
+		kc_proclaim_kitayama_concord
+		kc_complete_kitayama_transition
+		kc_purchase_senior_charter
+		kc_purchase_overseas_concession_licenses
+		kc_grant_senior_charter
+		kc_compulsory_charter_redemption
+		kc_raise_extraordinary_contribution
+		kc_fund_concord_mediation
+	}
+}
+
+
+
+# National programs are evaluated only for AI Japan, not every Japanese House.
+kc_japan_state_action_list = {
+ potential = { kc_ai_japan_active_concord = yes }
+ actions = {
+		kc_commission_common_works
+		kc_stabilize_house_credit
+		kc_maintain_common_granaries
+		kc_fund_common_security
+		kc_underwrite_maritime_ventures
+		kc_project_grand_irrigation
+		kc_project_national_kaido
+		kc_project_inland_sea_harbors
+		kc_project_outer_port_charters
+		kc_project_southern_ocean_harbor_line
+		kc_project_national_floodworks
+		kc_project_transmontane_tunnels
+		kc_project_national_urban_waterworks
+		kc_project_charter_megalopolis
+		kc_complete_unquiet_peace_constabulary
+		kc_complete_unquiet_peace_network
+		kc_complete_unquiet_peace_watches
+		kc_complete_great_reckoning_guarantees
+		kc_complete_great_reckoning_registered
+		kc_complete_great_reckoning_common
+		kc_emergency_treasury_subscription
+		kc_emergency_purchase_cohesion
+ }
+}

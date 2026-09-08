@@ -1,0 +1,313 @@
+﻿namespace = kc_regulation_open_seas
+
+# Opening declaration. This gives the player a deliberate first push but does
+# not override the accumulated precedents displayed by the situation.
+kc_regulation_open_seas.1 = {
+	type = country_event
+	title = kc_regulation_open_seas.1.title
+	desc = kc_regulation_open_seas.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.1.a
+		add_country_modifier = { modifier = kc_ros_chartered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_ros_house_influence_2_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_house_influence add = 2 } } }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 35 modifier = { trigger = { has_reform = government_reform:kc_council_of_licensed_ports } add = 30 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.1.b
+		add_country_modifier = { modifier = kc_ros_registered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = { text = kc_ros_registered_influence_2_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_registered_influence add = 2 } } }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.1.c
+		add_country_modifier = { modifier = kc_ros_national_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_ros_national_influence_2_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_national_influence add = 2 } } }
+		add_legitimacy = legitimacy_mild_bonus
+		ai_chance = { base = 25 modifier = { trigger = { has_reform = government_reform:kc_national_board_of_exchange } add = 30 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# A compact three-way article template is repeated across the six debates.
+# The different event texts give each choice its historical subject, while the
+# consistent costs make the constitutional direction legible to the player.
+kc_regulation_open_seas.2 = {
+	type = country_event title = kc_regulation_open_seas.2.title desc = kc_regulation_open_seas.2.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.2.a
+		add_country_modifier = { modifier = kc_ros_chartered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_ros_house_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_house_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.2.b trigger = { international_organization:kc_kitayama_concord = { gold >= 750 } }
+		international_organization:kc_kitayama_concord = { add_gold = -750 }
+		add_country_modifier = { modifier = kc_ros_registered_deliberations years = 5 mode = replace }
+		custom_tooltip = { text = kc_ros_registered_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_registered_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.2.c trigger = { international_organization:kc_kitayama_concord = { gold >= 1250 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1250 }
+		add_country_modifier = { modifier = kc_ros_national_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_ros_national_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_national_influence add = 3 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_regulation_open_seas.3 = {
+	type = country_event title = kc_regulation_open_seas.3.title desc = kc_regulation_open_seas.3.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.3.a
+		add_country_modifier = { modifier = kc_ros_chartered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_ros_house_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_house_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.3.b trigger = { international_organization:kc_kitayama_concord = { gold >= 1000 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1000 }
+		add_country_modifier = { modifier = kc_ros_registered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		custom_tooltip = { text = kc_ros_registered_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_registered_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.3.c trigger = { international_organization:kc_kitayama_concord = { gold >= 1500 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1500 }
+		add_country_modifier = { modifier = kc_ros_national_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_ros_national_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_national_influence add = 3 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_regulation_open_seas.4 = {
+	type = country_event title = kc_regulation_open_seas.4.title desc = kc_regulation_open_seas.4.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.4.a
+		add_country_modifier = { modifier = kc_ros_chartered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_ros_house_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_house_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.4.b trigger = { international_organization:kc_kitayama_concord = { gold >= 1000 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1000 }
+		add_country_modifier = { modifier = kc_ros_registered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = { text = kc_ros_registered_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_registered_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 45 modifier = { trigger = { OR = { has_variable = kc_christian_open_accommodation has_variable = kc_sse_port_worship } } add = 20 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.4.c trigger = { international_organization:kc_kitayama_concord = { gold >= 1250 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1250 }
+		add_country_modifier = { modifier = kc_ros_national_deliberations years = 5 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		custom_tooltip = { text = kc_ros_national_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_national_influence add = 3 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_regulation_open_seas.5 = {
+	type = country_event title = kc_regulation_open_seas.5.title desc = kc_regulation_open_seas.5.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.5.a
+		add_country_modifier = { modifier = kc_ros_chartered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_ros_house_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_house_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.5.b trigger = { international_organization:kc_kitayama_concord = { gold >= 750 } }
+		international_organization:kc_kitayama_concord = { add_gold = -750 }
+		add_country_modifier = { modifier = kc_ros_registered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		custom_tooltip = { text = kc_ros_registered_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_registered_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.5.c trigger = { international_organization:kc_kitayama_concord = { gold >= 1500 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1500 }
+		add_country_modifier = { modifier = kc_ros_national_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		custom_tooltip = { text = kc_ros_national_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_national_influence add = 3 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_regulation_open_seas.6 = {
+	type = country_event title = kc_regulation_open_seas.6.title desc = kc_regulation_open_seas.6.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.6.a
+		add_country_modifier = { modifier = kc_ros_chartered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_ros_house_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_house_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.6.b trigger = { international_organization:kc_kitayama_concord = { gold >= 1000 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1000 }
+		add_country_modifier = { modifier = kc_ros_registered_deliberations years = 5 mode = replace }
+		custom_tooltip = { text = kc_ros_registered_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_registered_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.6.c trigger = { international_organization:kc_kitayama_concord = { gold >= 1500 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1500 }
+		add_country_modifier = { modifier = kc_ros_national_deliberations years = 5 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = -2 }
+		custom_tooltip = { text = kc_ros_national_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_national_influence add = 3 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_regulation_open_seas.7 = {
+	type = country_event title = kc_regulation_open_seas.7.title desc = kc_regulation_open_seas.7.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.7.a
+		add_country_modifier = { modifier = kc_ros_chartered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_ros_house_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_house_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.7.b trigger = { international_organization:kc_kitayama_concord = { gold >= 1250 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1250 }
+		add_country_modifier = { modifier = kc_ros_registered_deliberations years = 5 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = { text = kc_ros_registered_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_registered_influence add = 3 } } }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.7.c trigger = { international_organization:kc_kitayama_concord = { gold >= 1750 } }
+		international_organization:kc_kitayama_concord = { add_gold = -1750 }
+		add_country_modifier = { modifier = kc_ros_national_deliberations years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		custom_tooltip = { text = kc_ros_national_influence_3_tt situation:kc_regulation_open_seas = { change_variable = { name = kc_ros_national_influence add = 3 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# All outcomes remain open to the player. Earlier precedents affect AI choice
+# and the visible influence tally, but never become a hard constitutional lock.
+kc_regulation_open_seas.10 = {
+	type = country_event
+	title = kc_regulation_open_seas.10.title
+	desc = kc_regulation_open_seas.10.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_regulation_open_seas.10.a
+		set_variable = { name = kc_open_seas_chartered_ports_outcome value = yes }
+		add_reform = government_reform:kc_commonwealth_chartered_ports
+		if = { limit = { has_reform = government_reform:kc_council_of_licensed_ports } remove_reform = government_reform:kc_council_of_licensed_ports }
+		if = { limit = { has_reform = government_reform:kc_national_board_of_exchange } remove_reform = government_reform:kc_national_board_of_exchange }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -8 }
+		custom_tooltip = { text = kc_concord_lose_4_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -4 } } }
+		ai_chance = { base = 30 modifier = { trigger = { has_variable = kc_ros_house_influence_dominant } add = 50 } modifier = { trigger = { has_reform = government_reform:kc_council_of_licensed_ports } add = 30 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.10.b
+		set_variable = { name = kc_open_seas_registered_ports_outcome value = yes }
+		add_reform = government_reform:kc_articles_registered_open_ports
+		if = { limit = { has_reform = government_reform:kc_council_of_licensed_ports } remove_reform = government_reform:kc_council_of_licensed_ports }
+		if = { limit = { has_reform = government_reform:kc_national_board_of_exchange } remove_reform = government_reform:kc_national_board_of_exchange }
+		change_societal_value = { type = traditionalist_vs_innovative value = 5 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 modifier = { trigger = { has_variable = kc_ros_registered_influence_dominant } add = 50 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_regulation_open_seas.10.c
+		set_variable = { name = kc_open_seas_national_administration_outcome value = yes }
+		add_reform = government_reform:kc_national_maritime_administration
+		if = { limit = { has_reform = government_reform:kc_council_of_licensed_ports } remove_reform = government_reform:kc_council_of_licensed_ports }
+		if = { limit = { has_reform = government_reform:kc_national_board_of_exchange } remove_reform = government_reform:kc_national_board_of_exchange }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 8 }
+		custom_tooltip = { text = kc_concord_gain_3_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 3 } } }
+		ai_chance = { base = 30 modifier = { trigger = { has_variable = kc_ros_national_influence_dominant } add = 50 } modifier = { trigger = { has_reform = government_reform:kc_national_board_of_exchange } add = 30 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_regulation_open_seas.11 = {
+	type = country_event
+	title = kc_regulation_open_seas.11.title
+	desc = kc_regulation_open_seas.11.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_fracturing_concord.dds"
+	option = { name = kc_regulation_open_seas.11.a }
+}

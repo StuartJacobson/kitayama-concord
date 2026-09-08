@@ -1,0 +1,326 @@
+﻿namespace = kc_overseas_subjects
+
+# Recurring consequences of the two overseas constitutional forms. Each event
+# chooses one relevant subject in its immediate block, so names and effects
+# remain attached to the same polity throughout the event panel.
+
+kc_overseas_subjects.1 = { # A Harbor Petitions the Common Treasury
+	type = country_event
+	title = kc_overseas_subjects.1.title
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_korean_settlement_subject } } desc = kc_overseas_subjects.1.desc.korea }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_concord_treaty_coast_subject } } desc = kc_overseas_subjects.1.desc.china }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_philippine_commercial_compact } } desc = kc_overseas_subjects.1.desc.philippines }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { capital = { area = area:taiwan_area } } } desc = kc_overseas_subjects.1.desc.taiwan }
+			triggered_desc = { trigger = { always = yes } desc = kc_overseas_subjects.1.desc }
+		}
+	}
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	trigger = { NOT = { has_variable = kc_overseas_subject_1_recent } any_subject = { is_subject_type = kc_commercial_protectorate } }
+	immediate = {
+		set_variable = { name = kc_overseas_subject_consequence_cooldown value = 1 years = 4 }
+		set_variable = { name = kc_overseas_subject_1_recent value = 1 years = 16 }
+		random_subject = { limit = { is_subject_type = kc_commercial_protectorate } save_scope_as = kc_overseas_subject }
+	}
+	option = {
+		name = kc_overseas_subjects.1.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_overseas_subject_minor_treasury_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_minor_treasury_value multiply = -1 } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_protectorate_common_harbor_grant years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.1.b
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_protectorate_house_harbor_concession years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.1.c
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_protectorate_local_harbor_compact years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_overseas_subjects.2 = { # Whose Court Judges the Contract?
+	type = country_event
+	title = kc_overseas_subjects.2.title
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_korean_settlement_subject } } desc = kc_overseas_subjects.2.desc.korea }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_concord_treaty_coast_subject } } desc = kc_overseas_subjects.2.desc.china }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_philippine_commercial_compact } } desc = kc_overseas_subjects.2.desc.philippines }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { capital = { area = area:taiwan_area } } } desc = kc_overseas_subjects.2.desc.taiwan }
+			triggered_desc = { trigger = { always = yes } desc = kc_overseas_subjects.2.desc }
+		}
+	}
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	trigger = { NOT = { has_variable = kc_overseas_subject_2_recent } any_subject = { is_subject_type = kc_commercial_protectorate } }
+	immediate = {
+		set_variable = { name = kc_overseas_subject_consequence_cooldown value = 1 years = 4 }
+		set_variable = { name = kc_overseas_subject_2_recent value = 1 years = 16 }
+		random_subject = { limit = { is_subject_type = kc_commercial_protectorate } save_scope_as = kc_overseas_subject }
+	}
+	option = {
+		name = kc_overseas_subjects.2.a
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_overseas_registered_local_courts years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.2.b
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_overseas_house_tribunals years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.2.c
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_overseas_subject_minor_treasury_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_minor_treasury_value multiply = -1 } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_overseas_registered_local_courts years = 10 mode = replace } }
+		add_country_modifier = { modifier = kc_overseas_concord_mediation years = 5 mode = replace }
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_overseas_subjects.3 = { # The Commission's Quota Falls into Arrears
+	type = country_event
+	title = kc_overseas_subjects.3.title
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_korean_settlement_subject } } desc = kc_overseas_subjects.3.desc.korea }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_concord_treaty_coast_subject } } desc = kc_overseas_subjects.3.desc.china }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_philippine_commercial_compact } } desc = kc_overseas_subjects.3.desc.philippines }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { capital = { area = area:taiwan_area } } } desc = kc_overseas_subjects.3.desc.taiwan }
+			triggered_desc = { trigger = { always = yes } desc = kc_overseas_subjects.3.desc }
+		}
+	}
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+	trigger = { NOT = { has_variable = kc_overseas_subject_3_recent } any_subject = { is_subject_type = kc_chartered_extraction_commission } }
+	immediate = {
+		set_variable = { name = kc_overseas_subject_consequence_cooldown value = 1 years = 4 }
+		set_variable = { name = kc_overseas_subject_3_recent value = 1 years = 16 }
+		random_subject = { limit = { is_subject_type = kc_chartered_extraction_commission } save_scope_as = kc_overseas_subject }
+	}
+	option = {
+		name = kc_overseas_subjects.3.a
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_extraction_quota_relief years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.3.b
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_moderate_treasury_value } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_extraction_enforced_quota years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_3_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.3.c
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_minor_treasury_value } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_extraction_house_guarantee years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -1 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_overseas_subjects.4 = { # Petition to Rewrite a Commission Charter
+	type = country_event
+	title = kc_overseas_subjects.4.title
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_korean_settlement_subject } } desc = kc_overseas_subjects.4.desc.korea }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_concord_treaty_coast_subject } } desc = kc_overseas_subjects.4.desc.china }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { has_variable = kc_philippine_commercial_compact } } desc = kc_overseas_subjects.4.desc.philippines }
+			triggered_desc = { trigger = { scope:kc_overseas_subject = { capital = { area = area:taiwan_area } } } desc = kc_overseas_subjects.4.desc.taiwan }
+			triggered_desc = { trigger = { always = yes } desc = kc_overseas_subjects.4.desc }
+		}
+	}
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = { NOT = { has_variable = kc_overseas_subject_4_recent } any_subject = { is_subject_type = kc_chartered_extraction_commission } }
+	immediate = {
+		set_variable = { name = kc_overseas_subject_consequence_cooldown value = 1 years = 4 }
+		set_variable = { name = kc_overseas_subject_4_recent value = 1 years = 16 }
+		random_subject = { limit = { is_subject_type = kc_chartered_extraction_commission } save_scope_as = kc_overseas_subject }
+	}
+	option = {
+		name = kc_overseas_subjects.4.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_overseas_subject_major_treasury_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_major_treasury_value multiply = -1 } }
+		scope:kc_overseas_subject = { change_subject_type = subject_type:kc_commercial_protectorate }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.4.b
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_overseas_subject_minor_treasury_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_minor_treasury_value multiply = -1 } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_extraction_registered_reforms years = 15 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 1 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 50 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.4.c
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_moderate_treasury_value } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_extraction_tightened_charter years = 15 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_concord_lose_3_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } } }
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_overseas_subjects.5 = { # Rival Houses Claim the Same Concession
+	type = country_event
+	title = kc_overseas_subjects.5.title
+	desc = kc_overseas_subjects.5.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = {
+		NOT = { has_variable = kc_overseas_subject_5_recent }
+		any_subject = { OR = { is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } }
+	}
+	immediate = {
+		set_variable = { name = kc_overseas_subject_consequence_cooldown value = 1 years = 4 }
+		set_variable = { name = kc_overseas_subject_5_recent value = 1 years = 16 }
+		random_subject = { limit = { OR = { is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } } save_scope_as = kc_overseas_subject }
+	}
+	option = {
+		name = kc_overseas_subjects.5.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_overseas_subject_minor_treasury_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_minor_treasury_value multiply = -1 } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_overseas_registered_local_courts years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.5.b
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_protectorate_house_harbor_concession years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.5.c
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_protectorate_local_harbor_compact years = 10 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_overseas_subjects.6 = { # The Overseas Assessment
+	type = country_event
+	title = kc_overseas_subjects.6.title
+	desc = kc_overseas_subjects.6.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+	trigger = {
+		NOT = { has_variable = kc_overseas_subject_6_recent }
+		any_subject = { OR = { is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } }
+	}
+	immediate = {
+		set_variable = { name = kc_overseas_subject_consequence_cooldown value = 1 years = 4 }
+		set_variable = { name = kc_overseas_subject_6_recent value = 1 years = 16 }
+		random_subject = { limit = { OR = { is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } } save_scope_as = kc_overseas_subject }
+	}
+	option = {
+		name = kc_overseas_subjects.6.a
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_minor_treasury_value } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_overseas_assessment_burden years = 8 mode = replace } }
+		scope:kc_overseas_subject = {
+			capital = {
+				market = {
+					add_merchant_power = {
+						country = root
+						key = kc_overseas_registered_remittances
+						months = 96
+						power = merchant_power_weak_bonus
+					}
+				}
+			}
+		}
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.6.b
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_overseas_subject_minor_treasury_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_minor_treasury_value multiply = -1 } }
+		scope:kc_overseas_subject = { add_country_modifier = { modifier = kc_protectorate_common_harbor_grant years = 8 mode = replace } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 1 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_subjects.6.c
+		scope:kc_overseas_subject = {
+			capital = {
+				market = {
+					add_merchant_power = {
+						country = root
+						key = kc_overseas_house_remittances
+						months = 96
+						power = merchant_power_mild_bonus
+					}
+				}
+			}
+		}
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}

@@ -1,0 +1,16 @@
+﻿# A finite survey mandate, not a permanent expansion CB. The Ryukyu settlement
+# may be won by subjugating a surviving island court during the thirty-year
+# access window; the 1609 settlement later regularizes whatever resulted.
+kc_cb_southern_island_settlement = {
+	years = 30
+	create_visible = { always = no }
+	create_enabled = { always = no }
+	declare_enabled = {
+		tag = JAP
+		has_variable = kc_southern_islands_access_window
+		scope:target = { OR = { tag = CHZ tag = HKZ tag = NZN } }
+	}
+	allow_separate_peace = no
+	allow_white_peace = yes
+	war_goal_type = take_capital_subjugation
+}

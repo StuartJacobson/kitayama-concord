@@ -1,0 +1,3278 @@
+﻿kc_proclaim_kitayama_concord = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+
+	potential = {
+		scope:actor = {
+			is_leader_of_international_organization = international_organization:japanese_shogunate
+			culture = {
+				has_culture_group = culture_group:japanese_group
+			}
+			NOT = {
+				exists = international_organization:kc_kitayama_concord
+			}
+		}
+		exists = international_organization:japanese_shogunate
+	}
+
+	allow = {
+		scope:actor = {
+			at_war = no
+			OR = {
+				stability >= 25
+				AND = {
+					tag = JAP
+					is_ai = yes
+					stability >= 15
+				}
+			}
+			societal_value:aristocracy_vs_plutocracy >= 0
+		}
+		scope:recipient = {
+			international_organization_type = international_organization_type:japanese_shogunate
+			leader_country ?= {
+				this = scope:actor
+			}
+		}
+		situation:nanbokuchou = {
+			situation_has_ended = yes
+		}
+		NOT = {
+			is_situation_active = situation:sengoku
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_shogunate_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:japanese_shogunate
+		}
+		enabled = {
+			leader_country ?= {
+				this = scope:actor
+			}
+		}
+	}
+
+	effect = {
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_proclaim_kitayama_concord_effect_tt
+				trigger_event_silently = kc_concord_formation.1
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = 100
+	}
+}
+
+# Final ratification step and save-repair action for campaigns in which both
+# the Concord and Japanese Shogunate exist.
+kc_complete_kitayama_transition = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 1
+	automation_tick = never
+
+	potential = {
+		scope:actor = {
+			culture = {
+				has_culture_group = culture_group:japanese_group
+			}
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				is_leader_of_international_organization = international_organization:japanese_shogunate
+			}
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			NOT = {
+				has_variable = kc_concord_ratified
+			}
+		}
+		exists = international_organization:japanese_shogunate
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			scope:actor = {
+				OR = {
+					is_leader_of_international_organization = international_organization:kc_kitayama_concord
+					is_leader_of_international_organization = international_organization:japanese_shogunate
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			scope:actor = {
+				OR = {
+					is_leader_of_international_organization = international_organization:kc_kitayama_concord
+					is_leader_of_international_organization = international_organization:japanese_shogunate
+				}
+			}
+		}
+	}
+
+	effect = {
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_complete_kitayama_transition_effect_tt
+				trigger_event_silently = kc_concord_formation.2
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = 100
+	}
+}
+
+kc_purchase_senior_charter = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 24
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		exists = international_organization:kc_kitayama_concord
+		scope:actor = {
+			has_reform = government_reform:kc_chartered_buke_house
+		}
+		international_organization:kc_kitayama_concord ?= {
+			has_member = scope:actor
+			NOT = {
+				country_has_special_status = {
+					type = special_status:kc_senior_chartered_house
+					country = scope:actor
+				}
+			}
+		}
+	}
+
+	allow = {
+		scope:actor = {
+			at_war = no
+			prestige >= 25
+			custom_tooltip = {
+				text = kc_kaisho_office_required_tt
+				OR = {
+					has_variable = kc_has_kaisho_office
+					any_owned_foreign_building = { building_type = building_type:kc_kaisho }
+				}
+			}
+			gold >= {
+				value = monthly_income_trade_and_tax
+				multiply = 24
+			}
+		}
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			var:kc_concord_cohesion >= 50
+			custom_tooltip = {
+				text = kc_senior_house_slot_available_tt
+				kc_has_open_senior_house_slot = yes
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			scope:actor = {
+				is_member_of_international_organization = prev
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_purchase_senior_charter_effect_tt
+		scope:actor = {
+			add_gold = {
+				value = monthly_income_trade_and_tax
+				multiply = -24
+			}
+		}
+		scope:recipient = {
+			international_organization_add_special_status = {
+				type = special_status:kc_senior_chartered_house
+				country = scope:actor
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -2
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = 5
+	}
+}
+
+kc_purchase_overseas_concession_licenses = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	# Reconsider annually; the event's five-year variable remains the real
+	# shared cooldown between license purchases.
+	ai_tick_frequency = 12
+	automation_tick = never
+
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		scope:actor = {
+			has_reform = government_reform:kc_chartered_buke_house
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			NOT = { has_variable = kc_concession_license_purchase_cooldown }
+		}
+		c:JAP ?= { has_variable = kc_southern_sea_exchange_completed }
+	}
+
+	allow = {
+		scope:actor = {
+			at_war = no
+			gold >= { value = monthly_income_trade_and_tax min = 25 multiply = 12 }
+		}
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { scope:actor = { is_member_of_international_organization = prev } }
+	}
+
+	effect = { scope:actor = { trigger_event_non_silently = kc_overseas_concessions.1 } }
+	ai_will_do = { value = 10 }
+}
+
+kc_grant_senior_charter = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = never
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			OR = {
+				leader_country ?= {
+					this = scope:actor
+				}
+				scope:actor = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			var:kc_concord_cohesion >= 40
+			custom_tooltip = {
+				text = kc_senior_house_slot_available_tt
+				kc_has_open_senior_house_slot = yes
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			OR = {
+				leader_country ?= {
+					this = scope:actor
+				}
+				scope:actor = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = country
+		source = recipient
+		target_flag = target
+		name = "kc_select_senior_house"
+		none_available_msg_key = "trigger_no_kc_senior_house_candidates"
+		default_sort = country_tax_base
+		column = {
+			data = name
+		}
+		column = {
+			data = country_tax_base
+		}
+		visible = {
+			has_reform = government_reform:kc_chartered_buke_house
+			is_member_of_international_organization = scope:recipient
+			NOT = {
+				has_special_status_in_international_organization = {
+					type = special_status:kc_senior_chartered_house
+					international_organization = scope:recipient
+				}
+			}
+		}
+		enabled = {
+			always = yes
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_grant_senior_charter_effect_tt
+		scope:recipient = {
+			international_organization_add_special_status = {
+				type = special_status:kc_senior_chartered_house
+				country = scope:target
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -2
+			}
+		}
+		scope:actor = {
+			add_prestige = prestige_mild_penalty
+		}
+	}
+
+	ai_will_do = {
+		value = -1000
+	}
+}
+
+kc_compulsory_charter_redemption = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	# Senior AI Houses consider one affordable consolidation each year. The
+	# selector evaluates the least expensive eligible Houses first while the
+	# ten-year buyer cooldown and twenty-year valuation limit consolidation.
+	ai_tick = monthly
+	ai_tick_frequency = 12
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		exists = international_organization:kc_kitayama_concord
+		scope:actor = {
+			has_reform = government_reform:kc_chartered_buke_house
+		}
+		international_organization:kc_kitayama_concord ?= {
+			has_member = scope:actor
+			country_has_special_status = {
+				type = special_status:kc_senior_chartered_house
+				country = scope:actor
+			}
+		}
+	}
+
+	allow = {
+		scope:actor = {
+			at_war = no
+			custom_tooltip = {
+				text = kc_kaisho_office_required_tt
+				OR = {
+					has_variable = kc_has_kaisho_office
+					any_owned_foreign_building = { building_type = building_type:kc_kaisho }
+				}
+			}
+			custom_tooltip = {
+				text = kc_charter_redemption_cooldown_ready_tt
+				NOT = {
+					has_variable = kc_charter_redemption_cooldown
+				}
+			}
+		}
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			var:kc_concord_entrenchment >= 40
+			var:kc_concord_cohesion >= 60
+			trigger_if = {
+				limit = {
+					scope:actor = {
+						is_ai = yes
+					}
+				}
+				NOT = {
+					has_variable = kc_ai_charter_redemption_cooldown
+				}
+			}
+			custom_tooltip = {
+				text = kc_charter_redemption_house_floor_tt
+				any_international_organization_member = {
+					has_reform = government_reform:kc_chartered_buke_house
+					count > 24
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			scope:actor = {
+				is_member_of_international_organization = prev
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = country
+		source = recipient
+		target_flag = target
+		name = "kc_select_redemption_house"
+		none_available_msg_key = "trigger_no_kc_redemption_houses"
+		default_sort = country_tax_base
+		pre_evaluation_sort_value = {
+			value = monthly_income_trade_and_tax
+			multiply = -1
+		}
+		pre_evaluation_number_to_evaluate_fully = 10
+		allow_self = no
+		column = {
+			data = name
+		}
+		column = {
+			data = country_tax_base
+		}
+		visible = {
+			has_reform = government_reform:kc_chartered_buke_house
+			is_member_of_international_organization = scope:recipient
+			is_ai = yes
+			at_war = no
+			NOT = {
+				is_leader_of_international_organization = scope:recipient
+			}
+			NOT = {
+				has_special_status_in_international_organization = {
+					type = special_status:kc_senior_chartered_house
+					international_organization = scope:recipient
+				}
+			}
+		}
+		enabled = {
+			scope:actor = {
+				custom_tooltip = {
+					text = kc_charter_redemption_price_available_tt
+					gold >= {
+						value = root.monthly_income_trade_and_tax
+						min = 1
+						multiply = 240
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		# The successful redemption event applies the shared AI cooldown. Setting
+		# it here would make that event fail its own final cooldown validation and
+		# silently cancel every AI transaction.
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_compulsory_charter_redemption_effect_tt
+				trigger_event_silently = kc_charter_redemption.1
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = 100
+	}
+}
+
+kc_raise_extraordinary_contribution = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		country_exists = c:JAP
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_extraordinary_contribution_funds_tt
+				gold >= kc_treasury_six_month_cost
+			}
+		}
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_concord_fiscal_action_ready_tt
+				NOT = {
+					has_variable = kc_concord_fiscal_action_cooldown
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			scope:actor = {
+				tag = JAP
+				has_reform = government_reform:kc_kitayama_concordate
+				is_member_of_international_organization = international_organization:kc_kitayama_concord
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_raise_extraordinary_contribution_effect_tt
+			hidden_effect = {
+			scope:actor = {
+				add_gold = {
+					value = kc_treasury_six_month_cost
+					multiply = -1
+				}
+			}
+			scope:recipient = {
+				add_gold = {
+					value = kc_treasury_six_month_cost
+				}
+				set_variable = {
+					name = kc_concord_fiscal_action_cooldown
+					value = yes
+					years = 1
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { gold < kc_treasury_six_month_cost } scope:actor = { gold >= { value = kc_treasury_six_month_cost add = { value = monthly_income_trade_and_tax min = 1 multiply = 6 } } } }
+			add = 1100
+		}
+	}
+}
+
+kc_fund_concord_mediation = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+		country_exists = c:JAP
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			OR = {
+				leader_country ?= {
+					this = scope:actor
+				}
+				scope:actor = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			var:kc_concord_cohesion <= 98
+			custom_tooltip = {
+				text = kc_concord_fiscal_action_ready_tt
+				NOT = {
+					has_variable = kc_concord_fiscal_action_cooldown
+				}
+			}
+			custom_tooltip = {
+				text = kc_concord_mediation_funds_tt
+				gold >= kc_treasury_six_month_cost
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			OR = {
+				leader_country ?= {
+					this = scope:actor
+				}
+				scope:actor = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_fund_concord_mediation_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = {
+					value = kc_treasury_six_month_cost
+					multiply = -1
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 2
+				}
+				set_variable = {
+					name = kc_concord_fiscal_action_cooldown
+					value = yes
+					years = 1
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_treasury_six_month_cost } } scope:recipient = { var:kc_concord_cohesion < 70 } }
+			add = 1100
+		}
+	}
+}
+
+# During an active law ballot, JAP may spend political capital to make its
+# weighted vote decisive. The resolution itself reads and displays the bonus,
+# and clears it as soon as that ballot passes or fails.
+kc_distribute_council_patronage = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = never
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			resolution_is_active = resolution:policy_vote
+			var:kc_concord_cohesion >= 5
+		}
+		scope:actor = {
+			NOT = {
+				has_variable = kc_council_patronage_active
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			resolution_is_active = resolution:policy_vote
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_distribute_council_patronage_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = -5
+				}
+			}
+			scope:actor = {
+				set_variable = {
+					name = kc_council_patronage_active
+					value = yes
+					years = 1
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = -1000
+	}
+}
+
+# These actions deliberately remain available regardless of the opening
+# preparation choice. The opening choice discounts one program, but a failed
+# law vote can never lock the player into an impossible route.
+
+kc_complete_unquiet_peace_constabulary = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			any_active_disaster = {
+				disaster_type = disaster_type:kc_unquiet_peace
+			}
+			NOT = {
+				has_variable = kc_unquiet_peace_program_completed
+			}
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_unquiet_peace_common_arsenals_required_tt
+				international_organization_has_policy = policy:kc_common_arsenals_policy
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_constabulary_funds_tt
+				OR = {
+					AND = {
+						scope:actor = {
+							has_variable = kc_unquiet_peace_constabulary_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 9
+						}
+					}
+					gold >= {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = 12
+					}
+				}
+			}
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_unquiet_peace_five_years_required_tt
+				NOT = {
+					has_variable = kc_unquiet_peace_minimum_term
+				}
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_muster_levels_required_tt
+				capital ?= {
+					location_building_level = {
+						building_type = building_type:kc_concord_muster_office
+						value >= 3
+					}
+				}
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_regulars_required_tt
+				regular_army_size >= 2.5
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_complete_unquiet_peace_constabulary_effect_tt
+		hidden_effect = {
+			scope:actor = {
+				set_variable = {
+					name = kc_unquiet_peace_constabulary_path
+					value = yes
+				}
+				set_variable = {
+					name = kc_unquiet_peace_program_completed
+					value = yes
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:actor = { has_variable = kc_unquiet_peace_constabulary_preparation } }
+			add = 1100
+		}
+	}
+}
+
+kc_complete_unquiet_peace_network = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			any_active_disaster = {
+				disaster_type = disaster_type:kc_unquiet_peace
+			}
+			NOT = {
+				has_variable = kc_unquiet_peace_program_completed
+			}
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_unquiet_peace_road_law_required_tt
+				OR = {
+					international_organization_has_policy = policy:kc_shared_road_fund_policy
+					international_organization_has_policy = policy:kc_central_kaido_assessment_policy
+				}
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_network_funds_tt
+				OR = {
+					AND = {
+						scope:actor = {
+							has_variable = kc_unquiet_peace_network_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 6
+						}
+					}
+					gold >= {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = 9
+					}
+				}
+			}
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_unquiet_peace_five_years_required_tt
+				NOT = {
+					has_variable = kc_unquiet_peace_minimum_term
+				}
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_secured_locations_required_tt
+				any_owned_location = {
+					OR = {
+						any_buildings_in_location = {
+							building_category = defense_category
+							building_level > 0
+						}
+						any_buildings_in_location = {
+							building_type = building_type:kc_kaido_post_station
+							building_level > 0
+						}
+					}
+					count >= 12
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_complete_unquiet_peace_network_effect_tt
+		hidden_effect = {
+			scope:actor = {
+				set_variable = {
+					name = kc_unquiet_peace_network_path
+					value = yes
+				}
+				set_variable = {
+					name = kc_unquiet_peace_program_completed
+					value = yes
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:actor = { has_variable = kc_unquiet_peace_network_preparation } }
+			add = 1100
+		}
+	}
+}
+
+kc_complete_unquiet_peace_watches = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			any_active_disaster = {
+				disaster_type = disaster_type:kc_unquiet_peace
+			}
+			NOT = {
+				has_variable = kc_unquiet_peace_program_completed
+			}
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_unquiet_peace_retinue_law_required_tt
+				OR = {
+					international_organization_has_policy = policy:kc_house_retinues_policy
+					international_organization_has_policy = policy:kc_registered_retinues_policy
+				}
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_cohesion_required_tt
+				var:kc_concord_cohesion >= 60
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_watch_houses_required_tt
+				any_international_organization_member = {
+					has_reform = government_reform:kc_chartered_buke_house
+					OR = {
+						any_owned_foreign_building = {
+							building_type = building_type:kc_kaido_post_station
+							building_level > 0
+						}
+						any_owned_foreign_building = {
+							building_type = building_type:kc_kaisho
+							building_level > 0
+						}
+					}
+					count >= 24
+				}
+			}
+			custom_tooltip = {
+				text = kc_unquiet_peace_watches_funds_tt
+				OR = {
+					AND = {
+						scope:actor = {
+							has_variable = kc_unquiet_peace_watches_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 3
+						}
+					}
+					gold >= {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = 6
+					}
+				}
+			}
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_unquiet_peace_five_years_required_tt
+				NOT = {
+					has_variable = kc_unquiet_peace_minimum_term
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_complete_unquiet_peace_watches_effect_tt
+		hidden_effect = {
+			scope:actor = {
+				set_variable = {
+					name = kc_unquiet_peace_watches_path
+					value = yes
+				}
+				set_variable = {
+					name = kc_unquiet_peace_program_completed
+					value = yes
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:actor = { has_variable = kc_unquiet_peace_watches_preparation } }
+			add = 1100
+		}
+	}
+}
+
+# The Great Reckoning preparations influence votes and reduce requirements,
+# but never remove any of these three settlement actions from the player.
+
+kc_complete_great_reckoning_guarantees = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			any_active_disaster = {
+				disaster_type = disaster_type:kc_great_reckoning
+			}
+			NOT = {
+				has_variable = kc_great_reckoning_program_completed
+			}
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_great_reckoning_customary_assessments_required_tt
+				international_organization_has_policy = policy:kc_customary_assessments_policy
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_senior_guarantors_required_tt
+				OR = {
+					AND = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_guarantees_preparation
+						}
+						"num_countries_with_special_status(special_status:kc_senior_chartered_house)" >= 6
+					}
+					"num_countries_with_special_status(special_status:kc_senior_chartered_house)" >= 8
+				}
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_guarantees_cohesion_required_tt
+				var:kc_concord_cohesion >= 70
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_guarantees_funds_tt
+				OR = {
+					AND = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_guarantees_preparation
+						}
+						international_organization_has_policy = policy:kc_house_port_privileges_policy
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 1
+						}
+					}
+					AND = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_guarantees_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 3
+						}
+					}
+					AND = {
+						international_organization_has_policy = policy:kc_house_port_privileges_policy
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 4
+						}
+					}
+					gold >= {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = 6
+					}
+				}
+			}
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_great_reckoning_seven_years_required_tt
+				NOT = {
+					has_variable = kc_great_reckoning_minimum_term
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_complete_great_reckoning_guarantees_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				if = {
+					limit = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_guarantees_preparation
+						}
+						international_organization_has_policy = policy:kc_house_port_privileges_policy
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -1
+					}
+				}
+				else_if = {
+					limit = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_guarantees_preparation
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -3
+					}
+				}
+				else_if = {
+					limit = {
+						international_organization_has_policy = policy:kc_house_port_privileges_policy
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -4
+					}
+				}
+				else = {
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -6
+					}
+				}
+			}
+			scope:actor = {
+				set_variable = {
+					name = kc_great_reckoning_guarantees_path
+					value = yes
+				}
+				set_variable = {
+					name = kc_great_reckoning_program_completed
+					value = yes
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:actor = { has_variable = kc_great_reckoning_guarantees_preparation } }
+			add = 1100
+		}
+	}
+}
+
+kc_complete_great_reckoning_registered = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			any_active_disaster = {
+				disaster_type = disaster_type:kc_great_reckoning
+			}
+			NOT = {
+				has_variable = kc_great_reckoning_program_completed
+			}
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_great_reckoning_registered_cadasters_required_tt
+				international_organization_has_policy = policy:kc_registered_cadasters_policy
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_registered_cohesion_required_tt
+				var:kc_concord_cohesion >= 55
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_registered_funds_tt
+				OR = {
+					AND = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_register_preparation
+						}
+						international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 5
+						}
+					}
+					AND = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_register_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 7
+						}
+					}
+					AND = {
+						international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 8
+						}
+					}
+					gold >= {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = 10
+					}
+				}
+			}
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_great_reckoning_seven_years_required_tt
+				NOT = {
+					has_variable = kc_great_reckoning_minimum_term
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_complete_great_reckoning_registered_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				if = {
+					limit = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_register_preparation
+						}
+						international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -5
+					}
+				}
+				else_if = {
+					limit = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_register_preparation
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -7
+					}
+				}
+				else_if = {
+					limit = {
+						international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -8
+					}
+				}
+				else = {
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -10
+					}
+				}
+			}
+			scope:actor = {
+				set_variable = {
+					name = kc_great_reckoning_registered_path
+					value = yes
+				}
+				set_variable = {
+					name = kc_great_reckoning_program_completed
+					value = yes
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:actor = { has_variable = kc_great_reckoning_register_preparation } }
+			add = 1100
+		}
+	}
+}
+
+kc_complete_great_reckoning_common = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = yes
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			any_active_disaster = {
+				disaster_type = disaster_type:kc_great_reckoning
+			}
+			NOT = {
+				has_variable = kc_great_reckoning_program_completed
+			}
+		}
+		exists = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_great_reckoning_common_kenchi_required_tt
+				international_organization_has_policy = policy:kc_common_kenchi_policy
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_common_cohesion_required_tt
+				var:kc_concord_cohesion >= 35
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_common_funds_tt
+				OR = {
+					AND = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_public_preparation
+						}
+						international_organization_has_policy = policy:kc_concord_maritime_board_policy
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 10
+						}
+					}
+					AND = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_public_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 12
+						}
+					}
+					AND = {
+						international_organization_has_policy = policy:kc_concord_maritime_board_policy
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 13
+						}
+					}
+					gold >= {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = 15
+					}
+				}
+			}
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_great_reckoning_seven_years_required_tt
+				NOT = {
+					has_variable = kc_great_reckoning_minimum_term
+				}
+			}
+			custom_tooltip = {
+				text = kc_great_reckoning_ledger_levels_required_tt
+				capital ?= {
+					location_building_level = {
+						building_type = building_type:kc_concord_ledger_office
+						value >= 3
+					}
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_complete_great_reckoning_common_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				if = {
+					limit = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_public_preparation
+						}
+						international_organization_has_policy = policy:kc_concord_maritime_board_policy
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -10
+					}
+				}
+				else_if = {
+					limit = {
+						scope:actor = {
+							has_variable = kc_great_reckoning_public_preparation
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -12
+					}
+				}
+				else_if = {
+					limit = {
+						international_organization_has_policy = policy:kc_concord_maritime_board_policy
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -13
+					}
+				}
+				else = {
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -15
+					}
+				}
+			}
+			scope:actor = {
+				set_variable = {
+					name = kc_great_reckoning_common_path
+					value = yes
+				}
+				set_variable = {
+					name = kc_great_reckoning_program_completed
+					value = yes
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:actor = { has_variable = kc_great_reckoning_public_preparation } }
+			add = 1100
+		}
+	}
+}
+
+# These expenditures are invoked only by the Concord's Treasury tab. Keeping
+# them out of the ordinary GUI list prevents the Overview from becoming an
+# ever-growing catalogue of fiscal programs.
+
+kc_commission_common_works = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+		country_exists = c:JAP
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_great_reckoning_completed
+		}
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			OR = {
+				leader_country ?= {
+					this = scope:actor
+				}
+				scope:actor = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			custom_tooltip = {
+				text = kc_common_works_ready_tt
+				NOT = {
+					has_variable = kc_common_works_cooldown
+				}
+			}
+			custom_tooltip = {
+				text = kc_common_works_funds_tt
+				gold >= {
+					value = var:kc_common_works_next_cost
+				}
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_commission_common_works_effect_tt
+		scope:recipient = {
+			show_as_tooltip = {
+				every_international_organization_member = {
+					add_country_modifier = {
+						modifier = kc_concord_common_works
+						years = 5
+						mode = replace
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = {
+					value = var:kc_common_works_next_cost
+					multiply = -1
+				}
+				set_variable = {
+					name = kc_common_works_cooldown
+					value = yes
+					years = 5
+				}
+				every_international_organization_member = {
+					add_country_modifier = {
+						modifier = kc_concord_common_works
+						years = 5
+						mode = replace
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_variable = kc_common_works_licenses
+						}
+					}
+					set_variable = {
+						name = kc_common_works_licenses
+						value = 5
+					}
+				}
+				else = {
+					change_variable = {
+						name = kc_common_works_licenses
+						add = 5
+					}
+				}
+				change_variable = {
+					name = kc_common_works_licenses_issued
+					add = 5
+				}
+				set_variable = {
+					name = kc_common_works_licenses_available
+					value = yes
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = var:kc_common_works_next_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+kc_stabilize_house_credit = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+		country_exists = c:JAP
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_great_reckoning_completed
+		}
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			OR = {
+				leader_country ?= {
+					this = scope:actor
+				}
+				scope:actor = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			custom_tooltip = {
+				text = kc_stabilize_credit_arrears_tt
+				var:kc_last_assessment_arrears >= 1
+			}
+			custom_tooltip = {
+				text = kc_stabilize_credit_ready_tt
+				NOT = {
+					has_variable = kc_stabilize_credit_cooldown
+				}
+			}
+			custom_tooltip = {
+				text = kc_stabilize_credit_funds_tt
+				gold >= kc_stabilize_credit_cost
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_stabilize_house_credit_effect_tt
+		scope:recipient = {
+			show_as_tooltip = {
+				every_international_organization_member = {
+					limit = { has_reform = government_reform:kc_chartered_buke_house }
+					add_country_modifier = {
+						modifier = kc_concord_credit_backstop
+						years = 3
+						mode = replace
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = {
+					value = kc_stabilize_credit_cost
+					multiply = -1
+				}
+				set_variable = {
+					name = kc_last_assessment_arrears
+					value = 0
+				}
+				set_variable = {
+					name = kc_stabilize_credit_cooldown
+					value = yes
+					years = 3
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 2
+				}
+				every_international_organization_member = {
+					remove_country_modifier = kc_concord_assessment_arrears
+					if = {
+						limit = {
+							has_reform = government_reform:kc_chartered_buke_house
+						}
+						add_country_modifier = {
+							modifier = kc_concord_credit_backstop
+							years = 3
+							mode = replace
+						}
+					}
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_stabilize_credit_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+# Five-year food-security program unlocked once the Concord has enough common
+# procedure to inspect warehouses and coordinate purchases across House lines.
+
+kc_maintain_common_granaries = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_treasury_granaries_unlock_tt
+				var:kc_concord_entrenchment >= 20
+			}
+			custom_tooltip = {
+				text = kc_treasury_granaries_ready_tt
+				NOT = { has_variable = kc_treasury_granaries_cooldown }
+			}
+			custom_tooltip = {
+				text = kc_treasury_granaries_funds_tt
+				gold >= kc_treasury_granary_cost
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+
+	effect = {
+		custom_tooltip = kc_maintain_common_granaries_effect_tt
+		scope:recipient = {
+			show_as_tooltip = {
+				every_international_organization_member = {
+					add_country_modifier = {
+						modifier = kc_treasury_common_granaries
+						years = 5
+						mode = replace
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = {
+					value = kc_treasury_granary_cost
+					multiply = -1
+				}
+				set_variable = {
+					name = kc_treasury_granaries_cooldown
+					value = yes
+					years = 5
+				}
+				every_international_organization_member = {
+					add_country_modifier = {
+						modifier = kc_treasury_common_granaries
+						years = 5
+						mode = replace
+					}
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_treasury_granary_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+# The post-Unquiet-Peace security appropriation supports Japan's permanent
+# forces while subsidizing only the registered manpower and sailors retained
+# by the Houses. It never overrides the active arms or maritime law.
+
+kc_fund_common_security = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_treasury_security_unlock_tt
+				has_variable = kc_unquiet_peace_completed
+			}
+			custom_tooltip = {
+				text = kc_treasury_security_ready_tt
+				NOT = { has_variable = kc_treasury_security_cooldown }
+			}
+			custom_tooltip = {
+				text = kc_treasury_security_funds_tt
+				gold >= kc_treasury_security_cost
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+
+	effect = {
+		custom_tooltip = kc_fund_common_security_effect_tt
+		c:JAP = {
+			show_as_tooltip = {
+				add_country_modifier = {
+					modifier = kc_treasury_common_security_state
+					years = 5
+					mode = replace
+				}
+			}
+		}
+		scope:recipient = {
+			show_as_tooltip = {
+				every_international_organization_member = {
+					limit = { has_reform = government_reform:kc_chartered_buke_house }
+					add_country_modifier = {
+						modifier = kc_treasury_registered_security_house
+						years = 5
+						mode = replace
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = {
+					value = kc_treasury_security_cost
+					multiply = -1
+				}
+				set_variable = {
+					name = kc_treasury_security_cooldown
+					value = yes
+					years = 5
+				}
+			}
+			c:JAP = {
+				add_country_modifier = {
+					modifier = kc_treasury_common_security_state
+					years = 5
+					mode = replace
+				}
+			}
+			scope:recipient = {
+				every_international_organization_member = {
+					limit = { has_reform = government_reform:kc_chartered_buke_house }
+					add_country_modifier = {
+						modifier = kc_treasury_registered_security_house
+						years = 5
+						mode = replace
+					}
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_treasury_security_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+# Maritime underwriting becomes available with the first maritime law. It
+# supports commercial and patrol shipping without granting any House a right
+# to ignore the centralized fleet restrictions of the current policy.
+
+kc_underwrite_maritime_ventures = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = {
+					tag = JAP
+					has_reform = government_reform:kc_kitayama_concordate
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+		}
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = {
+				text = kc_treasury_maritime_unlock_tt
+				var:kc_concord_entrenchment >= 60
+			}
+			custom_tooltip = {
+				text = kc_treasury_maritime_ready_tt
+				NOT = { has_variable = kc_treasury_maritime_cooldown }
+			}
+			custom_tooltip = {
+				text = kc_treasury_maritime_funds_tt
+				gold >= kc_treasury_maritime_cost
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+
+	effect = {
+		custom_tooltip = kc_underwrite_maritime_ventures_effect_tt
+		scope:recipient = {
+			show_as_tooltip = {
+				every_international_organization_member = {
+					limit = {
+						OR = {
+							tag = JAP
+							has_reform = government_reform:kc_chartered_buke_house
+						}
+					}
+					add_country_modifier = {
+						modifier = kc_treasury_maritime_underwriting
+						years = 5
+						mode = replace
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = {
+					value = kc_treasury_maritime_cost
+					multiply = -1
+				}
+				set_variable = {
+					name = kc_treasury_maritime_cooldown
+					value = yes
+					years = 5
+				}
+				every_international_organization_member = {
+					limit = {
+						OR = {
+							tag = JAP
+							has_reform = government_reform:kc_chartered_buke_house
+						}
+					}
+					add_country_modifier = {
+						modifier = kc_treasury_maritime_underwriting
+						years = 5
+						mode = replace
+					}
+				}
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_treasury_maritime_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# Five-stage great works. Four projects authorize staffed local building
+# networks; each stage raises their level cap and later stages require an
+# operating portion of the network. Kaido and Tunnels remain route-wide works.
+# The first three belong to the mature first-century Concord. The remaining
+# three are fully scaffolded but require Phase 2 content to set their unlock.
+
+kc_project_grand_irrigation = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+		scope:actor = {
+			OR = {
+				is_leader_of_international_organization = international_organization:kc_kitayama_concord
+				AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord }
+			}
+		}
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_irrigation_unlock_tt var:kc_concord_entrenchment >= 75 }
+			custom_tooltip = { text = kc_project_irrigation_available_tt var:kc_project_irrigation_stage < 5 }
+			trigger_if = {
+				limit = { var:kc_project_irrigation_stage >= 1 var:kc_project_irrigation_stage < 2 }
+				custom_tooltip = { text = kc_project_irrigation_network_4_tt c:JAP ?= { total_effective_building_levels:kc_concord_irrigation_works >= 4 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_irrigation_stage >= 2 var:kc_project_irrigation_stage < 3 }
+				custom_tooltip = { text = kc_project_irrigation_network_10_tt c:JAP ?= { total_effective_building_levels:kc_concord_irrigation_works >= 10 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_irrigation_stage >= 3 var:kc_project_irrigation_stage < 4 }
+				custom_tooltip = { text = kc_project_irrigation_network_20_tt c:JAP ?= { total_effective_building_levels:kc_concord_irrigation_works >= 20 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_irrigation_stage >= 4 var:kc_project_irrigation_stage < 5 }
+				custom_tooltip = { text = kc_project_irrigation_network_35_tt c:JAP ?= { total_effective_building_levels:kc_concord_irrigation_works >= 35 } }
+			}
+			custom_tooltip = { text = kc_project_irrigation_funds_tt gold >= kc_project_irrigation_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_irrigation_effect_tt
+		hidden_effect = {
+			scope:recipient = { add_gold = { value = kc_project_irrigation_cost multiply = -1 } }
+			scope:recipient = { change_variable = { name = kc_project_irrigation_stage add = 1 } }
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_irrigation_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+kc_project_national_kaido = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+		scope:actor = { OR = { is_leader_of_international_organization = international_organization:kc_kitayama_concord AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord } } }
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_kaido_unlock_tt var:kc_concord_entrenchment >= 85 }
+			custom_tooltip = { text = kc_project_kaido_available_tt var:kc_project_kaido_stage < 5 }
+			custom_tooltip = { text = kc_project_kaido_funds_tt gold >= kc_project_kaido_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_kaido_effect_tt
+		c:JAP = {
+			show_as_tooltip = { kc_preview_treasury_project_upgrade_effect = { stage = kc_project_kaido_stage tier_1 = kc_project_kaido_spine_1 tier_2 = kc_project_kaido_spine_2 tier_3 = kc_project_kaido_spine_3 tier_4 = kc_project_kaido_spine_4 tier_5 = kc_project_kaido_spine_5 } }
+			capital.province = {
+				show_as_tooltip = { kc_preview_treasury_province_project_upgrade_effect = { stage = kc_project_kaido_stage tier_1 = kc_project_kaido_spine_province_1 tier_2 = kc_project_kaido_spine_province_2 tier_3 = kc_project_kaido_spine_province_3 tier_4 = kc_project_kaido_spine_province_4 tier_5 = kc_project_kaido_spine_province_5 } }
+			}
+		}
+		hidden_effect = {
+			scope:recipient = { add_gold = { value = kc_project_kaido_cost multiply = -1 } }
+			c:JAP = { kc_apply_treasury_project_upgrade_effect = { stage = kc_project_kaido_stage tier_1 = kc_project_kaido_spine_1 tier_2 = kc_project_kaido_spine_2 tier_3 = kc_project_kaido_spine_3 tier_4 = kc_project_kaido_spine_4 tier_5 = kc_project_kaido_spine_5 } }
+			region:japan_region = {
+				every_area_in_region = {
+					every_province_in_area = {
+						kc_apply_treasury_province_project_upgrade_effect = { stage = kc_project_kaido_stage tier_1 = kc_project_kaido_spine_province_1 tier_2 = kc_project_kaido_spine_province_2 tier_3 = kc_project_kaido_spine_province_3 tier_4 = kc_project_kaido_spine_province_4 tier_5 = kc_project_kaido_spine_province_5 }
+					}
+				}
+			}
+			scope:recipient = { change_variable = { name = kc_project_kaido_stage add = 1 } }
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_kaido_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+kc_project_inland_sea_harbors = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+		scope:actor = { OR = { is_leader_of_international_organization = international_organization:kc_kitayama_concord AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord } } }
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_harbors_unlock_tt var:kc_concord_entrenchment >= 95 }
+			custom_tooltip = { text = kc_project_harbors_available_tt var:kc_project_harbors_stage < 5 }
+			trigger_if = {
+				limit = { var:kc_project_harbors_stage >= 1 var:kc_project_harbors_stage < 2 }
+				custom_tooltip = { text = kc_project_harbors_network_3_tt c:JAP ?= { total_effective_building_levels:kc_seto_harbor_works >= 3 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_harbors_stage >= 2 var:kc_project_harbors_stage < 3 }
+				custom_tooltip = { text = kc_project_harbors_network_7_tt c:JAP ?= { total_effective_building_levels:kc_seto_harbor_works >= 7 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_harbors_stage >= 3 var:kc_project_harbors_stage < 4 }
+				custom_tooltip = { text = kc_project_harbors_network_12_tt c:JAP ?= { total_effective_building_levels:kc_seto_harbor_works >= 12 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_harbors_stage >= 4 var:kc_project_harbors_stage < 5 }
+				custom_tooltip = { text = kc_project_harbors_network_20_tt c:JAP ?= { total_effective_building_levels:kc_seto_harbor_works >= 20 } }
+			}
+			custom_tooltip = { text = kc_project_harbors_funds_tt gold >= kc_project_harbors_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_harbors_effect_tt
+		c:JAP = {
+			show_as_tooltip = { kc_preview_treasury_project_upgrade_effect = { stage = kc_project_harbors_stage tier_1 = kc_project_inland_sea_harbors_1 tier_2 = kc_project_inland_sea_harbors_2 tier_3 = kc_project_inland_sea_harbors_3 tier_4 = kc_project_inland_sea_harbors_4 tier_5 = kc_project_inland_sea_harbors_5 } }
+		}
+		hidden_effect = {
+			scope:recipient = { add_gold = { value = kc_project_harbors_cost multiply = -1 } }
+			c:JAP = { kc_apply_treasury_project_upgrade_effect = { stage = kc_project_harbors_stage tier_1 = kc_project_inland_sea_harbors_1 tier_2 = kc_project_inland_sea_harbors_2 tier_3 = kc_project_inland_sea_harbors_3 tier_4 = kc_project_inland_sea_harbors_4 tier_5 = kc_project_inland_sea_harbors_5 } }
+			scope:recipient = { change_variable = { name = kc_project_harbors_stage add = 1 } }
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_harbors_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+# Post-Phase-2 harbor extensions. These grant no direct national modifier: they
+# widen the places where Japan may construct and maintain Seto Harbor Works.
+
+kc_project_outer_port_charters = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_late_maritime_works_available
+			NOT = { has_variable = kc_outer_port_charters_unlocked }
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = { OR = { is_leader_of_international_organization = international_organization:kc_kitayama_concord AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord } } }
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_late_maritime_settlement_tt c:JAP ?= { has_variable = kc_regulation_open_seas_completed } }
+			custom_tooltip = { text = kc_project_harbor_stage_v_tt var:kc_project_harbors_stage >= 5 }
+			custom_tooltip = { text = kc_project_outer_port_charters_funds_tt gold >= kc_project_outer_port_charters_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_outer_port_charters_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = { value = kc_project_outer_port_charters_cost multiply = -1 }
+				set_variable = { name = kc_outer_port_charters_unlocked value = yes }
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_outer_port_charters_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+kc_project_southern_ocean_harbor_line = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_late_maritime_works_available
+			has_variable = kc_outer_port_charters_unlocked
+			NOT = { has_variable = kc_southern_ocean_harbor_line_unlocked }
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = { OR = { is_leader_of_international_organization = international_organization:kc_kitayama_concord AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord } } }
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_outer_port_charters_required_tt has_variable = kc_outer_port_charters_unlocked }
+			custom_tooltip = { text = kc_project_outer_harbor_network_30_tt c:JAP ?= { total_effective_building_levels:kc_seto_harbor_works >= 30 } }
+			custom_tooltip = { text = kc_project_southern_ocean_line_funds_tt gold >= kc_project_southern_ocean_line_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_southern_ocean_harbor_line_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = { value = kc_project_southern_ocean_line_cost multiply = -1 }
+				set_variable = { name = kc_southern_ocean_harbor_line_unlocked value = yes }
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_southern_ocean_line_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+# Phase 2 projects. Their actions and modifiers are complete, but the normal
+# campaign cannot see them until later content sets the shared unlock variable.
+
+kc_project_national_floodworks = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= { has_variable = kc_phase_2_great_projects_unlocked NOT = { has_variable = kc_concord_collapsed } }
+		scope:actor = { OR = { is_leader_of_international_organization = international_organization:kc_kitayama_concord AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord } } }
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_phase_2_unlock_tt has_variable = kc_phase_2_great_projects_unlocked }
+			custom_tooltip = { text = kc_project_floodworks_available_tt var:kc_project_floodworks_stage < 5 }
+			trigger_if = {
+				limit = { var:kc_project_floodworks_stage >= 1 var:kc_project_floodworks_stage < 2 }
+				custom_tooltip = { text = kc_project_floodworks_network_5_tt c:JAP ?= { total_effective_building_levels:kc_concord_floodworks >= 5 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_floodworks_stage >= 2 var:kc_project_floodworks_stage < 3 }
+				custom_tooltip = { text = kc_project_floodworks_network_12_tt c:JAP ?= { total_effective_building_levels:kc_concord_floodworks >= 12 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_floodworks_stage >= 3 var:kc_project_floodworks_stage < 4 }
+				custom_tooltip = { text = kc_project_floodworks_network_25_tt c:JAP ?= { total_effective_building_levels:kc_concord_floodworks >= 25 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_floodworks_stage >= 4 var:kc_project_floodworks_stage < 5 }
+				custom_tooltip = { text = kc_project_floodworks_network_40_tt c:JAP ?= { total_effective_building_levels:kc_concord_floodworks >= 40 } }
+			}
+			custom_tooltip = { text = kc_project_floodworks_funds_tt gold >= kc_project_floodworks_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_floodworks_effect_tt
+		hidden_effect = {
+			scope:recipient = { add_gold = { value = kc_project_floodworks_cost multiply = -1 } }
+			scope:recipient = { change_variable = { name = kc_project_floodworks_stage add = 1 } }
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_floodworks_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+kc_project_transmontane_tunnels = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= { has_variable = kc_phase_2_great_projects_unlocked NOT = { has_variable = kc_concord_collapsed } }
+		scope:actor = { OR = { is_leader_of_international_organization = international_organization:kc_kitayama_concord AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord } } }
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_phase_2_unlock_tt has_variable = kc_phase_2_great_projects_unlocked }
+			custom_tooltip = { text = kc_project_tunnels_available_tt var:kc_project_tunnels_stage < 5 }
+			custom_tooltip = { text = kc_project_tunnels_funds_tt gold >= kc_project_tunnels_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_tunnels_effect_tt
+		c:JAP = { show_as_tooltip = { kc_preview_treasury_project_upgrade_effect = { stage = kc_project_tunnels_stage tier_1 = kc_project_mountain_tunnels_1 tier_2 = kc_project_mountain_tunnels_2 tier_3 = kc_project_mountain_tunnels_3 tier_4 = kc_project_mountain_tunnels_4 tier_5 = kc_project_mountain_tunnels_5 } } }
+		hidden_effect = {
+			scope:recipient = { add_gold = { value = kc_project_tunnels_cost multiply = -1 } }
+			c:JAP = { kc_apply_treasury_project_upgrade_effect = { stage = kc_project_tunnels_stage tier_1 = kc_project_mountain_tunnels_1 tier_2 = kc_project_mountain_tunnels_2 tier_3 = kc_project_mountain_tunnels_3 tier_4 = kc_project_mountain_tunnels_4 tier_5 = kc_project_mountain_tunnels_5 } }
+			scope:recipient = { change_variable = { name = kc_project_tunnels_stage add = 1 } }
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_tunnels_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+kc_project_national_urban_waterworks = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= { has_variable = kc_phase_2_great_projects_unlocked NOT = { has_variable = kc_concord_collapsed } }
+		scope:actor = { OR = { is_leader_of_international_organization = international_organization:kc_kitayama_concord AND = { tag = JAP has_reform = government_reform:kc_kitayama_concordate is_member_of_international_organization = international_organization:kc_kitayama_concord } } }
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_phase_2_unlock_tt has_variable = kc_phase_2_great_projects_unlocked }
+			custom_tooltip = { text = kc_project_waterworks_available_tt var:kc_project_waterworks_stage < 5 }
+			trigger_if = {
+				limit = { var:kc_project_waterworks_stage >= 1 var:kc_project_waterworks_stage < 2 }
+				custom_tooltip = { text = kc_project_waterworks_network_3_tt c:JAP ?= { total_effective_building_levels:kc_urban_water_bureau >= 3 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_waterworks_stage >= 2 var:kc_project_waterworks_stage < 3 }
+				custom_tooltip = { text = kc_project_waterworks_network_8_tt c:JAP ?= { total_effective_building_levels:kc_urban_water_bureau >= 8 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_waterworks_stage >= 3 var:kc_project_waterworks_stage < 4 }
+				custom_tooltip = { text = kc_project_waterworks_network_15_tt c:JAP ?= { total_effective_building_levels:kc_urban_water_bureau >= 15 } }
+			}
+			trigger_if = {
+				limit = { var:kc_project_waterworks_stage >= 4 var:kc_project_waterworks_stage < 5 }
+				custom_tooltip = { text = kc_project_waterworks_network_25_tt c:JAP ?= { total_effective_building_levels:kc_urban_water_bureau >= 25 } }
+			}
+			custom_tooltip = { text = kc_project_waterworks_funds_tt gold >= kc_project_waterworks_cost }
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	effect = {
+		custom_tooltip = kc_project_waterworks_effect_tt
+		hidden_effect = {
+			scope:recipient = { add_gold = { value = kc_project_waterworks_cost multiply = -1 } }
+			scope:recipient = { change_variable = { name = kc_project_waterworks_stage add = 1 } }
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_waterworks_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+kc_project_charter_megalopolis = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 3
+	automation_tick = never
+
+	potential = {
+		exists = international_organization:kc_kitayama_concord
+		country_exists = c:JAP
+		international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+	}
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			custom_tooltip = { text = kc_project_megalopolis_unlock_tt var:kc_concord_entrenchment >= 100 }
+			custom_tooltip = { text = kc_project_megalopolis_available_tt NOT = { has_variable = kc_project_megalopolis_completed } }
+			custom_tooltip = { text = kc_project_megalopolis_funds_tt gold >= kc_project_megalopolis_cost }
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_project_megalopolis_location_exists_tt
+				any_owned_location = {
+					population >= 400
+					is_city = yes
+					NOT = { has_location_modifier = kc_project_metropolitan_charter }
+				}
+			}
+		}
+	}
+	select_trigger = {
+		looking_for_a = international_organization source = actor target_flag = recipient
+		name = "choose_international_organization" none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = { international_organization_type = international_organization_type:kc_kitayama_concord }
+		enabled = { international_organization_type = international_organization_type:kc_kitayama_concord }
+	}
+	select_trigger = {
+		looking_for_a = location
+		source = actor
+		target_flag = target
+		name = "kc_select_metropolitan_location"
+		none_available_msg_key = "trigger_no_kc_metropolitan_location"
+		column = { data = name }
+		column = { data = population }
+		visible = { owner ?= scope:actor population >= 400 is_city = yes NOT = { has_location_modifier = kc_project_metropolitan_charter } }
+		enabled = { owner ?= scope:actor population >= 400 is_city = yes NOT = { has_location_modifier = kc_project_metropolitan_charter } }
+	}
+	effect = {
+		custom_tooltip = kc_project_megalopolis_effect_tt
+		scope:target ?= {
+			show_as_tooltip = {
+				change_location_rank = location_rank:megalopolis
+				add_location_modifier = { modifier = kc_project_metropolitan_charter years = -1 mode = replace }
+			}
+		}
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = { value = kc_project_megalopolis_cost multiply = -1 }
+				set_variable = { name = kc_project_megalopolis_completed value = yes }
+			}
+			scope:target ?= {
+				change_location_rank = location_rank:megalopolis
+				add_location_modifier = { modifier = kc_project_metropolitan_charter years = -1 mode = replace }
+			}
+		}
+	
+		if = {
+   limit = { scope:actor = { tag = JAP is_ai = yes } }
+   scope:actor = { set_variable = { name = kc_ai_japan_program_cooldown value = yes months = 3 } }
+  }
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_ordinary_spending_ready = yes } scope:recipient = { kc_ai_japan_treasury_can_spend = { cost = kc_project_megalopolis_cost } } scope:recipient = { var:kc_concord_cohesion >= 50 } }
+			add = 1100
+		}
+	}
+}
+
+# During The Fracturing Concord, JAP may subscribe six months of current
+# trade-and-tax income to the common reserve. This is a real transfer rather
+# than generated money and can be repeated after a six-month cooldown.
+
+kc_emergency_treasury_subscription = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 1
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_fracturing_concord_active
+		}
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			has_variable = kc_fracturing_concord_active
+			custom_tooltip = {
+				text = kc_emergency_subscription_ready_tt
+				NOT = {
+					has_variable = kc_emergency_subscription_cooldown
+				}
+			}
+		}
+		scope:actor = {
+			custom_tooltip = {
+				text = kc_emergency_subscription_funds_tt
+				gold >= kc_treasury_six_month_cost
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_emergency_treasury_subscription_effect_tt
+			hidden_effect = {
+			scope:actor = {
+				add_gold = {
+					value = kc_treasury_six_month_cost
+					multiply = -1
+				}
+			}
+			scope:recipient = {
+				add_gold = {
+					value = kc_treasury_six_month_cost
+				}
+				set_variable = {
+					name = kc_emergency_subscription_cooldown
+					value = yes
+					months = 6
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_active_concord = yes } scope:recipient = { gold < kc_treasury_six_month_cost } }
+			add = 1100
+		}
+	}
+}
+
+# Convert six months of common reserves into emergency mediation, reopening
+# council attendance and restoring six points of Cohesion every six months.
+
+kc_emergency_purchase_cohesion = {
+	type = internationalorganization
+	force_click_and_confirm_or_hold = yes
+	show_in_gui_list = no
+	show_message = no
+
+	ai_tick = monthly
+	ai_tick_frequency = 1
+	automation_tick = never
+
+	potential = {
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_fracturing_concord_active
+		}
+	}
+
+	allow = {
+		scope:recipient = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+			has_variable = kc_fracturing_concord_active
+			custom_tooltip = {
+				text = kc_emergency_cohesion_ready_tt
+				NOT = {
+					has_variable = kc_emergency_cohesion_cooldown
+				}
+			}
+			custom_tooltip = {
+				text = kc_emergency_cohesion_funds_tt
+				gold >= kc_treasury_six_month_cost
+			}
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		source = actor
+		target_flag = recipient
+		name = "choose_international_organization"
+		none_available_msg_key = "trigger_no_kc_concord_available"
+		column = { data = name }
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+	}
+
+	effect = {
+		custom_tooltip = kc_emergency_purchase_cohesion_effect_tt
+		hidden_effect = {
+			scope:recipient = {
+				add_gold = {
+					value = kc_treasury_six_month_cost
+					multiply = -1
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 6
+				}
+				set_variable = {
+					name = kc_emergency_cohesion_cooldown
+					value = yes
+					months = 6
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = -1000
+		if = {
+			limit = { scope:actor = { kc_ai_japan_active_concord = yes } }
+			add = 1100
+		}
+	}
+}
+
+

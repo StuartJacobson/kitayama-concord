@@ -1,0 +1,142 @@
+﻿kc_grant_southern_islands_access = {
+	save_scope_as = kc_southern_islands_holder
+	# The CB's declare check must already see this warrant when the effect adds
+	# the CB, otherwise EU5 discards it as immediately invalid.
+	set_variable = { name = kc_southern_islands_access_window value = yes days = 10950 }
+
+	# Retire every historical custodian before issuing Japan's finite warrant.
+	c:HSK ?= {
+		remove_colonial_claim = province_definition:east_taiwan_province
+		remove_colonial_claim = province_definition:north_taiwan_province
+		remove_colonial_claim = province_definition:south_taiwan_province
+		remove_colonial_claim = province_definition:west_taiwan_province
+	}
+	c:SOU ?= {
+		remove_colonial_claim = province_definition:east_taiwan_province
+		remove_colonial_claim = province_definition:north_taiwan_province
+		remove_colonial_claim = province_definition:south_taiwan_province
+		remove_colonial_claim = province_definition:west_taiwan_province
+	}
+	c:CHZ ?= {
+		remove_colonial_claim = province_definition:east_taiwan_province
+		remove_colonial_claim = province_definition:north_taiwan_province
+		remove_colonial_claim = province_definition:south_taiwan_province
+		remove_colonial_claim = province_definition:west_taiwan_province
+	}
+	area:taiwan_area = {
+		every_province_definition_in_area = {
+			scope:kc_southern_islands_holder = {
+				add_colonial_claim = {
+					province_definition = prev
+					reason = kc_southern_islands_survey_claim
+					category = exclusive
+				}
+			}
+		}
+	}
+	if = { limit = { exists = c:CHZ c:CHZ = { is_subject = no } } add_casus_belli = { target = c:CHZ type = casus_belli:kc_cb_southern_island_settlement } }
+	if = { limit = { exists = c:HKZ c:HKZ = { is_subject = no } } add_casus_belli = { target = c:HKZ type = casus_belli:kc_cb_southern_island_settlement } }
+	if = { limit = { exists = c:NZN c:NZN = { is_subject = no } } add_casus_belli = { target = c:NZN type = casus_belli:kc_cb_southern_island_settlement } }
+	set_variable = { name = kc_southern_islands_survey_completed value = yes }
+	remove_variable = kc_southern_islands_access_expired
+	set_variable = { name = kc_taiwan_safeguards_released value = yes }
+	# A scheduled cleanup is authoritative. The monthly pulse remains a save-
+	# safe fallback, but claim expiry no longer relies on a temporary variable
+	# being removed correctly by the engine.
+	set_variable = { name = kc_southern_islands_cleanup_scheduled value = yes }
+	trigger_event_silently = { id = kc_southern_islands.2 days = 10950 }
+}
+
+kc_expire_southern_islands_access = {
+	remove_variable = kc_southern_islands_access_window
+	remove_variable = kc_southern_islands_cleanup_scheduled
+	remove_colonial_claim = province_definition:east_taiwan_province
+	remove_colonial_claim = province_definition:north_taiwan_province
+	remove_colonial_claim = province_definition:south_taiwan_province
+	remove_colonial_claim = province_definition:west_taiwan_province
+	set_variable = { name = kc_southern_islands_access_expired value = yes }
+}
+
+kc_transfer_luzon_settlement_rights = {
+	save_scope_as = kc_philippine_claim_holder
+	area:luzon_area = {
+		every_province_definition_in_area = {
+			c:TDO ?= { remove_colonial_claim = prev }
+			scope:kc_philippine_claim_holder = { add_colonial_claim = { province_definition = prev reason = kc_luzon_compact_settlement_rights category = exclusive } }
+		}
+	}
+}
+
+kc_transfer_visayas_settlement_rights = {
+	save_scope_as = kc_philippine_claim_holder
+	area:visayas_area = {
+		every_province_definition_in_area = {
+			c:CEB ?= { remove_colonial_claim = prev }
+			scope:kc_philippine_claim_holder = { add_colonial_claim = { province_definition = prev reason = kc_visayas_compact_settlement_rights category = exclusive } }
+		}
+	}
+}
+
+kc_transfer_mindanao_settlement_rights = {
+	save_scope_as = kc_philippine_claim_holder
+	area:mindanao_area = {
+		every_province_definition_in_area = {
+			c:BTU ?= { remove_colonial_claim = prev }
+			scope:kc_philippine_claim_holder = { add_colonial_claim = { province_definition = prev reason = kc_mindanao_compact_settlement_rights category = exclusive } }
+		}
+	}
+}
+
+# Expects scope:kc_ryukyu_partner and preserves every directly administered
+# Japanese location in the Ryukyu area beneath the selected island government.
+kc_make_ryukyu_commercial_protectorate = {
+	scope:kc_ryukyu_partner = {
+		if = {
+			limit = { is_subject_of = root }
+			change_subject_type = subject_type:kc_commercial_protectorate
+		}
+		else = { make_subject_of = { target = root type = subject_type:kc_commercial_protectorate } }
+		set_variable = { name = kc_ryukyu_settlement_subject value = yes }
+	}
+	area:ryuukyuu_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_ryukyu_partner } }
+}
+
+kc_make_ryukyu_house_commission = {
+	set_variable = { name = kc_extraction_batch_creation_no_individual_cost value = yes }
+	scope:kc_ryukyu_partner = {
+		if = {
+			limit = { is_subject_of = root }
+			change_subject_type = subject_type:kc_chartered_extraction_commission
+		}
+		else = { make_subject_of = { target = root type = subject_type:kc_chartered_extraction_commission } }
+		set_variable = { name = kc_ryukyu_settlement_subject value = yes }
+	}
+	area:ryuukyuu_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_ryukyu_partner } }
+	remove_variable = kc_extraction_batch_creation_no_individual_cost
+}
+
+kc_create_ryukyu_commercial_protectorate = {
+	location:urasoe = {
+		create_country_from_location = {
+			overlord = root
+			subject_type = subject_type:kc_commercial_protectorate
+			save_scope_as = kc_ryukyu_partner
+		}
+	}
+	area:ryuukyuu_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_ryukyu_partner } }
+	scope:kc_ryukyu_partner = { set_variable = { name = kc_ryukyu_settlement_subject value = yes } }
+}
+
+kc_create_ryukyu_house_commission = {
+	set_variable = { name = kc_extraction_batch_creation_no_individual_cost value = yes }
+	location:urasoe = {
+		create_country_from_location = {
+			overlord = root
+			subject_type = subject_type:kc_chartered_extraction_commission
+			save_scope_as = kc_ryukyu_partner
+		}
+	}
+	area:ryuukyuu_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_ryukyu_partner } }
+	scope:kc_ryukyu_partner = { set_variable = { name = kc_ryukyu_settlement_subject value = yes } }
+	remove_variable = kc_extraction_batch_creation_no_individual_cost
+}

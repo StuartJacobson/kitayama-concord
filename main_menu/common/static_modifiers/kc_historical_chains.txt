@@ -1,0 +1,103 @@
+﻿kc_ming_court_sanctioned_trade = {
+	game_data = { category = country }
+	diplomatic_reputation = 1
+	monthly_legitimacy = 0.05
+}
+
+kc_ming_concord_tally_trade = {
+	game_data = { category = country }
+	trade_income = 0.05
+	global_merchant_capacity_modifier = 0.05
+}
+
+kc_ming_house_tally_trade = {
+	game_data = { category = country }
+	global_merchant_power = 0.08
+	trade_income = 0.03
+}
+
+kc_concord_outlives_founder = {
+	game_data = { category = country }
+	monthly_legitimacy = 0.08
+	global_estate_satisfaction_recovery = 0.001
+}
+
+kc_founder_constitutional_revision = {
+	game_data = { category = country }
+	change_policy_cost_modifier = -0.05
+	research_speed_modifier = 0.03
+}
+
+kc_founder_house_bargains = {
+	game_data = { category = country }
+	trade_income = 0.04
+	global_merchant_power = 0.04
+}
+
+kc_tsushima_concord_patrols = {
+	game_data = { category = country }
+	navy_maintenance_efficiency = 0.08
+	diplomatic_reputation = 1
+}
+
+kc_tsushima_licensed_convoys = {
+	game_data = { category = country }
+	global_merchant_power = 0.06
+	navy_maintenance_efficiency = 0.05
+}
+
+kc_tsushima_house_patrols = {
+	game_data = { category = country }
+	trade_income = 0.04
+	global_merchant_capacity_modifier = 0.05
+}
+
+kc_tsushima_maritime_disorder = {
+	game_data = { category = country }
+	trade_income = -0.05
+	diplomatic_reputation = -1
+}
+
+kc_shocho_credit_panic = {
+	game_data = { category = country }
+	trade_income = -0.05
+	bank_interest = 0.01
+}
+
+kc_shocho_tokusei_settlement = {
+	game_data = { category = country }
+	global_monthly_food_modifier = 0.05
+	global_population_growth = 0.001
+	bank_interest = 0.005
+}
+
+kc_shocho_mediated_credit = {
+	game_data = { category = country }
+	bank_interest = -0.005
+	trade_income = 0.03
+}
+
+kc_shocho_strict_contracts = {
+	game_data = { category = country }
+	trade_income = 0.06
+	global_merchant_power = 0.04
+	global_population_growth = -0.001
+}
+
+kc_chartered_port_councils = {
+	game_data = { category = country }
+	global_merchant_capacity_modifier = 0.08
+	global_build_buildings_efficiency = 0.04
+}
+
+kc_concord_port_administration = {
+	game_data = { category = country }
+	trade_income = 0.05
+	diplomatic_reputation = 1
+}
+
+kc_house_port_compacts = {
+	game_data = { category = country }
+	global_merchant_power = 0.08
+	trade_income = 0.04
+}

@@ -1,0 +1,486 @@
+﻿kc_unquiet_peace = {
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	monthly_spawn_chance = monthly_spawn_chance_unique
+	fire_only_once = yes
+
+	can_start = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		has_any_active_disaster = no
+		in_civil_war = no
+		international_organization:kc_kitayama_concord ?= {
+			var:kc_concord_entrenchment >= 30
+			NOT = {
+				has_variable = kc_unquiet_peace_completed
+			}
+		}
+	}
+
+	can_end = {
+		OR = {
+			has_variable = kc_unquiet_peace_debug_resolve
+			custom_tooltip = {
+				text = kc_unquiet_peace_completion_action_tt
+				has_variable = kc_unquiet_peace_program_completed
+			}
+			AND = {
+				is_ai = yes
+				NOT = {
+					has_variable = kc_unquiet_peace_ai_deadline
+				}
+			}
+		}
+	}
+
+	modifier = {
+		global_max_control = -0.05
+		monthly_legitimacy = -0.10
+	}
+
+	on_start = {
+		set_variable = {
+			name = kc_unquiet_peace_muster_office_authorized
+			value = yes
+		}
+		set_variable = {
+			name = kc_unquiet_peace_ronin_timer
+			value = yes
+			years = 1
+		}
+		set_variable = {
+			name = kc_unquiet_peace_piracy_timer
+			value = yes
+			years = 2
+		}
+		set_variable = {
+			name = kc_unquiet_peace_policing_timer
+			value = yes
+			years = 3
+		}
+		set_variable = {
+			name = kc_unquiet_peace_minimum_term
+			value = yes
+			years = 5
+		}
+		set_variable = {
+			name = kc_unquiet_peace_ai_deadline
+			value = yes
+			years = 12
+		}
+
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_entrenchment_crisis_active
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 30
+			}
+			every_international_organization_member = {
+				add_country_modifier = {
+					modifier = kc_unquiet_peace_member_disorder
+					years = -1
+					mode = replace
+				}
+			}
+		}
+
+		trigger_event_non_silently = kc_unquiet_peace.1
+
+		international_organization:kc_kitayama_concord ?= {
+			every_international_organization_member = {
+				limit = {
+					is_human = yes
+					NOT = { tag = JAP }
+				}
+				trigger_event_non_silently = kc_unquiet_peace.2
+			}
+		}
+	}
+
+	on_monthly = {
+		# New members inherit the active settlement mandate. Chartered Houses
+		# receive a route-specific crisis modifier, which also informs their AI
+		# preference in the relevant Council law vote.
+		international_organization:kc_kitayama_concord ?= {
+			every_international_organization_member = {
+				if = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					if = {
+						limit = {
+							c:JAP = {
+								has_variable = kc_unquiet_peace_constabulary_preparation
+							}
+							NOT = {
+								has_country_modifier = kc_unquiet_peace_constabulary_mandate
+							}
+						}
+						remove_country_modifier = kc_unquiet_peace_member_disorder
+						remove_country_modifier = kc_unquiet_peace_network_mandate
+						remove_country_modifier = kc_unquiet_peace_watches_mandate
+						add_country_modifier = {
+							modifier = kc_unquiet_peace_constabulary_mandate
+							years = -1
+							mode = replace
+						}
+					}
+					else_if = {
+						limit = {
+							c:JAP = {
+								has_variable = kc_unquiet_peace_network_preparation
+							}
+							NOT = {
+								has_country_modifier = kc_unquiet_peace_network_mandate
+							}
+						}
+						remove_country_modifier = kc_unquiet_peace_member_disorder
+						remove_country_modifier = kc_unquiet_peace_constabulary_mandate
+						remove_country_modifier = kc_unquiet_peace_watches_mandate
+						add_country_modifier = {
+							modifier = kc_unquiet_peace_network_mandate
+							years = -1
+							mode = replace
+						}
+					}
+					else_if = {
+						limit = {
+							c:JAP = {
+								has_variable = kc_unquiet_peace_watches_preparation
+							}
+							NOT = {
+								has_country_modifier = kc_unquiet_peace_watches_mandate
+							}
+						}
+						remove_country_modifier = kc_unquiet_peace_member_disorder
+						remove_country_modifier = kc_unquiet_peace_constabulary_mandate
+						remove_country_modifier = kc_unquiet_peace_network_mandate
+						add_country_modifier = {
+							modifier = kc_unquiet_peace_watches_mandate
+							years = -1
+							mode = replace
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						NOT = {
+							has_country_modifier = kc_unquiet_peace_member_disorder
+						}
+					}
+					add_country_modifier = {
+						modifier = kc_unquiet_peace_member_disorder
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_unquiet_peace_ronin_incident
+				}
+				NOT = {
+					has_variable = kc_unquiet_peace_ronin_timer
+				}
+			}
+			set_variable = {
+				name = kc_unquiet_peace_ronin_incident
+				value = yes
+			}
+			trigger_event_non_silently = kc_unquiet_peace.3
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_unquiet_peace_piracy_incident
+				}
+				NOT = {
+					has_variable = kc_unquiet_peace_piracy_timer
+				}
+			}
+			set_variable = {
+				name = kc_unquiet_peace_piracy_incident
+				value = yes
+			}
+			trigger_event_non_silently = kc_unquiet_peace.4
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_unquiet_peace_policing_incident
+				}
+				NOT = {
+					has_variable = kc_unquiet_peace_policing_timer
+				}
+			}
+			set_variable = {
+				name = kc_unquiet_peace_policing_incident
+				value = yes
+			}
+			trigger_event_non_silently = kc_unquiet_peace.5
+		}
+	}
+
+	on_end = {
+		# Debug completion and the twelve-year AI deadline may end the crisis
+		# without a player using a program action. In that case the opening
+		# preparation determines the fallback settlement.
+		if = {
+			limit = {
+				NOT = {
+					OR = {
+						has_variable = kc_unquiet_peace_constabulary_path
+						has_variable = kc_unquiet_peace_network_path
+						has_variable = kc_unquiet_peace_watches_path
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = kc_unquiet_peace_constabulary_preparation
+				}
+				set_variable = {
+					name = kc_unquiet_peace_constabulary_path
+					value = yes
+				}
+			}
+			else_if = {
+				limit = {
+					has_variable = kc_unquiet_peace_network_preparation
+				}
+				set_variable = {
+					name = kc_unquiet_peace_network_path
+					value = yes
+				}
+			}
+			else = {
+				set_variable = {
+					name = kc_unquiet_peace_watches_path
+					value = yes
+				}
+			}
+		}
+
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_entrenchment_crisis_active
+			set_variable = {
+				name = kc_unquiet_peace_completed
+				value = yes
+			}
+			every_international_organization_member = {
+				remove_country_modifier = kc_unquiet_peace_member_disorder
+				remove_country_modifier = kc_unquiet_peace_constabulary_mandate
+				remove_country_modifier = kc_unquiet_peace_network_mandate
+				remove_country_modifier = kc_unquiet_peace_watches_mandate
+			}
+		}
+
+		if = {
+			limit = {
+				has_variable = kc_unquiet_peace_constabulary_path
+			}
+			international_organization:kc_kitayama_concord ?= {
+				if = {
+					limit = {
+						root = {
+							has_variable = kc_unquiet_peace_constabulary_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 9
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -9
+					}
+				}
+				else_if = {
+					limit = {
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 12
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -12
+					}
+				}
+				else = {
+					change_variable = {
+						name = kc_concord_cohesion
+						add = -5
+					}
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = -3
+				}
+				set_variable = {
+					name = kc_unquiet_peace_constabulary_legacy
+					value = yes
+				}
+			}
+			capital ?= {
+				change_institution_progress = {
+					type = institution:professional_armies
+					value = 100
+				}
+			}
+			add_country_modifier = {
+				modifier = kc_unquiet_peace_constabulary_legacy
+				years = 20
+				mode = replace
+			}
+			trigger_event_non_silently = kc_unquiet_peace.10
+		}
+		else_if = {
+			limit = {
+				has_variable = kc_unquiet_peace_network_path
+			}
+			international_organization:kc_kitayama_concord ?= {
+				if = {
+					limit = {
+						root = {
+							has_variable = kc_unquiet_peace_network_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 6
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -6
+					}
+				}
+				else_if = {
+					limit = {
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 9
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -9
+					}
+				}
+				else = {
+					change_variable = {
+						name = kc_concord_cohesion
+						add = -5
+					}
+				}
+				set_variable = {
+					name = kc_unquiet_peace_network_legacy
+					value = yes
+				}
+			}
+			capital ?= {
+				change_institution_progress = {
+					type = institution:professional_armies
+					value = 100
+				}
+			}
+			add_country_modifier = {
+				modifier = kc_unquiet_peace_network_legacy
+				years = 20
+				mode = replace
+			}
+			trigger_event_non_silently = kc_unquiet_peace.11
+		}
+		else = {
+			international_organization:kc_kitayama_concord ?= {
+				if = {
+					limit = {
+						root = {
+							has_variable = kc_unquiet_peace_watches_preparation
+						}
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 3
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -3
+					}
+				}
+				else_if = {
+					limit = {
+						gold >= {
+							value = c:JAP.monthly_income_trade_and_tax
+							min = 1
+							multiply = 6
+						}
+					}
+					add_gold = {
+						value = c:JAP.monthly_income_trade_and_tax
+						min = 1
+						multiply = -6
+					}
+				}
+				else = {
+					change_variable = {
+						name = kc_concord_cohesion
+						add = -5
+					}
+				}
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 3
+				}
+				set_variable = {
+					name = kc_unquiet_peace_watches_legacy
+					value = yes
+				}
+			}
+			add_country_modifier = {
+				modifier = kc_unquiet_peace_watches_legacy
+				years = 20
+				mode = replace
+			}
+			trigger_event_non_silently = kc_unquiet_peace.12
+		}
+
+		remove_variable = kc_unquiet_peace_constabulary_path
+		remove_variable = kc_unquiet_peace_network_path
+		remove_variable = kc_unquiet_peace_watches_path
+		remove_variable = kc_unquiet_peace_constabulary_preparation
+		remove_variable = kc_unquiet_peace_network_preparation
+		remove_variable = kc_unquiet_peace_watches_preparation
+		remove_variable = kc_unquiet_peace_program_completed
+		remove_variable = kc_unquiet_peace_ronin_timer
+		remove_variable = kc_unquiet_peace_piracy_timer
+		remove_variable = kc_unquiet_peace_policing_timer
+		remove_variable = kc_unquiet_peace_minimum_term
+		remove_variable = kc_unquiet_peace_ai_deadline
+		remove_variable = kc_unquiet_peace_ronin_incident
+		remove_variable = kc_unquiet_peace_piracy_incident
+		remove_variable = kc_unquiet_peace_policing_incident
+		remove_variable = kc_unquiet_peace_debug_resolve
+	}
+}
+
+

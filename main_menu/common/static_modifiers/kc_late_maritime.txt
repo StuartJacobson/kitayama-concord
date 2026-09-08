@@ -1,0 +1,48 @@
+﻿# Merchants of Competing Europes
+kc_europe_common_auctions = { diplomatic_reputation = 0.50 global_merchant_power = 0.03 }
+kc_europe_house_brokerage = { global_merchant_capacity_modifier = 0.03 merchant_maintenance_efficiency = 0.05 }
+kc_europe_ranked_licenses = { monthly_legitimacy = 0.03 global_maritime_presence_modifier = 0.03 }
+kc_europe_open_competition = { global_merchant_power = 0.05 trade_range = 50 }
+kc_europe_rotating_concessions = { merchant_maintenance_efficiency = 0.10 global_merchant_capacity_modifier = 0.025 }
+kc_europe_preferred_supplier = { global_firearms_output_modifier = 0.05 navy_maintenance_efficiency = 0.05 }
+kc_europe_separate_chapel_warehouse = { global_institution_growth_modifier = 0.025 diplomatic_reputation = 0.25 }
+kc_europe_registered_company_worship = { global_estate_satisfaction_recovery = 0.001 trade_range = 25 }
+kc_europe_supervised_foreign_quarters = { monthly_legitimacy = 0.03 diplomatic_reputation = 0.50 }
+kc_europe_competitive_register_legacy = { global_merchant_power = 0.05 global_merchant_capacity_modifier = 0.025 trade_range = 50 }
+kc_europe_house_brokerage_legacy = { global_merchant_power = 0.075 merchant_maintenance_efficiency = 0.10 trade_range = 50 }
+kc_europe_national_company_legacy = { diplomatic_reputation = 0.75 global_maritime_presence_modifier = 0.05 diplomatic_spending_cost = -0.05 }
+
+# Japanese Overseas Communities
+kc_nihonmachi_municipal_charters = { diplomatic_reputation = 0.50 global_estate_satisfaction_recovery = 0.001 }
+kc_nihonmachi_house_enclaves = { global_merchant_power = 0.05 merchant_maintenance_efficiency = 0.05 }
+kc_nihonmachi_consular_register = { country_cabinet_efficiency = 0.025 trade_range = 25 }
+kc_nihonmachi_mixed_courts = { diplomatic_reputation = 0.50 change_policy_cost_modifier = -0.025 }
+kc_nihonmachi_house_guarantors = { global_merchant_capacity_modifier = 0.03 trade_range = 50 }
+kc_nihonmachi_consular_jurisdiction = { diplomatic_spending_cost = -0.05 monthly_legitimacy = 0.03 }
+kc_nihonmachi_civic_families = { global_estate_satisfaction_recovery = 0.001 global_institution_growth_modifier = 0.025 }
+kc_nihonmachi_registered_families = { research_speed_modifier = 0.02 diplomatic_reputation = 0.25 }
+kc_nihonmachi_house_sponsorship = { merchant_maintenance_efficiency = 0.05 global_merchant_power = 0.05 }
+kc_returning_merchants_common_works = { global_build_buildings_efficiency = 0.05 global_institution_growth_modifier = 0.025 }
+kc_returning_merchants_house_capital = { global_merchant_capacity_modifier = 0.05 bank_interest = -0.0025 }
+kc_returning_merchants_maritime_office = { diplomatic_spending_cost = -0.05 naval_range = 50 }
+kc_overseas_municipal_compact_legacy = { diplomatic_reputation = 0.50 global_estate_satisfaction_recovery = 0.001 global_institution_growth_modifier = 0.025 }
+kc_overseas_house_consular_legacy = { global_merchant_power = 0.05 global_merchant_capacity_modifier = 0.05 merchant_maintenance_efficiency = 0.05 }
+kc_overseas_national_consular_legacy = { diplomatic_reputation = 0.75 country_cabinet_efficiency = 0.05 diplomatic_spending_cost = -0.05 }
+
+# Applied once to the capitals of qualifying Japanese overseas subjects.
+kc_registered_nihonmachi = {
+	local_market_access = 0.05
+	local_merchant_capacity = 5
+	local_max_literacy = 2
+	local_population_capacity_modifier = 0.05
+}
+
+# Regulation of the Open Seas deliberations
+kc_ros_chartered_deliberations = { global_merchant_power = 0.05 trade_range = 25 }
+kc_ros_registered_deliberations = { diplomatic_reputation = 0.25 global_institution_growth_modifier = 0.025 }
+kc_ros_national_deliberations = { global_maritime_presence_modifier = 0.05 navy_maintenance_efficiency = 0.05 }
+
+# Specialized rewards maintained by at least half-funding the Maritime Office.
+kc_chartered_ports_funded_office = { trade_range = 100 colonial_range = 100 merchant_maintenance_efficiency = 0.10 }
+kc_registered_ports_funded_office = { trade_range = 75 naval_range = 75 global_merchant_power = 0.05 diplomatic_spending_cost = -0.05 }
+kc_national_maritime_funded_office = { naval_range = 100 trade_range = 50 diplomatic_spending_cost = -0.10 navy_maintenance_efficiency = 0.10 }

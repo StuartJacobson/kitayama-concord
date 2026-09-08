@@ -1,0 +1,845 @@
+﻿kc_kaisho = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	# Do not use international_organization_link here. EU5 treats that field as
+	# a single IO-linked proprietor and reassigns every building of the type to
+	# one eligible country on the monthly tick. Chartered Houses must retain
+	# independent ownership of their own concessions.
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = burghers
+
+	category = trade_category
+
+	max_levels = 1
+	employment_size = foreign_trade_employment
+	pop_size_created = foreign_trade_employment
+
+	rural_settlement = no
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+	}
+
+	allow = {
+		scope:actor = {
+			NOT = {
+				any_owned_foreign_building = {
+					building_type = building_type:kc_kaisho
+				}
+			}
+		}
+	}
+
+	build_time = trade_post_build_time
+
+	modifier = {
+		gold_to_building_owner = 0.15
+		merchant_capacity_from_building = 0.30
+		merchant_power_from_building = 0.25
+	}
+
+	unique_production_methods = {
+		kc_kaisho_requirements = {
+			paper = 0.10
+			category = building_maintenance
+		}
+	}
+
+	on_built = { owner = { set_variable = { name = kc_has_kaisho_office value = yes } } }
+	on_destroyed = { owner ?= { remove_variable = kc_has_kaisho_office } }
+}
+
+kc_jisha_za = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	want_foreign_pop_created = no
+	pop_type = clergy
+
+	category = trade_category
+
+	max_levels = 1
+	employment_size = religious_building_employment
+	pop_size_created = religious_building_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		NOT = {
+			any_foreign_buildings_in_location = {
+				building_type = building_type:kc_jisha_za
+			}
+		}
+	}
+
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+	}
+
+	allow = {
+	}
+
+	build_time = generic_town_build_time
+
+	modifier = {
+		gold_to_building_owner = 0.10
+		merchant_capacity_from_building = 0.15
+		merchant_power_from_building = 0.10
+		local_max_literacy = 1
+	}
+
+	possible_production_methods = {
+		estate_building_input
+	}
+}
+
+kc_kaido_post_station = {
+	audio_tier = 1
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = peasants
+
+	category = government_category
+
+	max_levels = 1
+	employment_size = generic_peasant_building_employment
+	pop_size_created = generic_peasant_building_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		NOT = {
+			any_foreign_buildings_in_location = {
+				building_type = building_type:kc_kaido_post_station
+			}
+		}
+	}
+
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+	}
+
+	allow = {
+		OR = {
+			any_foreign_building_countries_in_location = {
+				this = scope:actor
+			}
+			owner ?= {
+				is_member_of_international_organization = international_organization:kc_kitayama_concord
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	modifier = {
+		gold_to_building_owner = 0.05
+		merchant_capacity_from_building = 0.10
+		local_market_access = 0.025
+	}
+
+	possible_production_methods = {
+		estate_building_input
+	}
+}
+
+# Tea-garden capacity uses the same development and RGO-size cap as Shoen.
+# Its direct output belongs to the House, while improved tools, drainage,
+# pruning, and transport modestly strengthen the location owner's RGO.
+kc_tea_gardens = {
+	audio_tier = 1
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = peasants
+
+	category = rgo_building_category
+
+	# The first House to establish this concession reserves the location. That
+	# House may then develop every level allowed by the Shoen-style local cap.
+	max_levels = japanese_clan_building_cap
+	startup_ramp_target = rural_startup_ramp_target
+	employment_size = rural_peasant_produce_employment
+	pop_size_created = rural_peasant_produce_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+	important_for_AI = yes
+
+	location_potential = {
+		raw_material = goods:tea
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+	}
+
+	allow = {
+		custom_tooltip = {
+			text = kc_reserved_tea_garden_concession_tt
+			OR = {
+				NOT = {
+					any_foreign_buildings_in_location = {
+						building_type = building_type:kc_tea_gardens
+					}
+				}
+				any_foreign_buildings_in_location = {
+					building_type = building_type:kc_tea_gardens
+					owner = scope:actor
+				}
+			}
+		}
+		OR = {
+			any_foreign_building_countries_in_location = {
+				this = scope:actor
+			}
+			owner ?= {
+				is_member_of_international_organization = international_organization:kc_kitayama_concord
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	modifier = {
+		gold_to_building_owner = 0.05
+		merchant_power_from_building = 0.05
+		local_raw_material_output = 0.05
+	}
+
+	unique_production_methods = {
+		kc_managed_tea_gardens = {
+			lumber = 0.3
+			tools = 0.13
+			produced = tea
+			output = 0.6
+			category = building_maintenance
+		}
+	}
+
+	construction_demand = japanese_clan_building_construction
+}
+
+# Mulberry management, reeling sheds, and House credit turn an existing silk
+# district into a more intensive sericultural concession without allowing the
+# building to manufacture silk where the local ecology does not support it.
+kc_silk_farm = {
+	audio_tier = 1
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = peasants
+
+	category = rgo_building_category
+
+	# The first House to establish this concession reserves the location. That
+	# House may then develop every level allowed by the Shoen-style local cap.
+	max_levels = japanese_clan_building_cap
+	startup_ramp_target = rural_startup_ramp_target
+	employment_size = rural_peasant_produce_employment
+	pop_size_created = rural_peasant_produce_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+	important_for_AI = yes
+
+	location_potential = {
+		raw_material = goods:silk
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+	}
+
+	allow = {
+		custom_tooltip = {
+			text = kc_reserved_silk_farm_concession_tt
+			OR = {
+				NOT = {
+					any_foreign_buildings_in_location = {
+						building_type = building_type:kc_silk_farm
+					}
+				}
+				any_foreign_buildings_in_location = {
+					building_type = building_type:kc_silk_farm
+					owner = scope:actor
+				}
+			}
+		}
+		OR = {
+			any_foreign_building_countries_in_location = {
+				this = scope:actor
+			}
+			owner ?= {
+				is_member_of_international_organization = international_organization:kc_kitayama_concord
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	modifier = {
+		gold_to_building_owner = 0.05
+		merchant_power_from_building = 0.05
+		local_raw_material_output = 0.05
+	}
+
+	unique_production_methods = {
+		kc_managed_silk_farm = {
+			lumber = 0.3
+			tools = 0.198
+			produced = silk
+			output = 0.6
+			category = building_maintenance
+		}
+	}
+
+	construction_demand = japanese_clan_building_construction
+}
+
+# Each Ezo location may support two levels of each Iwor building. Four levels
+# employ one thousand people in total, matching the protected Ainu population
+# cap rather than making the intended mixed portfolio require two thousand.
+kc_iwor_stewardship = {
+	audio_tier = 1
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	want_foreign_pop_created = no
+	pop_type = tribesmen
+
+	category = rgo_building_category
+
+	max_levels = 2
+	employment_size = 0.25
+	pop_size_created = 0.25
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+	important_for_AI = yes
+	AI_ignore_available_worker_flag = yes
+
+	location_potential = {
+		any_pop = {
+			culture = culture:ainu_culture
+			pop_type = pop_type:tribesmen
+		}
+	}
+
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+	}
+
+	allow = {
+		custom_tooltip = {
+			text = kc_reserved_iwor_stewardship_concession_tt
+			OR = {
+				NOT = {
+					any_foreign_buildings_in_location = {
+						building_type = building_type:kc_iwor_stewardship
+					}
+				}
+				any_foreign_buildings_in_location = {
+					building_type = building_type:kc_iwor_stewardship
+					owner = scope:actor
+				}
+			}
+		}
+		OR = {
+			any_foreign_building_countries_in_location = {
+				this = scope:actor
+			}
+			owner ?= {
+				is_member_of_international_organization = international_organization:kc_kitayama_concord
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	modifier = {
+		gold_to_building_owner = 0.06
+		local_raw_material_output = 0.15
+	}
+
+	unique_production_methods = {
+		kc_iwor_stewardship_dues = {
+			lumber = 0.0778
+			tools = 0.10
+			produced = wild_game
+			output = 0.50
+			debug_max_profit = rural_profit_margin
+			category = building_maintenance
+		}
+	}
+
+	construction_demand = japanese_clan_building_construction
+}
+
+kc_iwor_exchange = {
+	audio_tier = 1
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	want_foreign_pop_created = no
+	pop_type = tribesmen
+
+	category = trade_category
+
+	max_levels = 2
+	employment_size = 0.25
+	pop_size_created = 0.25
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+	important_for_AI = yes
+	AI_ignore_available_worker_flag = yes
+
+	location_potential = {
+		any_pop = {
+			culture = culture:ainu_culture
+			pop_type = pop_type:tribesmen
+		}
+	}
+
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+	}
+
+	allow = {
+		custom_tooltip = {
+			text = kc_reserved_iwor_exchange_concession_tt
+			OR = {
+				NOT = {
+					any_foreign_buildings_in_location = {
+						building_type = building_type:kc_iwor_exchange
+					}
+				}
+				any_foreign_buildings_in_location = {
+					building_type = building_type:kc_iwor_exchange
+					owner = scope:actor
+				}
+			}
+		}
+		OR = {
+			any_foreign_building_countries_in_location = {
+				this = scope:actor
+			}
+			owner ?= {
+				is_member_of_international_organization = international_organization:kc_kitayama_concord
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	modifier = {
+		gold_to_building_owner = 0.08
+		merchant_power_from_building = 0.10
+	}
+
+	unique_production_methods = {
+		kc_iwor_fur_exchange = {
+			cloth = 0.0625
+			tools = 0.1042
+			produced = fur
+			output = 0.30
+			debug_max_profit = rural_profit_margin
+			category = building_maintenance
+		}
+		kc_iwor_fish_exchange = {
+			salt = 0.079
+			lumber = 0.0395
+			produced = fish
+			output = 0.45
+			debug_max_profit = rural_profit_margin
+			category = building_maintenance
+		}
+		kc_iwor_grain_exchange = {
+			lumber = 0.051
+			tools = 0.0855
+			produced = wheat
+			output = 0.40
+			debug_max_profit = rural_profit_margin
+			category = building_maintenance
+		}
+		kc_iwor_timber_exchange = {
+			tools = 0.1458
+			produced = lumber
+			output = 0.35
+			debug_max_profit = rural_profit_margin
+			category = building_maintenance
+		}
+	}
+
+	construction_demand = japanese_clan_building_construction
+}
+
+# The peace settlement initially leaves JAP without a dependable way to
+# replace the military labor formerly organized by the Houses. The first
+# Entrenchment crisis permanently authorizes this one-per-country capital
+# office. Unlike the Houses' foreign buildings, its local manpower belongs to
+# the Japanese location owner.
+kc_concord_muster_office = {
+	audio_tier = 1
+	is_special = yes
+	is_foreign = no
+	pop_type = soldiers
+
+	category = military_category
+	max_levels = 4
+	employment_size = manpower_employment
+	increase_per_level_cost = 0.25
+
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	important_for_AI = yes
+	AI_ignore_available_worker_flag = yes
+
+	build_time = medium_soldier_building
+
+	location_potential = {
+		is_capital = yes
+	}
+
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_unquiet_peace_muster_office_authorized
+	}
+
+	remove_if = {
+		is_no_longer_capital = yes
+	}
+
+	capital_modifier = {
+		local_manpower = 0.015
+		can_recruit_regiment_in_this_location = yes
+		local_crown_estate_power = 0.03
+	}
+
+	possible_production_methods = {
+		early_soldier_building_maintenance
+	}
+
+	construction_demand = early_soldier_building_construction
+}
+
+# A capital accounting complex for the Great Reckoning's public settlement.
+# The preparatory mandate can establish its first level without cost, but JAP
+# must complete the remaining levels through ordinary construction.
+kc_concord_ledger_office = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = no
+	pop_type = burghers
+
+	category = government_category
+	max_levels = 3
+	employment_size = large_burgher_employment
+	increase_per_level_cost = 0.35
+
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	important_for_AI = yes
+	AI_ignore_available_worker_flag = yes
+
+	expensive = yes
+	build_time = large_capital_build_time
+
+	location_potential = {
+		is_capital = yes
+	}
+
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_great_reckoning_ledger_office_authorized
+	}
+
+	remove_if = {
+		is_no_longer_capital = yes
+	}
+
+	capital_modifier = {
+		local_merchant_capacity = 1
+		local_market_access = 0.01
+	}
+
+	capital_country_modifier = {
+		country_cabinet_efficiency = 0.02
+		tax_income_efficiency = 0.02
+	}
+
+	unique_production_methods = {
+		kc_concord_ledger_office_requirements = {
+			paper = 0.20
+			books = 0.10
+			tools = 0.05
+			category = building_maintenance
+		}
+	}
+
+	construction_demand = early_capital_building_construction
+}
+
+# Common Works no longer chooses five opaque random locations. Each Treasury
+# commission instead issues five construction licenses to JAP. Concord
+# locations remain JAP-owned even when a Chartered House operates there, so a
+# single domestic type covers both rural and urban investment throughout the
+# country.
+kc_concord_works_district = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = no
+	pop_type = burghers
+
+	category = infrastructure_category
+	max_levels = 5
+	employment_size = generic_burgher_employment
+	increase_per_level_cost = 0.25
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	important_for_UI = yes
+
+	location_potential = {
+		owner ?= {
+			tag = JAP
+		}
+	}
+
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_common_works_licenses_available
+		}
+	}
+
+	allow = {
+		scope:actor = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		owner ?= {
+			tag = JAP
+		}
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_common_works_licenses_available
+		}
+	}
+
+	build_time = generic_town_build_time
+
+	modifier = {
+		free_building_levels = 11
+	}
+
+	unique_production_methods = {
+		kc_concord_works_district_maintenance = {
+			lumber = 0.10
+			stone = 0.05
+			tools = 0.05
+			category = building_maintenance
+		}
+	}
+
+	on_construction_started = {
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_common_works_licenses
+				add = -1
+			}
+			if = {
+				limit = {
+					var:kc_common_works_licenses < 1
+				}
+				remove_variable = kc_common_works_licenses_available
+			}
+		}
+	}
+
+	# The generic construction-ended hook also runs after cancellation. Restore
+	# the reservation here, then consume it again only if a level was completed.
+	on_construction_ended = {
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_common_works_licenses
+				add = 1
+			}
+			set_variable = {
+				name = kc_common_works_licenses_available
+				value = yes
+			}
+		}
+	}
+
+	on_built = {
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_common_works_licenses
+				add = -1
+			}
+			if = {
+				limit = {
+					var:kc_common_works_licenses < 1
+				}
+				remove_variable = kc_common_works_licenses_available
+			}
+		}
+	}
+
+	construction_demand = early_capital_building_construction
+}
+
+# At fifty Entrenchment the Concord's repeated ballots, commercial judgments,
+# and public accounts have outgrown temporary court chambers. This unique
+# capital hall provides a permanent venue for the weighted Council of Houses.
+kc_concord_council_hall = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = no
+	pop_type = burghers
+
+	category = government_category
+	max_levels = 1
+	employment_size = large_burgher_employment
+
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	important_for_UI = yes
+	important_for_AI = yes
+	AI_ignore_available_worker_flag = yes
+
+	expensive = yes
+	build_time = large_capital_build_time
+
+	location_potential = {
+		is_capital = yes
+	}
+
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			NOT = {
+				has_variable = kc_concord_collapsed
+			}
+			var:kc_concord_entrenchment >= 50
+		}
+	}
+
+	remove_if = {
+		is_no_longer_capital = yes
+	}
+
+	capital_modifier = {
+		local_max_control = 0.05
+		local_crown_estate_power = 0.10
+		local_merchant_capacity = 1
+	}
+
+	capital_country_modifier = {
+		country_cabinet_efficiency = 0.05
+		change_policy_cost_modifier = -0.10
+	}
+
+	unique_production_methods = {
+		kc_concord_council_hall_requirements = {
+			paper = 0.25
+			books = 0.10
+			fine_cloth = 0.05
+			category = building_maintenance
+		}
+	}
+
+	construction_demand = early_capital_building_construction
+}
+
+

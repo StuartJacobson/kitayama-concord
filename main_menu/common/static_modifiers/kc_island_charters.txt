@@ -1,0 +1,25 @@
+﻿kc_common_southern_hydrography = { naval_range = 75 diplomatic_spending_cost = -0.05 }
+kc_house_southern_charts = { trade_range = 75 global_merchant_capacity_modifier = 0.03 }
+kc_court_southern_pilotage = { global_maritime_presence_modifier = 0.05 diplomatic_reputation = 0.50 }
+
+kc_red_seal_common_warrants = { diplomatic_reputation = 0.50 diplomatic_spending_cost = -0.03 }
+kc_red_seal_house_warrants = { trade_range = 50 global_merchant_power = 0.04 }
+kc_red_seal_court_warrants = { monthly_legitimacy = 0.03 global_maritime_presence_modifier = 0.03 }
+kc_red_seal_verified_register = { diplomatic_reputation = 0.50 global_merchant_capacity_modifier = 0.025 }
+kc_red_seal_house_sureties = { merchant_maintenance_efficiency = 0.05 trade_income = 0.03 }
+kc_red_seal_closed_registry = { monthly_legitimacy = 0.03 diplomatic_reputation = 0.25 }
+kc_red_seal_common_jurisdiction = { diplomatic_spending_cost = -0.05 global_estate_satisfaction_recovery = 0.001 }
+kc_red_seal_captains_jurisdiction = { naval_range = 50 navy_maintenance_efficiency = 0.05 }
+kc_red_seal_consular_jurisdiction = { diplomatic_reputation = 0.50 trade_range = 50 }
+kc_red_seal_common_register_legacy = { diplomatic_reputation = 0.75 diplomatic_spending_cost = -0.05 global_maritime_presence_modifier = 0.05 }
+kc_red_seal_house_concessions_legacy = { trade_range = 100 global_merchant_capacity_modifier = 0.05 navy_maintenance_efficiency = 0.05 }
+kc_red_seal_court_convoys_legacy = { monthly_legitimacy = 0.05 diplomatic_reputation = 0.50 global_maritime_presence_modifier = 0.075 }
+
+kc_ryukyu_league_of_ports = { trade_range = 75 diplomatic_reputation = 0.50 }
+kc_ryukyu_common_conference = { diplomatic_reputation = 0.50 diplomatic_spending_cost = -0.03 }
+kc_ryukyu_house_conference = { global_merchant_power = 0.04 trade_range = 50 }
+kc_ryukyu_court_conference = { monthly_legitimacy = 0.03 global_maritime_presence_modifier = 0.03 }
+kc_ryukyu_recognized_partnership = { global_merchant_capacity_modifier = 0.05 diplomatic_spending_cost = -0.05 }
+kc_ryukyu_concord_protectorate = { global_maritime_presence_modifier = 0.05 diplomatic_reputation = 0.50 }
+kc_ryukyu_privileged_concession = { global_merchant_power = 0.06 trade_income = 0.04 }
+kc_ryukyu_direct_crown_ports = { global_maritime_presence_modifier = 0.075 monthly_legitimacy = 0.03 }

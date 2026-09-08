@@ -1,0 +1,487 @@
+﻿namespace = kc_great_reckoning
+
+# The second transition crisis: prosperity has outgrown the customary ledgers,
+# exemptions, tolls, and extraordinary levies that financed the early Concord.
+kc_great_reckoning.1 = {
+	type = country_event
+	title = kc_great_reckoning.1.title
+	desc = kc_great_reckoning.1.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.1.a
+		custom_tooltip = {
+			text = kc_great_reckoning_guarantees_choice_tt
+			set_variable = {
+				name = kc_great_reckoning_guarantees_preparation
+				value = yes
+			}
+		}
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				every_international_organization_member = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_country_modifier = kc_great_reckoning_disputed_accounts
+					remove_country_modifier = kc_great_reckoning_register_mandate
+					remove_country_modifier = kc_great_reckoning_public_mandate
+					add_country_modifier = {
+						modifier = kc_great_reckoning_guarantee_mandate
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 30
+			modifier = {
+				trigger = {
+					international_organization:kc_kitayama_concord ?= {
+						international_organization_has_policy = policy:kc_customary_assessments_policy
+					}
+				}
+				add = 60
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.1.b
+		custom_tooltip = {
+			text = kc_great_reckoning_register_choice_tt
+			set_variable = {
+				name = kc_great_reckoning_register_preparation
+				value = yes
+			}
+		}
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				every_international_organization_member = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_country_modifier = kc_great_reckoning_disputed_accounts
+					remove_country_modifier = kc_great_reckoning_guarantee_mandate
+					remove_country_modifier = kc_great_reckoning_public_mandate
+					add_country_modifier = {
+						modifier = kc_great_reckoning_register_mandate
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 40
+			modifier = {
+				trigger = {
+					international_organization:kc_kitayama_concord ?= {
+						international_organization_has_policy = policy:kc_registered_cadasters_policy
+					}
+				}
+				add = 60
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.1.c
+		custom_tooltip = {
+			text = kc_great_reckoning_public_choice_tt
+			set_variable = {
+				name = kc_great_reckoning_public_preparation
+				value = yes
+			}
+		}
+		hidden_effect = {
+			capital ?= {
+				construct_building = {
+					building_type = building_type:kc_concord_ledger_office
+					payer = c:JAP
+					instant = yes
+					cost_multiplier = 0
+					cost_multiplier_reason = "game_concept_event"
+				}
+			}
+			international_organization:kc_kitayama_concord ?= {
+				every_international_organization_member = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_country_modifier = kc_great_reckoning_disputed_accounts
+					remove_country_modifier = kc_great_reckoning_guarantee_mandate
+					remove_country_modifier = kc_great_reckoning_register_mandate
+					add_country_modifier = {
+						modifier = kc_great_reckoning_public_mandate
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 30
+			modifier = {
+				trigger = {
+					international_organization:kc_kitayama_concord ?= {
+						international_organization_has_policy = policy:kc_common_kenchi_policy
+					}
+				}
+				add = 60
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_great_reckoning.2 = {
+	type = country_event
+	title = kc_great_reckoning.2.title
+	desc = kc_great_reckoning.2.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.2.a
+	}
+}
+
+kc_great_reckoning.3 = {
+	type = country_event
+	title = kc_great_reckoning.3.title
+	desc = kc_great_reckoning.3.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.3.a
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				var:kc_concord_cohesion >= 10
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 2
+				}
+			}
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = -2
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -10
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_public_precedent
+			add = 1
+		}
+		add_country_modifier = {
+			modifier = kc_great_reckoning_audit_commission
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 50
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.3.b
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -15
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_registered_precedent
+			add = 1
+		}
+		add_country_modifier = {
+			modifier = kc_great_reckoning_shadow_accounts
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 15
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.3.c
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -20
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_house_precedent
+			add = 1
+		}
+		ai_chance = {
+			base = 35
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_great_reckoning.4 = {
+	type = country_event
+	title = kc_great_reckoning.4.title
+	desc = kc_great_reckoning.4.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.4.a
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				var:kc_concord_cohesion >= 10
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 2
+				}
+			}
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = -2
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -10
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_public_precedent
+			add = 1
+		}
+		add_country_modifier = {
+			modifier = kc_great_reckoning_audit_commission
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 50
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.4.b
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -15
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_registered_precedent
+			add = 1
+		}
+		add_country_modifier = {
+			modifier = kc_great_reckoning_toll_confusion
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 15
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.4.c
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -20
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_house_precedent
+			add = 1
+		}
+		ai_chance = {
+			base = 35
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_great_reckoning.5 = {
+	type = country_event
+	title = kc_great_reckoning.5.title
+	desc = kc_great_reckoning.5.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.5.a
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				var:kc_concord_cohesion >= 10
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 2
+				}
+			}
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = -2
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -10
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_public_precedent
+			add = 1
+		}
+		add_country_modifier = {
+			modifier = kc_great_reckoning_audit_commission
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 50
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.5.b
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -15
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_registered_precedent
+			add = 1
+		}
+		add_country_modifier = {
+			modifier = kc_great_reckoning_credit_contraction
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 15
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_great_reckoning.5.c
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -20
+			}
+		}
+		change_variable = {
+			name = kc_reckoning_house_precedent
+			add = 1
+		}
+		ai_chance = {
+			base = 35
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_great_reckoning.10 = {
+	type = country_event
+	title = kc_great_reckoning.10.title
+	desc = kc_great_reckoning.10.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.10.a
+	}
+}
+
+kc_great_reckoning.11 = {
+	type = country_event
+	title = kc_great_reckoning.11.title
+	desc = kc_great_reckoning.11.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.11.a
+	}
+}
+
+kc_great_reckoning.12 = {
+	type = country_event
+	title = kc_great_reckoning.12.title
+	desc = kc_great_reckoning.12.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.12.a
+	}
+}
+
+kc_great_reckoning.13 = {
+	type = country_event
+	title = kc_great_reckoning.13.title
+	desc = kc_great_reckoning.13.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.13.a
+	}
+}
+
+kc_great_reckoning.14 = {
+	type = country_event
+	title = kc_great_reckoning.14.title
+	desc = kc_great_reckoning.14.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_great_reckoning.14.a
+	}
+}
+
+

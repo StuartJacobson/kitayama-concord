@@ -1,0 +1,56 @@
+﻿kc_concord_secretariat_bureaucracy_impact_modifier = {
+	percent = yes
+	game_data = {
+		category = country
+	}
+}
+
+kc_office_maritime_exchange_bureaucracy_impact_modifier = {
+	percent = yes
+	game_data = {
+		category = country
+	}
+}
+
+kc_concord_secretariat_treasury_share = {
+	percent = yes
+	color = good
+	decimals = 2
+	game_data = {
+		category = country
+	}
+}
+
+kc_maritime_office_funding = {
+	percent = yes
+	color = good
+	decimals = 0
+	game_data = {
+		category = country
+	}
+}
+
+kc_maritime_office_underfunding = {
+	percent = yes
+	color = bad
+	decimals = 0
+	game_data = {
+		category = country
+	}
+}
+
+monthly_concord_bureaucracy_cohesion = {
+	color = good
+	decimals = 2
+	game_data = {
+		category = country
+	}
+}
+
+monthly_concord_law_cohesion = {
+	color = good
+	decimals = 2
+	game_data = {
+		category = country
+	}
+}

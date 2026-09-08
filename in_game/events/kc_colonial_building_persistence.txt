@@ -1,0 +1,11 @@
+﻿namespace = kc_colonial_persistence
+
+# Delayed until the hardcoded ownership transaction and foreign-building
+# cleanup have fully concluded.
+kc_colonial_persistence.1 = {
+	type = location_event
+	hidden = yes
+	title = empty_text
+	desc = empty_text
+	immediate = { kc_restore_colonial_concessions_in_location = yes }
+}

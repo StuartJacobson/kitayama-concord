@@ -1,0 +1,22 @@
+﻿kc_consume_overseas_concession_license = {
+	if = {
+		limit = { NOT = { has_variable = kc_overseas_concession_licenses_initialized } }
+		set_variable = { name = kc_overseas_concession_licenses value = 0 }
+		set_variable = { name = kc_overseas_concession_licenses_initialized value = yes }
+	}
+	change_variable = { name = kc_overseas_concession_licenses add = -1 }
+	if = {
+		limit = { var:kc_overseas_concession_licenses <= 0 }
+		remove_variable = kc_overseas_concession_license_available
+	}
+}
+
+kc_return_overseas_concession_license = {
+	if = {
+		limit = { NOT = { has_variable = kc_overseas_concession_licenses_initialized } }
+		set_variable = { name = kc_overseas_concession_licenses value = 0 }
+		set_variable = { name = kc_overseas_concession_licenses_initialized value = yes }
+	}
+	change_variable = { name = kc_overseas_concession_licenses add = 1 }
+	set_variable = { name = kc_overseas_concession_license_available value = yes }
+}

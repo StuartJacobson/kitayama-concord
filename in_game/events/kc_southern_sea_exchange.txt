@@ -1,0 +1,414 @@
+﻿namespace = kc_southern_exchange
+
+# ---------------------------------------------------------------------------
+# 1543-1550s: THE SOUTHERN SEA EXCHANGE
+# ---------------------------------------------------------------------------
+
+kc_southern_exchange.1 = {
+	type = country_event
+	title = kc_southern_exchange.1.title
+	desc = kc_southern_exchange.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_exchange.1.a
+		set_variable = { name = kc_sse_opening_policy value = 1 }
+		add_country_modifier = { modifier = kc_sse_careful_examination years = 10 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.1.b
+		set_variable = { name = kc_sse_opening_policy value = 2 }
+		add_country_modifier = { modifier = kc_sse_house_prototypes years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.1.c
+		set_variable = { name = kc_sse_opening_policy value = 3 }
+		add_country_modifier = { modifier = kc_sse_quarantine_wharf years = 10 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# The missing screw is treated as an industrial-standardization problem. Every
+# settlement grants the advancement automatically; the choice decides who
+# controls its workshops and bears its cost.
+kc_southern_exchange.2 = {
+	type = country_event
+	title = kc_southern_exchange.2.title
+	desc = kc_southern_exchange.2.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_exchange.2.a
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_moderate_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+			change_variable = { name = kc_concord_cohesion add = 1 }
+		}
+		set_variable = { name = kc_sse_arms_policy value = 1 }
+		add_country_modifier = { modifier = kc_sse_common_teppo_gauges years = 15 mode = replace }
+		kc_unlock_firearms_ratification = yes
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.2.b
+		set_variable = { name = kc_sse_arms_policy value = 2 }
+		add_country_modifier = { modifier = kc_sse_licensed_gunsmiths years = 15 mode = replace }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		kc_unlock_firearms_ratification = yes
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.2.c
+		set_variable = { name = kc_sse_arms_policy value = 3 }
+		add_country_modifier = { modifier = kc_sse_court_magazines years = 15 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		kc_unlock_firearms_ratification = yes
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_southern_exchange.3 = {
+	type = country_event
+	title = kc_southern_exchange.3.title
+	desc = kc_southern_exchange.3.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_exchange.3.a
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_major_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_historical_major_treasury_cost multiply = -1 } }
+		add_country_modifier = { modifier = kc_sse_common_powder_contracts years = 10 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.3.b
+		add_country_modifier = { modifier = kc_sse_house_powder_monopolies years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -4 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.3.c
+		add_country_modifier = { modifier = kc_sse_restricted_powder_magazines years = 10 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_southern_exchange.4 = {
+	type = country_event
+	title = kc_southern_exchange.4.title
+	desc = kc_southern_exchange.4.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_exchange.4.a
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_moderate_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+			change_variable = { name = kc_concord_cohesion add = 1 }
+		}
+		set_variable = { name = kc_sse_silver_policy value = 1 }
+		add_country_modifier = { modifier = kc_sse_common_silver_clearing years = 15 mode = replace }
+		kc_unlock_silver_ratification = yes
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.4.b
+		set_variable = { name = kc_sse_silver_policy value = 2 }
+		add_country_modifier = { modifier = kc_sse_house_bullion_accounts years = 15 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		kc_unlock_silver_ratification = yes
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.4.c
+		set_variable = { name = kc_sse_silver_policy value = 3 }
+		add_country_modifier = { modifier = kc_sse_court_assay_seals years = 15 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		kc_unlock_silver_ratification = yes
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_southern_exchange.5 = {
+	type = country_event
+	title = kc_southern_exchange.5.title
+	desc = kc_southern_exchange.5.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_exchange.5.a
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_moderate_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+			change_variable = { name = kc_concord_cohesion add = 1 }
+		}
+		set_variable = { name = kc_sse_translation_policy value = 1 }
+		add_country_modifier = { modifier = kc_sse_common_translation_houses years = 15 mode = replace }
+		kc_unlock_translation_ratification = yes
+		change_societal_value = { type = traditionalist_vs_innovative value = 3 }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.5.b
+		set_variable = { name = kc_sse_translation_policy value = 2 }
+		add_country_modifier = { modifier = kc_sse_house_interpreter_guilds years = 15 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		kc_unlock_translation_ratification = yes
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.5.c
+		set_variable = { name = kc_sse_translation_policy value = 3 }
+		add_country_modifier = { modifier = kc_sse_court_translation_bureau years = 15 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		kc_unlock_translation_ratification = yes
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# This precedent is intentionally religion-neutral. It regulates the civil
+# status of foreign preaching and worship without forcing, blocking, or
+# anticipating any later conversion path.
+kc_southern_exchange.6 = {
+	type = country_event
+	title = kc_southern_exchange.6.title
+	desc = kc_southern_exchange.6.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_exchange.6.a
+		set_variable = { name = kc_sse_open_preaching value = yes }
+		add_country_modifier = { modifier = kc_sse_open_preaching_precedent years = 15 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_penalty }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		change_societal_value = { type = traditionalist_vs_innovative value = 3 }
+		ai_chance = { base = 30 }
+	}
+	option = {
+		name = kc_southern_exchange.6.b
+		set_variable = { name = kc_sse_port_worship value = yes }
+		add_country_modifier = { modifier = kc_sse_registered_port_worship years = 15 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		ai_chance = { base = 50 }
+	}
+	option = {
+		name = kc_southern_exchange.6.c
+		set_variable = { name = kc_sse_restricted_preaching value = yes }
+		add_country_modifier = { modifier = kc_sse_restricted_preaching_precedent years = 15 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_penalty }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		change_societal_value = { type = traditionalist_vs_innovative value = -3 }
+		ai_chance = { base = 20 }
+	}
+}
+
+kc_southern_exchange.7 = {
+	type = country_event
+	title = kc_southern_exchange.7.title
+	desc = kc_southern_exchange.7.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_exchange.7.a
+		trigger = { owns = location:hakata }
+		set_variable = { name = kc_southern_exchange_hall_unlocked value = yes }
+		location:hakata = {
+			construct_building = {
+				building_type = building_type:kc_southern_exchange_hall
+				owner = c:JAP
+				payer = c:JAP
+				instant = yes
+				cost_multiplier = 0
+				cost_multiplier_reason = "game_concept_event"
+			}
+		}
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		ai_chance = { base = 45 }
+	}
+	option = {
+		name = kc_southern_exchange.7.b
+		trigger = { owns = location:kagoshima }
+		set_variable = { name = kc_southern_exchange_hall_unlocked value = yes }
+		location:kagoshima = {
+			construct_building = {
+				building_type = building_type:kc_southern_exchange_hall
+				owner = c:JAP
+				payer = c:JAP
+				instant = yes
+				cost_multiplier = 0
+				cost_multiplier_reason = "game_concept_event"
+			}
+		}
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		ai_chance = { base = 30 }
+	}
+	option = {
+		name = kc_southern_exchange.7.c
+		trigger = { any_owned_location = { region = region:japan_region is_coastal = yes } }
+		set_variable = { name = kc_southern_exchange_hall_unlocked value = yes }
+		ordered_owned_location = {
+			limit = { region = region:japan_region is_coastal = yes }
+			order_by = population
+			check_range_bounds = no
+			max = 1
+			save_scope_as = kc_southern_exchange_port
+		}
+		scope:kc_southern_exchange_port ?= {
+			construct_building = {
+				building_type = building_type:kc_southern_exchange_hall
+				owner = c:JAP
+				payer = c:JAP
+				instant = yes
+				cost_multiplier = 0
+				cost_multiplier_reason = "game_concept_event"
+			}
+		}
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		ai_chance = { base = 25 }
+	}
+}
+
+kc_southern_exchange.10 = {
+	type = country_event
+	title = kc_southern_exchange.10.title
+	desc = kc_southern_exchange.10.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = {
+		# Completion of the Southern Articles is the natural unlock point for
+		# the second National Works Register. The monthly pulse remains as an
+		# old-save backfill if this immediate scheduling was missed.
+		if = {
+			limit = {
+				exists = international_organization:kc_kitayama_concord
+				NOT = { has_variable = kc_phase2_great_projects_announced }
+				international_organization:kc_kitayama_concord = {
+					NOT = { has_variable = kc_phase_2_great_projects_unlocked }
+				}
+			}
+			set_variable = { name = kc_phase2_great_projects_pending value = yes }
+			set_variable = { name = kc_historical_chain_active value = yes }
+			trigger_event_non_silently = { id = kc_phase2_projects.1 days = 30 }
+		}
+	}
+
+	option = {
+		name = kc_southern_exchange.10.a
+		add_country_modifier = { modifier = kc_sse_chartered_southern_exchange years = -1 mode = replace }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -5 }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 3 }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.10.b
+		add_country_modifier = { modifier = kc_sse_national_maritime_exchange years = -1 mode = replace }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 5 }
+		change_societal_value = { type = traditionalist_vs_innovative value = 3 }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_southern_exchange.10.c
+		add_country_modifier = { modifier = kc_sse_court_regulated_treaty_ports years = -1 mode = replace }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 5 }
+		change_societal_value = { type = traditionalist_vs_innovative value = -3 }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_southern_exchange.11 = {
+	type = country_event
+	title = kc_southern_exchange.11.title
+	desc = kc_southern_exchange.11.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = { name = kc_southern_exchange.11.a }
+}

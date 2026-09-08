@@ -1,0 +1,208 @@
+﻿# Applies province-definition colonial claims without changing ownership,
+# control, cores, pops, or existing colonial charters.
+#
+# Exclusive colonial claims require a country holder. Existing regional
+# countries serve as custodians:
+#   Ezo       - JAP
+#   Taiwan    - HSK (Hosokawa)
+#   Luzon     - TDO (Tondo)
+#   Visayas   - CEB (Cebu)
+#   Mindanao  - BTU (Butuan)
+
+kc_apply_regional_colonial_safeguards = {
+	# on_game_start has no original root even though this effect is invoked
+	# from c:JAP. Preserve the current country explicitly before entering area
+	# and province-definition scopes.
+	save_scope_as = kc_colonial_safeguard_holder
+
+	# The Ezo reservation is permanent until the future Northern Concession
+	# system replaces it with a Concord-controlled means of access.
+	area:ezo_area = {
+		every_province_definition_in_area = {
+			scope:kc_colonial_safeguard_holder = {
+				add_colonial_claim = {
+					province_definition = prev
+					reason = kc_ezo_trade_boundary
+					category = exclusive
+				}
+			}
+		}
+	}
+
+	# Clean up the 0.2.1.0 Chuzan claims when this effect migrates an existing
+	# save. Chuzan's claim did not exclude other Ryukyuan and Japanese actors.
+	c:CHZ ?= {
+		remove_colonial_claim = province_definition:east_taiwan_province
+		remove_colonial_claim = province_definition:north_taiwan_province
+		remove_colonial_claim = province_definition:south_taiwan_province
+		remove_colonial_claim = province_definition:west_taiwan_province
+	}
+	# Clean up the 0.2.1.1-0.2.7.11 So custodianship when migrating a save.
+	c:SOU ?= {
+		remove_colonial_claim = province_definition:east_taiwan_province
+		remove_colonial_claim = province_definition:north_taiwan_province
+		remove_colonial_claim = province_definition:south_taiwan_province
+		remove_colonial_claim = province_definition:west_taiwan_province
+	}
+
+	# Hosokawa is a large Japanese building country and therefore cannot use
+	# the vanilla colonial-charter action. Its greater resilience makes it a
+	# safer neutral custodian while every Formosan location remains unowned.
+	if = {
+		limit = {
+			current_year < 1610
+		}
+		area:taiwan_area = {
+			every_province_definition_in_area = {
+				c:HSK ?= {
+					add_colonial_claim = {
+						province_definition = prev
+						reason = kc_formosan_maritime_safeguard
+						category = exclusive
+					}
+				}
+			}
+		}
+	}
+	else = {
+		set_variable = {
+			name = kc_taiwan_safeguards_released
+			value = 1
+		}
+	}
+
+	# Existing Philippine countries hold the temporary claims so that the
+	# safeguard does not create a fictional pan-Philippine state.
+	if = {
+		limit = {
+			current_year < 1550
+		}
+		area:luzon_area = {
+			every_province_definition_in_area = {
+				c:TDO ?= {
+					add_colonial_claim = {
+						province_definition = prev
+						reason = kc_luzon_maritime_safeguard
+						category = exclusive
+					}
+				}
+			}
+		}
+		area:visayas_area = {
+			every_province_definition_in_area = {
+				c:CEB ?= {
+					add_colonial_claim = {
+						province_definition = prev
+						reason = kc_visayan_maritime_safeguard
+						category = exclusive
+					}
+				}
+			}
+		}
+		area:mindanao_area = {
+			every_province_definition_in_area = {
+				c:BTU ?= {
+					add_colonial_claim = {
+						province_definition = prev
+						reason = kc_mindanao_maritime_safeguard
+						category = exclusive
+					}
+				}
+			}
+		}
+	}
+	else = {
+		set_variable = {
+			name = kc_philippine_safeguards_released
+			value = 1
+		}
+	}
+
+	set_variable = {
+		name = kc_regional_colonial_safeguards_v3
+		value = 1
+	}
+}
+
+kc_manage_regional_colonial_safeguard_releases = {
+	if = {
+		limit = {
+			current_year >= 1550
+			NOT = {
+				has_variable = kc_philippine_safeguards_released
+			}
+		}
+
+		c:TDO ?= {
+			remove_colonial_claim = province_definition:cordillera_province
+			remove_colonial_claim = province_definition:ibalong_province
+			remove_colonial_claim = province_definition:katagalugan_province
+			remove_colonial_claim = province_definition:lower_cagayan_province
+			remove_colonial_claim = province_definition:mait_province
+			remove_colonial_claim = province_definition:palawan_province
+			remove_colonial_claim = province_definition:pampanga_province
+			remove_colonial_claim = province_definition:samtoy_province
+			remove_colonial_claim = province_definition:upper_cagayan_province
+		}
+
+		c:CEB ?= {
+			remove_colonial_claim = province_definition:buglas_province
+			remove_colonial_claim = province_definition:central_visayas_province
+			remove_colonial_claim = province_definition:north_visayas_province
+			remove_colonial_claim = province_definition:panay_province
+			remove_colonial_claim = province_definition:samar_province
+			remove_colonial_claim = province_definition:tandaya_province
+		}
+
+		c:BTU ?= {
+			remove_colonial_claim = province_definition:agus_province
+			remove_colonial_claim = province_definition:agusan_province
+			remove_colonial_claim = province_definition:mindanao_province
+			remove_colonial_claim = province_definition:sulu_province
+			remove_colonial_claim = province_definition:tagloc_province
+			remove_colonial_claim = province_definition:zamboanga_province
+		}
+
+		set_variable = {
+			name = kc_philippine_safeguards_released
+			value = 1
+		}
+	}
+
+	if = {
+		limit = {
+			current_year >= 1610
+			NOT = {
+				has_variable = kc_taiwan_safeguards_released
+			}
+		}
+
+		c:HSK ?= {
+			remove_colonial_claim = province_definition:east_taiwan_province
+			remove_colonial_claim = province_definition:north_taiwan_province
+			remove_colonial_claim = province_definition:south_taiwan_province
+			remove_colonial_claim = province_definition:west_taiwan_province
+		}
+
+		# Also clean up both earlier custodians on migrated saves.
+		c:SOU ?= {
+			remove_colonial_claim = province_definition:east_taiwan_province
+			remove_colonial_claim = province_definition:north_taiwan_province
+			remove_colonial_claim = province_definition:south_taiwan_province
+			remove_colonial_claim = province_definition:west_taiwan_province
+		}
+		c:CHZ ?= {
+			remove_colonial_claim = province_definition:east_taiwan_province
+			remove_colonial_claim = province_definition:north_taiwan_province
+			remove_colonial_claim = province_definition:south_taiwan_province
+			remove_colonial_claim = province_definition:west_taiwan_province
+		}
+
+		set_variable = {
+			name = kc_taiwan_safeguards_released
+			value = 1
+		}
+	}
+}
+
+

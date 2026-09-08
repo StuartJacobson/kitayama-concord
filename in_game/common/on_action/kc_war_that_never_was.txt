@@ -1,0 +1,36 @@
+﻿# The five foundational chains must resolve before their accumulated
+# precedents are tested in the constitutional crisis of 1467.
+monthly_country_pulse = {
+	on_actions = {
+		kc_war_that_never_was_monthly
+	}
+}
+
+kc_war_that_never_was_monthly = {
+	trigger = {
+		tag = JAP
+		current_year >= 1467
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		has_any_active_disaster = no
+		NOT = { has_variable = kc_historical_chain_active }
+		NOT = { has_variable = kc_war_that_never_was_pending }
+		NOT = { has_variable = kc_war_that_never_was_completed }
+		has_variable = kc_ming_tally_trade_completed
+		has_variable = kc_after_founder_completed
+		has_variable = kc_tsushima_wako_completed
+		has_variable = kc_shocho_debt_completed
+		has_variable = kc_port_autonomy_completed
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+			NOT = { has_variable = kc_war_that_never_was_active }
+		}
+		NOT = { is_situation_active = situation:kc_hundred_year_concord }
+		NOT = { is_situation_active = situation:kc_war_that_never_was }
+	}
+
+	effect = {
+		set_variable = { name = kc_war_that_never_was_pending value = yes }
+		activate_situation = situation:kc_war_that_never_was
+	}
+}

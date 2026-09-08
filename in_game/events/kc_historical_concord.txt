@@ -1,0 +1,1046 @@
+﻿namespace = kc_historical_concord
+
+# ---------------------------------------------------------------------------
+# 1401-1404: THE CHINESE TALLY TRADE
+# ---------------------------------------------------------------------------
+
+kc_historical_concord.1 = {
+	type = country_event
+	title = kc_historical_concord.1.title
+	desc = kc_historical_concord.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	immediate = { c:CHI ?= { save_scope_as = china } }
+
+	option = {
+		name = kc_historical_concord.1.a
+		hidden_effect = { set_variable = { name = kc_ming_diplomatic_posture value = 1 } }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_penalty }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.2 months = 8 } }
+		}
+		ai_chance = { base = 55 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.1.b
+		trigger = { gold >= { value = kc_historical_minor_national_cost } }
+		add_gold = { value = kc_historical_minor_national_cost multiply = -1 }
+		hidden_effect = { set_variable = { name = kc_ming_diplomatic_posture value = 2 } }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.2 months = 8 } }
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.1.c
+		hidden_effect = { set_variable = { name = kc_ming_diplomatic_posture value = 3 } }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.2 months = 8 } }
+		}
+		ai_chance = { base = 15 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.2 = {
+	type = country_event
+	title = kc_historical_concord.2.title
+	desc = kc_historical_concord.2.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	immediate = { c:CHI ?= { save_scope_as = china } }
+
+	option = {
+		name = kc_historical_concord.2.a
+		add_country_modifier = { modifier = kc_ming_court_sanctioned_trade years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_penalty }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.3 months = 12 } }
+		}
+		ai_chance = { base = 50 }
+	}
+
+	option = {
+		name = kc_historical_concord.2.b
+		trigger = { gold >= { value = kc_historical_minor_national_cost } }
+		add_gold = { value = kc_historical_minor_national_cost multiply = -1 }
+		add_country_modifier = { modifier = kc_concord_seating_compromise years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.3 months = 12 } }
+		}
+		ai_chance = { base = 35 }
+	}
+
+	option = {
+		name = kc_historical_concord.2.c
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.3 months = 12 } }
+		}
+		ai_chance = { base = 15 }
+	}
+}
+
+kc_historical_concord.3 = {
+	type = country_event
+	title = kc_historical_concord.3.title
+	desc = kc_historical_concord.3.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+	immediate = { c:CHI ?= { save_scope_as = china } }
+
+	option = {
+		name = kc_historical_concord.3.a
+		custom_tooltip = {
+			text = kc_foreign_commerce_concord_precedent_tt
+		}
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		hidden_effect = {
+			kc_select_foreign_commerce_concord = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.4 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.4 months = 12 } }
+		}
+		ai_chance = { base = 50 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.3.b
+		custom_tooltip = {
+			text = kc_foreign_commerce_court_precedent_tt
+		}
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		hidden_effect = {
+			kc_select_foreign_commerce_court = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.4 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.4 months = 12 } }
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.3.c
+		custom_tooltip = {
+			text = kc_foreign_commerce_house_precedent_tt
+		}
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_bonus }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 2 }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = {
+			kc_select_foreign_commerce_house = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.4 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.4 months = 12 } }
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.4 = {
+	type = country_event
+	title = kc_historical_concord.4.title
+	desc = kc_historical_concord.4.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+
+	immediate = {
+		c:CHI ?= { save_scope_as = china }
+		if = {
+			limit = { var:kc_ming_diplomatic_posture = 1 }
+			international_organization:kc_kitayama_concord = { add_gold = kc_historical_moderate_treasury_receipt }
+		}
+		else_if = {
+			limit = { var:kc_ming_diplomatic_posture = 2 }
+			international_organization:kc_kitayama_concord = { add_gold = kc_historical_minor_treasury_receipt }
+			add_gold = kc_historical_minor_national_receipt
+		}
+		else = { add_gold = kc_historical_minor_national_receipt }
+	}
+
+	option = {
+		name = kc_historical_concord.4.a
+		trigger = { has_variable = kc_foreign_commerce_court_selected }
+		add_country_modifier = { modifier = kc_ming_court_sanctioned_trade years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_ming_tally_trade_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.4.a
+		trigger = { has_variable = kc_foreign_commerce_concord_selected }
+		add_country_modifier = { modifier = kc_ming_concord_tally_trade years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_ming_tally_trade_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.4.a
+		trigger = { has_variable = kc_foreign_commerce_house_selected }
+		add_country_modifier = { modifier = kc_ming_house_tally_trade years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_ming_tally_trade_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 1408-1411: THE CONCORD AFTER ITS FOUNDER
+# ---------------------------------------------------------------------------
+
+kc_historical_concord.10 = {
+	type = country_event
+	title = kc_historical_concord.10.title
+	desc = kc_historical_concord.10.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+
+	option = {
+		name = kc_historical_concord.10.a
+		custom_tooltip = { text = kc_founder_continuity_precedent_tt }
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		hidden_effect = {
+			set_variable = { name = kc_founder_settlement value = 1 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.11 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.11 months = 6 } }
+		}
+		ai_chance = { base = 50 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.10.b
+		trigger = { gold >= { value = kc_historical_minor_national_cost } }
+		add_gold = { value = kc_historical_minor_national_cost multiply = -1 }
+		custom_tooltip = { text = kc_founder_revision_precedent_tt }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = {
+			set_variable = { name = kc_founder_settlement value = 2 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.11 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.11 months = 6 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.10.c
+		custom_tooltip = { text = kc_founder_house_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		hidden_effect = {
+			set_variable = { name = kc_founder_settlement value = 3 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.11 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.11 months = 6 } }
+		}
+		ai_chance = { base = 15 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.11 = {
+	type = country_event
+	title = kc_historical_concord.11.title
+	desc = kc_historical_concord.11.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_historical_concord.11.a
+		custom_tooltip = { text = kc_founder_records_secretariat_tt }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		hidden_effect = {
+			set_variable = { name = kc_founder_records value = 1 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.12 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.12 months = 18 } }
+		}
+		ai_chance = { base = 50 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.11.b
+		custom_tooltip = { text = kc_founder_records_court_tt }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		hidden_effect = {
+			set_variable = { name = kc_founder_records value = 2 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.12 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.12 months = 18 } }
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.11.c
+		custom_tooltip = { text = kc_founder_records_houses_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = -2 }
+		hidden_effect = {
+			set_variable = { name = kc_founder_records value = 3 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.12 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.12 months = 18 } }
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.12 = {
+	type = country_event
+	title = kc_historical_concord.12.title
+	desc = kc_historical_concord.12.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	immediate = { c:CHI ?= { save_scope_as = china } }
+
+	option = {
+		name = kc_historical_concord.12.a
+		custom_tooltip = { text = kc_foreign_commerce_concord_precedent_tt }
+		add_country_modifier = { modifier = kc_concord_outlives_founder years = 20 mode = replace }
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		hidden_effect = {
+			kc_select_foreign_commerce_concord = yes
+			set_variable = { name = kc_after_founder_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.12.b
+		add_country_modifier = { modifier = kc_founder_constitutional_revision years = 20 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		hidden_effect = {
+			if = {
+				limit = { NOT = { has_variable = kc_precedent_foreign_commerce } }
+				kc_select_foreign_commerce_concord = yes
+			}
+			set_variable = { name = kc_after_founder_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.12.c
+		custom_tooltip = { text = kc_foreign_commerce_house_precedent_tt }
+		add_country_modifier = { modifier = kc_founder_house_bargains years = 20 mode = replace }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = {
+			kc_select_foreign_commerce_house = yes
+			set_variable = { name = kc_after_founder_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+		ai_chance = { base = 15 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 1419: TSUSHIMA, JOSEON, AND THE WAKO
+# ---------------------------------------------------------------------------
+
+kc_historical_concord.20 = {
+	type = country_event
+	title = kc_historical_concord.20.title
+	desc = kc_historical_concord.20.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_historical_concord.20.a
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_penalty }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		hidden_effect = { set_variable = { name = kc_tsushima_initial_response value = 1 } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.21 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.21 months = 2 } }
+		}
+		ai_chance = { base = 50 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.20.b
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = { set_variable = { name = kc_tsushima_initial_response value = 2 } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.21 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.21 months = 2 } }
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.20.c
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = { set_variable = { name = kc_tsushima_initial_response value = 3 } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.21 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.21 months = 2 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.21 = {
+	type = country_event
+	title = kc_historical_concord.21.title
+	desc = kc_historical_concord.21.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_historical_concord.21.a
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_moderate_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_public_order_central_precedent_tt }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 3 }
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		hidden_effect = {
+			kc_select_public_order_central = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.22 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.22 months = 4 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.21.b
+		custom_tooltip = { text = kc_public_order_negotiated_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = {
+			kc_select_public_order_negotiated = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.22 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.22 months = 4 } }
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.21.c
+		custom_tooltip = { text = kc_public_order_house_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		hidden_effect = {
+			kc_select_public_order_house = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.22 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.22 months = 4 } }
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.21.d
+		high_risk_option = yes
+		custom_tooltip = { text = kc_public_order_disorder_precedent_tt }
+		add_country_modifier = { modifier = kc_tsushima_maritime_disorder years = 10 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = -3 }
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		hidden_effect = {
+			kc_select_public_order_disorder = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.22 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.22 months = 4 } }
+		}
+		ai_chance = { base = 5 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_historical_concord.22 = {
+	type = country_event
+	title = kc_historical_concord.22.title
+	desc = kc_historical_concord.22.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+
+	option = {
+		name = kc_historical_concord.22.a
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_minor_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_minor_treasury_cost multiply = -1 }
+		}
+		add_country_modifier = { modifier = kc_tsushima_concord_patrols years = 5 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.23 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.23 months = 12 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.22.b
+		add_country_modifier = { modifier = kc_tsushima_licensed_convoys years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.23 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.23 months = 12 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.22.c
+		add_country_modifier = { modifier = kc_tsushima_house_patrols years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.23 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.23 months = 12 } }
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.23 = {
+	type = country_event
+	title = kc_historical_concord.23.title
+	desc = kc_historical_concord.23.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+
+	option = {
+		name = kc_historical_concord.23.a
+		trigger = { has_variable = kc_public_order_central_selected }
+		add_country_modifier = { modifier = kc_tsushima_concord_patrols years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_tsushima_wako_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.23.a
+		trigger = { has_variable = kc_public_order_negotiated_selected }
+		add_country_modifier = { modifier = kc_tsushima_licensed_convoys years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_tsushima_wako_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.23.a
+		trigger = { has_variable = kc_public_order_house_selected }
+		add_country_modifier = { modifier = kc_tsushima_house_patrols years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_tsushima_wako_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.23.a
+		trigger = { has_variable = kc_public_order_disorder_selected }
+		add_country_modifier = { modifier = kc_tsushima_maritime_disorder years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_tsushima_wako_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 1428: THE SHOCHO DEBT CRISIS
+# ---------------------------------------------------------------------------
+
+kc_historical_concord.30 = {
+	type = country_event
+	title = kc_historical_concord.30.title
+	desc = kc_historical_concord.30.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	immediate = { add_country_modifier = { modifier = kc_shocho_credit_panic years = 2 mode = replace } }
+
+	option = {
+		name = kc_historical_concord.30.a
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.31 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.31 months = 1 } }
+		}
+	}
+}
+
+kc_historical_concord.31 = {
+	type = country_event
+	title = kc_historical_concord.31.title
+	desc = kc_historical_concord.31.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_historical_concord.31.a
+		custom_tooltip = { text = kc_credit_tokusei_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_severe_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_penalty }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_penalty }
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		hidden_effect = {
+			kc_select_credit_tokusei = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.32 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.32 months = 8 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.31.b
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_moderate_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_credit_mediated_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		hidden_effect = {
+			kc_select_credit_mediated = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.32 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.32 months = 8 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.31.c
+		custom_tooltip = { text = kc_credit_strict_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_severe_penalty }
+		change_societal_value = { type = capital_economy_vs_traditional_economy value = -2 }
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		hidden_effect = {
+			kc_select_credit_strict = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.32 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.32 months = 8 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.32 = {
+	type = country_event
+	title = kc_historical_concord.32.title
+	desc = kc_historical_concord.32.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	immediate = { remove_country_modifier = kc_shocho_credit_panic }
+
+	option = {
+		name = kc_historical_concord.32.a
+		trigger = { has_variable = kc_credit_tokusei_selected }
+		add_country_modifier = { modifier = kc_shocho_tokusei_settlement years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_shocho_debt_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.32.a
+		trigger = { has_variable = kc_credit_mediated_selected }
+		add_country_modifier = { modifier = kc_shocho_mediated_credit years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_shocho_debt_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.32.a
+		trigger = { has_variable = kc_credit_strict_selected }
+		add_country_modifier = { modifier = kc_shocho_strict_contracts years = 15 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_shocho_debt_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 1445-1466: PORT AUTONOMY
+# ---------------------------------------------------------------------------
+
+kc_historical_concord.40 = {
+	type = country_event
+	title = kc_historical_concord.40.title
+	desc = kc_historical_concord.40.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+
+	option = {
+		name = kc_historical_concord.40.a
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 2 }
+		hidden_effect = { set_variable = { name = kc_port_initial_leaning value = 1 } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.41 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.41 months = 6 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.40.b
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = { set_variable = { name = kc_port_initial_leaning value = 2 } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.41 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.41 months = 6 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.40.c
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		hidden_effect = { set_variable = { name = kc_port_initial_leaning value = 3 } }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = {
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.41 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.41 months = 6 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.41 = {
+	type = country_event
+	title = kc_historical_concord.41.title
+	desc = kc_historical_concord.41.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+
+	option = {
+		name = kc_historical_concord.41.a
+		custom_tooltip = { text = kc_ports_municipal_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_penalty }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 3 }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		hidden_effect = {
+			kc_select_ports_municipal = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.42 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.42 months = 12 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.41.b
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_historical_minor_treasury_cost } }
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_minor_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_ports_concord_precedent_tt }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		hidden_effect = {
+			kc_select_ports_concord = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.42 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.42 months = 12 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.41.c
+		custom_tooltip = { text = kc_ports_house_precedent_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		change_societal_value = { type = capital_economy_vs_traditional_economy value = -2 }
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		hidden_effect = {
+			kc_select_ports_house = yes
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.42 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.42 months = 12 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.42 = {
+	type = country_event
+	title = kc_historical_concord.42.title
+	desc = kc_historical_concord.42.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+
+	option = {
+		name = kc_historical_concord.42.a
+		custom_tooltip = { text = kc_port_courts_common_tt }
+		add_country_modifier = { modifier = kc_concord_standard_measures years = 5 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = {
+			set_variable = { name = kc_port_jurisdiction value = 1 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.43 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.43 months = 12 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.42.b
+		custom_tooltip = { text = kc_port_courts_municipal_tt }
+		add_country_modifier = { modifier = kc_concord_retainer_registry years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 2 }
+		hidden_effect = {
+			set_variable = { name = kc_port_jurisdiction value = 2 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.43 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.43 months = 12 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.42.c
+		custom_tooltip = { text = kc_port_courts_house_tt }
+		add_country_modifier = { modifier = kc_concord_calibrated_customs years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		hidden_effect = {
+			set_variable = { name = kc_port_jurisdiction value = 3 }
+			if = { limit = { has_variable = kc_historical_debug_rapid } trigger_event_non_silently = { id = kc_historical_concord.43 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_historical_concord.43 months = 12 } }
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_historical_concord.43 = {
+	type = country_event
+	title = kc_historical_concord.43.title
+	desc = kc_historical_concord.43.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+
+	immediate = {
+		if = {
+			limit = { has_variable = kc_ports_concord_selected }
+			international_organization:kc_kitayama_concord = { add_gold = kc_historical_minor_treasury_receipt }
+		}
+		else_if = {
+			limit = { has_variable = kc_ports_municipal_selected }
+			add_gold = kc_historical_minor_national_receipt
+		}
+	}
+
+	option = {
+		name = kc_historical_concord.43.a
+		trigger = { has_variable = kc_ports_municipal_selected }
+		add_country_modifier = { modifier = kc_chartered_port_councils years = 20 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_port_autonomy_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.43.a
+		trigger = { has_variable = kc_ports_concord_selected }
+		add_country_modifier = { modifier = kc_concord_port_administration years = 20 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_port_autonomy_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+	option = {
+		name = kc_historical_concord.43.a
+		trigger = { has_variable = kc_ports_house_selected }
+		add_country_modifier = { modifier = kc_house_port_compacts years = 20 mode = replace }
+		hidden_effect = {
+			set_variable = { name = kc_port_autonomy_completed value = yes }
+			if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+			if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		}
+	}
+}

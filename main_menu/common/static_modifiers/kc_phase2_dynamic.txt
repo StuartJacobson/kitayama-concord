@@ -1,0 +1,102 @@
+﻿kc_phase2_reconciled_treaty_text = {
+	game_data = { category = country }
+	diplomatic_reputation = 0.50
+	diplomatic_spending_cost = -0.03
+}
+
+kc_phase2_disputed_translation = {
+	game_data = { category = country }
+	diplomatic_reputation = -0.50
+	trade_range = 25
+}
+
+kc_phase2_registered_confraternities = {
+	game_data = { category = country }
+	global_estate_satisfaction_recovery = 0.001
+	global_population_growth = 0.00025
+}
+
+kc_phase2_temple_charity_compact = {
+	game_data = { category = country }
+	global_clergy_max_literacy = 1
+	global_estate_satisfaction_recovery = 0.001
+}
+
+kc_phase2_closed_foreign_charities = {
+	game_data = { category = country }
+	monthly_legitimacy = 0.03
+	global_institution_growth_modifier = -0.025
+}
+
+kc_phase2_boundary_commission = {
+	game_data = { category = country }
+	colonial_range = 50
+	diplomatic_reputation = 0.50
+}
+
+kc_phase2_proprietary_boundaries = {
+	game_data = { category = country }
+	global_merchant_capacity_modifier = 0.03
+	diplomatic_reputation = -0.25
+}
+
+kc_phase2_colonial_audit = {
+	game_data = { category = country }
+	tax_income_efficiency = 0.03
+	diplomatic_spending_cost = 0.03
+}
+
+kc_phase2_governors_compromise = {
+	game_data = { category = country }
+	colonial_range_modifier = 0.05
+	tax_income_efficiency = 0.01
+}
+
+kc_phase2_slave_trade_ban = {
+	game_data = { category = country }
+	diplomatic_reputation = 0.50
+	global_merchant_power = -0.025
+}
+
+kc_phase2_foreign_indemnity = {
+	game_data = { category = country }
+	trade_income = 0.03
+	diplomatic_reputation = -0.25
+}
+
+kc_phase2_pilots_navigation = {
+	game_data = { category = country }
+	naval_range = 75
+	global_maritime_presence_modifier = 0.05
+}
+
+kc_phase2_pilots_medicine = {
+	game_data = { category = country }
+	global_disease_resistance = 0.05
+	global_population_growth = 0.00025
+}
+
+kc_christian_registered_relief = {
+	game_data = { category = country }
+	global_estate_satisfaction_recovery = 0.001
+	diplomatic_reputation = 0.25
+}
+
+kc_christian_temple_partnership = {
+	game_data = { category = country }
+	global_clergy_max_literacy = 1
+	global_population_growth = 0.00025
+}
+
+kc_christian_port_compact = {
+	game_data = { category = country }
+	trade_range = 50
+	diplomatic_reputation = 0.25
+}
+
+kc_christian_converted_court = {
+	game_data = { category = country }
+	research_speed_modifier = 0.03
+	diplomatic_reputation = 0.50
+	global_estate_satisfaction_recovery = -0.001
+}

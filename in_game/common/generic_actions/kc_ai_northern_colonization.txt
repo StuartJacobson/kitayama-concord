@@ -1,0 +1,119 @@
+﻿# AI-only action; source_flags retains native range, discovery and target checks.
+kc_ai_charter_ezo = {
+	type = owncountry
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 1
+	automation_tick = never
+	potential = { scope:actor = { kc_ai_northern_colonization_ready = yes } }
+	allow = {
+		scope:actor = {
+			kc_ai_northern_colonization_ready = yes
+			NOT = {
+				any_colonial_charter = {
+					province_definition = { kc_ai_ezo_charter_target = yes }
+				}
+			}
+		}
+	}
+	price = price:create_colonial_charter
+	select_trigger = {
+		looking_for_a = province_definition
+		source = actor
+		source_flags = possible_colonial_charters
+		target_flag = target
+		cache_targets = yes
+		name = "create_colonial_charter_select_province_definition"
+		none_available_msg_key = "create_colonial_charter_no_provinces"
+		visible = { kc_ai_ezo_charter_target = yes }
+		pre_evaluation_sort_value = {
+			value = "scope:actor.colonial_charter_distance(root)"
+			multiply = -1
+		}
+		pre_evaluation_number_to_evaluate_fully = 10
+		enabled = {
+			kc_ai_ezo_charter_target = yes
+			scope:actor = {
+				is_valid_colonial_charter = prev
+				NOT = { has_colonial_charter_in = prev }
+				NOT = {
+					any_cabinet = {
+						has_cabinet_action = yes
+						cabinet_action = cabinet_action:settle_the_frontier
+						interaction_target:target = root
+					}
+				}
+			}
+		}
+	}
+	effect = {
+		scope:actor = {
+			if = {
+				limit = { exists = scope:target }
+				create_colonial_charter = { target = scope:target }
+			}
+		}
+	}
+	ai_will_do = { value = 1000 }
+}
+
+# AI-only action; source_flags retains native range, discovery and target checks.
+kc_ai_charter_manchurian = {
+	type = owncountry
+	show_in_gui_list = no
+	show_message = no
+	ai_tick = monthly
+	ai_tick_frequency = 1
+	automation_tick = never
+	potential = { scope:actor = { kc_ai_manchurian_colonization_ready = yes } }
+	allow = {
+		scope:actor = {
+			kc_ai_manchurian_colonization_ready = yes
+			NOT = {
+				any_colonial_charter = {
+					province_definition = { kc_ai_manchurian_charter_target = yes }
+				}
+			}
+		}
+	}
+	price = price:create_colonial_charter
+	select_trigger = {
+		looking_for_a = province_definition
+		source = actor
+		source_flags = possible_colonial_charters
+		target_flag = target
+		cache_targets = yes
+		name = "create_colonial_charter_select_province_definition"
+		none_available_msg_key = "create_colonial_charter_no_provinces"
+		visible = { kc_ai_manchurian_charter_target = yes }
+		pre_evaluation_sort_value = {
+			value = "scope:actor.colonial_charter_distance(root)"
+			multiply = -1
+		}
+		pre_evaluation_number_to_evaluate_fully = 10
+		enabled = {
+			kc_ai_manchurian_charter_target = yes
+			scope:actor = {
+				is_valid_colonial_charter = prev
+				NOT = { has_colonial_charter_in = prev }
+				NOT = {
+					any_cabinet = {
+						has_cabinet_action = yes
+						cabinet_action = cabinet_action:settle_the_frontier
+						interaction_target:target = root
+					}
+				}
+			}
+		}
+	}
+	effect = {
+		scope:actor = {
+			if = {
+				limit = { exists = scope:target }
+				create_colonial_charter = { target = scope:target }
+			}
+		}
+	}
+	ai_will_do = { value = 1000 }
+}

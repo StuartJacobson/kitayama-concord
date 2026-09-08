@@ -1,0 +1,139 @@
+﻿namespace = kc_phase2_framework
+
+# The Hundred-Year Articles settled how Japan should govern itself. Their
+# second century begins by deciding who may speak for the Concord overseas.
+kc_phase2_framework.1 = {
+	type = country_event
+	title = kc_phase2_framework.1.title
+	desc = kc_phase2_framework.1.desc
+	outcome = neutral
+
+	illustration_tags = {
+		10 = regular
+		10 = interior
+	}
+
+	immediate = {
+		remove_variable = kc_phase2_framework_pending
+		set_variable = { name = kc_phase2_framework_opened value = yes }
+		if = {
+			limit = { NOT = { has_advance = kc_registers_open_sea } }
+			research_advance = advance_type:kc_registers_open_sea
+		}
+		if = {
+			limit = {
+				NOT = { has_variable = kc_phase2_maritime_constitution_settled }
+				NOT = { has_variable = kc_phase2_maritime_constitution_pending }
+				NOT = { has_reform = government_reform:kc_council_of_licensed_ports }
+				NOT = { has_reform = government_reform:kc_national_board_of_exchange }
+			}
+			set_variable = { name = kc_phase2_maritime_constitution_pending value = yes }
+			trigger_event_non_silently = { id = kc_phase2_framework.2 days = 30 }
+		}
+	}
+
+	option = {
+		name = kc_phase2_framework.1.a
+		hidden_effect = {
+			set_variable = { name = kc_phase2_opening_house_delegations value = yes }
+		}
+		change_societal_value = {
+			type = house_privilege_vs_concord_commonwealth
+			value = -5
+		}
+		add_research_progress = research_progress_mild_bonus
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_phase2_framework.1.b
+		hidden_effect = {
+			set_variable = { name = kc_phase2_opening_common_office value = yes }
+		}
+		change_societal_value = {
+			type = house_privilege_vs_concord_commonwealth
+			value = 5
+		}
+		add_government_power = government_power_mild_bonus
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_phase2_framework.1.c
+		hidden_effect = {
+			set_variable = { name = kc_phase2_opening_court_compromise value = yes }
+		}
+		add_legitimacy = legitimacy_mild_bonus
+		add_research_progress = research_progress_weak_bonus
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# Registers require a constitutional answer: foreign authority may be licensed
+# to the Houses or administered through a common national board. Each reform
+# supplies the slot it occupies, making the settlement structurally permanent
+# without consuming Japan's ordinary Renaissance reform capacity.
+kc_phase2_framework.2 = {
+	type = country_event
+	title = kc_phase2_framework.2.title
+	desc = kc_phase2_framework.2.desc
+	outcome = neutral
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_advance = kc_registers_open_sea
+		NOT = { has_variable = kc_phase2_maritime_constitution_settled }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	illustration_tags = {
+		10 = regular
+		10 = interior
+	}
+
+	immediate = {
+		remove_variable = kc_phase2_maritime_constitution_pending
+	}
+
+	option = {
+		name = kc_phase2_framework.2.a
+		set_variable = { name = kc_phase2_maritime_constitution_settled value = yes }
+		add_reform = government_reform:kc_council_of_licensed_ports
+		ai_chance = {
+			base = 50
+			modifier = {
+				trigger = { has_variable = kc_phase2_opening_house_delegations }
+				add = 50
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_phase2_framework.2.b
+		set_variable = { name = kc_phase2_maritime_constitution_settled value = yes }
+		add_reform = government_reform:kc_national_board_of_exchange
+		ai_chance = {
+			base = 50
+			modifier = {
+				trigger = { has_variable = kc_phase2_opening_common_office }
+				add = 50
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}

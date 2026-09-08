@@ -1,0 +1,27 @@
+﻿kc_charter_redemption_price = {
+	value = monthly_income_trade_and_tax
+	min = 1
+	multiply = 240
+}
+
+# Evaluated from the Concord IO scope. The monthly IO pulse records the tax
+# base of the richest current Chartered House. The backstop begins at twice
+# that benchmark, adds half a benchmark for every House in the latest arrears
+# count, and caps both its multiplier and final price.
+kc_stabilize_credit_months = {
+	value = 2
+	add = {
+		value = var:kc_last_assessment_arrears
+		multiply = 0.5
+	}
+	max = 12
+}
+
+kc_stabilize_credit_cost = {
+	value = var:kc_richest_house_tax_base
+	min = 1
+	multiply = kc_stabilize_credit_months
+	max = 5000
+}
+
+

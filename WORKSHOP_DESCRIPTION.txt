@@ -1,0 +1,84 @@
+[h1]Japan - The Kitayama Concord[/h1]
+[b]Version 0.3.0-alpha.78 - Unlisted external testing build for EU5 1.3[/b]
+
+[i]What if Japan avoided the Sengoku Jidai by turning its warrior houses toward commerce, infrastructure, and constitutional compromise?[/i]
+
+After resolving the Nanboku-cho conflict and moving toward Plutocracy, the leader of the Japanese Shogunate may proclaim the [b]Kitayama Concord[/b]. The old clans become Chartered Buke Houses: commercial warrior lineages that compete through credit, buildings, votes, and economic influence rather than private war.
+
+[h2]Core features[/h2]
+[list]
+[*]A new permanent Kitayama Concord international organization
+[*]Approximately 140 Chartered Houses protected from internal war
+[*]Economically weighted elections for the shogun without annexing or transferring the player's country
+[*]A three-House founding senior council, with one additional Senior Charter seat unlocked every 10 Entrenchment
+[*]Concord Cohesion and century-long Concord Entrenchment
+[*]A paid Concord Secretariat bureaucracy that purchases Cohesion, reduces Diplomatic Spending costs, modestly improves Estate Satisfaction Recovery, and remits part of its funded budget to the common Treasury; funded effects and expense grow with native bureaucracy Entrenchment
+[*]A second-century Phase 2 foundation with six unique Renaissance advancements, a paid Office of Maritime Exchange bureaucracy, and two competing maritime constitutional reforms
+[*]The Tallies of Ningbo, a four-event maritime chain that replaces the historical 1523 clash with a contest over registries, House licenses, and court guarantees, then automatically grants Licensed Oceanic Convoys
+[*]The Southern Sea Exchange, a multi-year Situation with matchlocks, powder supply, silver clearing, translation houses, religion-neutral foreign-worship law, a selected treaty-port Exchange Hall, and automatic firearms, silver, and translation advancements
+[*]A Colonial Survey Registers chain after Japan has a colonial nation and direct knowledge of a European capital, including competing common, House-chartered, and court-guaranteed approaches plus a New World Institution bridge
+[*]Ten recurring Phase 2 events covering firearms patents, powder leakage, bullion, treaty translation, port charities, temple schools, colonial boundaries, concealed revenue, slave trading, and returning pilots
+[*]A compact three-event Christian-contact chain about relief houses and civil status, including an explicitly extreme player-only choice to convert Japan and the ruling family to Catholicism
+[*]Merchants of Competing Europes and Japanese Overseas Communities, covering competitive foreign-company access, mixed law, Nihonmachi, returning merchants, and permanent registered quarters in overseas subject capitals
+[*]Regulation of the Open Seas, a 1630s Situation whose six ratified articles replace the provisional maritime reform with a House-led, registered-port, or national open-seas constitution
+[*]Eight groups of differentiated three-option laws covering government, markets, arms, roads, arbitration, assessments, maritime policy, and credit; stronger laws impose larger recurring Cohesion costs
+[*]A custom Japanese visual suite for the Concord, its member ranks, buildings, advances, reforms, disasters, and century-long culmination
+[*]A shared Treasury with national contributions, mediation, annual House assessments, arrears, credit stabilization, common granaries, security appropriations, maritime underwriting, emergency programs, and exponentially scaling Common Works commissions
+[*]Six permanent five-stage Treasury great works: irrigation, Harbor, Floodworks, and Waterworks authorizations unlock local infrastructure levels that Japan must construct, staff, and maintain, while the Kaido spine and mountain tunnels remain route-wide projects; the latter three unlock through a post-Southern-Exchange Second National Works Register
+[*]Post-maritime Harbor authorizations extend Seto Harbor Works to seven Great Outer Ports—including Tsuruga—and then along the southern and Pacific coast from Nishimuro to Kashima
+[*]A separate 10,000-gold Metropolitan Charter that transforms one qualifying 400,000-population urban location into the Concord's unique Megalopolis
+[*]Arms and maritime laws that govern House force targets and maintenance support without removing building-based recruitment or destroying existing House forces
+[*]Compulsory Charter Redemption, allowing wealthy Houses to acquire weaker competitors while preserving a minimum number of Houses
+[*]Unique House and state buildings, including Kaisho, Jisha-za Temples, Kaido Post Stations, Tea Gardens, Silk Farms, Iwor buildings, Muster and Ledger Offices, a Council Hall, and licensed Works Districts
+[*]Inherited Japanese clan estates, metallurgy, shipyards, shrines, and residences adapted for Chartered Houses
+[*]Entrenchment law milestones, unique advancements, early Banking progress, Professional Armies opportunities, and a Renaissance reward
+[*]An Ezo Compact with protected Ainu communities, restored tribesmen populations, settlement policies, and northern economic competition
+[*]Taiwanese provincial settlement registers, Philippine commercial compacts, and a Northern Colonial Administration for upper Manchuria and Sakhalin
+[*]The Continental War That Never Was, including a one-war Korean settlement and two limited 20-war-score treaty-coast doctrines against the current holder of China
+[*]Recurring overseas-subject incidents for harbor works, mixed courts, extraction arrears, charter reform, House concessions, and Concord Treasury assessments
+[*]Five foundational historical chains followed by [b]The War That Never Was[/b], where the pressures of the Ōnin War become a multi-year constitutional struggle over elections, credit, warehouses, patrols, and foreign trade
+[*]The Unquiet Peace transition crisis at 30 Entrenchment
+[*]The Great Reckoning fiscal crisis at 70 Entrenchment
+[*]A multi-year Hundred-Year Concord Situation at 100 Entrenchment, with three constitutional readings, full Printing Press progress in Kyoto, three publication legacies, two Age 1 reforms, and the House Privilege vs Concord Commonwealth societal value
+[*]The Fracturing Concord disaster, emergency recovery tools, and a possible collapse into a leaderless Warring Houses Interregnum
+[/list]
+
+[h2]How to form the Concord[/h2]
+[list=1]
+[*]Lead the Japanese Shogunate.
+[*]Resolve the Nanboku-cho situation.
+[*]Be at peace with at least 25 Stability (15 for AI-controlled Japan).
+[*]Move Aristocracy vs Plutocracy to 0 or farther toward Plutocracy.
+[*]Open the Japanese Shogunate, select Members, and use [b]Proclaim the Kitayama Concord[/b].
+[*]Open the new Concord through its native bottom-screen button and use [b]Ratify the Kitayama Concord[/b].
+[/list]
+
+[h2]Alpha testing[/h2]
+This is a feature-rich but unfinished external alpha. Long campaigns and ordinary play are particularly valuable. Please report unclear requirements, balance problems, AI failures, repeated events, election or law problems, Treasury exploits, building issues, Ezo behavior, performance pauses, missing localization, and save/reload failures.
+
+When reporting a problem, include the EU5 and mod versions, country and date, Concord leader, Cohesion and Entrenchment, reproduction steps, other enabled mods, and a save, screenshot, or log excerpt when available.
+
+[h2]AI Japan and House campaigns[/h2]
+AI Japan can use Concord treasury programs, complete eligible crisis programs, authorize national projects, and order limited physical infrastructure with normal costs. When a human plays a Japanese clan or Chartered House, AI Japan follows House-oriented constitutional choices and the later Concord moves toward House Privilege. This temporary release rule persists after leadership changes. Human event choices and ballots remain under player control. Long-campaign AI testing is still pending.
+
+[h2]Compatibility and known issues[/h2]
+[b]Compatibility warning:[/b] This mod replaces the vanilla Middle Kingdom membership rules to keep subordinate Concord Houses from joining it independently. Without this restriction, their tributary obligations can interfere with Japan's wars. Japan retains its own access to Middle Kingdom diplomacy. Keep this restriction enabled; mods that replace the Middle Kingdom require a compatibility patch. The Concord also replaces the shared law-voting resolution, a shared law-initiation trigger, Japanese clan-building definitions, and country-rank naming. These overlaps can affect compatibility even when another mod adds no Japanese content. Recheck compatibility after an EU5 update.
+
+[list]
+[*]Designed for Europa Universalis V 1.3
+[*]English localization only
+[*]A fresh campaign is recommended; saves created without this mod are unsupported
+[*]Balance and AI House behavior remain provisional
+[*]Some vanilla Japanese clan buildings report expected validation warnings for unrestricted foreign buildings or intentionally non-producing structures
+[*]One harmless Concord election message-type warning may appear
+[*]Some native IO and construction tooltips may emit null-context GUI warnings without a visible gameplay failure
+[*]Compatibility is not expected with mods changing Japan, the Japanese Shogunate, Japanese clan buildings, the Middle Kingdom, international organizations, or the same interface panels
+[*]The Concord currently replaces the vanilla Middle Kingdom definition to prevent its subordinate Houses from joining independently; this compatibility file must be reviewed after EU5 updates
+[/list]
+
+[b]Workshop visibility:[/b] This page is unlisted because the mod is being distributed for directed alpha testing. Please share the page link only with people interested in providing feedback.
+
+[h2]Northern colonization[/h2]
+AI Japan pursues Ezo settlement after Concord formation and upper Manchuria/Sakhalin after completing the Hundred-Year Concord. Dedicated paid charter actions work under the western-only AI colonization rule. The AI receives basic colonization technology and northern charts at the relevant stage; native range, charter costs and settlement progress still apply. Players have no Entrenchment restriction on colonization. The Northern Colonial Administration can be chartered from the first northern holding after Concord formation.
+
+Compatibility: this version also replaces the native create_colonial_charter and abandon_colonial_charter action definitions to route Concord AI northern settlement through the dedicated actions and retain its active northern charters. Other countries and human controls retain vanilla behavior. Mods replacing those actions require a compatibility patch.

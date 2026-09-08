@@ -1,0 +1,485 @@
+﻿# The century of accumulated Concord precedent culminates in a bounded
+# constitutional convention. It is activated directly by JAP's monthly hook
+# after the Great Reckoning and 100 Concord Entrenchment.
+kc_hundred_year_concord = {
+	monthly_spawn_chance = 0
+
+	can_start = {
+		# Activated explicitly by kc_concord_capstone_monthly.
+		always = no
+	}
+
+	can_end = {
+		custom_tooltip = {
+			text = kc_hundred_year_concord_end_tt
+			OR = {
+				var:kc_articles_progress >= 100
+				NOT = {
+					country_exists = c:JAP
+				}
+				NOT = {
+					exists = international_organization:kc_kitayama_concord
+				}
+				c:JAP ?= {
+					OR = {
+						NOT = {
+							has_reform = government_reform:kc_kitayama_concordate
+						}
+						has_variable = kc_concord_collapsed
+					}
+				}
+			}
+		}
+	}
+
+	visible = {
+		OR = {
+			tag = JAP
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+	}
+
+	on_start = {
+		set_variable = {
+			name = kc_articles_progress
+			value = 0
+		}
+		set_variable = {
+			name = kc_articles_monthly_progress
+			value = 1
+		}
+
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_hundred_year_concord_active
+				value = yes
+			}
+		}
+
+		c:JAP ?= {
+			set_variable = {
+				name = kc_concord_capstone_pending
+				value = yes
+			}
+			trigger_event_non_silently = kc_capstone.1
+		}
+	}
+
+	on_monthly = {
+		custom_tooltip = kc_hundred_year_concord_monthly_tt
+
+		hidden_effect = {
+			set_variable = {
+				name = kc_articles_monthly_progress
+				value = 1
+			}
+
+			# Peace gives council delegates and block-cutters uninterrupted
+			# access to the roads and archives.
+			if = {
+				limit = {
+					c:JAP ?= {
+						at_war = no
+					}
+				}
+				change_variable = {
+					name = kc_articles_monthly_progress
+					add = 0.25
+				}
+			}
+			else = {
+				change_variable = {
+					name = kc_articles_monthly_progress
+					subtract = 0.25
+				}
+			}
+
+			# Cohesion determines whether draft clauses are treated as common
+			# precedent or returned to the Houses for another negotiation.
+			if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion >= 80
+					}
+				}
+				change_variable = {
+					name = kc_articles_monthly_progress
+					add = 0.50
+				}
+			}
+			else_if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion >= 60
+					}
+				}
+				change_variable = {
+					name = kc_articles_monthly_progress
+					add = 0.30
+				}
+			}
+			else_if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion >= 40
+					}
+				}
+				change_variable = {
+					name = kc_articles_monthly_progress
+					add = 0.10
+				}
+			}
+			else_if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion < 20
+					}
+				}
+				change_variable = {
+					name = kc_articles_monthly_progress
+					subtract = 0.50
+				}
+			}
+
+			# Even partial Secretariat funding keeps copies and petitions
+			# moving; a strongly funded office receives the larger bonus.
+			if = {
+				limit = {
+					c:JAP ?= {
+						modifier:monthly_concord_bureaucracy_cohesion >= 0.14
+					}
+				}
+				change_variable = {
+					name = kc_articles_monthly_progress
+					add = 0.25
+				}
+			}
+			else_if = {
+				limit = {
+					c:JAP ?= {
+						modifier:monthly_concord_bureaucracy_cohesion > 0
+					}
+				}
+				change_variable = {
+					name = kc_articles_monthly_progress
+					add = 0.10
+				}
+			}
+
+			change_variable = {
+				name = kc_articles_progress
+				add = var:kc_articles_monthly_progress
+			}
+			clamp_variable = {
+				name = kc_articles_progress
+				min = 0
+				max = 100
+			}
+
+			if = {
+				limit = {
+					var:kc_articles_progress >= 25
+					NOT = {
+						has_variable = kc_articles_first_reading
+					}
+				}
+				set_variable = {
+					name = kc_articles_first_reading
+					value = yes
+				}
+				c:JAP ?= {
+					trigger_event_non_silently = kc_capstone.7
+				}
+			}
+
+			if = {
+				limit = {
+					var:kc_articles_progress >= 50
+					NOT = {
+						has_variable = kc_articles_second_reading
+					}
+				}
+				set_variable = {
+					name = kc_articles_second_reading
+					value = yes
+				}
+				c:JAP ?= {
+					trigger_event_non_silently = kc_capstone.8
+				}
+			}
+
+			if = {
+				limit = {
+					var:kc_articles_progress >= 75
+					NOT = {
+						has_variable = kc_articles_publication_reading
+					}
+				}
+				set_variable = {
+					name = kc_articles_publication_reading
+					value = yes
+				}
+				c:JAP ?= {
+					trigger_event_non_silently = kc_capstone.9
+				}
+			}
+		}
+	}
+
+	on_ending = {
+		if = {
+			limit = {
+				var:kc_articles_progress >= 100
+				country_exists = c:JAP
+				exists = international_organization:kc_kitayama_concord
+				c:JAP ?= {
+					has_reform = government_reform:kc_kitayama_concordate
+					NOT = {
+						has_variable = kc_concord_collapsed
+					}
+				}
+			}
+
+			international_organization:kc_kitayama_concord ?= {
+				remove_variable = kc_hundred_year_concord_active
+				set_variable = {
+					name = kc_concord_capstone_completed
+					value = yes
+				}
+			}
+
+			c:JAP ?= {
+				remove_variable = kc_concord_capstone_pending
+				set_variable = {
+					name = kc_concord_capstone_completed
+					value = yes
+				}
+
+				# The two earlier crises provide the principal precedents.
+				if = {
+					limit = {
+						international_organization:kc_kitayama_concord = {
+							has_variable = kc_fiscal_settlement_house_guarantees
+						}
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = -50
+					}
+				}
+				else_if = {
+					limit = {
+						international_organization:kc_kitayama_concord = {
+							has_variable = kc_fiscal_settlement_common_treasury
+						}
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = 50
+					}
+				}
+
+				if = {
+					limit = {
+						international_organization:kc_kitayama_concord = {
+							has_variable = kc_unquiet_peace_constabulary_legacy
+						}
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = 10
+					}
+				}
+				else_if = {
+					limit = {
+						international_organization:kc_kitayama_concord = {
+							has_variable = kc_unquiet_peace_watches_legacy
+						}
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = -10
+					}
+				}
+
+				# The settlement that prevented the constitutional pressures of
+				# 1467 from becoming the Onin War is the last major precedent
+				# considered before the convention's own readings.
+				if = {
+					limit = {
+						international_organization:kc_kitayama_concord = {
+							has_variable = kc_war_that_never_was_house_settlement
+						}
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = -20
+					}
+				}
+				else_if = {
+					limit = {
+						international_organization:kc_kitayama_concord = {
+							has_variable = kc_war_that_never_was_common_settlement
+						}
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = 20
+					}
+				}
+
+				# The convention's own readings add up to three smaller
+				# precedents without overwhelming the two earlier crises.
+				if = {
+					limit = {
+						has_variable = kc_articles_chartered_authority
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = -15
+					}
+				}
+				else_if = {
+					limit = {
+						has_variable = kc_articles_common_authority
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = 15
+					}
+				}
+
+				if = {
+					limit = {
+						has_variable = kc_articles_house_commentaries
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = -10
+					}
+				}
+				else_if = {
+					limit = {
+						has_variable = kc_articles_public_language
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = 10
+					}
+				}
+
+				if = {
+					limit = {
+						has_variable = kc_articles_house_imprints
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = -10
+					}
+					add_country_modifier = {
+						modifier = kc_hundred_year_house_imprints
+						years = 20
+						mode = replace
+					}
+				}
+				else_if = {
+					limit = {
+						has_variable = kc_articles_common_edition
+					}
+					change_societal_value = {
+						type = house_privilege_vs_concord_commonwealth
+						value = 10
+					}
+					add_country_modifier = {
+						modifier = kc_hundred_year_common_edition
+						years = 20
+						mode = replace
+					}
+				}
+				else_if = {
+					limit = {
+						has_variable = kc_articles_movable_type
+					}
+					add_country_modifier = {
+						modifier = kc_hundred_year_movable_type
+						years = 20
+						mode = replace
+					}
+				}
+
+				# Kyoto becomes a complete center of the Printing Press. This
+				# intentionally rewards the Concord's century of replicated
+				# judgments, ledgers, surveys, and public articles.
+				capital ?= {
+					change_institution_progress = {
+						type = institution:printing_press
+						value = 100
+					}
+				}
+
+				add_stability = stability_mild_bonus
+				add_prestige = prestige_mild_bonus
+				trigger_event_non_silently = kc_capstone.10
+			}
+		}
+		else = {
+			international_organization:kc_kitayama_concord ?= {
+				remove_variable = kc_hundred_year_concord_active
+			}
+			c:JAP ?= {
+				remove_variable = kc_concord_capstone_pending
+				trigger_event_non_silently = kc_capstone.11
+			}
+		}
+	}
+
+	tooltip = {
+		if = {
+			limit = {
+				owner ?= {
+					tag = JAP
+				}
+			}
+			custom_tooltip = kc_hundred_year_concord_map_state_tt
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			custom_tooltip = kc_hundred_year_concord_map_house_tt
+		}
+	}
+
+	map_color = {
+		if = {
+			limit = {
+				owner ?= {
+					tag = JAP
+				}
+			}
+			value = define:NMapColors|MAP_COLOR_HIGH
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			value = define:NMapColors|MAP_COLOR_MID
+		}
+		else = {
+			value = define:NMapColors|DEFAULT_COLOR
+		}
+	}
+
+	legend_key = {
+		desc = "KC_HUNDRED_YEAR_LEGEND_STATE"
+		color = define:NMapColors|MAP_COLOR_HIGH
+	}
+	legend_key = {
+		desc = "KC_HUNDRED_YEAR_LEGEND_HOUSES"
+		color = define:NMapColors|MAP_COLOR_MID
+	}
+}

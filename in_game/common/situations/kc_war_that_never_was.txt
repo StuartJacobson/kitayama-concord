@@ -1,0 +1,299 @@
+﻿# The political pressures that produced the Onin War are redirected into a
+# decade-long constitutional struggle.  Earlier Concord precedents improve
+# particular settlements, but never remove the player's alternatives.
+kc_war_that_never_was = {
+	monthly_spawn_chance = 0
+
+	can_start = {
+		# Activated explicitly by kc_war_that_never_was_monthly or kc_debug.38.
+		always = no
+	}
+
+	can_end = {
+		custom_tooltip = {
+			text = kc_war_that_never_was_end_tt
+			OR = {
+				AND = {
+					var:kc_wnw_settlement_progress >= 100
+					c:JAP ?= {
+						OR = {
+							has_variable = kc_wnw_house_settlement_chosen
+							has_variable = kc_wnw_balanced_settlement_chosen
+							has_variable = kc_wnw_common_settlement_chosen
+						}
+					}
+				}
+				NOT = { country_exists = c:JAP }
+				NOT = { exists = international_organization:kc_kitayama_concord }
+				c:JAP ?= {
+					OR = {
+						NOT = { has_reform = government_reform:kc_kitayama_concordate }
+						has_variable = kc_concord_collapsed
+					}
+				}
+			}
+		}
+	}
+
+	visible = {
+		OR = {
+			tag = JAP
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+	}
+
+	on_start = {
+		set_variable = { name = kc_wnw_settlement_progress value = 0 }
+		set_variable = { name = kc_wnw_monthly_progress value = 0.30 }
+		set_variable = { name = kc_wnw_house_arguments value = 0 }
+		set_variable = { name = kc_wnw_common_arguments value = 0 }
+
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_war_that_never_was_active value = yes }
+			every_international_organization_member = {
+				add_country_modifier = {
+					modifier = kc_wnw_house_uncertainty
+					years = -1
+					mode = replace
+				}
+			}
+		}
+
+		c:JAP ?= {
+			set_variable = { name = kc_war_that_never_was_pending value = yes }
+			set_variable = { name = kc_historical_chain_active value = yes }
+			add_country_modifier = {
+				modifier = kc_wnw_council_deadlock
+				years = -1
+				mode = replace
+			}
+			trigger_event_non_silently = kc_war_never_was.1
+		}
+	}
+
+	on_monthly = {
+		custom_tooltip = kc_war_that_never_was_monthly_tt
+
+		hidden_effect = {
+			set_variable = { name = kc_wnw_monthly_progress value = 0.30 }
+
+			if = {
+				limit = { c:JAP ?= { at_war = no } }
+				change_variable = { name = kc_wnw_monthly_progress add = 0.10 }
+			}
+			else = {
+				change_variable = { name = kc_wnw_monthly_progress subtract = 0.15 }
+			}
+
+			if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion >= 80
+					}
+				}
+				change_variable = { name = kc_wnw_monthly_progress add = 0.15 }
+			}
+			else_if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion >= 60
+					}
+				}
+				change_variable = { name = kc_wnw_monthly_progress add = 0.10 }
+			}
+			else_if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion >= 40
+					}
+				}
+				change_variable = { name = kc_wnw_monthly_progress add = 0.05 }
+			}
+			else_if = {
+				limit = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion < 25
+					}
+				}
+				change_variable = { name = kc_wnw_monthly_progress subtract = 0.15 }
+			}
+
+			if = {
+				limit = {
+					c:JAP ?= { modifier:monthly_concord_bureaucracy_cohesion > 0 }
+				}
+				change_variable = { name = kc_wnw_monthly_progress add = 0.05 }
+			}
+
+			change_variable = {
+				name = kc_wnw_settlement_progress
+				add = var:kc_wnw_monthly_progress
+			}
+			clamp_variable = { name = kc_wnw_settlement_progress min = 0 max = 100 }
+
+			if = {
+				limit = {
+					var:kc_wnw_settlement_progress >= 20
+					NOT = { has_variable = kc_wnw_election_incident }
+				}
+				set_variable = { name = kc_wnw_election_incident value = yes }
+				c:JAP ?= { trigger_event_non_silently = kc_war_never_was.2 }
+			}
+
+			if = {
+				limit = {
+					var:kc_wnw_settlement_progress >= 35
+					NOT = { has_variable = kc_wnw_credit_incident }
+				}
+				set_variable = { name = kc_wnw_credit_incident value = yes }
+				c:JAP ?= { trigger_event_non_silently = kc_war_never_was.3 }
+			}
+
+			if = {
+				limit = {
+					var:kc_wnw_settlement_progress >= 50
+					NOT = { has_variable = kc_wnw_warehouse_incident }
+				}
+				set_variable = { name = kc_wnw_warehouse_incident value = yes }
+				c:JAP ?= { trigger_event_non_silently = kc_war_never_was.4 }
+			}
+
+			if = {
+				limit = {
+					var:kc_wnw_settlement_progress >= 65
+					NOT = { has_variable = kc_wnw_order_incident }
+				}
+				set_variable = { name = kc_wnw_order_incident value = yes }
+				c:JAP ?= { trigger_event_non_silently = kc_war_never_was.5 }
+			}
+
+			if = {
+				limit = {
+					var:kc_wnw_settlement_progress >= 80
+					NOT = { has_variable = kc_wnw_tallies_incident }
+				}
+				set_variable = { name = kc_wnw_tallies_incident value = yes }
+				c:JAP ?= { trigger_event_non_silently = kc_war_never_was.6 }
+			}
+
+			if = {
+				limit = {
+					var:kc_wnw_settlement_progress >= 90
+					NOT = { has_variable = kc_wnw_final_convention }
+				}
+				set_variable = { name = kc_wnw_final_convention value = yes }
+				c:JAP ?= { trigger_event_non_silently = kc_war_never_was.7 }
+			}
+		}
+	}
+
+	on_ending = {
+		if = {
+			limit = {
+				var:kc_wnw_settlement_progress >= 100
+				country_exists = c:JAP
+				exists = international_organization:kc_kitayama_concord
+				c:JAP ?= {
+					has_reform = government_reform:kc_kitayama_concordate
+					NOT = { has_variable = kc_concord_collapsed }
+				}
+			}
+
+			international_organization:kc_kitayama_concord ?= {
+				remove_variable = kc_war_that_never_was_active
+				set_variable = { name = kc_war_that_never_was_completed value = yes }
+				every_international_organization_member = {
+					remove_country_modifier = kc_wnw_house_uncertainty
+				}
+			}
+
+			c:JAP ?= {
+				remove_country_modifier = kc_wnw_council_deadlock
+				remove_variable = kc_war_that_never_was_pending
+				if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+				set_variable = { name = kc_war_that_never_was_completed value = yes }
+
+				if = {
+					limit = { has_variable = kc_wnw_house_settlement_chosen }
+					international_organization:kc_kitayama_concord = {
+						set_variable = { name = kc_war_that_never_was_house_settlement value = yes }
+						change_variable = { name = kc_concord_cohesion add = 2 }
+					}
+					add_country_modifier = { modifier = kc_wnw_house_compact_legacy years = 20 mode = replace }
+					trigger_event_non_silently = kc_war_never_was.10
+				}
+				else_if = {
+					limit = { has_variable = kc_wnw_common_settlement_chosen }
+					international_organization:kc_kitayama_concord = {
+						set_variable = { name = kc_war_that_never_was_common_settlement value = yes }
+						change_variable = { name = kc_concord_cohesion add = 1 }
+					}
+					add_country_modifier = { modifier = kc_wnw_public_peace_legacy years = 20 mode = replace }
+					trigger_event_non_silently = kc_war_never_was.12
+				}
+				else = {
+					international_organization:kc_kitayama_concord = {
+						set_variable = { name = kc_war_that_never_was_balanced_settlement value = yes }
+						change_variable = { name = kc_concord_cohesion add = 2 }
+					}
+					add_country_modifier = { modifier = kc_wnw_dual_covenant_legacy years = 20 mode = replace }
+					trigger_event_non_silently = kc_war_never_was.11
+				}
+			}
+		}
+		else = {
+			international_organization:kc_kitayama_concord ?= {
+				remove_variable = kc_war_that_never_was_active
+				every_international_organization_member = {
+					remove_country_modifier = kc_wnw_house_uncertainty
+				}
+			}
+			c:JAP ?= {
+				remove_country_modifier = kc_wnw_council_deadlock
+				remove_variable = kc_war_that_never_was_pending
+				if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+				trigger_event_non_silently = kc_war_never_was.13
+			}
+		}
+
+		c:JAP ?= {
+			remove_variable = kc_wnw_house_settlement_chosen
+			remove_variable = kc_wnw_balanced_settlement_chosen
+			remove_variable = kc_wnw_common_settlement_chosen
+		}
+	}
+
+	tooltip = {
+		if = {
+			limit = { owner ?= { tag = JAP } }
+			custom_tooltip = kc_war_that_never_was_map_state_tt
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			custom_tooltip = kc_war_that_never_was_map_house_tt
+		}
+	}
+
+	map_color = {
+		if = {
+			limit = { owner ?= { tag = JAP } }
+			value = define:NMapColors|MAP_COLOR_HIGH
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+			}
+			value = define:NMapColors|MAP_COLOR_MID
+		}
+		else = { value = define:NMapColors|DEFAULT_COLOR }
+	}
+
+	legend_key = { desc = "KC_WNW_LEGEND_STATE" color = define:NMapColors|MAP_COLOR_HIGH }
+	legend_key = { desc = "KC_WNW_LEGEND_HOUSES" color = define:NMapColors|MAP_COLOR_MID }
+}

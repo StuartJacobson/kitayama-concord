@@ -1,0 +1,23 @@
+﻿# Province-definition scope. Liaodong stays outside the northern colony.
+kc_ai_ezo_charter_target = {
+	area = area:ezo_area
+}
+kc_ai_manchurian_charter_target = {
+	region = region:manchuria_region
+	NOT = { area = area:liaodong_area }
+}
+
+# Country scope. The completed Situation flag, not merely 100 Entrenchment,
+# opens the AI's second settlement stage. Human colonization is untouched.
+kc_ai_northern_colonization_ready = {
+	kc_ai_japan_active_concord = yes
+	num_provinces > 0
+	is_rebel_country = no
+	NOT = { country_type = building }
+	modifier:can_colonize = yes
+	total_population >= 5
+}
+kc_ai_manchurian_colonization_ready = {
+	kc_ai_northern_colonization_ready = yes
+	has_variable = kc_concord_capstone_completed
+}

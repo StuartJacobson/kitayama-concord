@@ -1,0 +1,4 @@
+# Preserve shipped UTF-8 BOMs and line endings exactly.
+* -text
+*.dds binary
+*.png binary

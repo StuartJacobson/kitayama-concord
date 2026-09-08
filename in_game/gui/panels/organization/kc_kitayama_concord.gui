@@ -1,0 +1,459 @@
+﻿organization_geodiplomatic_theme = {
+	blockoverride "ios_information_header_order" {
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			size = { 180 34 }
+			spacing = 3
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				text_single = {
+					autoresize = yes
+					align = left
+					text = "[InternationalOrganizationTypeVariable.GetName]"
+				}
+				expand = {}
+				text_single = {
+					autoresize = yes
+					align = right
+					text = "[InternationalOrganizationsView.GetInternationalOrganization.GetVariableText(InternationalOrganizationTypeVariable.GetTag)]"
+				}
+			}
+
+			progressbar = {
+				layoutpolicy_horizontal = expanding
+				size = { -1 8 }
+				using = progress_bar_blue_grey_alt
+				min = 0
+				max = 100
+				value = "[FixedPointToFloat(InternationalOrganizationsView.GetInternationalOrganization.GetVariable(InternationalOrganizationTypeVariable.GetTag))]"
+				direction = horizontal
+			}
+		}
+	}
+
+	# EU5 reserves one native custom-tab slot for each organization theme. The
+	# Concord divides that slot into update-safe Treasury and National Projects
+	# views instead of replacing the common organization window.
+	blockoverride "organization_custom_tab_visible" {
+		visible = "[Not(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_concord_collapsed').IsSet)]"
+	}
+
+	blockoverride "organization_candidates_tab_visible" {
+		visible = "[And(InternationalOrganizationsView.HasCandidates, Not(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_concord_collapsed').IsSet))]"
+	}
+
+	blockoverride "organization_laws_tab_visible" {
+		visible = "[And(InternationalOrganizationsView.HasLaws, Not(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_concord_collapsed').IsSet))]"
+	}
+
+	blockoverride "organization_custom_tab_text" {
+		text = "KC_CONCORD_ADMINISTRATION_TAB"
+	}
+
+	blockoverride "organization_custom_tab_tooltip" {
+		tooltipwidget = {
+			using = SubTabIOTreasuryTooltip
+		}
+	}
+
+	blockoverride "organization_custom_content_visible" {
+		visible = "[InternationalOrganizationsView.Vars.HasValue( 'organizations', 'custom' )]"
+	}
+
+	blockoverride "organization_custom_content" {
+		vbox = {
+			using = layoutpolicy_expanding
+			using = bg_secondary_inner_alt
+			ignoreinvisible = yes
+
+			# One stable navigation row prevents newly unlocked project cards from
+			# changing the Treasury scroll height or restoring an old scroll offset.
+			header_secondary_tabs = {
+				blockoverride "secondary_tabs_margin" {
+					margin_top = 4
+					spacing = 2
+				}
+				blockoverride "content" {
+					button_secondary_tab_alt = {
+						using = layoutpolicy_expanding
+						blockoverride "tab_text" { text = "KC_TREASURY_TAB" }
+						down = "[InternationalOrganizationsView.Vars.NotExistOrHasValue( 'kc_concord_administration', 'treasury' )]"
+						action_tooltip = {
+							title = "OPEN_TAB"
+							on_action = "[InternationalOrganizationsView.Vars.Set( 'kc_concord_administration', 'treasury' )]"
+						}
+					}
+
+					button_secondary_tab_alt = {
+						using = layoutpolicy_expanding
+						visible = "[Or(Not(LessThan_CFixedPoint(InternationalOrganizationsView.GetInternationalOrganization.GetVariable('kc_concord_entrenchment'), '(CFixedPoint)75')), InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_phase_2_great_projects_unlocked').IsSet)]"
+						blockoverride "tab_text" { text = "KC_NATIONAL_GREAT_PROJECTS_TAB" }
+						down = "[InternationalOrganizationsView.Vars.HasValue( 'kc_concord_administration', 'projects' )]"
+						action_tooltip = {
+							title = "OPEN_TAB"
+							on_action = "[InternationalOrganizationsView.Vars.Set( 'kc_concord_administration', 'projects' )]"
+						}
+					}
+				}
+			}
+
+			# Treasury programs remain a fixed-height view. Great-project unlocks do
+			# not add widgets to this scrollarea.
+			scrollarea = {
+				visible = "[Or(LessThan_CFixedPoint(InternationalOrganizationsView.GetInternationalOrganization.GetVariable('kc_concord_entrenchment'), '(CFixedPoint)75'), InternationalOrganizationsView.Vars.NotExistOrHasValue( 'kc_concord_administration', 'treasury' ))]"
+				using = layoutpolicy_expanding
+				maximumsize = { -1 580 }
+				scrollbarpolicy_horizontal = always_off
+				scrollbar_vertical = { using = Scrollbar_Vertical }
+
+					scrollwidget = {
+					vbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = preferred
+						margin = { 10 8 }
+						spacing = 10
+
+						# Emergency measures remain immediately visible while the compact
+						# is fracturing, ahead of the ledger and all ordinary programs.
+						card_actions = {
+							visible = "[InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_fracturing_concord_active').IsSet]"
+							blockoverride "card_header_text" { text = "KC_TREASURY_EMERGENCY_PROGRAMS" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/disasters/end_requirements_green.dds" }
+							blockoverride "actions_override" {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 5
+									margin = { 8 8 }
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_emergency_treasury_subscription"
+										title = "kc_emergency_treasury_subscription"
+										description = "kc_emergency_treasury_subscription_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_emergency_treasury_subscription" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_emergency_purchase_cohesion"
+										title = "kc_emergency_purchase_cohesion"
+										description = "kc_emergency_purchase_cohesion_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_emergency_purchase_cohesion" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+								}
+							}
+						}
+
+						widget = {
+							layoutpolicy_horizontal = expanding
+							size = { -1 235 }
+							using = bg_paper_card
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								margin = { 16 10 }
+								spacing = 5
+								text_single = { text = "KC_TREASURY_LEDGER_HEADER" align = left }
+								text_multi = {
+									text = "KC_TREASURY_LEDGER_DESC"
+									layoutpolicy_horizontal = expanding
+									autoresize = yes
+								}
+							}
+						}
+
+						card_actions = {
+							blockoverride "card_header_text" { text = "KC_TREASURY_PROGRAMS" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/resources/gold.dds" }
+							blockoverride "actions_override" {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 5
+									margin = { 8 8 }
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_commission_common_works"
+										title = "kc_commission_common_works"
+										description = "kc_commission_common_works_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_commission_common_works" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_stabilize_house_credit"
+										title = "kc_stabilize_house_credit"
+										description = "kc_stabilize_house_credit_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_stabilize_house_credit" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+								}
+							}
+						}
+
+						card_actions = {
+							blockoverride "card_header_text" { text = "KC_TREASURY_DOMESTIC_PROGRAMS" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/resources/gold.dds" }
+							blockoverride "actions_override" {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 5
+									margin = { 8 8 }
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_maintain_common_granaries"
+										title = "kc_maintain_common_granaries"
+										description = "kc_maintain_common_granaries_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_maintain_common_granaries" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_fund_common_security"
+										title = "kc_fund_common_security"
+										description = "kc_fund_common_security_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_fund_common_security" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+								}
+							}
+						}
+
+						card_actions = {
+							blockoverride "card_header_text" { text = "KC_TREASURY_MARITIME_PROGRAMS" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/international_organizations/kc_kitayama_concord.dds" }
+							blockoverride "actions_override" {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 5
+									margin = { 8 8 }
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_underwrite_maritime_ventures"
+										title = "kc_underwrite_maritime_ventures"
+										description = "kc_underwrite_maritime_ventures_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_underwrite_maritime_ventures" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+								}
+							}
+						}
+
+					}
+				}
+			}
+
+			# All staged works share one National Great Projects view. Project rows
+			# appear only after their Entrenchment or Phase 2 unlock has been earned.
+			scrollarea = {
+				visible = "[And(Or(Not(LessThan_CFixedPoint(InternationalOrganizationsView.GetInternationalOrganization.GetVariable('kc_concord_entrenchment'), '(CFixedPoint)75')), InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_phase_2_great_projects_unlocked').IsSet), InternationalOrganizationsView.Vars.HasValue( 'kc_concord_administration', 'projects' ))]"
+				using = layoutpolicy_expanding
+				maximumsize = { -1 580 }
+				scrollbarpolicy_horizontal = always_off
+				scrollbar_vertical = { using = Scrollbar_Vertical }
+
+				scrollwidget = {
+					vbox = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = preferred
+						margin = { 10 8 }
+						spacing = 10
+
+						widget = {
+							layoutpolicy_horizontal = expanding
+							size = { -1 160 }
+							using = bg_paper_card
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								margin = { 16 10 }
+								spacing = 5
+								text_single = { text = "KC_NATIONAL_GREAT_PROJECTS_HEADER" align = left }
+								text_multi = {
+									text = "KC_NATIONAL_GREAT_PROJECTS_DESC"
+									layoutpolicy_horizontal = expanding
+									autoresize = yes
+								}
+							}
+						}
+
+						card_actions = {
+							blockoverride "card_header_text" { text = "KC_TREASURY_GREAT_PROJECTS_FIRST_CENTURY" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/buildings/kc_kaido_post_station.dds" }
+							blockoverride "actions_override" {
+								vbox = {
+									layoutpolicy_horizontal = expanding
+									margin = { 8 8 }
+									spacing = 5
+									hbox = {
+										layoutpolicy_horizontal = expanding
+										ignoreinvisible = yes
+										spacing = 5
+										action_button_diamond = {
+											size = { 220 34 }
+											text = "kc_project_grand_irrigation"
+											title = "kc_project_grand_irrigation"
+											description = "kc_project_grand_irrigation_desc"
+											actor = "[InternationalOrganizationsView.GetPlayer]"
+											parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+											left_action = { action_name = "kc_project_grand_irrigation" }
+											tooltipwidget = { using = action_tooltip_pop_out }
+										}
+										action_button_diamond = {
+											visible = "[Not(LessThan_CFixedPoint(InternationalOrganizationsView.GetInternationalOrganization.GetVariable('kc_concord_entrenchment'), '(CFixedPoint)85'))]"
+											size = { 220 34 }
+											text = "kc_project_national_kaido"
+											title = "kc_project_national_kaido"
+											description = "kc_project_national_kaido_desc"
+											actor = "[InternationalOrganizationsView.GetPlayer]"
+											parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+											left_action = { action_name = "kc_project_national_kaido" }
+											tooltipwidget = { using = action_tooltip_pop_out }
+										}
+									}
+									hbox = {
+										layoutpolicy_horizontal = expanding
+										ignoreinvisible = yes
+										spacing = 5
+										action_button_diamond = {
+											visible = "[Not(LessThan_CFixedPoint(InternationalOrganizationsView.GetInternationalOrganization.GetVariable('kc_concord_entrenchment'), '(CFixedPoint)95'))]"
+											size = { 220 34 }
+											text = "kc_project_inland_sea_harbors"
+											title = "kc_project_inland_sea_harbors"
+											description = "kc_project_inland_sea_harbors_desc"
+											actor = "[InternationalOrganizationsView.GetPlayer]"
+											parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+											left_action = { action_name = "kc_project_inland_sea_harbors" }
+											tooltipwidget = { using = action_tooltip_pop_out }
+										}
+									}
+								}
+							}
+						}
+
+						card_actions = {
+							visible = "[InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_phase_2_great_projects_unlocked').IsSet]"
+							blockoverride "card_header_text" { text = "KC_TREASURY_GREAT_PROJECTS_PHASE_2" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/international_organizations/kc_kitayama_concord.dds" }
+							blockoverride "actions_override" {
+								vbox = {
+									layoutpolicy_horizontal = expanding
+									margin = { 8 8 }
+									spacing = 5
+									hbox = {
+										layoutpolicy_horizontal = expanding
+										spacing = 5
+										action_button_diamond = {
+											size = { 220 34 }
+											text = "kc_project_national_floodworks"
+											title = "kc_project_national_floodworks"
+											description = "kc_project_national_floodworks_desc"
+											actor = "[InternationalOrganizationsView.GetPlayer]"
+											parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+											left_action = { action_name = "kc_project_national_floodworks" }
+											tooltipwidget = { using = action_tooltip_pop_out }
+										}
+										action_button_diamond = {
+											size = { 220 34 }
+											text = "kc_project_transmontane_tunnels"
+											title = "kc_project_transmontane_tunnels"
+											description = "kc_project_transmontane_tunnels_desc"
+											actor = "[InternationalOrganizationsView.GetPlayer]"
+											parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+											left_action = { action_name = "kc_project_transmontane_tunnels" }
+											tooltipwidget = { using = action_tooltip_pop_out }
+										}
+									}
+									hbox = {
+										layoutpolicy_horizontal = expanding
+										spacing = 5
+										action_button_diamond = {
+											size = { 220 34 }
+											text = "kc_project_national_urban_waterworks"
+											title = "kc_project_national_urban_waterworks"
+											description = "kc_project_national_urban_waterworks_desc"
+											actor = "[InternationalOrganizationsView.GetPlayer]"
+											parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+											left_action = { action_name = "kc_project_national_urban_waterworks" }
+											tooltipwidget = { using = action_tooltip_pop_out }
+										}
+									}
+								}
+							}
+						}
+
+						card_actions = {
+							visible = "[And(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_late_maritime_works_available').IsSet, Or(Not(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_outer_port_charters_unlocked').IsSet), Not(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_southern_ocean_harbor_line_unlocked').IsSet)))]"
+							blockoverride "card_header_text" { text = "KC_TREASURY_GREAT_PROJECTS_LATE_MARITIME" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/international_organizations/kc_kitayama_concord.dds" }
+							blockoverride "actions_override" {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 5
+									margin = { 8 8 }
+									action_button_diamond = {
+										visible = "[Not(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_outer_port_charters_unlocked').IsSet)]"
+										size = { 220 34 }
+										text = "kc_project_outer_port_charters"
+										title = "kc_project_outer_port_charters"
+										description = "kc_project_outer_port_charters_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_project_outer_port_charters" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+									action_button_diamond = {
+										visible = "[And(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_outer_port_charters_unlocked').IsSet, Not(InternationalOrganizationsView.GetInternationalOrganization.MakeScope.GetVariable('kc_southern_ocean_harbor_line_unlocked').IsSet))]"
+										size = { 220 34 }
+										text = "kc_project_southern_ocean_harbor_line"
+										title = "kc_project_southern_ocean_harbor_line"
+										description = "kc_project_southern_ocean_harbor_line_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_project_southern_ocean_harbor_line" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+								}
+							}
+						}
+
+						card_actions = {
+							visible = "[Not(LessThan_CFixedPoint(InternationalOrganizationsView.GetInternationalOrganization.GetVariable('kc_concord_entrenchment'), '(CFixedPoint)100'))]"
+							blockoverride "card_header_text" { text = "KC_TREASURY_METROPOLITAN_CHARTER" }
+							blockoverride "card_header_icon" { texture = "gfx/interface/icons/international_organizations/kc_kitayama_concord.dds" }
+							blockoverride "actions_override" {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 5
+									margin = { 8 8 }
+									action_button_diamond = {
+										size = { 220 34 }
+										text = "kc_project_charter_megalopolis"
+										title = "kc_project_charter_megalopolis"
+										description = "kc_project_charter_megalopolis_desc"
+										actor = "[InternationalOrganizationsView.GetPlayer]"
+										parameter = { parameter_name = "recipient" parameter_value = "[InternationalOrganizationsView.GetInternationalOrganization]" }
+										left_action = { action_name = "kc_project_charter_megalopolis" }
+										tooltipwidget = { using = action_tooltip_pop_out }
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

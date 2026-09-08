@@ -1,0 +1,62 @@
+﻿on_game_start = { on_actions = { kc_record_house_player_start } }
+monthly_country_pulse = {
+ on_actions = { kc_record_current_house_player kc_ai_japan_formation_direction kc_house_player_direction kc_ai_japan_administration }
+}
+kc_record_house_player_start = {
+ effect = {
+  every_country = {
+   limit = { kc_is_human_japanese_house = yes }
+   set_global_variable = { name = kc_house_player_campaign value = yes }
+  }
+ }
+}
+kc_record_current_house_player = {
+ trigger = {
+  NOT = { has_global_variable = kc_house_player_campaign }
+  kc_is_human_japanese_house = yes
+ }
+ effect = { set_global_variable = { name = kc_house_player_campaign value = yes } }
+}
+# Prepare for the existing proclamation; never bypass its peace, stability,
+# Nanbokucho or Sengoku conditions, or trigger a second formation event.
+kc_ai_japan_formation_direction = {
+ trigger = {
+  tag = JAP
+  is_ai = yes
+  is_leader_of_international_organization = international_organization:japanese_shogunate
+  NOT = { exists = international_organization:kc_kitayama_concord }
+  NOT = { is_situation_active = situation:sengoku }
+  situation:nanbokuchou = { situation_has_ended = yes }
+  at_war = no
+  societal_value:aristocracy_vs_plutocracy < 0
+ }
+ effect = { change_societal_value = { type = aristocracy_vs_plutocracy value = 1 } }
+}
+# Persistent release behavior for a House-origin campaign, including a later
+# player switch to JAP. Ordinary human-Japan starts never receive this drift.
+kc_house_player_direction = {
+ trigger = {
+			exists = international_organization:kc_kitayama_concord
+  tag = JAP
+  has_global_variable = kc_house_player_campaign
+  has_reform = government_reform:kc_kitayama_concordate
+  has_variable = kc_concord_capstone_completed
+  international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+  societal_value:house_privilege_vs_concord_commonwealth > -100
+ }
+ effect = { change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -1 } }
+}
+kc_ai_japan_administration = {
+ trigger = {
+  kc_ai_japan_active_concord = yes
+  NOT = { has_variable = kc_ai_japan_administration_cooldown }
+ }
+ effect = {
+  set_variable = { name = kc_ai_japan_administration_cooldown value = yes months = 3 }
+  kc_ai_japan_budget_bureaucracies = yes
+  if = {
+   limit = { at_war = no gold >= { value = monthly_income_trade_and_tax min = 1 multiply = 6 } }
+   trigger_event_silently = { id = kc_ai_japan.1 days = 15 }
+  }
+ }
+}

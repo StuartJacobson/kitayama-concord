@@ -1,0 +1,29 @@
+﻿# Granted pairwise to the landed Houses created by a collapsed Concord.
+kc_cb_warring_houses = {
+	# Longer than the playable timeline and creatable without a spy network.
+	years = 1000
+	no_spy_network_cost = yes
+
+	create_visible = {
+		has_variable = kc_warring_house
+		scope:target = {
+			has_variable = kc_warring_house
+		}
+	}
+	create_enabled = {
+		has_variable = kc_warring_house
+		scope:target = {
+			has_variable = kc_warring_house
+		}
+	}
+	declare_enabled = {
+		has_variable = kc_warring_house
+		scope:target = {
+			has_variable = kc_warring_house
+		}
+	}
+
+	speed = 10
+	max_warscore_from_battles = 100
+	war_goal_type = sengoku_wargoal
+}

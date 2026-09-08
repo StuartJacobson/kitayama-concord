@@ -1,0 +1,152 @@
+﻿# Destructive test reset for the five foundational historical chains. This is
+# called only by kc_debug.37; ordinary gameplay never erases its precedents.
+
+kc_select_foreign_commerce_court = {
+	set_variable = { name = kc_precedent_foreign_commerce value = 1 }
+	if = { limit = { has_variable = kc_foreign_commerce_concord_selected } remove_variable = kc_foreign_commerce_concord_selected }
+	if = { limit = { has_variable = kc_foreign_commerce_house_selected } remove_variable = kc_foreign_commerce_house_selected }
+	set_variable = { name = kc_foreign_commerce_court_selected value = yes }
+}
+
+kc_select_foreign_commerce_concord = {
+	set_variable = { name = kc_precedent_foreign_commerce value = 2 }
+	if = { limit = { has_variable = kc_foreign_commerce_court_selected } remove_variable = kc_foreign_commerce_court_selected }
+	if = { limit = { has_variable = kc_foreign_commerce_house_selected } remove_variable = kc_foreign_commerce_house_selected }
+	set_variable = { name = kc_foreign_commerce_concord_selected value = yes }
+}
+
+kc_select_foreign_commerce_house = {
+	set_variable = { name = kc_precedent_foreign_commerce value = 3 }
+	if = { limit = { has_variable = kc_foreign_commerce_court_selected } remove_variable = kc_foreign_commerce_court_selected }
+	if = { limit = { has_variable = kc_foreign_commerce_concord_selected } remove_variable = kc_foreign_commerce_concord_selected }
+	set_variable = { name = kc_foreign_commerce_house_selected value = yes }
+}
+
+kc_select_public_order_central = {
+	set_variable = { name = kc_precedent_public_order value = 1 }
+	if = { limit = { has_variable = kc_public_order_negotiated_selected } remove_variable = kc_public_order_negotiated_selected }
+	if = { limit = { has_variable = kc_public_order_house_selected } remove_variable = kc_public_order_house_selected }
+	if = { limit = { has_variable = kc_public_order_disorder_selected } remove_variable = kc_public_order_disorder_selected }
+	set_variable = { name = kc_public_order_central_selected value = yes }
+}
+
+kc_select_public_order_negotiated = {
+	set_variable = { name = kc_precedent_public_order value = 2 }
+	if = { limit = { has_variable = kc_public_order_central_selected } remove_variable = kc_public_order_central_selected }
+	if = { limit = { has_variable = kc_public_order_house_selected } remove_variable = kc_public_order_house_selected }
+	if = { limit = { has_variable = kc_public_order_disorder_selected } remove_variable = kc_public_order_disorder_selected }
+	set_variable = { name = kc_public_order_negotiated_selected value = yes }
+}
+
+kc_select_public_order_house = {
+	set_variable = { name = kc_precedent_public_order value = 3 }
+	if = { limit = { has_variable = kc_public_order_central_selected } remove_variable = kc_public_order_central_selected }
+	if = { limit = { has_variable = kc_public_order_negotiated_selected } remove_variable = kc_public_order_negotiated_selected }
+	if = { limit = { has_variable = kc_public_order_disorder_selected } remove_variable = kc_public_order_disorder_selected }
+	set_variable = { name = kc_public_order_house_selected value = yes }
+}
+
+kc_select_public_order_disorder = {
+	set_variable = { name = kc_precedent_public_order value = 4 }
+	if = { limit = { has_variable = kc_public_order_central_selected } remove_variable = kc_public_order_central_selected }
+	if = { limit = { has_variable = kc_public_order_negotiated_selected } remove_variable = kc_public_order_negotiated_selected }
+	if = { limit = { has_variable = kc_public_order_house_selected } remove_variable = kc_public_order_house_selected }
+	set_variable = { name = kc_public_order_disorder_selected value = yes }
+}
+
+kc_select_credit_tokusei = {
+	set_variable = { name = kc_precedent_credit value = 1 }
+	if = { limit = { has_variable = kc_credit_mediated_selected } remove_variable = kc_credit_mediated_selected }
+	if = { limit = { has_variable = kc_credit_strict_selected } remove_variable = kc_credit_strict_selected }
+	set_variable = { name = kc_credit_tokusei_selected value = yes }
+}
+
+kc_select_credit_mediated = {
+	set_variable = { name = kc_precedent_credit value = 2 }
+	if = { limit = { has_variable = kc_credit_tokusei_selected } remove_variable = kc_credit_tokusei_selected }
+	if = { limit = { has_variable = kc_credit_strict_selected } remove_variable = kc_credit_strict_selected }
+	set_variable = { name = kc_credit_mediated_selected value = yes }
+}
+
+kc_select_credit_strict = {
+	set_variable = { name = kc_precedent_credit value = 3 }
+	if = { limit = { has_variable = kc_credit_tokusei_selected } remove_variable = kc_credit_tokusei_selected }
+	if = { limit = { has_variable = kc_credit_mediated_selected } remove_variable = kc_credit_mediated_selected }
+	set_variable = { name = kc_credit_strict_selected value = yes }
+}
+
+kc_select_ports_municipal = {
+	set_variable = { name = kc_precedent_ports value = 1 }
+	if = { limit = { has_variable = kc_ports_concord_selected } remove_variable = kc_ports_concord_selected }
+	if = { limit = { has_variable = kc_ports_house_selected } remove_variable = kc_ports_house_selected }
+	set_variable = { name = kc_ports_municipal_selected value = yes }
+}
+
+kc_select_ports_concord = {
+	set_variable = { name = kc_precedent_ports value = 2 }
+	if = { limit = { has_variable = kc_ports_municipal_selected } remove_variable = kc_ports_municipal_selected }
+	if = { limit = { has_variable = kc_ports_house_selected } remove_variable = kc_ports_house_selected }
+	set_variable = { name = kc_ports_concord_selected value = yes }
+}
+
+kc_select_ports_house = {
+	set_variable = { name = kc_precedent_ports value = 3 }
+	if = { limit = { has_variable = kc_ports_municipal_selected } remove_variable = kc_ports_municipal_selected }
+	if = { limit = { has_variable = kc_ports_concord_selected } remove_variable = kc_ports_concord_selected }
+	set_variable = { name = kc_ports_house_selected value = yes }
+}
+
+kc_reset_foundational_historical_chains = {
+	if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+	if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+	if = { limit = { has_variable = kc_ming_tally_trade_started } remove_variable = kc_ming_tally_trade_started }
+	if = { limit = { has_variable = kc_ming_tally_trade_completed } remove_variable = kc_ming_tally_trade_completed }
+	if = { limit = { has_variable = kc_after_founder_started } remove_variable = kc_after_founder_started }
+	if = { limit = { has_variable = kc_after_founder_completed } remove_variable = kc_after_founder_completed }
+	if = { limit = { has_variable = kc_tsushima_wako_started } remove_variable = kc_tsushima_wako_started }
+	if = { limit = { has_variable = kc_tsushima_wako_completed } remove_variable = kc_tsushima_wako_completed }
+	if = { limit = { has_variable = kc_shocho_debt_started } remove_variable = kc_shocho_debt_started }
+	if = { limit = { has_variable = kc_shocho_debt_completed } remove_variable = kc_shocho_debt_completed }
+	if = { limit = { has_variable = kc_port_autonomy_started } remove_variable = kc_port_autonomy_started }
+	if = { limit = { has_variable = kc_port_autonomy_completed } remove_variable = kc_port_autonomy_completed }
+	if = { limit = { has_variable = kc_ming_diplomatic_posture } remove_variable = kc_ming_diplomatic_posture }
+	if = { limit = { has_variable = kc_precedent_foreign_commerce } remove_variable = kc_precedent_foreign_commerce }
+	if = { limit = { has_variable = kc_foreign_commerce_court_selected } remove_variable = kc_foreign_commerce_court_selected }
+	if = { limit = { has_variable = kc_foreign_commerce_concord_selected } remove_variable = kc_foreign_commerce_concord_selected }
+	if = { limit = { has_variable = kc_foreign_commerce_house_selected } remove_variable = kc_foreign_commerce_house_selected }
+	if = { limit = { has_variable = kc_founder_settlement } remove_variable = kc_founder_settlement }
+	if = { limit = { has_variable = kc_founder_records } remove_variable = kc_founder_records }
+	if = { limit = { has_variable = kc_tsushima_initial_response } remove_variable = kc_tsushima_initial_response }
+	if = { limit = { has_variable = kc_precedent_public_order } remove_variable = kc_precedent_public_order }
+	if = { limit = { has_variable = kc_public_order_central_selected } remove_variable = kc_public_order_central_selected }
+	if = { limit = { has_variable = kc_public_order_negotiated_selected } remove_variable = kc_public_order_negotiated_selected }
+	if = { limit = { has_variable = kc_public_order_house_selected } remove_variable = kc_public_order_house_selected }
+	if = { limit = { has_variable = kc_public_order_disorder_selected } remove_variable = kc_public_order_disorder_selected }
+	if = { limit = { has_variable = kc_precedent_credit } remove_variable = kc_precedent_credit }
+	if = { limit = { has_variable = kc_credit_tokusei_selected } remove_variable = kc_credit_tokusei_selected }
+	if = { limit = { has_variable = kc_credit_mediated_selected } remove_variable = kc_credit_mediated_selected }
+	if = { limit = { has_variable = kc_credit_strict_selected } remove_variable = kc_credit_strict_selected }
+	if = { limit = { has_variable = kc_port_initial_leaning } remove_variable = kc_port_initial_leaning }
+	if = { limit = { has_variable = kc_precedent_ports } remove_variable = kc_precedent_ports }
+	if = { limit = { has_variable = kc_ports_municipal_selected } remove_variable = kc_ports_municipal_selected }
+	if = { limit = { has_variable = kc_ports_concord_selected } remove_variable = kc_ports_concord_selected }
+	if = { limit = { has_variable = kc_ports_house_selected } remove_variable = kc_ports_house_selected }
+	if = { limit = { has_variable = kc_port_jurisdiction } remove_variable = kc_port_jurisdiction }
+	remove_country_modifier = kc_ming_court_sanctioned_trade
+	remove_country_modifier = kc_ming_concord_tally_trade
+	remove_country_modifier = kc_ming_house_tally_trade
+	remove_country_modifier = kc_concord_outlives_founder
+	remove_country_modifier = kc_founder_constitutional_revision
+	remove_country_modifier = kc_founder_house_bargains
+	remove_country_modifier = kc_tsushima_concord_patrols
+	remove_country_modifier = kc_tsushima_licensed_convoys
+	remove_country_modifier = kc_tsushima_house_patrols
+	remove_country_modifier = kc_tsushima_maritime_disorder
+	remove_country_modifier = kc_shocho_credit_panic
+	remove_country_modifier = kc_shocho_tokusei_settlement
+	remove_country_modifier = kc_shocho_mediated_credit
+	remove_country_modifier = kc_shocho_strict_contracts
+	remove_country_modifier = kc_chartered_port_councils
+	remove_country_modifier = kc_concord_port_administration
+	remove_country_modifier = kc_house_port_compacts
+}

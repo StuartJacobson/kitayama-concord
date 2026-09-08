@@ -1,0 +1,12 @@
+# Local outputs and editor files
+__pycache__/
+*.pyc
+*.log
+*.tmp
+*.bak
+*.zip
+dist/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

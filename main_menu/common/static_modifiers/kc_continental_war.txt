@@ -1,0 +1,31 @@
+﻿kc_strait_embassies = {
+	diplomatic_reputation = 1
+	trade_range = 0.10
+}
+kc_strait_exchange_compacts = {
+	export_efficiency = 0.05
+	global_maritime_presence_modifier = 0.10
+}
+kc_continental_common_magazines = {
+	army_maintenance_efficiency = 0.10
+	regiment_reinforcement_speed = 0.10
+	supply_limit = 0.10
+}
+kc_continental_house_contracts = {
+	army_maintenance_efficiency = 0.15
+	navy_maintenance_efficiency = 0.15
+	loyalty_to_overlord = -5
+}
+kc_continental_unprepared_mobilization = {
+	army_maintenance_efficiency = -0.15
+	global_army_levy_size_modifier = -0.10
+}
+kc_direct_korean_administration = {
+	global_max_control = -0.05
+	diplomatic_spending_cost = 0.10
+	tax_income_efficiency = 0.05
+}
+kc_korean_terminal_settlement = {
+	diplomatic_reputation = 1
+	export_efficiency = 0.05
+}

@@ -1,0 +1,124 @@
+﻿namespace = kc_overseas_settlements
+
+# Taiwan deliberately mirrors Ezo's province-by-province settlement compact.
+kc_overseas_settlements.1 = {
+	type = country_event
+	title = kc_overseas_settlements.1.title
+	desc = kc_overseas_settlements.1.desc
+	outcome = neutral
+
+	option = {
+		name = kc_overseas_settlements.1.a
+		area:taiwan_area = {
+			random_province_in_area = {
+				limit = { has_variable = kc_taiwan_settlement_event_pending }
+				set_variable = { name = kc_taiwan_settlement_policy value = 1 }
+				every_location_in_province = { add_location_modifier = { modifier = kc_taiwan_registered_treaty_ports years = -1 mode = replace } }
+				remove_variable = kc_taiwan_settlement_event_pending
+			}
+		}
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_settlements.1.b
+		area:taiwan_area = {
+			random_province_in_area = {
+				limit = { has_variable = kc_taiwan_settlement_event_pending }
+				set_variable = { name = kc_taiwan_settlement_policy value = 2 }
+				every_location_in_province = { add_location_modifier = { modifier = kc_taiwan_mixed_settlement_registers years = -1 mode = replace } }
+				remove_variable = kc_taiwan_settlement_event_pending
+			}
+		}
+		add_government_power = government_power_weak_bonus
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_settlements.1.c
+		area:taiwan_area = {
+			random_province_in_area = {
+				limit = { has_variable = kc_taiwan_settlement_event_pending }
+				set_variable = { name = kc_taiwan_settlement_policy value = 3 }
+				every_location_in_province = { add_location_modifier = { modifier = kc_taiwan_house_concession_surveys years = -1 mode = replace } }
+				remove_variable = kc_taiwan_settlement_event_pending
+			}
+		}
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -4 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+	
+		ai_chance = { base = 50
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_overseas_settlements.2 = {
+	type = country_event title = kc_overseas_settlements.2.title desc = kc_overseas_settlements.2.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = { c:TDO = { save_scope_as = kc_philippine_partner } area:luzon_area = { save_scope_as = kc_philippine_area } }
+	option = {
+		name = kc_overseas_settlements.2.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_tondo_loyalty_purchase_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_tondo_loyalty_purchase_value multiply = -1 } }
+		kc_form_philippine_commercial_compact = yes
+		kc_transfer_luzon_settlement_rights = yes
+		set_variable = { name = kc_luzon_compact_completed value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+	}
+	option = { name = kc_overseas_settlements.2.b set_variable = { name = kc_luzon_compact_declined value = yes years = 5 } }
+}
+
+kc_overseas_settlements.3 = {
+	type = country_event title = kc_overseas_settlements.3.title desc = kc_overseas_settlements.3.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = { c:CEB = { save_scope_as = kc_philippine_partner } area:visayas_area = { save_scope_as = kc_philippine_area } }
+	option = {
+		name = kc_overseas_settlements.3.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_cebu_loyalty_purchase_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_cebu_loyalty_purchase_value multiply = -1 } }
+		kc_form_philippine_commercial_compact = yes
+		kc_transfer_visayas_settlement_rights = yes
+		set_variable = { name = kc_visayas_compact_completed value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+	}
+	option = { name = kc_overseas_settlements.3.b set_variable = { name = kc_visayas_compact_declined value = yes years = 5 } }
+}
+
+kc_overseas_settlements.4 = {
+	type = country_event title = kc_overseas_settlements.4.title desc = kc_overseas_settlements.4.desc outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = { c:BTU = { save_scope_as = kc_philippine_partner } area:mindanao_area = { save_scope_as = kc_philippine_area } }
+	option = {
+		name = kc_overseas_settlements.4.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= { value = kc_butuan_loyalty_purchase_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_butuan_loyalty_purchase_value multiply = -1 } }
+		kc_form_philippine_commercial_compact = yes
+		kc_transfer_mindanao_settlement_rights = yes
+		set_variable = { name = kc_mindanao_compact_completed value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+	}
+	option = { name = kc_overseas_settlements.4.b set_variable = { name = kc_mindanao_compact_declined value = yes years = 5 } }
+}
+
+kc_overseas_settlements.5 = {
+	type = country_event title = kc_overseas_settlements.5.title desc = kc_overseas_settlements.5.desc outcome = neutral
+	option = {
+		name = kc_overseas_settlements.5.a
+		ai_chance = { base = 100 }
+		kc_create_northern_colonial_administration = yes
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+	}
+	option = {
+		name = kc_overseas_settlements.5.b
+		ai_chance = { base = 0 }
+		set_variable = { name = kc_northern_colonial_administration_deferred value = yes }
+		add_country_modifier = { modifier = kc_northern_direct_administration years = 5 mode = replace }
+	}
+}

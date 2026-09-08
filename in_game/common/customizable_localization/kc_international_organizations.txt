@@ -1,0 +1,16 @@
+﻿kc_kitayama_concord_dynamic_name = {
+	type = international_organization
+
+	text = {
+		trigger = {
+			has_variable = kc_concord_collapsed
+		}
+		localization_key = KC_BROKEN_CONCORD_NAME
+	}
+
+	text = {
+		localization_key = kc_kitayama_concord
+		fallback = yes
+	}
+}
+

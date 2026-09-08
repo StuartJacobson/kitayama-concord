@@ -1,0 +1,25 @@
+﻿l_english:
+ STATIC_MODIFIER_NAME_kc_protected_iwor: "Protected Iwor"
+ STATIC_MODIFIER_NAME_kc_protected_iwor_mature: "Protected Iwor"
+ STATIC_MODIFIER_NAME_kc_ezo_treaty_port: "Ainu Treaty Land"
+ STATIC_MODIFIER_NAME_kc_ezo_treaty_port_mature: "Ainu Treaty Land"
+ STATIC_MODIFIER_NAME_kc_ezo_mixed_northern_settlement: "Mixed Northern Settlement"
+ STATIC_MODIFIER_NAME_kc_ezo_mixed_northern_settlement_mature: "Mixed Northern Settlement"
+ STATIC_MODIFIER_NAME_kc_ezo_survey_settlement: "Surveyed Settler District"
+ STATIC_MODIFIER_NAME_kc_ezo_unfamiliar_northern_subsistence: "Unfamiliar Northern Subsistence"
+
+ kc_ezo_compact.1.title: "The Ezo Compact"
+ kc_ezo_compact.1.desc: "The Ezo Trade Boundary keeps foreign charters away, but a claim entered in a Kyoto register cannot make the lands beyond the Tsugaru Strait empty. Ainu communities already organize hunting grounds, rivers, fisheries, and trading routes through customary territories known as iwor.\n\nThe Concord will recognize those territories while licensing exchange in grain, ironware, lacquerware, fish, furs, and winter stores. This is neither annexation nor the closing of Ezo: it is a pledge that commerce must begin through negotiation with the people who already live there.\n\nEzo locations containing Ainu tribesmen receive #Y $STATIC_MODIFIER_NAME_kc_protected_iwor$#!. Their special growth support lasts until the local Ainu tribesmen pop reaches approximately one thousand people. Protected communities cannot assimilate or promote into an unprotected social class, while their land capacity and raw-material output modestly improve. A settlement policy will replace this protection whenever a Concord member establishes permanent rule in an Ezo province."
+ kc_ezo_compact.1.a: "Recognize the iwor before issuing charters."
+
+ kc_ezo_compact.2.title: "Settlement of [SCOPE.sProvince('kc_ezo_target_province').GetName]"
+ kc_ezo_compact.2.desc: "A permanent Concord presence has been established throughout [SCOPE.sProvince('kc_ezo_target_province').GetName]. Yet the colonial rolls exaggerate its character: many of those counted as settlers are seasonal fishers, sailors, and merchants rather than households prepared for a northern winter. The rushed charter process also omitted or dispersed numerous Ainu communities. The new provincial register will restore between four and six hundred fifty Ainu tribesmen in every location, without allowing a restored community to exceed approximately one thousand people.\n\nThe council must now define the legal character of this foothold. It may recognize the province as treaty land governed through negotiated access to Ainu iwor, sponsor a smaller mixed population that learns northern subsistence alongside Ainu communities, or impose surveyed settler districts whose rice-centered households must endure a generation of costly adaptation."
+ kc_ezo_compact.2.a: "Recognize Ainu treaty land."
+ kc_ezo_compact.2.b: "Establish a mixed northern settlement."
+ kc_ezo_compact.2.c: "Survey the land for unrestricted settlement."
+
+ kc_ezo_compact_treaty_port_tt: "Every location first restores #Y 400–650 Ainu tribesmen#! lost during colonization, capped at approximately one thousand. Seasonal migrants return south, leaving #Y 40%#! of non-Ainu colonial pops. Ainu becomes an accepted culture of the sponsoring country; Ainu tribesmen cannot assimilate or promote; and Ainu and the sponsor's primary culture each improve their cultural view of the other once. Concord Cohesion: #G +1.00#!."
+ kc_ezo_compact_mixed_settlement_tt: "Every location first restores #Y 400–650 Ainu tribesmen#! lost during colonization, capped at approximately one thousand. Seasonal migrants return south, leaving #Y 65%#! of non-Ainu colonial pops. Ainu becomes an accepted culture of the sponsoring country, and Ainu tribesmen cannot assimilate or promote."
+ kc_ezo_compact_survey_settlement_tt: "Every location first restores #Y 400–650 Ainu tribesmen#! lost during colonization, capped at approximately one thousand. The full colonial population remains. Ainu protection ends and assimilation accelerates. #Y $STATIC_MODIFIER_NAME_kc_ezo_unfamiliar_northern_subsistence$#! initially reduces local food and raw-material output by #R 30%#!, then fades continuously over 30 years. Concord Cohesion: #R -3.00#!."
+
+

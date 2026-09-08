@@ -1,0 +1,23 @@
+﻿namespace = kc_ai_collapse_cleanup
+
+# No narrative content: finish the AI's transition without one huge tick.
+kc_ai_collapse_cleanup.1 = {
+	type = country_event
+	hidden = yes
+	title = empty_text
+	desc = empty_text
+	trigger = {
+			exists = international_organization:kc_kitayama_concord
+		tag = JAP
+		is_ai = yes
+		has_variable = kc_concord_collapsed
+		international_organization:kc_kitayama_concord ?= { has_variable = kc_concord_collapsed }
+	}
+	immediate = {
+		remove_variable = kc_ai_collapse_cleanup_queued
+		international_organization:kc_kitayama_concord = {
+			kc_land_collapsed_concord_ai_batch = yes
+		}
+		kc_queue_ai_collapse_cleanup = yes
+	}
+}

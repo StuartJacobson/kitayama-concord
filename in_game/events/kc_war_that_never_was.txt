@@ -1,0 +1,609 @@
+﻿namespace = kc_war_never_was
+
+# ---------------------------------------------------------------------------
+# OPENING: THE WAR THAT NEVER WAS
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.1 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.1.title
+	desc = kc_war_never_was.1.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_war_never_was.1.a
+		custom_tooltip = { text = kc_wnw_opening_tt }
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 20: THE ELECTION DEADLOCK
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.2 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.2.title
+	desc = kc_war_never_was.2.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_war_never_was.2.a
+		custom_tooltip = { text = kc_wnw_election_house_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 3 }
+				change_variable = { name = kc_wnw_house_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = { name = kc_concord_cohesion add = 2 }
+			}
+			if = {
+				limit = { has_variable = kc_founder_settlement var:kc_founder_settlement = 3 }
+				situation:kc_war_that_never_was ?= {
+					change_variable = { name = kc_wnw_settlement_progress add = 2 }
+				}
+			}
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.2.b
+		custom_tooltip = { text = kc_wnw_election_common_tt }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 6 }
+				change_variable = { name = kc_wnw_common_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = { name = kc_concord_cohesion add = -5 }
+			}
+			if = {
+				limit = { has_variable = kc_founder_records var:kc_founder_records = 1 }
+				situation:kc_war_that_never_was ?= {
+					change_variable = { name = kc_wnw_settlement_progress add = 2 }
+				}
+				international_organization:kc_kitayama_concord ?= {
+					change_variable = { name = kc_concord_cohesion add = 2 }
+				}
+			}
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.2.c
+		custom_tooltip = { text = kc_wnw_election_court_tt }
+		add_legitimacy = legitimacy_mild_bonus
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 4 }
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = { name = kc_concord_cohesion add = 1 }
+			}
+			if = {
+				limit = { has_variable = kc_founder_records var:kc_founder_records = 2 }
+				situation:kc_war_that_never_was ?= {
+					change_variable = { name = kc_wnw_settlement_progress add = 2 }
+				}
+			}
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 35: THE CREDIT FREEZE
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.3 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.3.title
+	desc = kc_war_never_was.3.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_war_never_was.3.a
+		custom_tooltip = { text = kc_wnw_credit_tokusei_tt }
+		add_country_modifier = { modifier = kc_wnw_debt_moratorium years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_severe_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_penalty }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 4 }
+				change_variable = { name = kc_wnw_common_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = { name = kc_concord_cohesion add = -4 }
+			}
+			if = {
+				limit = { has_variable = kc_credit_tokusei_selected }
+				situation:kc_war_that_never_was ?= {
+					change_variable = { name = kc_wnw_settlement_progress add = 2 }
+				}
+				international_organization:kc_kitayama_concord ?= {
+					change_variable = { name = kc_concord_cohesion add = 1 }
+				}
+			}
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.3.b
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				gold >= { value = kc_historical_moderate_treasury_cost }
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_wnw_credit_mediation_tt }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 6 }
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = { name = kc_concord_cohesion add = 2 }
+			}
+			if = {
+				limit = { has_variable = kc_credit_mediated_selected }
+				situation:kc_war_that_never_was ?= {
+					change_variable = { name = kc_wnw_settlement_progress add = 3 }
+				}
+			}
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.3.c
+		custom_tooltip = { text = kc_wnw_credit_contracts_tt }
+		add_country_modifier = { modifier = kc_wnw_contract_guarantees years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_bonus }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_mild_penalty }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 5 }
+				change_variable = { name = kc_wnw_house_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = { name = kc_concord_cohesion add = -5 }
+			}
+			if = {
+				limit = { has_variable = kc_credit_strict_selected }
+				situation:kc_war_that_never_was ?= {
+					change_variable = { name = kc_wnw_settlement_progress add = 2 }
+				}
+				international_organization:kc_kitayama_concord ?= {
+					change_variable = { name = kc_concord_cohesion add = 2 }
+				}
+			}
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 50: WAREHOUSES UNDER SEAL
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.4 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.4.title
+	desc = kc_war_never_was.4.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_war_never_was.4.a
+		custom_tooltip = { text = kc_wnw_warehouses_municipal_tt }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 2 }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 4 } }
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -3 } }
+			if = {
+				limit = { has_variable = kc_ports_municipal_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+			}
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.4.b
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				gold >= { value = kc_historical_minor_treasury_cost }
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_minor_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_wnw_warehouses_concord_tt }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 7 }
+				change_variable = { name = kc_wnw_common_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -4 } }
+			if = {
+				limit = { has_variable = kc_ports_concord_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+				international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 1 } }
+			}
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.4.c
+		custom_tooltip = { text = kc_wnw_warehouses_house_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 5 }
+				change_variable = { name = kc_wnw_house_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -6 } }
+			if = {
+				limit = { has_variable = kc_ports_house_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+				international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 2 } }
+			}
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 65: KYOTO WITHOUT BARRICADES
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.5 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.5.title
+	desc = kc_war_never_was.5.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_war_never_was.5.a
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				gold >= { value = kc_historical_moderate_treasury_cost }
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_wnw_order_constabulary_tt }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 8 }
+				change_variable = { name = kc_wnw_common_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -4 } }
+			if = {
+				limit = { has_variable = kc_public_order_central_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+				international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 1 } }
+			}
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.5.b
+		custom_tooltip = { text = kc_wnw_order_negotiated_tt }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 6 } }
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 2 } }
+			if = {
+				limit = { has_variable = kc_public_order_negotiated_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+			}
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.5.c
+		custom_tooltip = { text = kc_wnw_order_houses_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 5 }
+				change_variable = { name = kc_wnw_house_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -5 } }
+			if = {
+				limit = { has_variable = kc_public_order_house_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+				international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 2 } }
+			}
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.5.d
+		high_risk_option = yes
+		custom_tooltip = { text = kc_wnw_order_disorder_tt }
+		add_country_modifier = { modifier = kc_wnw_tolerated_disorder years = 5 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = -2 }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -8 } }
+			if = {
+				limit = { has_variable = kc_public_order_disorder_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+				international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 2 } }
+			}
+		}
+		ai_chance = { base = 5 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 80: THE WITHHELD TALLIES
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.6 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.6.title
+	desc = kc_war_never_was.6.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_war_never_was.6.a
+		custom_tooltip = { text = kc_wnw_tallies_court_tt }
+		add_legitimacy = legitimacy_mild_bonus
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 4 } }
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 1 } }
+			if = {
+				limit = { has_variable = kc_foreign_commerce_court_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+			}
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.6.b
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				gold >= { value = kc_historical_minor_treasury_cost }
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_minor_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_wnw_tallies_concord_tt }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 7 }
+				change_variable = { name = kc_wnw_common_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -4 } }
+			if = {
+				limit = { has_variable = kc_foreign_commerce_concord_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+				international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 1 } }
+			}
+		}
+		ai_chance = { base = 50 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.6.c
+		custom_tooltip = { text = kc_wnw_tallies_houses_tt }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 5 }
+				change_variable = { name = kc_wnw_house_arguments add = 1 }
+			}
+			international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = -6 } }
+			if = {
+				limit = { has_variable = kc_foreign_commerce_house_selected }
+				situation:kc_war_that_never_was ?= { change_variable = { name = kc_wnw_settlement_progress add = 3 } }
+				international_organization:kc_kitayama_concord ?= { change_variable = { name = kc_concord_cohesion add = 2 } }
+			}
+		}
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# 90: THE FINAL CONVENTION
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.7 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.7.title
+	desc = kc_war_never_was.7.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_war_never_was.7.a
+		custom_tooltip = { text = kc_wnw_final_house_tt }
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = {
+			set_variable = { name = kc_wnw_house_settlement_chosen value = yes }
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 10 }
+				if = {
+					limit = { var:kc_wnw_house_arguments >= 2 }
+					c:JAP ?= {
+						international_organization:kc_kitayama_concord ?= {
+							change_variable = { name = kc_concord_cohesion add = 2 }
+						}
+					}
+				}
+				clamp_variable = { name = kc_wnw_settlement_progress min = 0 max = 100 }
+			}
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.7.b
+		trigger = {
+			international_organization:kc_kitayama_concord = {
+				gold >= { value = kc_historical_moderate_treasury_cost }
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = kc_historical_moderate_treasury_cost multiply = -1 }
+		}
+		custom_tooltip = { text = kc_wnw_final_balanced_tt }
+		add_legitimacy = legitimacy_mild_bonus
+		hidden_effect = {
+			set_variable = { name = kc_wnw_balanced_settlement_chosen value = yes }
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 10 }
+				clamp_variable = { name = kc_wnw_settlement_progress min = 0 max = 100 }
+			}
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_war_never_was.7.c
+		custom_tooltip = { text = kc_wnw_final_common_tt }
+		change_societal_value = { type = traditionalist_vs_innovative value = 3 }
+		hidden_effect = {
+			set_variable = { name = kc_wnw_common_settlement_chosen value = yes }
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = { name = kc_concord_cohesion add = -5 }
+			}
+			situation:kc_war_that_never_was ?= {
+				change_variable = { name = kc_wnw_settlement_progress add = 10 }
+				if = {
+					limit = { var:kc_wnw_common_arguments >= 2 }
+					c:JAP ?= {
+						international_organization:kc_kitayama_concord ?= {
+							change_variable = { name = kc_concord_cohesion add = 2 }
+						}
+					}
+				}
+				clamp_variable = { name = kc_wnw_settlement_progress min = 0 max = 100 }
+			}
+		}
+		ai_chance = { base = 30 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# OUTCOMES
+# ---------------------------------------------------------------------------
+
+kc_war_never_was.10 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.10.title
+	desc = kc_war_never_was.10.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+	option = { name = kc_war_never_was.10.a custom_tooltip = { text = kc_wnw_house_outcome_tt } }
+}
+
+kc_war_never_was.11 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.11.title
+	desc = kc_war_never_was.11.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+	option = { name = kc_war_never_was.11.a custom_tooltip = { text = kc_wnw_balanced_outcome_tt } }
+}
+
+kc_war_never_was.12 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.12.title
+	desc = kc_war_never_was.12.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+	option = { name = kc_war_never_was.12.a custom_tooltip = { text = kc_wnw_common_outcome_tt } }
+}
+
+kc_war_never_was.13 = {
+	type = country_event
+	category = situation_event
+	title = kc_war_never_was.13.title
+	desc = kc_war_never_was.13.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+	option = { name = kc_war_never_was.13.a }
+}

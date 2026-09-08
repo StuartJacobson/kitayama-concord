@@ -1,0 +1,145 @@
+﻿# Geographic eligibility for the Concord's physical great-project networks.
+# EU5's Japanese map omits many historical rivers, wetlands, and lakes, so the
+# hydraulic projects combine the available map traits with agricultural RGOs
+# and an explicit whitelist of historically suitable lowland provinces.
+
+kc_concord_irrigation_location_eligible = {
+	is_land = yes
+	region = region:japan_region
+	OR = {
+		has_river = yes
+		is_adjacent_to_lake = yes
+		raw_material = goods:rice
+		raw_material = goods:wheat
+		raw_material = goods:millet
+		raw_material = goods:legumes
+		raw_material = goods:fruit
+		province_definition = province_definition:ecchuu_province
+		province_definition = province_definition:echigo_province
+		province_definition = province_definition:echizen_province
+		province_definition = province_definition:kaga_province
+		province_definition = province_definition:settsu_province
+		province_definition = province_definition:yamashiro_province
+		province_definition = province_definition:yamato_province
+		province_definition = province_definition:awa_province
+		province_definition = province_definition:iyo_province
+		province_definition = province_definition:sanuki_province
+		province_definition = province_definition:chikuzen_province
+		province_definition = province_definition:chikugo_province
+		province_definition = province_definition:buzen_province
+		province_definition = province_definition:bungo_province
+		province_definition = province_definition:hizen_province
+		province_definition = province_definition:higo_province
+		province_definition = province_definition:houki_province
+		province_definition = province_definition:inaba_province
+		province_definition = province_definition:izumo_province
+		province_definition = province_definition:tanba_province
+		province_definition = province_definition:aki_province
+		province_definition = province_definition:bicchuu_province
+		province_definition = province_definition:bizen_province
+		province_definition = province_definition:harima_province
+		province_definition = province_definition:mimasaka_province
+		province_definition = province_definition:suou_province
+		province_definition = province_definition:rikuzen_province
+		province_definition = province_definition:ugo_province
+		province_definition = province_definition:uzen_province
+		province_definition = province_definition:iwase_province
+		province_definition = province_definition:hitachi_province
+		province_definition = province_definition:ise_province
+		province_definition = province_definition:kazusa_province
+		province_definition = province_definition:mikawa_province
+		province_definition = province_definition:musashi_province
+		province_definition = province_definition:owari_province
+		province_definition = province_definition:sagami_province
+		province_definition = province_definition:shimousa_province
+		province_definition = province_definition:suruga_province
+		province_definition = province_definition:tootoumi_province
+		province_definition = province_definition:kouzuke_province
+		province_definition = province_definition:mino_province
+		province_definition = province_definition:oumi_province
+		province_definition = province_definition:shimotsuke_province
+	}
+}
+
+kc_concord_floodworks_location_eligible = {
+	is_land = yes
+	region = region:japan_region
+	OR = {
+		is_coastal = yes
+		has_river = yes
+		is_adjacent_to_lake = yes
+		topography = wetlands
+		# The irrigation whitelist represents river plains and enclosed basins
+		# even where the base map carries no river or wetland flag.
+		kc_concord_irrigation_location_eligible = yes
+	}
+}
+
+kc_concord_seto_harbor_location_eligible = {
+	is_land = yes
+	is_coastal = yes
+	region = region:japan_region
+	OR = {
+		# The initial authorization is the historical Inland Sea chain.
+		any_neighbor_location = {
+			province_definition = province_definition:seto_sea
+		}
+		# The first late-maritime authorization admits seven established outer
+		# ports. Tsuruga is deliberately included as the Sea-of-Japan hinge.
+		AND = {
+			international_organization:kc_kitayama_concord ?= { has_variable = kc_outer_port_charters_unlocked }
+			OR = {
+				this = location:hakata
+				this = location:nishisonogi
+				this = location:kagoshima
+				this = location:tsuruga
+				this = location:nutari
+				this = location:toshima_kanto
+				this = location:kameda
+			}
+		}
+		# The second authorization follows the southern and Pacific coast from
+		# Nishimuro around the Kii peninsula and eastward through Kashima. An
+		# explicit list avoids granting the building to inland province members.
+		AND = {
+			international_organization:kc_kitayama_concord ?= { has_variable = kc_southern_ocean_harbor_line_unlocked }
+			OR = {
+				this = location:nishimuro
+				this = location:minamimuro
+				this = location:higashimuro
+				this = location:kitamuro
+				this = location:shima
+				this = location:watarai
+				this = location:ichishi
+				this = location:suzuka
+				this = location:aichi
+				this = location:nakajima
+				this = location:hoi
+				this = location:hekikai
+				this = location:fuchi
+				this = location:kitou
+				this = location:toyoda
+				this = location:shida
+				this = location:ihara
+				this = location:suntou
+				this = location:fuji
+				this = location:kamo_izu
+				this = location:tagata
+				this = location:kamakura
+				this = location:ashigara
+				this = location:aikou
+				this = location:tachibana
+				this = location:toshima_kanto
+				this = location:awa
+				this = location:isumi
+				this = location:ichihara
+				this = location:makuda
+				this = location:musa
+				this = location:chiba
+				this = location:katori
+				this = location:katsushika
+				this = location:kashima
+			}
+		}
+	}
+}

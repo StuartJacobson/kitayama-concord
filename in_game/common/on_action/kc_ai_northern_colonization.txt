@@ -1,0 +1,37 @@
+﻿monthly_country_pulse = {
+	on_actions = { kc_ai_prepare_ezo_colonization kc_ai_prepare_manchurian_colonization }
+}
+
+# One-time preparation also covers existing Concord saves. It gives AI Japan
+# the basic charter technology and regional charts, not land or free charters.
+# Direct discovery avoids the separate western-only exploration rule.
+kc_ai_prepare_ezo_colonization = {
+	trigger = {
+		kc_ai_japan_active_concord = yes
+		NOT = { has_variable = kc_ai_ezo_colonization_prepared }
+	}
+	effect = {
+		if = { limit = { NOT = { has_advance = advance_type:mapmaking } } research_advance = advance_type:mapmaking }
+		if = { limit = { NOT = { has_advance = advance_type:colonies } } research_advance = advance_type:colonies }
+		discover_area = area:ezo_area
+		discover_area = area:ezo_sea
+		set_variable = { name = kc_ai_ezo_colonization_prepared value = yes }
+	}
+}
+kc_ai_prepare_manchurian_colonization = {
+	trigger = {
+		kc_ai_japan_active_concord = yes
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_ai_manchurian_colonization_prepared }
+	}
+	effect = {
+		region:manchuria_region = {
+			every_location_in_region = {
+				limit = { NOT = { area = area:liaodong_area } }
+				discover_location = root
+			}
+		}
+		discover_area = area:manchuria_coastline
+		set_variable = { name = kc_ai_manchurian_colonization_prepared value = yes }
+	}
+}

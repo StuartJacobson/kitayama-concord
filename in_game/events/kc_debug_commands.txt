@@ -1,0 +1,2867 @@
+﻿namespace = kc_debug
+
+# Console testing utilities. Run these from any selected country after the
+# Kitayama Concord exists. The organization variables clamp themselves to
+# their defined 0-100 ranges.
+
+# event kc_debug.1
+# Add 10 Concord Cohesion.
+kc_debug.1 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = 10
+			}
+		}
+	}
+}
+
+# event kc_debug.2
+# Remove 10 Concord Cohesion.
+kc_debug.2 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -10
+			}
+		}
+	}
+}
+
+# event kc_debug.3
+# Add 10 Concord Entrenchment.
+kc_debug.3 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_entrenchment
+				add = 10
+			}
+		}
+	}
+}
+
+# event kc_debug.4
+# Remove 10 Concord Entrenchment.
+kc_debug.4 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_entrenchment
+				add = -10
+			}
+		}
+	}
+}
+
+# event kc_debug.5
+# Temporarily reduce the Concord to exactly 25 Chartered Houses so one final
+# redemption can verify the permanent floor of 24. Run while paused; removed
+# Houses will be discovered and re-added by the normal monthly membership
+# repair after time resumes.
+kc_debug.5 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = kc_charter_redemption_cooldown
+			}
+			remove_variable = kc_charter_redemption_cooldown
+		}
+		add_gold = 1000000
+
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_concord_cohesion
+				value = 100
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 100
+			}
+			while = {
+				count = 200
+				if = {
+					limit = {
+						any_international_organization_member = {
+							has_reform = government_reform:kc_chartered_buke_house
+							count > 25
+						}
+					}
+					random_international_organization_member = {
+						limit = {
+							has_reform = government_reform:kc_chartered_buke_house
+							is_ai = yes
+							NOT = { tag = JAP }
+							NOT = {
+								is_leader_of_international_organization = international_organization:kc_kitayama_concord
+							}
+							NOT = {
+								has_special_status_in_international_organization = {
+									type = special_status:kc_senior_chartered_house
+									international_organization = international_organization:kc_kitayama_concord
+								}
+							}
+						}
+						international_organization:kc_kitayama_concord = {
+							remove_country_from_international_organization = prev
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.6
+# Reset the Banking notification plus all four Entrenchment milestone laws and
+# their flags for a clean 0 -> 10 -> 20 -> 40 -> 60 -> 80 unlock test.
+kc_debug.6 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_lineage_arbitration_policy
+				}
+				remove_policy_from_international_organization = policy:kc_lineage_arbitration_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_mixed_commercial_benches_policy
+				}
+				remove_policy_from_international_organization = policy:kc_mixed_commercial_benches_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_concord_commercial_court_policy
+				}
+				remove_policy_from_international_organization = policy:kc_concord_commercial_court_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_customary_assessments_policy
+				}
+				remove_policy_from_international_organization = policy:kc_customary_assessments_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_registered_cadasters_policy
+				}
+				remove_policy_from_international_organization = policy:kc_registered_cadasters_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_common_kenchi_policy
+				}
+				remove_policy_from_international_organization = policy:kc_common_kenchi_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_house_port_privileges_policy
+				}
+				remove_policy_from_international_organization = policy:kc_house_port_privileges_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy
+				}
+				remove_policy_from_international_organization = policy:kc_licensed_coastal_convoys_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_concord_maritime_board_policy
+				}
+				remove_policy_from_international_organization = policy:kc_concord_maritime_board_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_temple_guaranteed_credit_policy
+				}
+				remove_policy_from_international_organization = policy:kc_temple_guaranteed_credit_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_house_clearinghouses_policy
+				}
+				remove_policy_from_international_organization = policy:kc_house_clearinghouses_policy
+			}
+			if = {
+				limit = {
+					international_organization_has_policy = policy:kc_concord_notes_policy
+				}
+				remove_policy_from_international_organization = policy:kc_concord_notes_policy
+			}
+
+			if = {
+				limit = {
+					has_variable = kc_entrenchment_milestone_10_notified
+				}
+				remove_variable = kc_entrenchment_milestone_10_notified
+			}
+			if = {
+				limit = {
+					has_variable = kc_entrenchment_milestone_20_notified
+				}
+				remove_variable = kc_entrenchment_milestone_20_notified
+			}
+			if = {
+				limit = {
+					has_variable = kc_entrenchment_milestone_40_notified
+				}
+				remove_variable = kc_entrenchment_milestone_40_notified
+			}
+			if = {
+				limit = {
+					has_variable = kc_entrenchment_milestone_60_notified
+				}
+				remove_variable = kc_entrenchment_milestone_60_notified
+			}
+			if = {
+				limit = {
+					has_variable = kc_entrenchment_milestone_80_notified
+				}
+				remove_variable = kc_entrenchment_milestone_80_notified
+			}
+
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 0
+			}
+		}
+	}
+}
+
+# event kc_debug.7
+# Creates a disposable test settlement in Oshima for the Ezo Compact prototype.
+# Use on a throwaway or reloadable save while playing JAP or another Concord
+# member. Each previously unowned location receives one thousand sponsor-culture
+# peasants so the three demographic policy choices can be compared directly.
+kc_debug.7 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		province_definition:oshima_province = {
+			every_location_in_province_definition = {
+				limit = {
+					has_owner = no
+					is_ownable = yes
+				}
+				change_location_owner = root
+				change_location_controller = root
+				change_integration_level = integrated
+				add_pop = {
+					culture = root.culture
+					religion = root.religion
+					type = pop_type:peasants
+					size = 1
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.8
+# Raises one Ainu tribesmen pop with an active Ezo growth modifier above 1.0 so
+# the monthly cap can be tested without waiting decades. Use a disposable save.
+kc_debug.8 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		area:ezo_area = {
+			random_location_in_area = {
+				limit = {
+					OR = {
+						has_location_modifier = kc_protected_iwor
+						has_location_modifier = kc_ezo_treaty_port
+						has_location_modifier = kc_ezo_mixed_northern_settlement
+					}
+					any_pop = {
+						culture = culture:ainu_culture
+						pop_type = pop_type:tribesmen
+					}
+				}
+				random_pop = {
+					limit = {
+						culture = culture:ainu_culture
+						pop_type = pop_type:tribesmen
+					}
+					add_pop_size = 1
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.9
+# Replaces every owned Ezo subsistence penalty with a one-year copy so native
+# decaying-modifier behavior can be observed without advancing thirty years.
+# Use only on a disposable test save after choosing Surveyed Settler District.
+kc_debug.9 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		area:ezo_area = {
+			every_location_in_area = {
+				limit = {
+					owner = root
+					has_location_modifier = kc_ezo_unfamiliar_northern_subsistence
+				}
+				remove_location_modifier = kc_ezo_unfamiliar_northern_subsistence
+				add_location_modifier = {
+					modifier = kc_ezo_unfamiliar_northern_subsistence
+					years = 1
+					mode = replace
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.10
+# Prepare the first transition crisis. This resets its organization completion
+# marker, authorizes a fresh trigger, and places Entrenchment exactly at 30.
+# Advance one monthly tick while playing JAP. Use only on a disposable save;
+# fire_only_once may still prevent a second start after completing the disaster
+# in that same campaign.
+kc_debug.10 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = kc_unquiet_peace_debug_resolve
+			}
+			remove_variable = kc_unquiet_peace_debug_resolve
+		}
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = {
+					has_variable = kc_unquiet_peace_completed
+				}
+				remove_variable = kc_unquiet_peace_completed
+			}
+			if = {
+				limit = {
+					has_variable = kc_entrenchment_crisis_active
+				}
+				remove_variable = kc_entrenchment_crisis_active
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 30
+			}
+		}
+	}
+}
+
+# event kc_debug.11
+# Bypass the five-year and material requirements so the selected resolution's
+# cost, legacy, Professional Armies reward, cleanup, and Entrenchment restart
+# can be tested on the next monthly tick.
+kc_debug.11 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		set_variable = {
+			name = kc_unquiet_peace_debug_resolve
+			value = yes
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = 12
+			}
+		}
+	}
+}
+
+# event kc_debug.12
+# Expire only the five-year minimum and supply twelve months of Treasury
+# income. Unlike kc_debug.11, this does not end the disaster; it allows the
+# three visible completion actions and their individual requirements to be
+# tested immediately.
+kc_debug.12 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = kc_unquiet_peace_minimum_term
+			}
+			remove_variable = kc_unquiet_peace_minimum_term
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = 12
+			}
+		}
+	}
+}
+
+# event kc_debug.13
+# Construct an instant, zero-cost Kaisho in JAP's capital for 26 Chartered
+# Houses that do not already operate a completed Kaido Post Station or Kaisho.
+# This tests the real Registered House Watches building-owner requirement
+# without using an override flag. Use only on a disposable or reloadable save.
+kc_debug.13 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			ordered_international_organization_member = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+					NOT = {
+						OR = {
+							any_owned_foreign_building = {
+								building_type = building_type:kc_kaido_post_station
+								building_level > 0
+							}
+							any_owned_foreign_building = {
+								building_type = building_type:kc_kaisho
+								building_level > 0
+							}
+						}
+					}
+				}
+				order_by = country_tax_base
+				max = 26
+				check_range_bounds = no
+				save_scope_as = kc_debug_watch_house
+				c:JAP = {
+					capital ?= {
+						construct_building = {
+							building_type = building_type:kc_kaisho
+							owner = scope:kc_debug_watch_house
+							payer = c:JAP
+							instant = yes
+							cost_multiplier = 0
+							cost_multiplier_reason = "game_concept_event"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.14
+# Prepare the second transition crisis on a formed-Concord save. Advance one
+# monthly tick while playing JAP. As with the first crisis, fire_only_once may
+# prevent a second start after the disaster has already run in this campaign.
+kc_debug.14 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = kc_great_reckoning_debug_resolve
+			}
+			remove_variable = kc_great_reckoning_debug_resolve
+		}
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = {
+					has_variable = kc_great_reckoning_completed
+				}
+				remove_variable = kc_great_reckoning_completed
+			}
+			if = {
+				limit = {
+					has_variable = kc_entrenchment_crisis_active
+				}
+				remove_variable = kc_entrenchment_crisis_active
+			}
+			set_variable = {
+				name = kc_unquiet_peace_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 70
+			}
+		}
+	}
+}
+
+# event kc_debug.15
+# Expire the seven-year minimum, fill the Treasury, raise Cohesion, authorize
+# all Ledger Office levels, and ensure at least eight ordinary Houses hold a
+# Senior Charter. This leaves only the route's Council policy to test.
+kc_debug.15 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = kc_great_reckoning_minimum_term
+			}
+			remove_variable = kc_great_reckoning_minimum_term
+		}
+		set_variable = {
+			name = kc_great_reckoning_ledger_office_authorized
+			value = yes
+		}
+		capital ?= {
+			change_building_level_in_location = {
+				building = building_type:kc_concord_ledger_office
+				value = 3
+			}
+		}
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_concord_cohesion
+				value = 100
+			}
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = 15
+			}
+			ordered_international_organization_member = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+					NOT = {
+						has_special_status_in_international_organization = {
+							type = special_status:kc_senior_chartered_house
+							international_organization = international_organization:kc_kitayama_concord
+						}
+					}
+				}
+				order_by = country_tax_base
+				max = 8
+				check_range_bounds = no
+				save_scope_as = kc_debug_senior_house
+				international_organization:kc_kitayama_concord = {
+					international_organization_add_special_status = {
+						type = special_status:kc_senior_chartered_house
+						country = scope:kc_debug_senior_house
+					}
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.16
+# End the active Great Reckoning on the next monthly tick. When no visible
+# settlement action was used, the opening preparation determines the fallback.
+kc_debug.16 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		set_variable = {
+			name = kc_great_reckoning_debug_resolve
+			value = yes
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = 15
+			}
+		}
+	}
+}
+
+# event kc_debug.17
+# Force the next annual House assessment. Houses receive a twelve-month income
+# reserve first so this tests ordinary collection rather than arrears.
+kc_debug.17 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = {
+					has_variable = kc_concord_annual_assessment_timer
+				}
+				remove_variable = kc_concord_annual_assessment_timer
+			}
+			every_international_organization_member = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+				}
+				add_gold = {
+					value = monthly_income_trade_and_tax
+					multiply = 12
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.18
+# Prepare an eight-House arrears test. At eight Houses, Stabilize House Credit
+# should cost exactly six months of JAP trade-and-tax income.
+kc_debug.18 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_last_assessment_arrears
+				value = 8
+			}
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = 12
+			}
+			ordered_international_organization_member = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+				}
+				order_by = country_tax_base
+				max = 8
+				check_range_bounds = no
+				add_country_modifier = {
+					modifier = kc_concord_assessment_arrears
+					years = 2
+					mode = replace
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.19
+# Add five Common Works construction licenses without spending Treasury funds
+# or starting the five-year program cooldown.
+kc_debug.19 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_common_works_licenses
+					}
+				}
+				set_variable = {
+					name = kc_common_works_licenses
+					value = 5
+				}
+			}
+			else = {
+				change_variable = {
+					name = kc_common_works_licenses
+					add = 5
+				}
+			}
+			set_variable = {
+				name = kc_common_works_licenses_available
+				value = yes
+			}
+		}
+	}
+}
+
+# event kc_debug.20
+# Choose the Unquiet Peace legacy for a capstone test. The chosen option opens
+# kc_debug.22, where the Great Reckoning settlement is selected.
+kc_debug.20 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.20.title
+	desc = kc_debug.20.desc
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_debug.20.a
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_unquiet_peace_constabulary_legacy
+			remove_variable = kc_unquiet_peace_network_legacy
+			remove_variable = kc_unquiet_peace_watches_legacy
+			set_variable = {
+				name = kc_unquiet_peace_constabulary_legacy
+				value = yes
+			}
+		}
+		trigger_event_non_silently = kc_debug.22
+	}
+
+	option = {
+		name = kc_debug.20.b
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_unquiet_peace_constabulary_legacy
+			remove_variable = kc_unquiet_peace_network_legacy
+			remove_variable = kc_unquiet_peace_watches_legacy
+			set_variable = {
+				name = kc_unquiet_peace_network_legacy
+				value = yes
+			}
+		}
+		trigger_event_non_silently = kc_debug.22
+	}
+
+	option = {
+		name = kc_debug.20.c
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_unquiet_peace_constabulary_legacy
+			remove_variable = kc_unquiet_peace_network_legacy
+			remove_variable = kc_unquiet_peace_watches_legacy
+			set_variable = {
+				name = kc_unquiet_peace_watches_legacy
+				value = yes
+			}
+		}
+		trigger_event_non_silently = kc_debug.22
+	}
+}
+
+# Select the Great Reckoning settlement, record both crises as complete, and
+# put Entrenchment at 100. The normal capstone Situation starts next month.
+kc_debug.22 = {
+	type = country_event
+	outcome = neutral
+	title = kc_debug.22.title
+	desc = kc_debug.22.desc
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = kc_concord_capstone_completed
+			}
+			set_societal_value = {
+				type = house_privilege_vs_concord_commonwealth
+				value = 0
+			}
+		}
+		remove_variable = kc_concord_capstone_pending
+		remove_variable = kc_concord_capstone_completed
+		remove_variable = kc_concord_collapsed
+		remove_variable = kc_articles_chartered_authority
+		remove_variable = kc_articles_joint_authority
+		remove_variable = kc_articles_common_authority
+		remove_variable = kc_articles_house_commentaries
+		remove_variable = kc_articles_public_language
+		remove_variable = kc_articles_court_recension
+		remove_variable = kc_articles_house_imprints
+		remove_variable = kc_articles_common_edition
+		remove_variable = kc_articles_movable_type
+	}
+
+	option = {
+		name = kc_debug.22.a
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_fiscal_settlement_house_guarantees
+			remove_variable = kc_fiscal_settlement_registered_apportionment
+			remove_variable = kc_fiscal_settlement_common_treasury
+			set_variable = {
+				name = kc_fiscal_settlement_house_guarantees
+				value = yes
+			}
+			set_variable = {
+				name = kc_unquiet_peace_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_great_reckoning_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 100
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.22.b
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_fiscal_settlement_house_guarantees
+			remove_variable = kc_fiscal_settlement_registered_apportionment
+			remove_variable = kc_fiscal_settlement_common_treasury
+			set_variable = {
+				name = kc_fiscal_settlement_registered_apportionment
+				value = yes
+			}
+			set_variable = {
+				name = kc_unquiet_peace_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_great_reckoning_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 100
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.22.c
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_fiscal_settlement_house_guarantees
+			remove_variable = kc_fiscal_settlement_registered_apportionment
+			remove_variable = kc_fiscal_settlement_common_treasury
+			set_variable = {
+				name = kc_fiscal_settlement_common_treasury
+				value = yes
+			}
+			set_variable = {
+				name = kc_unquiet_peace_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_great_reckoning_completed
+				value = yes
+			}
+			set_variable = {
+				name = kc_concord_entrenchment
+				value = 100
+			}
+		}
+	}
+}
+
+# event kc_debug.21
+# Place Cohesion below 25 and force the Fracturing Concord disaster to start
+# on the next monthly spawn check. This works before or after the capstone.
+kc_debug.21 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_concord_cohesion
+				value = 20
+			}
+		}
+		set_variable = {
+			name = kc_debug_force_fracturing_concord
+			value = yes
+		}
+	}
+}
+
+# event kc_debug.23
+# During The Fracturing Concord, place Cohesion at the collapse threshold.
+# The normal disaster logic opens the collapse event on the next monthly tick
+# while the disaster is still active. Confirming the event then permits the
+# disaster to end and schedules the world-state conversion.
+kc_debug.23 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_concord_cohesion
+				value = 0
+			}
+		}
+	}
+}
+
+# event kc_debug.24
+# During The Fracturing Concord, place Cohesion at its recovery threshold.
+# The normal disaster logic opens the recovery event on the next monthly tick
+# while the disaster is still active. Confirming it permits safe teardown.
+kc_debug.24 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_concord_cohesion
+				value = 40
+			}
+		}
+	}
+}
+
+# event kc_debug.25
+# Destructive isolation test: land the bounded custom warring Houses while
+# preserving the existing Concord object. Reload before repeating.
+kc_debug.25 = {
+	type = country_event
+	orphan = yes
+	title = empty_text
+	desc = empty_text
+	outcome = neutral
+	hidden = yes
+
+	immediate = {
+		kc_dissolve_concord_into_warring_states = yes
+	}
+}
+
+# event kc_debug.26
+# Legacy no-op retained for compatibility with older test instructions.
+kc_debug.26 = {
+	type = country_event
+	orphan = yes
+	title = empty_text
+	desc = empty_text
+	outcome = neutral
+	hidden = yes
+
+	immediate = {}
+}
+
+# event kc_debug.27
+# Full-scale isolation test. Run only after kc_debug.25 or a completed collapse.
+# Attempts to convert every remaining Chartered House without disbanding the
+# IO. Minor Houses with no winning location may cease to be viable.
+kc_debug.27 = {
+	type = country_event
+	orphan = yes
+	title = empty_text
+	desc = empty_text
+	outcome = neutral
+	hidden = yes
+
+	immediate = {
+		kc_land_all_remaining_concord_houses = yes
+	}
+}
+
+# event kc_debug.28
+# Safe post-collapse shell repair. This deliberately never creates, replaces,
+# removes members from, or destroys an international organization.
+kc_debug.28 = {
+	type = country_event
+	orphan = yes
+	title = empty_text
+	desc = empty_text
+	outcome = neutral
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = {
+					has_variable = kc_concord_collapsed
+				}
+				set_variable = {
+					name = kc_concord_cohesion
+					value = 0
+				}
+				set_variable = {
+					name = kc_concord_entrenchment
+					value = 0
+				}
+				remove_variable = kc_fracturing_concord_active
+				c:JAP ?= {
+					set_variable = {
+						name = kc_concord_collapsed
+						value = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.29
+# Select an exact native Entrenchment value for the Concord Secretariat.
+# This isolates the way EU5 multiplies positive bureaucracy modifiers by both
+# maintenance and Entrenchment. Run after the Secretariat has been seeded.
+kc_debug.29 = {
+	type = country_event
+	orphan = yes
+	title = kc_debug.29.title
+	desc = kc_debug.29.desc
+	outcome = neutral
+
+	option = {
+		name = kc_debug.29.a
+		every_current_bureaucracy = {
+			limit = {
+				bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+			}
+			set_entrenchment = 0
+		}
+	}
+
+	option = {
+		name = kc_debug.29.b
+		every_current_bureaucracy = {
+			limit = {
+				bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+			}
+			set_entrenchment = 25
+		}
+	}
+
+	option = {
+		name = kc_debug.29.c
+		every_current_bureaucracy = {
+			limit = {
+				bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+			}
+			set_entrenchment = 50
+		}
+	}
+
+	option = {
+		name = kc_debug.29.d
+		every_current_bureaucracy = {
+			limit = {
+				bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+			}
+			set_entrenchment = 75
+		}
+	}
+
+	option = {
+		name = kc_debug.29.e
+		every_current_bureaucracy = {
+			limit = {
+				bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+			}
+			set_entrenchment = 100
+		}
+	}
+}
+
+# event kc_debug.30
+# Move an active Hundred-Year Concord Situation to immediately before one of
+# its readings or its conclusion. Advance one month after selecting an option.
+kc_debug.30 = {
+	type = country_event
+	orphan = yes
+	title = kc_debug.30.title
+	desc = kc_debug.30.desc
+	outcome = neutral
+
+	option = {
+		name = kc_debug.30.a
+		trigger = {
+			is_situation_active = situation:kc_hundred_year_concord
+		}
+		situation:kc_hundred_year_concord = {
+			set_variable = {
+				name = kc_articles_progress
+				value = 24
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.30.b
+		trigger = {
+			is_situation_active = situation:kc_hundred_year_concord
+		}
+		situation:kc_hundred_year_concord = {
+			set_variable = {
+				name = kc_articles_progress
+				value = 49
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.30.c
+		trigger = {
+			is_situation_active = situation:kc_hundred_year_concord
+		}
+		situation:kc_hundred_year_concord = {
+			set_variable = {
+				name = kc_articles_progress
+				value = 74
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.30.d
+		trigger = {
+			is_situation_active = situation:kc_hundred_year_concord
+		}
+		situation:kc_hundred_year_concord = {
+			set_variable = {
+				name = kc_articles_progress
+				value = 99
+			}
+		}
+	}
+}
+
+# event kc_debug.31
+# Destructively prepares the three northern resource-discovery locations for
+# direct event testing. It fully assigns Shiribeshi, Hidaka and Kitami to the
+# selected Concord member, marks their settlement policies, restores the
+# original discovery inputs, sets Entrenchment to 80 and supplies ample gold.
+kc_debug.31 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		province_definition:shiribeshi_province = {
+			every_location_in_province_definition = {
+				limit = { is_ownable = yes }
+				change_location_owner = root
+				change_location_controller = root
+				change_integration_level = integrated
+			}
+		}
+		province_definition:hidaka_province = {
+			every_location_in_province_definition = {
+				limit = { is_ownable = yes }
+				change_location_owner = root
+				change_location_controller = root
+				change_integration_level = integrated
+			}
+		}
+		province_definition:kitami_province = {
+			every_location_in_province_definition = {
+				limit = { is_ownable = yes }
+				change_location_owner = root
+				change_location_controller = root
+				change_integration_level = integrated
+			}
+		}
+
+		ROOT.province:shiribeshi_province = { set_variable = { name = kc_ezo_settlement_policy value = 2 } }
+		ROOT.province:hidaka_province = { set_variable = { name = kc_ezo_settlement_policy value = 2 } }
+		ROOT.province:kitami_province = { set_variable = { name = kc_ezo_settlement_policy value = 2 } }
+		location:shimamaki = { change_raw_material = goods:sand }
+		location:niikappu = { change_raw_material = goods:millet }
+		location:tokoro = { change_raw_material = goods:fish }
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_concord_entrenchment value = 80 }
+		}
+		add_gold = 100000
+	}
+}
+
+# event kc_debug.32
+# Select one of the three arms settlements without waiting for a normal law
+# vote. Use the same save to compare House recruitment, desired army size and
+# maintenance behavior under each settlement.
+kc_debug.32 = {
+	type = country_event
+	orphan = yes
+	title = kc_debug.32.title
+	desc = kc_debug.32.desc
+	outcome = neutral
+
+	option = {
+		name = kc_debug.32.a
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = { international_organization_has_policy = policy:kc_registered_retinues_policy }
+				remove_policy_from_international_organization = policy:kc_registered_retinues_policy
+			}
+			if = {
+				limit = { international_organization_has_policy = policy:kc_common_arsenals_policy }
+				remove_policy_from_international_organization = policy:kc_common_arsenals_policy
+			}
+			if = {
+				limit = { NOT = { international_organization_has_policy = policy:kc_house_retinues_policy } }
+				add_policy_to_international_organization = policy:kc_house_retinues_policy
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.32.b
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = { international_organization_has_policy = policy:kc_house_retinues_policy }
+				remove_policy_from_international_organization = policy:kc_house_retinues_policy
+			}
+			if = {
+				limit = { international_organization_has_policy = policy:kc_common_arsenals_policy }
+				remove_policy_from_international_organization = policy:kc_common_arsenals_policy
+			}
+			if = {
+				limit = { NOT = { international_organization_has_policy = policy:kc_registered_retinues_policy } }
+				add_policy_to_international_organization = policy:kc_registered_retinues_policy
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.32.c
+		international_organization:kc_kitayama_concord ?= {
+			if = {
+				limit = { international_organization_has_policy = policy:kc_house_retinues_policy }
+				remove_policy_from_international_organization = policy:kc_house_retinues_policy
+			}
+			if = {
+				limit = { international_organization_has_policy = policy:kc_registered_retinues_policy }
+				remove_policy_from_international_organization = policy:kc_registered_retinues_policy
+			}
+			if = {
+				limit = { NOT = { international_organization_has_policy = policy:kc_common_arsenals_policy } }
+				add_policy_to_international_organization = policy:kc_common_arsenals_policy
+			}
+		}
+	}
+}
+
+# event kc_debug.33
+# Select one of the three maritime settlements without waiting for a normal
+# law vote. The Concord must already have at least 60 Entrenchment.
+kc_debug.33 = {
+	type = country_event
+	orphan = yes
+	title = kc_debug.33.title
+	desc = kc_debug.33.desc
+	outcome = neutral
+
+	option = {
+		name = kc_debug.33.a
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_concord_entrenchment value = 80 }
+			if = {
+				limit = { international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy }
+				remove_policy_from_international_organization = policy:kc_licensed_coastal_convoys_policy
+			}
+			if = {
+				limit = { international_organization_has_policy = policy:kc_concord_maritime_board_policy }
+				remove_policy_from_international_organization = policy:kc_concord_maritime_board_policy
+			}
+			if = {
+				limit = { NOT = { international_organization_has_policy = policy:kc_house_port_privileges_policy } }
+				add_policy_to_international_organization = policy:kc_house_port_privileges_policy
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.33.b
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_concord_entrenchment value = 80 }
+			if = {
+				limit = { international_organization_has_policy = policy:kc_house_port_privileges_policy }
+				remove_policy_from_international_organization = policy:kc_house_port_privileges_policy
+			}
+			if = {
+				limit = { international_organization_has_policy = policy:kc_concord_maritime_board_policy }
+				remove_policy_from_international_organization = policy:kc_concord_maritime_board_policy
+			}
+			if = {
+				limit = { NOT = { international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy } }
+				add_policy_to_international_organization = policy:kc_licensed_coastal_convoys_policy
+			}
+		}
+	}
+
+	option = {
+		name = kc_debug.33.c
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_concord_entrenchment value = 80 }
+			if = {
+				limit = { international_organization_has_policy = policy:kc_house_port_privileges_policy }
+				remove_policy_from_international_organization = policy:kc_house_port_privileges_policy
+			}
+			if = {
+				limit = { international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy }
+				remove_policy_from_international_organization = policy:kc_licensed_coastal_convoys_policy
+			}
+			if = {
+				limit = { NOT = { international_organization_has_policy = policy:kc_concord_maritime_board_policy } }
+				add_policy_to_international_organization = policy:kc_concord_maritime_board_policy
+			}
+		}
+	}
+}
+
+# event kc_debug.34
+# Prepare all recurring Treasury programs for immediate testing, clear their
+# modifiers and cooldowns, unlock both crisis-dependent programs, and fill the
+# common reserve. This does not spend Japan's national funds.
+kc_debug.34 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_concord_entrenchment value = 80 }
+			set_variable = { name = kc_unquiet_peace_completed value = yes }
+			set_variable = { name = kc_great_reckoning_completed value = yes }
+			add_gold = 100000
+			if = {
+				limit = { has_variable = kc_treasury_granaries_cooldown }
+				remove_variable = kc_treasury_granaries_cooldown
+			}
+			if = {
+				limit = { has_variable = kc_treasury_security_cooldown }
+				remove_variable = kc_treasury_security_cooldown
+			}
+			if = {
+				limit = { has_variable = kc_treasury_maritime_cooldown }
+				remove_variable = kc_treasury_maritime_cooldown
+			}
+			every_international_organization_member = {
+				remove_country_modifier = kc_treasury_common_granaries
+				remove_country_modifier = kc_treasury_common_security_state
+				remove_country_modifier = kc_treasury_registered_security_house
+				remove_country_modifier = kc_treasury_maritime_underwriting
+			}
+		}
+	}
+}
+
+# event kc_debug.35
+# Reset and prepare all six five-stage Treasury great works plus the separate
+# Metropolitan Charter. This is destructive: it exposes the future Phase 2
+# projects, supplies 750,000 gold for all thirty stages plus the Charter, and adds
+# 400,000 people to Japan's capital for the Megalopolis test.
+kc_debug.35 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_concord_entrenchment value = 100 }
+			add_gold = 750000
+			set_variable = { name = kc_phase_2_great_projects_unlocked value = yes }
+			set_variable = { name = kc_project_irrigation_stage value = 0.0001 }
+			set_variable = { name = kc_project_kaido_stage value = 0.0001 }
+			set_variable = { name = kc_project_harbors_stage value = 0.0001 }
+			set_variable = { name = kc_project_floodworks_stage value = 0.0001 }
+			set_variable = { name = kc_project_tunnels_stage value = 0.0001 }
+			set_variable = { name = kc_project_waterworks_stage value = 0.0001 }
+			if = { limit = { has_variable = kc_project_irrigation_completed } remove_variable = kc_project_irrigation_completed }
+			if = { limit = { has_variable = kc_project_floodworks_completed } remove_variable = kc_project_floodworks_completed }
+			if = { limit = { has_variable = kc_project_kaido_completed } remove_variable = kc_project_kaido_completed }
+			if = { limit = { has_variable = kc_project_tunnels_completed } remove_variable = kc_project_tunnels_completed }
+			if = { limit = { has_variable = kc_project_harbors_completed } remove_variable = kc_project_harbors_completed }
+			if = { limit = { has_variable = kc_project_megalopolis_completed } remove_variable = kc_project_megalopolis_completed }
+			remove_variable = kc_outer_port_charters_unlocked
+			remove_variable = kc_southern_ocean_harbor_line_unlocked
+		}
+		c:JAP ?= {
+			remove_country_modifier = kc_project_grand_irrigation
+			remove_country_modifier = kc_project_floodworks
+			remove_country_modifier = kc_project_kaido_spine
+			remove_country_modifier = kc_project_mountain_tunnels
+			remove_country_modifier = kc_project_inland_sea_harbors
+			remove_country_modifier = kc_project_grand_irrigation_1
+			remove_country_modifier = kc_project_grand_irrigation_2
+			remove_country_modifier = kc_project_grand_irrigation_3
+			remove_country_modifier = kc_project_grand_irrigation_4
+			remove_country_modifier = kc_project_grand_irrigation_5
+			remove_country_modifier = kc_project_floodworks_1
+			remove_country_modifier = kc_project_floodworks_2
+			remove_country_modifier = kc_project_floodworks_3
+			remove_country_modifier = kc_project_floodworks_4
+			remove_country_modifier = kc_project_floodworks_5
+			remove_country_modifier = kc_project_kaido_spine_1
+			remove_country_modifier = kc_project_kaido_spine_2
+			remove_country_modifier = kc_project_kaido_spine_3
+			remove_country_modifier = kc_project_kaido_spine_4
+			remove_country_modifier = kc_project_kaido_spine_5
+			remove_country_modifier = kc_project_mountain_tunnels_1
+			remove_country_modifier = kc_project_mountain_tunnels_2
+			remove_country_modifier = kc_project_mountain_tunnels_3
+			remove_country_modifier = kc_project_mountain_tunnels_4
+			remove_country_modifier = kc_project_mountain_tunnels_5
+			remove_country_modifier = kc_project_inland_sea_harbors_1
+			remove_country_modifier = kc_project_inland_sea_harbors_2
+			remove_country_modifier = kc_project_inland_sea_harbors_3
+			remove_country_modifier = kc_project_inland_sea_harbors_4
+			remove_country_modifier = kc_project_inland_sea_harbors_5
+			remove_country_modifier = kc_project_urban_waterworks_1
+			remove_country_modifier = kc_project_urban_waterworks_2
+			remove_country_modifier = kc_project_urban_waterworks_3
+			remove_country_modifier = kc_project_urban_waterworks_4
+			remove_country_modifier = kc_project_urban_waterworks_5
+			every_owned_location = {
+				remove_location_modifier = kc_project_metropolitan_charter
+				if = {
+					limit = { has_building = building_type:kc_concord_irrigation_works }
+					destroy_building = "building(building_type:kc_concord_irrigation_works|c:JAP)"
+				}
+				if = {
+					limit = { has_building = building_type:kc_seto_harbor_works }
+					destroy_building = "building(building_type:kc_seto_harbor_works|c:JAP)"
+				}
+				if = {
+					limit = { has_building = building_type:kc_concord_floodworks }
+					destroy_building = "building(building_type:kc_concord_floodworks|c:JAP)"
+				}
+				if = {
+					limit = { has_building = building_type:kc_urban_water_bureau }
+					destroy_building = "building(building_type:kc_urban_water_bureau|c:JAP)"
+				}
+			}
+			capital ?= {
+				if = {
+					limit = { is_city = no }
+					change_location_rank_effect = { location_rank = location_rank:city }
+				}
+				add_pop = {
+					culture = c:JAP.culture
+					religion = c:JAP.religion
+					type = pop_type:peasants
+					size = 400
+				}
+			}
+		}
+		region:japan_region = {
+			every_area_in_region = {
+				every_province_in_area = {
+					kc_remove_all_concord_province_project_modifiers = yes
+				}
+			}
+			every_location_in_region = {
+				kc_remove_all_concord_location_project_modifiers = yes
+			}
+		}
+	}
+}
+
+# event kc_debug.36
+# Bypass the network milestones and authorize Level V of all four physical
+# infrastructure networks. This adds no buildings: use it to inspect site
+# eligibility, maintenance, workforce, and five local levels without building
+# the entire national test network first.
+kc_debug.36 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = { name = kc_concord_entrenchment value = 100 }
+			set_variable = { name = kc_phase_2_great_projects_unlocked value = yes }
+			set_variable = { name = kc_project_irrigation_stage value = 5 }
+			set_variable = { name = kc_project_harbors_stage value = 5 }
+			set_variable = { name = kc_project_floodworks_stage value = 5 }
+			set_variable = { name = kc_project_waterworks_stage value = 5 }
+			add_gold = 100000
+		}
+		c:JAP ?= {
+			remove_country_modifier = kc_project_inland_sea_harbors
+			remove_country_modifier = kc_project_inland_sea_harbors_1
+			remove_country_modifier = kc_project_inland_sea_harbors_2
+			remove_country_modifier = kc_project_inland_sea_harbors_3
+			remove_country_modifier = kc_project_inland_sea_harbors_4
+			add_country_modifier = {
+				modifier = kc_project_inland_sea_harbors_5
+				years = -1
+				mode = replace
+			}
+		}
+	}
+}
+
+# event kc_debug.37
+# Destructively reset the foundational history package and launch one selected
+# chain in rapid mode. Each follow-up arrives after one day, making all choices,
+# precedent tooltips, and final modifiers testable in a few game days.
+kc_debug.37 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.37.title
+	desc = kc_debug.37.desc
+
+	option = {
+		name = kc_debug.37.a
+		kc_reset_foundational_historical_chains = yes
+		set_variable = { name = kc_historical_chain_active value = yes }
+		set_variable = { name = kc_historical_debug_rapid value = yes }
+		set_variable = { name = kc_ming_tally_trade_started value = yes }
+		trigger_event_non_silently = { id = kc_historical_concord.1 days = 1 }
+	}
+
+	option = {
+		name = kc_debug.37.b
+		kc_reset_foundational_historical_chains = yes
+		set_variable = { name = kc_ming_tally_trade_completed value = yes }
+		set_variable = { name = kc_precedent_foreign_commerce value = 2 }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		set_variable = { name = kc_historical_debug_rapid value = yes }
+		set_variable = { name = kc_after_founder_started value = yes }
+		trigger_event_non_silently = { id = kc_historical_concord.10 days = 1 }
+	}
+
+	option = {
+		name = kc_debug.37.c
+		kc_reset_foundational_historical_chains = yes
+		set_variable = { name = kc_ming_tally_trade_completed value = yes }
+		set_variable = { name = kc_after_founder_completed value = yes }
+		set_variable = { name = kc_precedent_foreign_commerce value = 2 }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		set_variable = { name = kc_historical_debug_rapid value = yes }
+		set_variable = { name = kc_tsushima_wako_started value = yes }
+		trigger_event_non_silently = { id = kc_historical_concord.20 days = 1 }
+	}
+
+	option = {
+		name = kc_debug.37.d
+		kc_reset_foundational_historical_chains = yes
+		set_variable = { name = kc_ming_tally_trade_completed value = yes }
+		set_variable = { name = kc_after_founder_completed value = yes }
+		set_variable = { name = kc_tsushima_wako_completed value = yes }
+		set_variable = { name = kc_precedent_foreign_commerce value = 2 }
+		set_variable = { name = kc_precedent_public_order value = 1 }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		set_variable = { name = kc_historical_debug_rapid value = yes }
+		set_variable = { name = kc_shocho_debt_started value = yes }
+		trigger_event_non_silently = { id = kc_historical_concord.30 days = 1 }
+	}
+
+	option = {
+		name = kc_debug.37.e
+		kc_reset_foundational_historical_chains = yes
+		set_variable = { name = kc_ming_tally_trade_completed value = yes }
+		set_variable = { name = kc_after_founder_completed value = yes }
+		set_variable = { name = kc_tsushima_wako_completed value = yes }
+		set_variable = { name = kc_shocho_debt_completed value = yes }
+		set_variable = { name = kc_precedent_foreign_commerce value = 2 }
+		set_variable = { name = kc_precedent_public_order value = 1 }
+		set_variable = { name = kc_precedent_credit value = 2 }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		set_variable = { name = kc_historical_debug_rapid value = yes }
+		set_variable = { name = kc_port_autonomy_started value = yes }
+		trigger_event_non_silently = { id = kc_historical_concord.40 days = 1 }
+	}
+
+	option = {
+		name = kc_debug.37.f
+	}
+}
+
+# event kc_debug.38
+# Prepare representative precedents and directly activate the War That Never
+# Was from a formed-Concord save.  The situation must not already be active.
+kc_debug.38 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.38.title
+	desc = kc_debug.38.desc
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_debug.38.a
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			has_any_active_disaster = no
+			NOT = { is_situation_active = situation:kc_war_that_never_was }
+			NOT = { is_situation_active = situation:kc_hundred_year_concord }
+		}
+		if = { limit = { has_variable = kc_historical_chain_active } remove_variable = kc_historical_chain_active }
+		if = { limit = { has_variable = kc_historical_debug_rapid } remove_variable = kc_historical_debug_rapid }
+		if = { limit = { has_variable = kc_war_that_never_was_pending } remove_variable = kc_war_that_never_was_pending }
+		if = { limit = { has_variable = kc_war_that_never_was_completed } remove_variable = kc_war_that_never_was_completed }
+		remove_variable = kc_wnw_house_settlement_chosen
+		remove_variable = kc_wnw_balanced_settlement_chosen
+		remove_variable = kc_wnw_common_settlement_chosen
+		set_variable = { name = kc_ming_tally_trade_completed value = yes }
+		set_variable = { name = kc_after_founder_completed value = yes }
+		set_variable = { name = kc_tsushima_wako_completed value = yes }
+		set_variable = { name = kc_shocho_debt_completed value = yes }
+		set_variable = { name = kc_port_autonomy_completed value = yes }
+		set_variable = { name = kc_founder_settlement value = 2 }
+		set_variable = { name = kc_founder_records value = 1 }
+		kc_select_foreign_commerce_concord = yes
+		kc_select_public_order_central = yes
+		kc_select_credit_mediated = yes
+		kc_select_ports_concord = yes
+		international_organization:kc_kitayama_concord = {
+			remove_variable = kc_war_that_never_was_active
+			remove_variable = kc_war_that_never_was_completed
+			remove_variable = kc_war_that_never_was_house_settlement
+			remove_variable = kc_war_that_never_was_balanced_settlement
+			remove_variable = kc_war_that_never_was_common_settlement
+			set_variable = { name = kc_concord_cohesion value = 70 }
+			add_gold = 100000
+		}
+		add_gold = 100000
+		set_variable = { name = kc_war_that_never_was_pending value = yes }
+		activate_situation = situation:kc_war_that_never_was
+	}
+
+	option = { name = kc_debug.38.b }
+}
+
+# event kc_debug.39
+# Move the active situation to immediately before an incident threshold.
+kc_debug.39 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.39.title
+	desc = kc_debug.39.desc
+	image = "gfx/interface/illustrations/situation/kc_war_that_never_was.dds"
+
+	option = {
+		name = kc_debug.39.a
+		trigger = { is_situation_active = situation:kc_war_that_never_was }
+		situation:kc_war_that_never_was = { set_variable = { name = kc_wnw_settlement_progress value = 19.90 } }
+	}
+	option = {
+		name = kc_debug.39.b
+		trigger = { is_situation_active = situation:kc_war_that_never_was }
+		situation:kc_war_that_never_was = { set_variable = { name = kc_wnw_settlement_progress value = 34.90 } }
+	}
+	option = {
+		name = kc_debug.39.c
+		trigger = { is_situation_active = situation:kc_war_that_never_was }
+		situation:kc_war_that_never_was = { set_variable = { name = kc_wnw_settlement_progress value = 49.90 } }
+	}
+	option = {
+		name = kc_debug.39.d
+		trigger = { is_situation_active = situation:kc_war_that_never_was }
+		situation:kc_war_that_never_was = { set_variable = { name = kc_wnw_settlement_progress value = 64.90 } }
+	}
+	option = {
+		name = kc_debug.39.e
+		trigger = { is_situation_active = situation:kc_war_that_never_was }
+		situation:kc_war_that_never_was = { set_variable = { name = kc_wnw_settlement_progress value = 79.90 } }
+	}
+	option = {
+		name = kc_debug.39.f
+		trigger = { is_situation_active = situation:kc_war_that_never_was }
+		situation:kc_war_that_never_was = { set_variable = { name = kc_wnw_settlement_progress value = 89.90 } }
+	}
+}
+
+# event kc_debug.40
+# Set the Concord Secretariat's maintenance directly so its Cohesion,
+# diplomatic-spending, and Treasury effects can be compared at exact native
+# bureaucracy Entrenchment values selected through event kc_debug.29.
+kc_debug.40 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.40.title
+	desc = kc_debug.40.desc
+
+	option = {
+		name = kc_debug.40.a
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy }
+			set_maintenance = 0
+		}
+	}
+	option = {
+		name = kc_debug.40.b
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy }
+			set_maintenance = 0.50
+		}
+	}
+	option = {
+		name = kc_debug.40.c
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy }
+			set_maintenance = 1
+		}
+	}
+}
+
+# event kc_debug.41
+# Prepare or expose the Phase 2 framework without requiring a century-long
+# campaign. The first option replays its opening decision; the second reveals
+# all five story-gated advancements for interface and modifier testing.
+kc_debug.41 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.41.title
+	desc = kc_debug.41.desc
+
+	option = {
+		name = kc_debug.41.a
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		remove_variable = kc_phase2_framework_pending
+		remove_variable = kc_phase2_framework_opened
+		remove_variable = kc_phase2_opening_house_delegations
+		remove_variable = kc_phase2_opening_common_office
+		remove_variable = kc_phase2_opening_court_compromise
+		remove_variable = kc_phase2_maritime_constitution_pending
+		remove_variable = kc_phase2_maritime_constitution_settled
+		if = {
+			limit = { has_reform = government_reform:kc_council_of_licensed_ports }
+			remove_reform = government_reform:kc_council_of_licensed_ports
+		}
+		if = {
+			limit = { has_reform = government_reform:kc_national_board_of_exchange }
+			remove_reform = government_reform:kc_national_board_of_exchange
+		}
+		set_variable = { name = kc_concord_capstone_completed value = yes }
+		international_organization:kc_kitayama_concord = {
+			set_variable = { name = kc_concord_capstone_completed value = yes }
+			set_variable = { name = kc_concord_entrenchment value = 100 }
+		}
+		trigger_event_non_silently = kc_phase2_framework.1
+	}
+
+	option = {
+		name = kc_debug.41.b
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+		}
+		set_variable = { name = kc_phase2_framework_opened value = yes }
+		set_variable = { name = kc_phase2_convoys_unlocked value = yes }
+		set_variable = { name = kc_phase2_firearms_unlocked value = yes }
+		set_variable = { name = kc_phase2_translation_unlocked value = yes }
+		set_variable = { name = kc_phase2_silver_clearing_unlocked value = yes }
+		set_variable = { name = kc_phase2_colonial_surveys_unlocked value = yes }
+		if = {
+			limit = { NOT = { has_advance = kc_registers_open_sea } }
+			research_advance = advance_type:kc_registers_open_sea
+		}
+		add_research_progress = research_progress_ultimate_bonus
+	}
+}
+
+# event kc_debug.42
+# Direct maintenance controls for the Office of Maritime Exchange.
+kc_debug.42 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.42.title
+	desc = kc_debug.42.desc
+
+	option = {
+		name = kc_debug.42.a
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+			set_maintenance = 0
+		}
+	}
+	option = {
+		name = kc_debug.42.b
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+			set_maintenance = 0.50
+		}
+	}
+	option = {
+		name = kc_debug.42.c
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+			set_maintenance = 1
+		}
+	}
+}
+
+# event kc_debug.43
+# Direct Entrenchment controls for the Office of Maritime Exchange.
+kc_debug.43 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.43.title
+	desc = kc_debug.43.desc
+
+	option = {
+		name = kc_debug.43.a
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+			set_entrenchment = 0
+		}
+	}
+	option = {
+		name = kc_debug.43.b
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+			set_entrenchment = 50
+		}
+	}
+	option = {
+		name = kc_debug.43.c
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+			set_entrenchment = 100
+		}
+	}
+}
+
+# event kc_debug.44
+# Start the entire Ningbo chain in rapid mode. Each subsequent event arrives
+# after one day, allowing all branches, native tooltips, and the automatic
+# Licensed Oceanic Convoys reward to be checked in a few game days.
+kc_debug.44 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.44.title
+	desc = kc_debug.44.desc
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	option = {
+		name = kc_debug.44.a
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		set_variable = { name = kc_phase2_framework_opened value = yes }
+		set_variable = { name = kc_ming_tally_trade_completed value = yes }
+		set_variable = { name = kc_ningbo_chain_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		set_variable = { name = kc_historical_debug_rapid value = yes }
+		remove_variable = kc_ningbo_chain_completed
+		add_gold = 100000
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		trigger_event_non_silently = kc_ningbo.1
+	}
+}
+
+# event kc_debug.45
+# Start the Southern Sea Exchange immediately with the prerequisite maritime
+# settlement prepared. Its normal monthly speed and all milestone events are
+# preserved.
+kc_debug.45 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.45.title
+	desc = kc_debug.45.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_debug.45.a
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			NOT = { is_situation_active = situation:kc_southern_sea_exchange }
+		}
+		set_variable = { name = kc_phase2_framework_opened value = yes }
+		set_variable = { name = kc_ningbo_chain_completed value = yes }
+		set_variable = { name = kc_phase2_convoys_unlocked value = yes }
+		set_variable = { name = kc_southern_sea_exchange_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		remove_variable = kc_southern_sea_exchange_completed
+		if = {
+			limit = { NOT = { has_advance = kc_registers_open_sea } }
+			research_advance = advance_type:kc_registers_open_sea
+		}
+		if = {
+			limit = { NOT = { has_advance = kc_licensed_oceanic_convoys } }
+			research_advance = advance_type:kc_licensed_oceanic_convoys
+		}
+		add_gold = 100000
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		activate_situation = situation:kc_southern_sea_exchange
+	}
+}
+
+# event kc_debug.46
+# Move the active Southern Sea Exchange immediately before any ratification.
+kc_debug.46 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.46.title
+	desc = kc_debug.46.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_debug.46.a
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 19.90 } }
+	}
+	option = {
+		name = kc_debug.46.b
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 39.90 } }
+	}
+	option = {
+		name = kc_debug.46.c
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 54.90 } }
+	}
+	option = {
+		name = kc_debug.46.d
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 69.90 } }
+	}
+	option = {
+		name = kc_debug.46.g
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 75.90 } }
+	}
+	option = {
+		name = kc_debug.46.e
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 81.90 } }
+	}
+	option = {
+		name = kc_debug.46.f
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 91.90 } }
+	}
+}
+
+# event kc_debug.47
+# Complete the Southern Sea Exchange on the next monthly tick.
+kc_debug.47 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.47.title
+	desc = kc_debug.47.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_debug.47.a
+		trigger = { is_situation_active = situation:kc_southern_sea_exchange }
+		situation:kc_southern_sea_exchange = { set_variable = { name = kc_sse_progress value = 99.90 } }
+	}
+}
+
+# event kc_debug.48
+# Toggle an explicit substitute for the otherwise campaign-scale requirements
+# of a colonial nation plus knowledge of a European capital. While enabled,
+# Kyoto receives one New World institution point on every monthly pulse.
+kc_debug.48 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.48.title
+	desc = kc_debug.48.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_debug.48.a
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		set_variable = { name = kc_phase2_framework_opened value = yes }
+		set_variable = { name = kc_southern_sea_exchange_completed value = yes }
+		set_variable = { name = kc_debug_colonialism_bridge_override value = yes }
+		set_variable = { name = kc_colonial_surveys_debug_rapid value = yes }
+		remove_variable = kc_colonial_surveys_started
+		remove_variable = kc_colonial_surveys_completed
+		remove_variable = kc_colonial_common_register_chosen
+		remove_variable = kc_colonial_chartered_registers_chosen
+		remove_variable = kc_colonial_treaty_compacts_chosen
+		set_variable = { name = kc_colonial_surveys_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_colonial_surveys.1 days = 1 }
+	}
+	option = {
+		name = kc_debug.48.b
+		remove_variable = kc_debug_colonialism_bridge_override
+		remove_variable = kc_colonial_surveys_debug_rapid
+	}
+}
+
+# event kc_debug.49
+# Recreate the normal post-Southern-Exchange state and open the second National
+# Works Register directly. This keeps the debug command independent of hidden
+# campaign conditions while the natural path remains monthly backfilled.
+kc_debug.49 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.49.title
+	desc = kc_debug.49.desc
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	option = {
+		name = kc_debug.49.a
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		set_variable = { name = kc_phase2_framework_opened value = yes }
+		set_variable = { name = kc_southern_sea_exchange_completed value = yes }
+		remove_variable = kc_phase2_great_projects_announced
+		set_variable = { name = kc_phase2_great_projects_pending value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		international_organization:kc_kitayama_concord = {
+			remove_variable = kc_phase_2_great_projects_unlocked
+		}
+		trigger_event_non_silently = { id = kc_phase2_projects.1 days = 1 }
+	}
+}
+
+# event kc_debug.50
+# Reset and rapidly play the compact Christian-contact chain. The debug flag
+# also exposes the otherwise conditional, player-only baptism conclusion.
+kc_debug.50 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.50.title
+	desc = kc_debug.50.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_debug.50.a
+		trigger = {
+			tag = JAP
+			has_reform = government_reform:kc_kitayama_concordate
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+		}
+		set_variable = { name = kc_phase2_framework_opened value = yes }
+		set_variable = { name = kc_southern_sea_exchange_completed value = yes }
+		set_variable = { name = kc_christian_contact_started value = yes }
+		set_variable = { name = kc_christian_contact_debug_rapid value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		remove_variable = kc_christian_contact_completed
+		remove_variable = kc_christian_contact_pending
+		remove_variable = kc_christian_registered_relief_chosen
+		remove_variable = kc_christian_temple_relief_chosen
+		remove_variable = kc_christian_foreign_alms_restricted
+		remove_variable = kc_christian_open_accommodation
+		remove_variable = kc_christian_port_compact_chosen
+		remove_variable = kc_christian_congregations_restricted
+		remove_variable = kc_shogun_received_baptism
+		trigger_event_non_silently = { id = kc_christian_contact.1 days = 1 }
+	}
+}
+
+# event kc_debug.51
+# Direct selector for the ten Phase 2 recurring events.
+kc_debug.51 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.51.title
+	desc = kc_debug.51.desc
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	option = { name = kc_debug.51.a trigger_event_non_silently = kc_phase2_flavor.1 }
+	option = { name = kc_debug.51.b trigger_event_non_silently = kc_phase2_flavor.2 }
+	option = { name = kc_debug.51.c trigger_event_non_silently = kc_phase2_flavor.3 }
+	option = { name = kc_debug.51.d trigger_event_non_silently = kc_phase2_flavor.4 }
+	option = { name = kc_debug.51.e trigger_event_non_silently = kc_phase2_flavor.5 }
+	option = { name = kc_debug.51.f trigger_event_non_silently = kc_phase2_flavor.6 }
+	option = { name = kc_debug.51.g trigger_event_non_silently = kc_phase2_flavor.7 }
+	option = {
+		name = kc_debug.51.h
+		set_variable = { name = kc_colonial_surveys_completed value = yes }
+		set_variable = { name = kc_phase2_flavor_governor_debug_override value = yes }
+		trigger_event_non_silently = kc_phase2_flavor.8
+	}
+	option = { name = kc_debug.51.i trigger_event_non_silently = kc_phase2_flavor.9 }
+	option = { name = kc_debug.51.j trigger_event_non_silently = kc_phase2_flavor.10 }
+}
+
+# event kc_debug.52 - rapidly play the 1582 embassy chain.
+kc_debug.52 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.52.title
+	desc = kc_debug.52.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_debug.52.a
+		trigger = { tag = JAP exists = international_organization:kc_kitayama_concord }
+		set_variable = { name = kc_southern_sea_exchange_completed value = yes }
+		set_variable = { name = kc_tensho_embassy_debug_rapid value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		remove_variable = kc_tensho_embassy_completed
+		remove_variable = kc_tensho_embassy_pending
+		remove_variable = kc_tensho_embassy_model
+		remove_variable = kc_tensho_embassy_return_focus
+		remove_variable = kc_tensho_return_observation
+		remove_variable = kc_tensho_return_exchange
+		remove_variable = kc_tensho_return_toleration
+		trigger_event_non_silently = { id = kc_tensho_embassy.1 days = 1 }
+	}
+}
+
+# event kc_debug.53 - convert the largest existing JAP subject to one of the
+# new overseas constitutional forms. It intentionally creates no new country.
+kc_debug.53 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.53.title
+	desc = kc_debug.53.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_debug.53.a
+		trigger = { tag = JAP any_subject = { always = yes } }
+		ordered_subject = { order_by = total_population max = 1 change_subject_type = subject_type:kc_commercial_protectorate }
+	}
+	option = {
+		name = kc_debug.53.b
+		trigger = { tag = JAP any_subject = { always = yes } }
+		ordered_subject = { order_by = total_population max = 1 change_subject_type = subject_type:kc_chartered_extraction_commission }
+	}
+}
+
+# event kc_debug.54 - initialize and add six unused concession licenses to
+# every Chartered House so building visibility can be tested immediately.
+kc_debug.54 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.54.title
+	desc = kc_debug.54.desc
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	option = {
+		name = kc_debug.54.a
+		international_organization:kc_kitayama_concord = {
+			every_international_organization_member = {
+				limit = { has_reform = government_reform:kc_chartered_buke_house }
+				if = { limit = { NOT = { has_variable = kc_overseas_concession_licenses_initialized } } set_variable = { name = kc_overseas_concession_licenses value = 1 } set_variable = { name = kc_overseas_concession_licenses_initialized value = yes } }
+				change_variable = { name = kc_overseas_concession_licenses add = 6 }
+				set_variable = { name = kc_overseas_concession_license_available value = yes }
+			}
+		}
+	}
+}
+
+# event kc_debug.55 - directly select each House War Service policy.
+kc_debug.55 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.55.title
+	desc = kc_debug.55.desc
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	option = {
+		name = kc_debug.55.a
+		international_organization:kc_kitayama_concord = { remove_policy_from_international_organization = policy:kc_discretionary_house_service_policy remove_policy_from_international_organization = policy:kc_universal_house_mobilization_policy add_policy_to_international_organization = policy:kc_house_war_exemption_policy }
+	}
+	option = {
+		name = kc_debug.55.b
+		international_organization:kc_kitayama_concord = { remove_policy_from_international_organization = policy:kc_house_war_exemption_policy remove_policy_from_international_organization = policy:kc_universal_house_mobilization_policy add_policy_to_international_organization = policy:kc_discretionary_house_service_policy }
+	}
+	option = {
+		name = kc_debug.55.c
+		international_organization:kc_kitayama_concord = { remove_policy_from_international_organization = policy:kc_house_war_exemption_policy remove_policy_from_international_organization = policy:kc_discretionary_house_service_policy add_policy_to_international_organization = policy:kc_universal_house_mobilization_policy }
+	}
+}
+
+# event kc_debug.56 - surface one Taiwanese settlement panel immediately.
+kc_debug.56 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.56.title
+	desc = kc_debug.56.desc
+	option = {
+		name = kc_debug.56.a
+		location:papora.province = {
+			remove_variable = kc_taiwan_settlement_policy
+			set_variable = { name = kc_taiwan_settlement_event_pending value = yes }
+		}
+		trigger_event_non_silently = kc_overseas_settlements.1
+	}
+}
+
+# event kc_debug.57 - open any of the three Philippine compacts.
+kc_debug.57 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.57.title
+	desc = kc_debug.57.desc
+	option = {
+		name = kc_debug.57.a
+		remove_variable = kc_luzon_compact_completed
+		remove_variable = kc_luzon_compact_declined
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_overseas_settlements.2 }
+	}
+	option = {
+		name = kc_debug.57.b
+		remove_variable = kc_visayas_compact_completed
+		remove_variable = kc_visayas_compact_declined
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_overseas_settlements.3 }
+	}
+	option = {
+		name = kc_debug.57.c
+		remove_variable = kc_mindanao_compact_completed
+		remove_variable = kc_mindanao_compact_declined
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_overseas_settlements.4 }
+	}
+}
+
+# event kc_debug.58 - create a test foothold and open the northern charter.
+kc_debug.58 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.58.title
+	desc = kc_debug.58.desc
+	option = {
+		name = kc_debug.58.a
+		location:nayoro = { change_location_owner = root }
+		remove_variable = kc_northern_colonial_administration_created
+		remove_variable = kc_northern_colonial_administration_deferred
+		trigger_event_non_silently = kc_overseas_settlements.5
+	}
+}
+
+# event kc_debug.59 - begin the Continental War That Never Was chain.
+kc_debug.59 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.59.title
+	desc = kc_debug.59.desc
+	option = {
+		name = kc_debug.59.a
+		remove_variable = kc_continental_question_opened
+		trigger_event_non_silently = kc_continental.1
+	}
+}
+
+# event kc_debug.60 - simulate victory in Korea and open its settlement panel.
+kc_debug.60 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.60.title
+	desc = kc_debug.60.desc
+	option = {
+		name = kc_debug.60.a
+		region:korea_region = {
+			every_location_in_region = {
+				limit = { has_owner = yes owner = c:KOR }
+				change_location_owner = root
+			}
+		}
+		trigger_event_non_silently = kc_continental.4
+	}
+}
+
+# event kc_debug.61 - authorize and grant both treaty-coast CBs.
+kc_debug.61 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.61.title
+	desc = kc_debug.61.desc
+	option = {
+		name = kc_debug.61.a
+		set_variable = { name = kc_korean_settlement_completed value = yes }
+		set_variable = { name = kc_china_charters_authorized value = yes }
+		if = {
+			limit = { exists = c:CHI }
+			add_casus_belli = { target = c:CHI type = casus_belli:kc_cb_chartered_treaty_coast }
+			add_casus_belli = { target = c:CHI type = casus_belli:kc_cb_extraction_treaty_coast }
+		}
+	}
+}
+
+# event kc_debug.62 - direct selector for the recurring overseas-subject
+# consequence pool. It does not create subjects; test the relevant entries on
+# a save with a Commercial Protectorate and an Extraction Commission.
+kc_debug.62 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.62.title
+	desc = kc_debug.62.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_debug.62.a
+		trigger = { any_subject = { is_subject_type = kc_commercial_protectorate } }
+		remove_variable = kc_overseas_subject_consequence_cooldown
+		remove_variable = kc_overseas_subject_1_recent
+		hidden_effect = { trigger_event_non_silently = kc_overseas_subjects.1 }
+	}
+	option = {
+		name = kc_debug.62.b
+		trigger = { any_subject = { is_subject_type = kc_commercial_protectorate } }
+		remove_variable = kc_overseas_subject_consequence_cooldown
+		remove_variable = kc_overseas_subject_2_recent
+		hidden_effect = { trigger_event_non_silently = kc_overseas_subjects.2 }
+	}
+	option = {
+		name = kc_debug.62.c
+		trigger = { any_subject = { is_subject_type = kc_chartered_extraction_commission } }
+		remove_variable = kc_overseas_subject_consequence_cooldown
+		remove_variable = kc_overseas_subject_3_recent
+		hidden_effect = { trigger_event_non_silently = kc_overseas_subjects.3 }
+	}
+	option = {
+		name = kc_debug.62.d
+		trigger = { any_subject = { is_subject_type = kc_chartered_extraction_commission } }
+		remove_variable = kc_overseas_subject_consequence_cooldown
+		remove_variable = kc_overseas_subject_4_recent
+		hidden_effect = { trigger_event_non_silently = kc_overseas_subjects.4 }
+	}
+	option = {
+		name = kc_debug.62.e
+		trigger = { any_subject = { OR = { is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } } }
+		remove_variable = kc_overseas_subject_consequence_cooldown
+		remove_variable = kc_overseas_subject_5_recent
+		hidden_effect = { trigger_event_non_silently = kc_overseas_subjects.5 }
+	}
+	option = {
+		name = kc_debug.62.f
+		trigger = { any_subject = { OR = { is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } } }
+		remove_variable = kc_overseas_subject_consequence_cooldown
+		remove_variable = kc_overseas_subject_6_recent
+		hidden_effect = { trigger_event_non_silently = kc_overseas_subjects.6 }
+	}
+}
+
+# event kc_debug.63 - grant or expire the thirty-year Southern Islands survey.
+kc_debug.63 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.63.title
+	desc = kc_debug.63.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_debug.63.a
+		remove_variable = kc_southern_islands_survey_completed
+		remove_variable = kc_southern_islands_access_window
+		remove_variable = kc_southern_islands_access_expired
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_southern_islands.1 }
+	}
+	option = {
+		name = kc_debug.63.b
+		remove_variable = kc_southern_islands_access_window
+		kc_expire_southern_islands_access = yes
+	}
+	option = {
+		name = kc_debug.63.c
+		hidden_effect = {
+			kc_grant_southern_islands_access = yes
+			trigger_event_silently = { id = kc_southern_islands.2 days = 1 }
+		}
+	}
+}
+
+# event kc_debug.64 - rapidly play the four Red-Seal Charter events.
+kc_debug.64 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.64.title
+	desc = kc_debug.64.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_debug.64.a
+		remove_variable = kc_red_seal_charters_started
+		remove_variable = kc_red_seal_charters_completed
+		remove_variable = kc_red_seal_common_register
+		remove_variable = kc_red_seal_house_concessions
+		remove_variable = kc_red_seal_court_convoys
+		set_variable = { name = kc_red_seal_debug_rapid value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_red_seal_charters.1 }
+	}
+}
+
+# event kc_debug.65 - open the adaptive 1609 Ryukyu settlement for the current
+# owner of Urasoe. Use different saves to test independent, subject, and direct
+# administration branches without destructive setup inside the selector.
+kc_debug.65 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.65.title
+	desc = kc_debug.65.desc
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_debug.65.a
+		trigger = { tag = JAP location:urasoe = { has_owner = yes } }
+		remove_variable = kc_ryukyu_settlement_completed
+		remove_variable = kc_ryukyu_settlement_pending
+		set_variable = { name = kc_ryukyu_settlement_debug_rapid value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_ryukyu_settlement.1 }
+	}
+}
+
+# event kc_debug.66 - rapidly play Merchants of Competing Europes.
+kc_debug.66 = {
+	type = country_event orphan = yes outcome = neutral
+	title = kc_debug.66.title desc = kc_debug.66.desc
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_debug.66.a
+		remove_variable = kc_competing_europes_started
+		remove_variable = kc_competing_europes_completed
+		remove_variable = kc_competing_common_register
+		remove_variable = kc_competing_house_brokers
+		remove_variable = kc_competing_national_registry
+		set_variable = { name = kc_competing_europes_debug_rapid value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_competing_europes.1 }
+	}
+}
+
+# event kc_debug.67 - rapidly play Japanese Overseas Communities.
+kc_debug.67 = {
+	type = country_event orphan = yes outcome = neutral
+	title = kc_debug.67.title desc = kc_debug.67.desc
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_debug.67.a
+		set_variable = { name = kc_competing_europes_completed value = yes }
+		remove_variable = kc_overseas_communities_started
+		remove_variable = kc_overseas_communities_completed
+		remove_variable = kc_overseas_municipal_compact
+		remove_variable = kc_overseas_house_consular_network
+		remove_variable = kc_overseas_national_consular_service
+		set_variable = { name = kc_overseas_communities_debug_rapid value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		hidden_effect = { trigger_event_non_silently = kc_overseas_communities.1 }
+	}
+}
+
+# event kc_debug.68 - start Regulation of the Open Seas immediately.
+kc_debug.68 = {
+	type = country_event orphan = yes outcome = neutral
+	title = kc_debug.68.title desc = kc_debug.68.desc
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_debug.68.a
+		trigger = { NOT = { is_situation_active = situation:kc_regulation_open_seas } }
+		set_variable = { name = kc_competing_europes_completed value = yes }
+		set_variable = { name = kc_overseas_communities_completed value = yes }
+		remove_variable = kc_regulation_open_seas_completed
+		remove_variable = kc_open_seas_chartered_ports_outcome
+		remove_variable = kc_open_seas_registered_ports_outcome
+		remove_variable = kc_open_seas_national_administration_outcome
+		set_variable = { name = kc_regulation_open_seas_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		international_organization:kc_kitayama_concord = { add_gold = 100000 }
+		activate_situation = situation:kc_regulation_open_seas
+	}
+}
+
+# event kc_debug.69 - overwrite the three influence tallies with a clear test
+# preset. This changes no country precedent and is safe to use repeatedly.
+kc_debug.69 = {
+	type = country_event orphan = yes outcome = neutral
+	title = kc_debug.69.title desc = kc_debug.69.desc
+	option = {
+		name = kc_debug.69.a trigger = { is_situation_active = situation:kc_regulation_open_seas }
+		situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_house_influence value = 20 } set_variable = { name = kc_ros_registered_influence value = 5 } set_variable = { name = kc_ros_national_influence value = 5 } }
+	}
+	option = {
+		name = kc_debug.69.b trigger = { is_situation_active = situation:kc_regulation_open_seas }
+		situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_house_influence value = 5 } set_variable = { name = kc_ros_registered_influence value = 20 } set_variable = { name = kc_ros_national_influence value = 5 } }
+	}
+	option = {
+		name = kc_debug.69.c trigger = { is_situation_active = situation:kc_regulation_open_seas }
+		situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_house_influence value = 5 } set_variable = { name = kc_ros_registered_influence value = 5 } set_variable = { name = kc_ros_national_influence value = 20 } }
+	}
+}
+
+# event kc_debug.70 - move the active situation immediately before a selected
+# ratification threshold, then advance one month.
+kc_debug.70 = {
+	type = country_event orphan = yes outcome = neutral
+	title = kc_debug.70.title desc = kc_debug.70.desc
+	option = { name = kc_debug.70.a trigger = { is_situation_active = situation:kc_regulation_open_seas } situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_progress value = 14.90 } } }
+	option = { name = kc_debug.70.b trigger = { is_situation_active = situation:kc_regulation_open_seas } situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_progress value = 29.90 } } }
+	option = { name = kc_debug.70.c trigger = { is_situation_active = situation:kc_regulation_open_seas } situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_progress value = 44.90 } } }
+	option = { name = kc_debug.70.d trigger = { is_situation_active = situation:kc_regulation_open_seas } situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_progress value = 59.90 } } }
+	option = { name = kc_debug.70.e trigger = { is_situation_active = situation:kc_regulation_open_seas } situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_progress value = 74.90 } } }
+	option = { name = kc_debug.70.f trigger = { is_situation_active = situation:kc_regulation_open_seas } situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_progress value = 89.90 } } }
+}
+
+# event kc_debug.71 - finish the situation, or clear a completed debug outcome
+# and restore the provisional Council of Licensed Ports for another save test.
+kc_debug.71 = {
+	type = country_event orphan = yes outcome = neutral
+	title = kc_debug.71.title desc = kc_debug.71.desc
+	option = {
+		name = kc_debug.71.a trigger = { is_situation_active = situation:kc_regulation_open_seas }
+		situation:kc_regulation_open_seas = { set_variable = { name = kc_ros_progress value = 99.90 } }
+	}
+	option = {
+		name = kc_debug.71.b trigger = { NOT = { is_situation_active = situation:kc_regulation_open_seas } }
+		if = { limit = { has_reform = government_reform:kc_commonwealth_chartered_ports } remove_reform = government_reform:kc_commonwealth_chartered_ports }
+		if = { limit = { has_reform = government_reform:kc_articles_registered_open_ports } remove_reform = government_reform:kc_articles_registered_open_ports }
+		if = { limit = { has_reform = government_reform:kc_national_maritime_administration } remove_reform = government_reform:kc_national_maritime_administration }
+		remove_variable = kc_regulation_open_seas_started
+		remove_variable = kc_regulation_open_seas_completed
+		remove_variable = kc_open_seas_chartered_ports_outcome
+		remove_variable = kc_open_seas_registered_ports_outcome
+		remove_variable = kc_open_seas_national_administration_outcome
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_late_maritime_works_available
+			remove_variable = kc_outer_port_charters_unlocked
+			remove_variable = kc_southern_ocean_harbor_line_unlocked
+		}
+		if = { limit = { NOT = { has_reform = government_reform:kc_council_of_licensed_ports } NOT = { has_reform = government_reform:kc_national_board_of_exchange } } add_reform = government_reform:kc_council_of_licensed_ports }
+	}
+}
+
+# event kc_debug.72 - prepare, seed, or reset the two post-maritime Harbor
+# authorizations without altering the rest of the late campaign.
+kc_debug.72 = {
+	type = country_event orphan = yes outcome = neutral
+	title = kc_debug.72.title desc = kc_debug.72.desc
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	option = {
+		name = kc_debug.72.a
+		trigger = { tag = JAP exists = international_organization:kc_kitayama_concord }
+		set_variable = { name = kc_regulation_open_seas_completed value = yes }
+		international_organization:kc_kitayama_concord = {
+			set_variable = { name = kc_late_maritime_works_available value = yes }
+			set_variable = { name = kc_project_harbors_stage value = 5 }
+			remove_variable = kc_outer_port_charters_unlocked
+			remove_variable = kc_southern_ocean_harbor_line_unlocked
+			add_gold = 100000
+		}
+	}
+	option = {
+		name = kc_debug.72.b
+		trigger = { tag = JAP exists = international_organization:kc_kitayama_concord }
+		international_organization:kc_kitayama_concord = {
+			set_variable = { name = kc_late_maritime_works_available value = yes }
+			set_variable = { name = kc_project_harbors_stage value = 5 }
+			set_variable = { name = kc_outer_port_charters_unlocked value = yes }
+			remove_variable = kc_southern_ocean_harbor_line_unlocked
+			add_gold = 100000
+		}
+		location:hakata = { change_building_level_in_location = { building = building_type:kc_seto_harbor_works value = 5 } }
+		location:nishisonogi = { change_building_level_in_location = { building = building_type:kc_seto_harbor_works value = 5 } }
+		location:kagoshima = { change_building_level_in_location = { building = building_type:kc_seto_harbor_works value = 5 } }
+		location:tsuruga = { change_building_level_in_location = { building = building_type:kc_seto_harbor_works value = 5 } }
+		location:nutari = { change_building_level_in_location = { building = building_type:kc_seto_harbor_works value = 5 } }
+		location:toshima_kanto = { change_building_level_in_location = { building = building_type:kc_seto_harbor_works value = 5 } }
+	}
+	option = {
+		name = kc_debug.72.c
+		trigger = { exists = international_organization:kc_kitayama_concord }
+		international_organization:kc_kitayama_concord = {
+			remove_variable = kc_outer_port_charters_unlocked
+			remove_variable = kc_southern_ocean_harbor_line_unlocked
+		}
+	}
+}
+
+# event kc_debug.73 - one-time exploration backfill. Every current Concord
+# member discovers each area already known to Japan. Ordinary gameplay uses the
+# much cheaper on_exploration_success hook instead.
+kc_debug.73 = {
+	type = country_event
+	orphan = yes
+	outcome = neutral
+	title = kc_debug.73.title
+	desc = kc_debug.73.desc
+	option = {
+		name = kc_debug.73.a
+		trigger = {
+			tag = JAP
+			exists = international_organization:kc_kitayama_concord
+		}
+		every_area = {
+			limit = { root = { has_discovered_area = prev } }
+			save_scope_as = kc_debug_shared_area
+			international_organization:kc_kitayama_concord = {
+				every_international_organization_member = {
+					limit = {
+						NOT = { has_discovered_area = scope:kc_debug_shared_area }
+					}
+					discover_area = scope:kc_debug_shared_area
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.74
+# Force the save-compatible concession-rights refresh for Japan and every
+# current Japanese subject. Run this as JAP before testing an existing colony.
+kc_debug.74 = {
+	type = country_event
+	orphan = yes
+	hidden = yes
+	title = empty_text
+	desc = empty_text
+	immediate = {
+		if = {
+			limit = { tag = JAP }
+			remove_variable = kc_concession_rights_initialized
+			kc_refresh_concord_concession_rights = yes
+			# Also prepare an already-open vanilla completion event, whose original
+			# on_action cannot fire again after loading the save.
+			every_owned_location = {
+				limit = {
+					OR = {
+						continent = continent:america
+						continent = continent:oceania
+					}
+				}
+				kc_cache_colonial_concessions_in_location = yes
+			}
+		}
+	}
+}
+
+# Colonial-concession persistence retest. Run before selecting a vanilla
+# Transfer Province option; it refreshes subject rights and snapshots every
+# current Japanese colonial concession. Running it again after the transfer
+# also forces an immediate retry in all Japanese colonial nations.
+kc_debug.75 = {
+	type = country_event
+	orphan = yes
+	hidden = yes
+	title = empty_text
+	desc = empty_text
+	immediate = {
+		if = {
+			limit = { tag = JAP }
+			kc_refresh_concord_concession_rights = yes
+			every_owned_location = {
+				limit = {
+					OR = {
+						continent = continent:america
+						continent = continent:oceania
+					}
+				}
+				kc_cache_colonial_concessions_in_location = yes
+			}
+			every_subject = {
+				limit = { is_subject_type = colonial_nation }
+				kc_grant_concord_concession_rights_to_houses = yes
+				every_owned_location = {
+					limit = {
+						OR = {
+							has_variable = kc_cached_anchorage_levels
+							has_variable = kc_cached_exchange_levels
+							has_variable = kc_cached_tea_levels
+							has_variable = kc_cached_silk_levels
+							has_variable = kc_cached_paddy_levels
+							has_variable = kc_cached_alum_levels
+							has_variable = kc_cached_whaling_levels
+							has_variable = kc_cached_provisioning_levels
+							has_variable = kc_cached_timber_levels
+						}
+					}
+					kc_restore_colonial_concessions_in_location = yes
+				}
+			}
+		}
+	}
+}
+
+# House navy bootstrap retest. Run as JAP, then advance to the next yearly
+# country pulse. This clears only the scripted two-year order cooldown; normal
+# sailors, money, shipyard, status, and maritime-law requirements remain.
+kc_debug.76 = {
+	type = country_event
+	orphan = yes
+	hidden = yes
+	title = empty_text
+	desc = empty_text
+	immediate = {
+		if = {
+			limit = {
+				tag = JAP
+				exists = international_organization:kc_kitayama_concord
+			}
+			international_organization:kc_kitayama_concord = {
+				every_international_organization_member = {
+					limit = { has_reform = government_reform:kc_chartered_buke_house }
+					remove_variable = kc_house_ship_order_cooldown
+				}
+			}
+		}
+	}
+}
+
+# event kc_debug.77
+# Overseas House investment retest. Run as JAP, then advance several months.
+# This clears the shared and personal scripted-AI construction throttles,
+# refreshes construction rights, and gives AI Houses a modest test reserve.
+kc_debug.77 = {
+	type = country_event
+	orphan = yes
+	hidden = yes
+	title = empty_text
+	desc = empty_text
+	immediate = {
+		if = {
+			limit = {
+				tag = JAP
+				exists = international_organization:kc_kitayama_concord
+			}
+			kc_refresh_concord_concession_rights = yes
+			international_organization:kc_kitayama_concord = {
+				remove_variable = kc_overseas_investment_dispatcher_cooldown
+				every_international_organization_member = {
+					limit = {
+						is_ai = yes
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_variable = kc_house_overseas_construction_cooldown
+					remove_variable = kc_house_ship_order_cooldown
+					add_gold = 1000
+					add_sailors = 0.10
+					if = {
+						limit = {
+							OR = {
+								NOT = { has_variable = kc_overseas_concession_licenses_initialized }
+								var:kc_overseas_concession_licenses < 1
+							}
+						}
+						set_variable = { name = kc_overseas_concession_licenses value = 1 }
+						set_variable = { name = kc_overseas_concession_licenses_initialized value = yes }
+						set_variable = { name = kc_overseas_concession_license_available value = yes }
+					}
+				}
+			}
+		}
+	}
+}
+
+
+

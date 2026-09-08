@@ -1,0 +1,355 @@
+﻿# Regional colonial reservations for the Kitayama Concord.
+#
+# New games receive the reservations before play begins. The JAP-only monthly
+# hook backfills saves created before this feature and later releases the
+# temporary southern reservations without evaluating every country.
+
+on_game_start = {
+	on_actions = {
+		kc_initialize_regional_colonial_safeguards
+	}
+}
+
+on_new_ruler = {
+	on_actions = {
+		kc_restore_broken_concord_custodian
+	}
+}
+
+monthly_country_pulse = {
+	on_actions = {
+		kc_regional_colonial_safeguards_monthly
+		kc_initialize_ezo_compact_monthly
+		kc_cap_protected_iwor_growth_monthly
+		kc_ezo_cultural_accommodation_backfill_monthly
+		kc_ezo_settlement_policy_monthly
+		kc_concord_capstone_monthly
+		kc_restore_broken_concord_custodian
+	}
+}
+
+# The IO type must continue to have a leader country because that setting is
+# static and powers the playable Concord before collapse. A genuinely empty
+# leader slot therefore invokes EU5's Power Struggle system. Keep JAP as a
+# purely technical custodian of the inert register after every succession,
+# with no Presiding House office, actions, elections, or leader modifiers.
+kc_restore_broken_concord_custodian = {
+	trigger = {
+		tag = JAP
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			has_variable = kc_concord_collapsed
+			NOT = {
+				leader_country ?= root
+			}
+		}
+	}
+
+	effect = {
+		international_organization:kc_kitayama_concord = {
+			set_leader_country = root
+		}
+	}
+}
+
+# The constitutional convention begins only after both the Great Reckoning
+# and the full century of Entrenchment have been completed.
+kc_concord_capstone_monthly = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = {
+			has_variable = kc_concord_capstone_completed
+		}
+		NOT = {
+			has_variable = kc_concord_capstone_pending
+		}
+		international_organization:kc_kitayama_concord = {
+			has_variable = kc_great_reckoning_completed
+			var:kc_concord_entrenchment >= 100
+		}
+	}
+
+	effect = {
+		set_variable = {
+			name = kc_concord_capstone_pending
+			value = yes
+		}
+		activate_situation = situation:kc_hundred_year_concord
+	}
+}
+
+kc_initialize_regional_colonial_safeguards = {
+	trigger = {
+		c:JAP ?= {
+			NOT = {
+				has_variable = kc_regional_colonial_safeguards_v3
+			}
+		}
+	}
+
+	effect = {
+		c:JAP ?= {
+			kc_apply_regional_colonial_safeguards = yes
+		}
+	}
+}
+
+kc_regional_colonial_safeguards_monthly = {
+	trigger = {
+		tag = JAP
+		OR = {
+			NOT = {
+				has_variable = kc_regional_colonial_safeguards_v3
+			}
+			AND = {
+				current_year >= 1550
+				NOT = {
+					has_variable = kc_philippine_safeguards_released
+				}
+			}
+			AND = {
+				current_year >= 1600
+				NOT = {
+					has_variable = kc_taiwan_safeguards_released
+				}
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_regional_colonial_safeguards_v3
+				}
+			}
+			kc_apply_regional_colonial_safeguards = yes
+		}
+
+		kc_manage_regional_colonial_safeguard_releases = yes
+	}
+}
+
+# Once the Concord exists, recognize Ainu land use and apply a bounded growth
+# and assimilation safeguard throughout Ezo. JAP performs this once so the
+# expensive area iteration is not evaluated by every country.
+kc_initialize_ezo_compact_monthly = {
+	trigger = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = {
+				has_variable = kc_ezo_compact_activated
+			}
+		}
+	}
+
+	effect = {
+		international_organization:kc_kitayama_concord = {
+			set_variable = {
+				name = kc_ezo_compact_activated
+				value = 1
+			}
+		}
+		kc_apply_protected_iwor_to_ezo = yes
+		trigger_event_non_silently = kc_ezo_compact.1
+	}
+}
+
+# Every Ezo-specific tribesmen-growth bonus ends locally once an Ainu tribesmen
+# pop reaches 1.0 (approximately one thousand people). Land protection and the
+# policy's non-tribesmen effects remain, preventing an unbounded engine.
+kc_cap_protected_iwor_growth_monthly = {
+	trigger = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		area:ezo_area = {
+			any_location_in_area = {
+				OR = {
+					has_location_modifier = kc_protected_iwor
+					has_location_modifier = kc_ezo_treaty_port
+					has_location_modifier = kc_ezo_mixed_northern_settlement
+				}
+				any_pop = {
+					culture = culture:ainu_culture
+					pop_type = pop_type:tribesmen
+					pop_size >= 1
+				}
+			}
+		}
+	}
+
+	effect = {
+		area:ezo_area = {
+			every_location_in_area = {
+				limit = {
+					OR = {
+						has_location_modifier = kc_protected_iwor
+						has_location_modifier = kc_ezo_treaty_port
+						has_location_modifier = kc_ezo_mixed_northern_settlement
+					}
+					any_pop = {
+						culture = culture:ainu_culture
+						pop_type = pop_type:tribesmen
+						pop_size >= 1
+					}
+				}
+				if = {
+					limit = {
+						has_location_modifier = kc_protected_iwor
+					}
+					remove_location_modifier = kc_protected_iwor
+					add_location_modifier = {
+						modifier = kc_protected_iwor_mature
+						years = -1
+						mode = add_and_extend
+					}
+				}
+				else_if = {
+					limit = {
+						has_location_modifier = kc_ezo_treaty_port
+					}
+					remove_location_modifier = kc_ezo_treaty_port
+					add_location_modifier = {
+						modifier = kc_ezo_treaty_port_mature
+						years = -1
+						mode = add_and_extend
+					}
+				}
+				else_if = {
+					limit = {
+						has_location_modifier = kc_ezo_mixed_northern_settlement
+					}
+					remove_location_modifier = kc_ezo_mixed_northern_settlement
+					add_location_modifier = {
+						modifier = kc_ezo_mixed_northern_settlement_mature
+						years = -1
+						mode = add_and_extend
+					}
+				}
+			}
+		}
+	}
+}
+
+# Backfills accepted-culture and reciprocal-view effects for provinces whose
+# policies were chosen under 0.2.4.0. It also repairs countries that later lose
+# and reacquire accepted Ainu status while retaining a protective Ezo policy.
+kc_ezo_cultural_accommodation_backfill_monthly = {
+	trigger = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		area:ezo_area = {
+			any_province_in_area = {
+				owner = root
+				has_variable = kc_ezo_settlement_policy
+				OR = {
+					var:kc_ezo_settlement_policy = 1
+					var:kc_ezo_settlement_policy = 2
+				}
+			}
+		}
+		OR = {
+			NOT = {
+				has_primary_or_accepted_culture = culture:ainu_culture
+			}
+			AND = {
+				NOT = {
+					has_variable = kc_ainu_treaty_relationship_recorded
+				}
+				area:ezo_area = {
+					any_province_in_area = {
+						owner = root
+						has_variable = kc_ezo_settlement_policy
+						var:kc_ezo_settlement_policy = 1
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		kc_recognize_ainu_culture = yes
+		if = {
+			limit = {
+				NOT = {
+					has_variable = kc_ainu_treaty_relationship_recorded
+				}
+				area:ezo_area = {
+					any_province_in_area = {
+						owner = root
+						has_variable = kc_ezo_settlement_policy
+						var:kc_ezo_settlement_policy = 1
+					}
+				}
+			}
+			kc_record_ainu_treaty_relationship = yes
+		}
+	}
+}
+
+# A completed Ezo province receives one policy event. Only Concord members are
+# checked, and at most one untreated province is surfaced for a country each
+# month. This avoids competing with the vanilla charter-completion panel.
+kc_ezo_settlement_policy_monthly = {
+	trigger = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			has_variable = kc_ezo_compact_activated
+		}
+		area:ezo_area = {
+			any_province_in_area = {
+				owner = root
+				province_definition = {
+					NOT = {
+						has_colonial_charter = root
+					}
+				}
+				any_location_in_province = {
+					owner = root
+					count = all
+				}
+				NOT = {
+					has_variable = kc_ezo_settlement_policy
+				}
+				NOT = {
+					has_variable = kc_ezo_settlement_event_pending
+				}
+			}
+		}
+	}
+
+	effect = {
+		area:ezo_area = {
+			random_province_in_area = {
+				limit = {
+					owner = root
+					province_definition = {
+						NOT = {
+							has_colonial_charter = root
+						}
+					}
+					any_location_in_province = {
+						owner = root
+						count = all
+					}
+					NOT = {
+						has_variable = kc_ezo_settlement_policy
+					}
+					NOT = {
+						has_variable = kc_ezo_settlement_event_pending
+					}
+				}
+				set_variable = {
+					name = kc_ezo_settlement_event_pending
+					value = 1
+				}
+				save_scope_as = kc_ezo_target_province
+			}
+		}
+		trigger_event_non_silently = kc_ezo_compact.2
+	}
+}
+
+

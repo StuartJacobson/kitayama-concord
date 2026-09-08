@@ -1,0 +1,99 @@
+﻿# New-country creation purges existing foreign buildings before the newborn
+# colonial nation can grant its own diplomatic authorization. Cache each House
+# concession immediately before creation, grant the new colony direct rights,
+# and then reconstruct the same levels for the same House.
+
+kc_clear_colonial_concession_cache = {
+	remove_variable = kc_cached_anchorage_levels
+	remove_variable = kc_cached_anchorage_owner
+	remove_variable = kc_cached_exchange_levels
+	remove_variable = kc_cached_exchange_owner
+	remove_variable = kc_cached_tea_levels
+	remove_variable = kc_cached_tea_owner
+	remove_variable = kc_cached_silk_levels
+	remove_variable = kc_cached_silk_owner
+	remove_variable = kc_cached_paddy_levels
+	remove_variable = kc_cached_paddy_owner
+	remove_variable = kc_cached_alum_levels
+	remove_variable = kc_cached_alum_owner
+	remove_variable = kc_cached_whaling_levels
+	remove_variable = kc_cached_whaling_owner
+	remove_variable = kc_cached_provisioning_levels
+	remove_variable = kc_cached_provisioning_owner
+	remove_variable = kc_cached_timber_levels
+	remove_variable = kc_cached_timber_owner
+}
+
+kc_cache_one_colonial_concession = {
+	every_foreign_buildings_in_location = {
+		limit = { building_type = building_type:$building$ }
+		save_scope_as = kc_cached_concession
+		location = {
+			set_variable = { name = $level_variable$ value = scope:kc_cached_concession.building_level }
+			set_variable = { name = $owner_variable$ value = scope:kc_cached_concession.owner }
+		}
+	}
+}
+
+kc_cache_colonial_concessions_in_location = {
+	kc_clear_colonial_concession_cache = yes
+	kc_cache_one_colonial_concession = { building = kc_house_anchorage level_variable = kc_cached_anchorage_levels owner_variable = kc_cached_anchorage_owner }
+	kc_cache_one_colonial_concession = { building = kc_colonial_house_exchange level_variable = kc_cached_exchange_levels owner_variable = kc_cached_exchange_owner }
+	kc_cache_one_colonial_concession = { building = kc_colonial_tea_gardens level_variable = kc_cached_tea_levels owner_variable = kc_cached_tea_owner }
+	kc_cache_one_colonial_concession = { building = kc_colonial_silk_farm level_variable = kc_cached_silk_levels owner_variable = kc_cached_silk_owner }
+	kc_cache_one_colonial_concession = { building = kc_chartered_paddy_syndicate level_variable = kc_cached_paddy_levels owner_variable = kc_cached_paddy_owner }
+	kc_cache_one_colonial_concession = { building = kc_house_alum_works level_variable = kc_cached_alum_levels owner_variable = kc_cached_alum_owner }
+	kc_cache_one_colonial_concession = { building = kc_northern_house_whaling_station level_variable = kc_cached_whaling_levels owner_variable = kc_cached_whaling_owner }
+	kc_cache_one_colonial_concession = { building = kc_house_provisioning_depot level_variable = kc_cached_provisioning_levels owner_variable = kc_cached_provisioning_owner }
+	kc_cache_one_colonial_concession = { building = kc_chartered_timber_yard level_variable = kc_cached_timber_levels owner_variable = kc_cached_timber_owner }
+}
+
+kc_cache_colonial_concessions_in_province = {
+	every_location_in_province = { kc_cache_colonial_concessions_in_location = yes }
+}
+
+kc_restore_one_colonial_concession = {
+	if = {
+		limit = {
+			has_variable = $level_variable$
+			exists = var:$owner_variable$
+			NOT = { any_foreign_buildings_in_location = { building_type = building_type:$building$ } }
+		}
+		# Directly restore the recorded level. Unlike construct_building, this
+		# effect does not re-run the normal foreign-construction transaction at
+		# the exact moment ownership cleanup is still settling.
+		var:$owner_variable$ = { save_scope_as = kc_restored_concession_owner }
+		change_building_level_in_location = {
+			building = building_type:$building$
+			value = var:$level_variable$
+			owner = scope:kc_restored_concession_owner
+		}
+	}
+
+	# Clear the record only after the foreign building actually exists. If the
+	# transfer is still resolving, the monthly colonial recovery pulse retries.
+	if = {
+		limit = {
+			has_variable = $owner_variable$
+			exists = var:$owner_variable$
+			any_foreign_buildings_in_location = {
+				building_type = building_type:$building$
+				owner = var:$owner_variable$
+			}
+		}
+		remove_variable = $level_variable$
+		remove_variable = $owner_variable$
+	}
+}
+
+kc_restore_colonial_concessions_in_location = {
+	kc_restore_one_colonial_concession = { building = kc_house_anchorage level_variable = kc_cached_anchorage_levels owner_variable = kc_cached_anchorage_owner }
+	kc_restore_one_colonial_concession = { building = kc_colonial_house_exchange level_variable = kc_cached_exchange_levels owner_variable = kc_cached_exchange_owner }
+	kc_restore_one_colonial_concession = { building = kc_colonial_tea_gardens level_variable = kc_cached_tea_levels owner_variable = kc_cached_tea_owner }
+	kc_restore_one_colonial_concession = { building = kc_colonial_silk_farm level_variable = kc_cached_silk_levels owner_variable = kc_cached_silk_owner }
+	kc_restore_one_colonial_concession = { building = kc_chartered_paddy_syndicate level_variable = kc_cached_paddy_levels owner_variable = kc_cached_paddy_owner }
+	kc_restore_one_colonial_concession = { building = kc_house_alum_works level_variable = kc_cached_alum_levels owner_variable = kc_cached_alum_owner }
+	kc_restore_one_colonial_concession = { building = kc_northern_house_whaling_station level_variable = kc_cached_whaling_levels owner_variable = kc_cached_whaling_owner }
+	kc_restore_one_colonial_concession = { building = kc_house_provisioning_depot level_variable = kc_cached_provisioning_levels owner_variable = kc_cached_provisioning_owner }
+	kc_restore_one_colonial_concession = { building = kc_chartered_timber_yard level_variable = kc_cached_timber_levels owner_variable = kc_cached_timber_owner }
+}

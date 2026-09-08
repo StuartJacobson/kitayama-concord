@@ -1,0 +1,144 @@
+﻿kc_great_reckoning_disputed_accounts = {
+	game_data = {
+		category = country
+	}
+
+	tax_income_efficiency = -0.10
+	trade_income = -0.10
+	global_merchant_capacity_modifier = -0.05
+	bank_interest = 0.01
+}
+
+kc_great_reckoning_guarantee_mandate = {
+	game_data = {
+		category = country
+	}
+
+	tax_income_efficiency = -0.05
+	trade_income = -0.10
+	global_merchant_capacity_modifier = -0.05
+	bank_interest = 0.005
+	nobles_estate_target_satisfaction = small_permanent_target_satisfaction
+}
+
+kc_great_reckoning_register_mandate = {
+	game_data = {
+		category = country
+	}
+
+	tax_income_efficiency = -0.075
+	trade_income = -0.075
+	global_merchant_capacity_modifier = -0.05
+	bank_interest = 0.005
+}
+
+kc_great_reckoning_public_mandate = {
+	game_data = {
+		category = country
+	}
+
+	tax_income_efficiency = -0.10
+	trade_income = -0.05
+	country_cabinet_efficiency = -0.05
+	bank_interest = 0.005
+}
+
+kc_great_reckoning_audit_commission = {
+	game_data = {
+		category = country
+	}
+
+	tax_income_efficiency = 0.05
+	country_cabinet_efficiency = 0.05
+	global_merchant_capacity_modifier = 0.05
+}
+
+kc_great_reckoning_shadow_accounts = {
+	game_data = {
+		category = country
+	}
+
+	tax_income_efficiency = -0.10
+	global_merchant_power = -0.10
+	monthly_legitimacy = -0.05
+}
+
+kc_great_reckoning_toll_confusion = {
+	game_data = {
+		category = country
+	}
+
+	trade_income = -0.10
+	global_merchant_capacity_modifier = -0.10
+	global_rgo_build_time = 0.05
+}
+
+kc_great_reckoning_credit_contraction = {
+	game_data = {
+		category = country
+	}
+
+	bank_interest = 0.015
+	trade_income = -0.10
+	global_merchant_power = -0.10
+}
+
+kc_great_reckoning_house_legacy = {
+	game_data = {
+		category = country
+	}
+
+	trade_income = 0.05
+	global_merchant_power = 0.05
+	nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+}
+
+kc_great_reckoning_registered_legacy = {
+	game_data = {
+		category = country
+	}
+
+	tax_income_efficiency = 0.05
+	global_merchant_capacity_modifier = 0.05
+	country_cabinet_efficiency = 0.05
+}
+
+kc_great_reckoning_common_legacy = {
+	game_data = {
+		category = country
+	}
+
+	country_cabinet_efficiency = 0.10
+	global_rgo_build_time = -0.05
+	global_monthly_development = 0.001
+}
+
+kc_concord_assessment_arrears = {
+	game_data = {
+		category = country
+	}
+
+	bank_interest = 0.01
+	global_merchant_power = -0.05
+	monthly_prestige = -0.05
+}
+
+kc_concord_common_works = {
+	game_data = {
+		category = country
+	}
+
+	global_build_buildings_efficiency = 0.15
+}
+
+kc_concord_credit_backstop = {
+	game_data = {
+		category = country
+	}
+
+	bank_interest = -0.01
+	global_merchant_capacity_modifier = 0.05
+	global_merchant_power = 0.05
+}
+
+

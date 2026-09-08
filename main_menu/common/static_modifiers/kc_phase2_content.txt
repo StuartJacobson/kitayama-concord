@@ -1,0 +1,95 @@
+﻿kc_concord_standard_measures = {
+	game_data = { category = country }
+	trade_income = 0.03
+	global_merchant_capacity_modifier = 0.03
+}
+
+kc_concord_reconciled_credit = {
+	game_data = { category = country }
+	bank_interest = -0.005
+	trade_income = 0.025
+}
+
+kc_concord_repaired_kaido = {
+	game_data = { category = country }
+	global_build_buildings_efficiency = 0.05
+	global_rgo_build_time = -0.025
+}
+
+kc_concord_common_charts = {
+	game_data = { category = country }
+	navy_maintenance_efficiency = 0.05
+	global_merchant_power = 0.03
+}
+
+kc_concord_retainer_registry = {
+	game_data = { category = country }
+	global_manpower_modifier = 0.05
+	army_maintenance_efficiency = 0.05
+}
+
+kc_concord_registered_trusts = {
+	game_data = { category = country }
+	global_clergy_max_literacy = 2
+	research_speed_modifier = 0.02
+}
+
+kc_concord_rice_market_reserve = {
+	game_data = { category = country }
+	global_monthly_food_modifier = 0.05
+	tax_income_efficiency = 0.025
+}
+
+kc_concord_village_registers = {
+	game_data = { category = country }
+	global_raw_material_output = 0.03
+	global_monthly_development = 0.001
+}
+
+kc_concord_school_of_accounts = {
+	game_data = { category = country }
+	research_speed_modifier = 0.03
+	change_policy_cost_modifier = -0.05
+}
+
+kc_concord_calibrated_customs = {
+	game_data = { category = country }
+	trade_income = 0.03
+	global_merchant_power = 0.03
+}
+
+kc_concord_seating_compromise = {
+	game_data = { category = country }
+	monthly_legitimacy = 0.05
+	global_estate_satisfaction_recovery = 0.001
+}
+
+kc_concord_granary_works = {
+	game_data = { category = country }
+	global_food_capacity_modifier = 0.10
+	global_build_buildings_efficiency = 0.03
+}
+
+kc_shimamaki_ironsand_works = {
+	game_data = { category = location }
+	local_raw_material_output = 0.10
+	local_build_buildings_efficiency = 0.05
+}
+
+kc_northern_stud_register = {
+	game_data = { category = location }
+	local_raw_material_output = 0.10
+	local_manpower_modifier = 0.10
+}
+
+kc_itomuka_careful_adits = {
+	game_data = { category = location }
+	local_raw_material_output = -0.10
+	local_monthly_development = 0.001
+}
+
+kc_itomuka_house_concession = {
+	game_data = { category = location }
+	local_raw_material_output = 0.15
+	local_monthly_development = -0.001
+}

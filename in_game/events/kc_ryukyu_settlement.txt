@@ -1,0 +1,179 @@
+﻿namespace = kc_ryukyu_settlement
+
+# The preliminary memorial establishes the negotiating delegation without
+# locking the final constitution. The ratification then adapts to the three
+# political states a campaign may produce by 1609.
+kc_ryukyu_settlement.1 = {
+	type = country_event
+	title = kc_ryukyu_settlement.1.title
+	desc = kc_ryukyu_settlement.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = { remove_variable = kc_ryukyu_settlement_pending }
+	option = {
+		name = kc_ryukyu_settlement.1.a
+		add_country_modifier = { modifier = kc_ryukyu_common_conference years = 5 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		hidden_effect = { if = { limit = { has_variable = kc_ryukyu_settlement_debug_rapid } trigger_event_non_silently = { id = kc_ryukyu_settlement.2 days = 1 } } else = { trigger_event_non_silently = { id = kc_ryukyu_settlement.2 days = 180 } } }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.1.b
+		add_country_modifier = { modifier = kc_ryukyu_house_conference years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		hidden_effect = { if = { limit = { has_variable = kc_ryukyu_settlement_debug_rapid } trigger_event_non_silently = { id = kc_ryukyu_settlement.2 days = 1 } } else = { trigger_event_non_silently = { id = kc_ryukyu_settlement.2 days = 180 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.1.c
+		add_country_modifier = { modifier = kc_ryukyu_court_conference years = 5 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		hidden_effect = { if = { limit = { has_variable = kc_ryukyu_settlement_debug_rapid } trigger_event_non_silently = { id = kc_ryukyu_settlement.2 days = 1 } } else = { trigger_event_non_silently = { id = kc_ryukyu_settlement.2 days = 180 } } }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_ryukyu_settlement.2 = {
+	type = country_event
+	title = kc_ryukyu_settlement.2.title
+	desc = kc_ryukyu_settlement.2.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = {
+		remove_variable = kc_ryukyu_settlement_pending
+		location:urasoe.owner = { save_scope_as = kc_ryukyu_partner }
+	}
+
+	# Independent or foreign-aligned Ryukyu.
+	option = {
+		name = kc_ryukyu_settlement.2.a
+		trigger = { location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { NOT = { is_subject_of = root } } }
+		add_country_modifier = { modifier = kc_ryukyu_league_of_ports years = 25 mode = replace }
+		scope:kc_ryukyu_partner = { add_country_modifier = { modifier = kc_ryukyu_recognized_partnership years = 25 mode = replace } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 3 }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		set_variable = { name = kc_ryukyu_partnership_outcome value = yes }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.2.b
+		trigger = { location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no } international_organization:kc_kitayama_concord = { gold >= { value = kc_ryukyu_settlement_purchase_value } } }
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_ryukyu_settlement_purchase_value multiply = -1 } }
+		kc_make_ryukyu_commercial_protectorate = yes
+		add_country_modifier = { modifier = kc_ryukyu_concord_protectorate years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		set_variable = { name = kc_ryukyu_protectorate_outcome value = yes }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.2.c
+		trigger = { location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no } }
+		kc_make_ryukyu_house_commission = yes
+		add_country_modifier = { modifier = kc_ryukyu_privileged_concession years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -4 }
+		custom_tooltip = { text = kc_concord_lose_4_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -4 } } }
+		set_variable = { name = kc_ryukyu_house_outcome value = yes }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 10 }
+		}
+	}
+
+	# An island government already beneath Japan.
+	option = {
+		name = kc_ryukyu_settlement.2.d
+		trigger = { scope:kc_ryukyu_partner = { is_subject_of = root } }
+		kc_make_ryukyu_commercial_protectorate = yes
+		scope:kc_ryukyu_partner = { add_country_modifier = { modifier = kc_ryukyu_recognized_partnership years = 25 mode = replace } }
+		add_country_modifier = { modifier = kc_ryukyu_league_of_ports years = 25 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		set_variable = { name = kc_ryukyu_partnership_outcome value = yes }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.2.e
+		trigger = { scope:kc_ryukyu_partner = { is_subject_of = root } international_organization:kc_kitayama_concord = { gold >= 500 } }
+		international_organization:kc_kitayama_concord = { add_gold = -500 }
+		kc_make_ryukyu_commercial_protectorate = yes
+		add_country_modifier = { modifier = kc_ryukyu_concord_protectorate years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		set_variable = { name = kc_ryukyu_protectorate_outcome value = yes }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.2.f
+		trigger = { scope:kc_ryukyu_partner = { is_subject_of = root } }
+		kc_make_ryukyu_house_commission = yes
+		add_country_modifier = { modifier = kc_ryukyu_privileged_concession years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -4 }
+		custom_tooltip = { text = kc_concord_lose_4_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -4 } } }
+		set_variable = { name = kc_ryukyu_house_outcome value = yes }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+
+	# Directly administered Ryukyu.
+	option = {
+		name = kc_ryukyu_settlement.2.g
+		trigger = { location:urasoe = { owner = root } }
+		add_country_modifier = { modifier = kc_ryukyu_direct_crown_ports years = 25 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		set_variable = { name = kc_ryukyu_direct_outcome value = yes }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.2.h
+		trigger = { location:urasoe = { owner = root } international_organization:kc_kitayama_concord = { gold >= 500 } }
+		international_organization:kc_kitayama_concord = { add_gold = -500 }
+		kc_create_ryukyu_commercial_protectorate = yes
+		add_country_modifier = { modifier = kc_ryukyu_concord_protectorate years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		set_variable = { name = kc_ryukyu_protectorate_outcome value = yes }
+		ai_chance = { base = 50 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ryukyu_settlement.2.i
+		trigger = { location:urasoe = { owner = root } }
+		kc_create_ryukyu_house_commission = yes
+		add_country_modifier = { modifier = kc_ryukyu_privileged_concession years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -4 }
+		custom_tooltip = { text = kc_concord_lose_4_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -4 } } }
+		set_variable = { name = kc_ryukyu_house_outcome value = yes }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  location:urasoe = { NOT = { owner = root } } scope:kc_ryukyu_partner = { is_subject = no }  factor = 0 }
+		}
+	}
+	after = {
+		hidden_effect = {
+			set_variable = { name = kc_ryukyu_settlement_completed value = yes }
+			remove_variable = kc_ryukyu_settlement_debug_rapid
+			remove_variable = kc_historical_chain_active
+		}
+	}
+}

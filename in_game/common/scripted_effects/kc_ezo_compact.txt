@@ -1,0 +1,317 @@
+﻿# Establishes the demographic protection when the Concord first exists.
+# The modifier is placed only where Ainu tribesmen are present and no later
+# Ezo settlement policy has already replaced it.
+kc_apply_protected_iwor_to_ezo = {
+	area:ezo_area = {
+		every_location_in_area = {
+			limit = {
+				any_pop = {
+					culture = culture:ainu_culture
+					pop_type = pop_type:tribesmen
+				}
+				NOT = {
+					has_location_modifier = kc_ezo_treaty_port
+				}
+				NOT = {
+					has_location_modifier = kc_ezo_treaty_port_mature
+				}
+				NOT = {
+					has_location_modifier = kc_ezo_mixed_northern_settlement
+				}
+				NOT = {
+					has_location_modifier = kc_ezo_mixed_northern_settlement_mature
+				}
+				NOT = {
+					has_location_modifier = kc_ezo_survey_settlement
+				}
+				NOT = {
+					has_location_modifier = kc_protected_iwor
+				}
+				NOT = {
+					has_location_modifier = kc_protected_iwor_mature
+				}
+			}
+
+			add_location_modifier = {
+				modifier = kc_protected_iwor
+				years = -1
+				mode = add_and_extend
+			}
+		}
+	}
+}
+
+# Root is the country sponsoring an Ezo settlement. Treaty Land and Mixed
+# Settlement recognize Ainu as an accepted culture so promotion can never
+# expose a protected Ainu pop to assimilation.
+kc_recognize_ainu_culture = {
+	if = {
+		limit = {
+			NOT = {
+				has_primary_or_accepted_culture = culture:ainu_culture
+			}
+		}
+		add_accepted_culture = culture:ainu_culture
+	}
+}
+
+# Root is the country sponsoring an Ainu Treaty Land. Cultural views are
+# improved once per sponsor rather than once per acquired province.
+kc_record_ainu_treaty_relationship = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = kc_ainu_treaty_relationship_recorded
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					culture = culture:ainu_culture
+				}
+			}
+			culture = {
+				change_cultural_view = {
+					target = culture:ainu_culture
+					change = 1
+				}
+			}
+			culture:ainu_culture = {
+				change_cultural_view = {
+					target = root.culture
+					change = 1
+				}
+			}
+		}
+		set_variable = {
+			name = kc_ainu_treaty_relationship_recorded
+			value = 1
+		}
+	}
+}
+
+# Root is a completed Ezo province. Colonial settlement can erase the small
+# unowned-location tribesmen pops before a provincial policy is selected.
+# Restore a bounded Ainu community in every location once, then cap any merged
+# Ainu tribesmen pop at approximately one thousand people.
+kc_restore_ainu_communities_after_colonization = {
+	every_location_in_province = {
+		random_list = {
+			1 = {
+				add_pop = {
+					culture = culture:ainu_culture
+					religion = religion:ainu_religion
+					type = pop_type:tribesmen
+					size = 0.40
+				}
+			}
+			1 = {
+				add_pop = {
+					culture = culture:ainu_culture
+					religion = religion:ainu_religion
+					type = pop_type:tribesmen
+					size = 0.45
+				}
+			}
+			1 = {
+				add_pop = {
+					culture = culture:ainu_culture
+					religion = religion:ainu_religion
+					type = pop_type:tribesmen
+					size = 0.50
+				}
+			}
+			1 = {
+				add_pop = {
+					culture = culture:ainu_culture
+					religion = religion:ainu_religion
+					type = pop_type:tribesmen
+					size = 0.55
+				}
+			}
+			1 = {
+				add_pop = {
+					culture = culture:ainu_culture
+					religion = religion:ainu_religion
+					type = pop_type:tribesmen
+					size = 0.60
+				}
+			}
+			1 = {
+				add_pop = {
+					culture = culture:ainu_culture
+					religion = religion:ainu_religion
+					type = pop_type:tribesmen
+					size = 0.65
+				}
+			}
+		}
+
+		every_pop = {
+			limit = {
+				culture = culture:ainu_culture
+				pop_type = pop_type:tribesmen
+				pop_size > 1
+			}
+			add_pop_size = {
+				value = 1
+				subtract = pop_size
+			}
+		}
+	}
+}
+
+# Root is the completed Ezo province. scope:kc_ezo_sponsor is its owner.
+kc_apply_ezo_treaty_port_policy = {
+	kc_restore_ainu_communities_after_colonization = yes
+
+	every_location_in_province = {
+		remove_location_modifier = kc_protected_iwor
+		remove_location_modifier = kc_protected_iwor_mature
+		remove_location_modifier = kc_ezo_treaty_port_mature
+		remove_location_modifier = kc_ezo_mixed_northern_settlement
+		remove_location_modifier = kc_ezo_mixed_northern_settlement_mature
+		remove_location_modifier = kc_ezo_survey_settlement
+		remove_location_modifier = kc_ezo_unfamiliar_northern_subsistence
+
+		add_location_modifier = {
+			modifier = kc_ezo_treaty_port
+			years = -1
+			mode = add_and_extend
+		}
+
+		# EU5's charter represents roughly one thousand permanent migrants in
+		# each location. Under a treaty port, sixty percent are reinterpreted
+		# as seasonal fishers and merchants who return south.
+		every_pop = {
+			limit = {
+				NOT = {
+					culture = culture:ainu_culture
+				}
+				pop_size > 0.001
+			}
+			save_scope_as = kc_ezo_migrant_pop
+			add_pop_size = {
+				value = scope:kc_ezo_migrant_pop.pop_size
+				multiply = -0.60
+			}
+		}
+
+		every_pop = {
+			limit = {
+				culture = culture:ainu_culture
+			}
+			add_pop_satisfaction = pop_satisfaction_mild_bonus
+		}
+	}
+
+	scope:kc_ezo_sponsor = {
+		kc_recognize_ainu_culture = yes
+		kc_record_ainu_treaty_relationship = yes
+	}
+
+	set_variable = {
+		name = kc_ezo_settlement_policy
+		value = 1
+	}
+	remove_variable = kc_ezo_settlement_event_pending
+}
+
+# Root is the completed Ezo province. scope:kc_ezo_sponsor is its owner.
+kc_apply_ezo_mixed_settlement_policy = {
+	kc_restore_ainu_communities_after_colonization = yes
+
+	every_location_in_province = {
+		remove_location_modifier = kc_protected_iwor
+		remove_location_modifier = kc_protected_iwor_mature
+		remove_location_modifier = kc_ezo_treaty_port
+		remove_location_modifier = kc_ezo_treaty_port_mature
+		remove_location_modifier = kc_ezo_mixed_northern_settlement_mature
+		remove_location_modifier = kc_ezo_survey_settlement
+		remove_location_modifier = kc_ezo_unfamiliar_northern_subsistence
+
+		add_location_modifier = {
+			modifier = kc_ezo_mixed_northern_settlement
+			years = -1
+			mode = add_and_extend
+		}
+
+		# A mixed settlement retains sixty-five percent of the normal colonial
+		# migration while keeping Ainu communities intact.
+		every_pop = {
+			limit = {
+				NOT = {
+					culture = culture:ainu_culture
+				}
+				pop_size > 0.001
+			}
+			save_scope_as = kc_ezo_migrant_pop
+			add_pop_size = {
+				value = scope:kc_ezo_migrant_pop.pop_size
+				multiply = -0.35
+			}
+		}
+
+		every_pop = {
+			limit = {
+				culture = culture:ainu_culture
+			}
+			add_pop_satisfaction = pop_satisfaction_weak_bonus
+		}
+	}
+
+	scope:kc_ezo_sponsor = {
+		kc_recognize_ainu_culture = yes
+	}
+
+	set_variable = {
+		name = kc_ezo_settlement_policy
+		value = 2
+	}
+	remove_variable = kc_ezo_settlement_event_pending
+}
+
+# Root is the completed Ezo province. scope:kc_ezo_sponsor is its owner.
+kc_apply_ezo_survey_settlement_policy = {
+	kc_restore_ainu_communities_after_colonization = yes
+
+	every_location_in_province = {
+		remove_location_modifier = kc_protected_iwor
+		remove_location_modifier = kc_protected_iwor_mature
+		remove_location_modifier = kc_ezo_treaty_port
+		remove_location_modifier = kc_ezo_treaty_port_mature
+		remove_location_modifier = kc_ezo_mixed_northern_settlement
+		remove_location_modifier = kc_ezo_mixed_northern_settlement_mature
+		remove_location_modifier = kc_ezo_unfamiliar_northern_subsistence
+
+		add_location_modifier = {
+			modifier = kc_ezo_survey_settlement
+			years = -1
+			mode = add_and_extend
+		}
+
+		# Rice-centered settlers initially struggle with Ezo's climate, soils,
+		# and growing seasons. The modifier fades linearly across thirty years
+		# as northern crops and subsistence practices are learned.
+		add_location_modifier = {
+			modifier = kc_ezo_unfamiliar_northern_subsistence
+			years = 30
+			mode = replace
+		}
+
+		every_pop = {
+			limit = {
+				culture = culture:ainu_culture
+			}
+			add_pop_satisfaction = pop_satisfaction_severe_penalty
+		}
+	}
+
+	set_variable = {
+		name = kc_ezo_settlement_policy
+		value = 3
+	}
+	remove_variable = kc_ezo_settlement_event_pending
+}
+
+

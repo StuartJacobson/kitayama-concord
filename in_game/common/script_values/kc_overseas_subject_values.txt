@@ -1,0 +1,32 @@
+﻿# Evaluated from a JAP event with scope:kc_overseas_subject saved by the event's
+# immediate block. Unlike the shared historical-event values, these have no
+# hard ceiling: the size of the selected overseas economy determines the bill.
+kc_overseas_subject_minor_treasury_value = {
+	value = 0
+	if = {
+		limit = { exists = scope:kc_overseas_subject }
+		add = scope:kc_overseas_subject.monthly_income_trade_and_tax
+	}
+	min = 1
+	multiply = 2
+}
+
+kc_overseas_subject_moderate_treasury_value = {
+	value = 0
+	if = {
+		limit = { exists = scope:kc_overseas_subject }
+		add = scope:kc_overseas_subject.monthly_income_trade_and_tax
+	}
+	min = 1
+	multiply = 4
+}
+
+kc_overseas_subject_major_treasury_value = {
+	value = 0
+	if = {
+		limit = { exists = scope:kc_overseas_subject }
+		add = scope:kc_overseas_subject.monthly_income_trade_and_tax
+	}
+	min = 1
+	multiply = 6
+}

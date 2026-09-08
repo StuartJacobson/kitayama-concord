@@ -1,0 +1,67 @@
+﻿# The three Kanrei lineages form the founding senior council. They represent
+# the most institutionally entrenched shugo interests without granting Senior
+# status to all thirty-five vanilla shugo daimyo and overwhelming the new
+# three-to-thirteen capacity system.
+kc_bestow_founding_senior_houses = {
+	if = {
+		limit = {
+			country_exists = c:HSK
+			has_member = c:HSK
+			c:HSK = {
+				has_reform = government_reform:kc_chartered_buke_house
+				NOT = {
+					has_special_status_in_international_organization = {
+						type = special_status:kc_senior_chartered_house
+						international_organization = root
+					}
+				}
+			}
+		}
+		international_organization_add_special_status = {
+			type = special_status:kc_senior_chartered_house
+			country = c:HSK
+		}
+	}
+	if = {
+		limit = {
+			country_exists = c:SBA
+			has_member = c:SBA
+			c:SBA = {
+				has_reform = government_reform:kc_chartered_buke_house
+				NOT = {
+					has_special_status_in_international_organization = {
+						type = special_status:kc_senior_chartered_house
+						international_organization = root
+					}
+				}
+			}
+		}
+		international_organization_add_special_status = {
+			type = special_status:kc_senior_chartered_house
+			country = c:SBA
+		}
+	}
+	if = {
+		limit = {
+			country_exists = c:HTK
+			has_member = c:HTK
+			c:HTK = {
+				has_reform = government_reform:kc_chartered_buke_house
+				NOT = {
+					has_special_status_in_international_organization = {
+						type = special_status:kc_senior_chartered_house
+						international_organization = root
+					}
+				}
+			}
+		}
+		international_organization_add_special_status = {
+			type = special_status:kc_senior_chartered_house
+			country = c:HTK
+		}
+	}
+	set_variable = {
+		name = kc_founding_senior_houses_bestowed
+		value = yes
+	}
+}

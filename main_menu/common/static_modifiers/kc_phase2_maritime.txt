@@ -1,0 +1,181 @@
+﻿kc_ningbo_common_embassy = {
+	diplomatic_reputation = 0.50
+	global_merchant_power = 0.03
+}
+kc_ningbo_house_missions = {
+	global_merchant_power = 0.05
+	merchant_maintenance_efficiency = 0.05
+}
+kc_ningbo_court_tallies = {
+	monthly_legitimacy = 0.03
+	diplomatic_reputation = 0.25
+}
+kc_ningbo_registered_precedence = {
+	global_maritime_presence_modifier = 0.05
+	diplomatic_reputation = 0.25
+}
+kc_ningbo_joint_quotas = {
+	global_merchant_capacity_modifier = 0.03
+	global_merchant_power = 0.03
+}
+kc_ningbo_court_seal_registry = {
+	diplomatic_reputation = 0.50
+	monthly_legitimacy = 0.03
+}
+kc_ningbo_broken_tallies = {
+	diplomatic_reputation = -1
+	merchant_maintenance_efficiency = -0.10
+}
+kc_ningbo_quay_arbitration = {
+	diplomatic_reputation = 0.50
+	trade_range = 50
+}
+kc_ningbo_first_license = {
+	global_merchant_power = 0.05
+	global_maritime_presence_modifier = 0.05
+}
+kc_ningbo_court_indemnity = {
+	monthly_legitimacy = 0.05
+	trade_range = 25
+}
+kc_ningbo_national_registry = {
+	diplomatic_reputation = 0.50
+	global_maritime_presence_modifier = 0.05
+	diplomatic_spending_cost = -0.05
+}
+kc_ningbo_maritime_league = {
+	global_merchant_power = 0.05
+	global_merchant_capacity_modifier = 0.025
+	navy_maintenance_efficiency = 0.05
+}
+kc_ningbo_court_seals = {
+	monthly_legitimacy = 0.03
+	diplomatic_reputation = 0.50
+	trade_range = 25
+}
+
+kc_sse_careful_examination = {
+	research_speed_modifier = 0.025
+	global_institution_growth_modifier = 0.025
+}
+kc_sse_house_prototypes = {
+	global_firearms_output_modifier = 0.05
+	global_merchant_power = 0.03
+}
+kc_sse_quarantine_wharf = {
+	global_maritime_presence_modifier = 0.03
+	diplomatic_reputation = 0.25
+}
+kc_sse_common_teppo_gauges = {
+	global_firearms_output_modifier = 0.05
+	army_heavy_infantry_power = 0.025
+}
+kc_sse_licensed_gunsmiths = {
+	global_firearms_output_modifier = 0.10
+	army_heavy_infantry_build_cost_modifier = -0.05
+}
+kc_sse_court_magazines = {
+	army_maintenance_efficiency = 0.05
+	monthly_legitimacy = 0.03
+}
+kc_sse_common_powder_contracts = {
+	global_firearms_output_modifier = 0.05
+	army_maintenance_efficiency = 0.03
+}
+kc_sse_house_powder_monopolies = {
+	global_firearms_output_modifier = 0.10
+	merchant_maintenance_efficiency = -0.05
+}
+kc_sse_restricted_powder_magazines = {
+	army_heavy_infantry_power = 0.05
+	global_firearms_output_modifier = -0.05
+}
+kc_sse_common_silver_clearing = {
+	monthly_inflation = -0.0001
+	bank_interest = -0.0025
+}
+kc_sse_house_bullion_accounts = {
+	global_merchant_capacity_modifier = 0.05
+	bank_interest = -0.0025
+}
+kc_sse_court_assay_seals = {
+	monthly_legitimacy = 0.03
+	monthly_inflation = -0.0001
+}
+kc_sse_common_translation_houses = {
+	global_institution_growth_modifier = 0.05
+	research_speed_modifier = 0.025
+}
+kc_sse_house_interpreter_guilds = {
+	research_speed_modifier = 0.02
+	trade_range = 50
+}
+kc_sse_court_translation_bureau = {
+	diplomatic_reputation = 0.50
+	global_institution_growth_modifier = 0.025
+}
+kc_sse_open_preaching_precedent = {
+	research_speed_modifier = 0.025
+	diplomatic_reputation = 0.25
+}
+kc_sse_registered_port_worship = {
+	diplomatic_reputation = 0.25
+	global_estate_satisfaction_recovery = 0.001
+}
+kc_sse_restricted_preaching_precedent = {
+	monthly_legitimacy = 0.03
+	diplomatic_reputation = -0.25
+}
+kc_sse_chartered_southern_exchange = {
+	global_merchant_power = 0.05
+	global_merchant_capacity_modifier = 0.025
+	global_firearms_output_modifier = 0.05
+}
+kc_sse_national_maritime_exchange = {
+	global_institution_growth_modifier = 0.05
+	diplomatic_spending_cost = -0.05
+	global_maritime_presence_modifier = 0.05
+}
+kc_sse_court_regulated_treaty_ports = {
+	diplomatic_reputation = 0.50
+	monthly_legitimacy = 0.03
+	trade_range = 50
+}
+
+kc_colonial_common_hydrography = {
+	global_institution_growth_modifier = 0.03
+	diplomatic_spending_cost = -0.03
+}
+kc_colonial_house_chart_companies = {
+	trade_range = 50
+	global_merchant_capacity_modifier = 0.03
+}
+kc_colonial_court_atlas = {
+	diplomatic_reputation = 0.25
+	monthly_legitimacy = 0.03
+}
+kc_colonial_common_register = {
+	colonial_range_modifier = 0.05
+	global_institution_growth_modifier = 0.05
+}
+kc_colonial_chartered_registers = {
+	colonial_range = 100
+	global_merchant_capacity_modifier = 0.05
+}
+kc_colonial_treaty_compacts = {
+	naval_range = 75
+	diplomatic_reputation = 0.50
+}
+
+kc_tensho_common_delegation = { diplomatic_reputation = 0.50 diplomatic_spending_cost = -0.05 }
+kc_tensho_house_consortium = { global_merchant_power = 0.05 global_merchant_capacity_modifier = 0.025 }
+kc_tensho_christian_scholars = { research_speed_modifier = 0.02 global_institution_growth_modifier = 0.025 }
+kc_tensho_registered_itinerary = { naval_range = 50 diplomatic_reputation = 0.25 }
+kc_tensho_house_gift_markets = { trade_range = 50 global_merchant_power = 0.03 }
+kc_tensho_court_credentials = { diplomatic_reputation = 0.50 monthly_legitimacy = 0.03 }
+kc_tensho_printed_observations = { research_speed_modifier = 0.025 global_institution_growth_modifier = 0.03 }
+kc_tensho_oceanic_contracts = { trade_range = 75 global_maritime_presence_modifier = 0.05 }
+kc_tensho_religious_comparisons = { global_estate_satisfaction_recovery = 0.001 diplomatic_reputation = 0.25 }
+kc_tensho_legacy_of_observation = { research_speed_modifier = 0.03 global_institution_growth_modifier = 0.05 diplomatic_reputation = 0.50 }
+kc_tensho_legacy_of_exchange = { trade_range = 100 global_merchant_capacity_modifier = 0.05 global_maritime_presence_modifier = 0.05 }
+kc_tensho_legacy_of_toleration = { diplomatic_reputation = 0.75 global_estate_satisfaction_recovery = 0.001 global_disease_resistance = 0.025 }

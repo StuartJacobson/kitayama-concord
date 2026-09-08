@@ -1,0 +1,47 @@
+﻿# ROOT is the territorial country granting foreign-building rights. This may
+# be Japan itself or any Japanese subject that hosts Chartered House property.
+kc_grant_concord_concession_rights_to_houses = {
+	save_scope_as = kc_concession_rights_grantor
+
+	if = {
+		limit = { exists = international_organization:kc_kitayama_concord }
+		international_organization:kc_kitayama_concord = {
+			every_international_organization_member = {
+				limit = {
+					has_reform = government_reform:kc_chartered_buke_house
+					NOT = {
+						receiving_scripted_relation = {
+							type = relation_type:kc_concord_concession_rights
+							target = scope:kc_concession_rights_grantor
+						}
+					}
+				}
+				save_scope_as = kc_concession_rights_house
+
+				scope:kc_concession_rights_grantor = {
+					create_relation = {
+						first = scope:kc_concession_rights_grantor
+						second = scope:kc_concession_rights_house
+						type = relation_type:kc_concord_concession_rights
+					}
+				}
+			}
+		}
+		set_variable = { name = kc_concession_rights_granted value = yes }
+	}
+}
+
+# ROOT is Japan. The refresh covers Japan and every current subject so foreign
+# House buildings remain valid after a province is assigned to a colonial
+# nation, Commercial Protectorate, or Extraction Commission.
+kc_refresh_concord_concession_rights = {
+	if = {
+		limit = {
+			tag = JAP
+			exists = international_organization:kc_kitayama_concord
+		}
+		kc_grant_concord_concession_rights_to_houses = yes
+		every_subject = { kc_grant_concord_concession_rights_to_houses = yes }
+		set_variable = { name = kc_concession_rights_initialized value = yes }
+	}
+}

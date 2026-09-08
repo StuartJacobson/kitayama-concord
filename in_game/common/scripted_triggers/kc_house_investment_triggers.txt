@@ -1,0 +1,35 @@
+﻿# Event root and scope:actor are the investing House. Current scope is a location.
+kc_house_can_order_overseas_building = {
+	# Avoid piling scripted orders into a busy port or an existing build queue.
+	num_civil_constructions = 0
+	can_build_building = building_type:$building$
+	root = {
+		can_build_building = building_type:$building$
+		# A conservative base-price reserve; normal native construction still
+		# calculates and charges the real price. No free buildings or grants.
+		gold >= {
+			value = building_type:$building$.building_base_cost_in_gold
+			multiply = 2
+			add = { value = monthly_income_trade_and_tax multiply = 3 }
+			min = 100
+		}
+	}
+}
+
+kc_house_has_overseas_building_opportunity = {
+	OR = {
+		kc_house_can_order_overseas_building = { building = kc_overseas_warehouse }
+		kc_house_can_order_overseas_building = { building = kc_resource_concession_office }
+		kc_house_can_order_overseas_building = { building = kc_concessionary_naval_depot }
+		kc_house_can_order_overseas_building = { building = kc_chartered_enforcers_guild }
+		kc_house_can_order_overseas_building = { building = kc_house_anchorage }
+		kc_house_can_order_overseas_building = { building = kc_colonial_house_exchange }
+		kc_house_can_order_overseas_building = { building = kc_colonial_tea_gardens }
+		kc_house_can_order_overseas_building = { building = kc_colonial_silk_farm }
+		kc_house_can_order_overseas_building = { building = kc_chartered_paddy_syndicate }
+		kc_house_can_order_overseas_building = { building = kc_house_alum_works }
+		kc_house_can_order_overseas_building = { building = kc_northern_house_whaling_station }
+		kc_house_can_order_overseas_building = { building = kc_house_provisioning_depot }
+		kc_house_can_order_overseas_building = { building = kc_chartered_timber_yard }
+	}
+}

@@ -1,0 +1,1099 @@
+﻿# Recurring political-economic life inside the Concord and rare northern
+# resource discoveries. The cheap outer triggers keep these pools away from
+# countries that can never use the content.
+
+monthly_country_pulse = {
+	on_actions = {
+		kc_concession_rights_monthly_pulse
+		kc_colonial_concession_persistence_monthly_pulse
+		kc_phase2_framework_monthly_pulse
+		kc_house_concession_license_monthly_pulse
+		kc_concord_overseas_investment_dispatcher
+		kc_phase2_registers_backfill_monthly_pulse
+		kc_phase2_maritime_office_monthly_pulse
+		kc_phase2_maritime_constitution_legacy_backfill
+		kc_phase2_maritime_constitution_monthly_pulse
+		kc_ningbo_monthly_pulse
+		kc_southern_sea_exchange_monthly_pulse
+		kc_phase2_great_projects_monthly_pulse
+		kc_colonial_surveys_monthly_pulse
+		kc_colonialism_bridge_progress_pulse
+		kc_christian_contact_monthly_pulse
+		kc_tensho_embassy_monthly_pulse
+		kc_taiwan_settlement_monthly_pulse
+		kc_southern_island_access_expiry_monthly_pulse
+		kc_philippine_compacts_monthly_pulse
+		kc_philippine_settlement_transfer_monthly_pulse
+		kc_northern_colonial_administration_monthly_pulse
+		kc_early_korean_settlement_monthly_pulse
+		kc_continental_question_monthly_pulse
+		kc_continental_cb_renewal_monthly_pulse
+		kc_red_seal_charters_monthly_pulse
+		kc_ryukyu_settlement_monthly_pulse
+		kc_competing_europes_monthly_pulse
+		kc_overseas_communities_monthly_pulse
+		kc_overseas_communities_backfill_monthly_pulse
+		kc_regulation_open_seas_monthly_pulse
+		kc_open_seas_office_benefits_monthly_pulse
+		kc_late_maritime_works_backfill_monthly_pulse
+	}
+}
+
+# Fleet replacement does not need monthly evaluation. A yearly check is enough
+# for the deliberately small House navies and cuts the recurring trigger load
+# to one twelfth of the former implementation.
+yearly_country_pulse = {
+	on_actions = {
+		kc_house_naval_procurement_yearly_pulse
+	}
+}
+
+# One-time save-compatible backfill. New Concords receive the relations during
+# formation; older saves receive them on their first monthly country pulse.
+kc_concession_rights_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		exists = international_organization:kc_kitayama_concord
+		OR = {
+			NOT = { has_variable = kc_concession_rights_initialized }
+			any_subject = { NOT = { has_variable = kc_concession_rights_granted } }
+		}
+	}
+	effect = { kc_refresh_concord_concession_rights = yes }
+}
+
+# Keep a rolling ownership ledger while Japan administers a colonial province,
+# then repair any recorded House concessions after that province is assigned to
+# a colonial nation. This covers both vanilla transfer options and delayed
+# ownership cleanup which can outlive on_location_changed_owner by a tick.
+kc_colonial_concession_persistence_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		exists = international_organization:kc_kitayama_concord
+	}
+	effect = {
+		# Snapshot only locations which actually contain one of the colonial
+		# House concessions, avoiding a full cache write across the empire.
+		every_owned_location = {
+			limit = {
+				OR = {
+					continent = continent:america
+					continent = continent:oceania
+				}
+				OR = {
+					any_foreign_buildings_in_location = { building_type = building_type:kc_house_anchorage }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_colonial_house_exchange }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_colonial_tea_gardens }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_colonial_silk_farm }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_chartered_paddy_syndicate }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_house_alum_works }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_northern_house_whaling_station }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_house_provisioning_depot }
+					any_foreign_buildings_in_location = { building_type = building_type:kc_chartered_timber_yard }
+				}
+			}
+			kc_cache_colonial_concessions_in_location = yes
+		}
+
+		every_subject = {
+			limit = { is_subject_type = colonial_nation }
+			kc_grant_concord_concession_rights_to_houses = yes
+			every_owned_location = {
+				limit = {
+					OR = {
+						has_variable = kc_cached_anchorage_levels
+						has_variable = kc_cached_exchange_levels
+						has_variable = kc_cached_tea_levels
+						has_variable = kc_cached_silk_levels
+						has_variable = kc_cached_paddy_levels
+						has_variable = kc_cached_alum_levels
+						has_variable = kc_cached_whaling_levels
+						has_variable = kc_cached_provisioning_levels
+						has_variable = kc_cached_timber_levels
+					}
+				}
+				kc_restore_colonial_concessions_in_location = yes
+			}
+		}
+	}
+}
+
+# Save-compatible bridge for campaigns that completed Regulation of the Open
+# Seas before the late Harbor authorizations were introduced.
+kc_late_maritime_works_backfill_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_variable = kc_regulation_open_seas_completed
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_late_maritime_works_available }
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+	effect = {
+		international_organization:kc_kitayama_concord = {
+			set_variable = { name = kc_late_maritime_works_available value = yes }
+		}
+	}
+}
+
+kc_taiwan_settlement_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		area:taiwan_area = {
+			any_province_in_area = {
+				owner ?= root
+				any_location_in_province = {
+					OR = { has_owner = no AND = { has_owner = yes NOT = { owner = root } } }
+					count = 0
+				}
+				NOT = { has_variable = kc_taiwan_settlement_policy }
+				NOT = { has_variable = kc_taiwan_settlement_event_pending }
+			}
+		}
+	}
+	effect = {
+		area:taiwan_area = {
+			random_province_in_area = {
+				limit = {
+					owner ?= root
+					any_location_in_province = {
+						OR = { has_owner = no AND = { has_owner = yes NOT = { owner = root } } }
+						count = 0
+					}
+					NOT = { has_variable = kc_taiwan_settlement_policy }
+					NOT = { has_variable = kc_taiwan_settlement_event_pending }
+				}
+				set_variable = { name = kc_taiwan_settlement_event_pending value = yes }
+			}
+		}
+		trigger_event_non_silently = kc_overseas_settlements.1
+	}
+}
+
+# A Japanese foothold can be transferred to the established harbor polity in
+# return for a negotiated Commercial Protectorate compact.
+kc_philippine_compacts_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_variable = kc_southern_sea_exchange_completed
+		NOT = { has_variable = kc_historical_chain_active }
+		OR = {
+			AND = {
+				exists = c:TDO
+				NOT = { has_variable = kc_luzon_compact_completed }
+				NOT = { has_variable = kc_luzon_compact_declined }
+				OR = {
+					any_owned_location = { area = area:taiwan_area }
+					location:maynila.market.most_powerful_merchant = root
+					any_owned_location = { area = area:luzon_area }
+				}
+				c:TDO = { is_subject = no }
+			}
+			AND = {
+				exists = c:CEB
+				NOT = { has_variable = kc_visayas_compact_completed }
+				NOT = { has_variable = kc_visayas_compact_declined }
+				OR = {
+					any_owned_location = { area = area:taiwan_area }
+					location:maynila.market.most_powerful_merchant = root
+					any_owned_location = { area = area:visayas_area }
+				}
+				c:CEB = { is_subject = no }
+			}
+			AND = {
+				exists = c:BTU
+				NOT = { has_variable = kc_mindanao_compact_completed }
+				NOT = { has_variable = kc_mindanao_compact_declined }
+				OR = {
+					any_owned_location = { area = area:taiwan_area }
+					location:maynila.market.most_powerful_merchant = root
+					any_owned_location = { area = area:mindanao_area }
+				}
+				c:BTU = { is_subject = no }
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = { exists = c:TDO NOT = { has_variable = kc_luzon_compact_completed } NOT = { has_variable = kc_luzon_compact_declined } OR = { any_owned_location = { area = area:taiwan_area } location:maynila.market.most_powerful_merchant = root any_owned_location = { area = area:luzon_area } } c:TDO = { is_subject = no } }
+			trigger_event_non_silently = kc_overseas_settlements.2
+		}
+		else_if = {
+			limit = { exists = c:CEB NOT = { has_variable = kc_visayas_compact_completed } NOT = { has_variable = kc_visayas_compact_declined } OR = { any_owned_location = { area = area:taiwan_area } location:maynila.market.most_powerful_merchant = root any_owned_location = { area = area:visayas_area } } c:CEB = { is_subject = no } }
+			trigger_event_non_silently = kc_overseas_settlements.3
+		}
+		else = { trigger_event_non_silently = kc_overseas_settlements.4 }
+	}
+}
+
+# The survey claim is a deliberately finite opening. Completed settlements
+# remain Japanese, but unused exclusive rights lapse after thirty years.
+kc_southern_island_access_expiry_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_variable = kc_southern_islands_survey_completed
+		OR = {
+			AND = {
+				has_variable = kc_southern_islands_access_window
+				NOT = { has_variable = kc_southern_islands_cleanup_scheduled }
+			}
+			AND = {
+				NOT = { has_variable = kc_southern_islands_access_window }
+				NOT = { has_variable = kc_southern_islands_access_expired }
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = { has_variable = kc_southern_islands_access_window }
+			# Alpha.54 saves with a persistent access variable receive a fresh,
+			# guaranteed cleanup schedule rather than retaining claims forever.
+			set_variable = { name = kc_southern_islands_cleanup_scheduled value = yes }
+			trigger_event_silently = { id = kc_southern_islands.2 days = 10950 }
+		}
+		else = { kc_expire_southern_islands_access = yes }
+	}
+}
+
+kc_red_seal_charters_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1590
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		NOT = { has_variable = kc_red_seal_charters_started }
+		NOT = { has_variable = kc_red_seal_charters_completed }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+	}
+	effect = {
+		set_variable = { name = kc_red_seal_charters_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_red_seal_charters.1 days = 5 }
+	}
+}
+
+kc_ryukyu_settlement_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1609
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		NOT = { has_variable = kc_ryukyu_settlement_completed }
+		NOT = { has_variable = kc_ryukyu_settlement_pending }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		location:urasoe = { has_owner = yes }
+	}
+	effect = {
+		set_variable = { name = kc_ryukyu_settlement_pending value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_ryukyu_settlement.1 days = 5 }
+	}
+}
+
+# By 1600 the southern exchange no longer deals with a single foreign route.
+# Rival European companies force the Concord to decide whether competition is
+# arbitrated by common registers, House brokers, or national licenses.
+kc_competing_europes_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1600
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		has_variable = kc_red_seal_charters_completed
+		has_variable = kc_tensho_embassy_completed
+		OR = {
+			current_year >= 1610
+			any_known_country = { capital.continent = continent:europe }
+		}
+		NOT = { has_variable = kc_competing_europes_started }
+		NOT = { has_variable = kc_competing_europes_completed }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		NOT = { is_situation_active = situation:kc_regulation_open_seas }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = { NOT = { has_variable = kc_concord_collapsed } }
+	}
+	effect = {
+		set_variable = { name = kc_competing_europes_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_competing_europes.1 days = 5 }
+	}
+}
+
+# Nihonmachi and other overseas Japanese communities follow the competitive
+# company register. Their chain remains available to peaceful trading Japan:
+# Red-Seal traffic itself is enough even without a formal colonial subject.
+kc_overseas_communities_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1610
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_competing_europes_completed
+		has_variable = kc_red_seal_charters_completed
+		NOT = { has_variable = kc_overseas_communities_started }
+		NOT = { has_variable = kc_overseas_communities_completed }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		NOT = { is_situation_active = situation:kc_regulation_open_seas }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = { NOT = { has_variable = kc_concord_collapsed } }
+	}
+	effect = {
+		set_variable = { name = kc_overseas_communities_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_overseas_communities.1 days = 5 }
+	}
+}
+
+# New qualifying subjects receive the overseas-community charter once. This
+# iterates subjects rather than locations and never removes or reapplies the
+# modifier from already registered capitals.
+kc_overseas_communities_backfill_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_variable = kc_overseas_communities_completed
+		any_subject = {
+			OR = {
+				is_subject_type = colonial_nation
+				is_subject_type = kc_commercial_protectorate
+				is_subject_type = kc_chartered_extraction_commission
+			}
+			NOT = { has_variable = kc_registered_nihonmachi_received }
+		}
+	}
+	effect = {
+		every_subject = {
+			limit = {
+				OR = {
+					is_subject_type = colonial_nation
+					is_subject_type = kc_commercial_protectorate
+					is_subject_type = kc_chartered_extraction_commission
+				}
+				NOT = { has_variable = kc_registered_nihonmachi_received }
+			}
+			capital = { add_location_modifier = { modifier = kc_registered_nihonmachi years = -1 mode = replace } }
+			set_variable = { name = kc_registered_nihonmachi_received value = yes }
+		}
+	}
+}
+
+# The 1630s settlement matures the provisional Council/Board reform into one
+# of three permanent constitutional models without offering an isolationist
+# escape from the Concord's century of overseas engagement.
+kc_regulation_open_seas_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1630
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_competing_europes_completed
+		has_variable = kc_overseas_communities_completed
+		NOT = { has_variable = kc_regulation_open_seas_started }
+		NOT = { has_variable = kc_regulation_open_seas_completed }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		NOT = { is_situation_active = situation:kc_regulation_open_seas }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = { NOT = { has_variable = kc_concord_collapsed } }
+	}
+	effect = {
+		set_variable = { name = kc_regulation_open_seas_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		activate_situation = situation:kc_regulation_open_seas
+	}
+}
+
+# The final reform has a modest permanent core. Its more specialized benefits
+# require a meaningfully funded Office of Maritime Exchange and expire quickly
+# after its maintenance is reduced.
+kc_open_seas_office_benefits_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_variable = kc_regulation_open_seas_completed
+		has_bureaucracy_of_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy
+		modifier:kc_maritime_office_funding >= 0.50
+	}
+	effect = {
+		if = {
+			limit = { has_reform = government_reform:kc_commonwealth_chartered_ports }
+			add_country_modifier = { modifier = kc_chartered_ports_funded_office months = 2 mode = replace }
+		}
+		else_if = {
+			limit = { has_reform = government_reform:kc_articles_registered_open_ports }
+			add_country_modifier = { modifier = kc_registered_ports_funded_office months = 2 mode = replace }
+		}
+		else_if = {
+			limit = { has_reform = government_reform:kc_national_maritime_administration }
+			add_country_modifier = { modifier = kc_national_maritime_funded_office months = 2 mode = replace }
+		}
+	}
+}
+
+kc_philippine_settlement_transfer_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		OR = {
+			AND = { has_variable = kc_luzon_compact_completed any_owned_location = { area = area:luzon_area } c:TDO = { is_subject_of = root } }
+			AND = { has_variable = kc_visayas_compact_completed any_owned_location = { area = area:visayas_area } c:CEB = { is_subject_of = root } }
+			AND = { has_variable = kc_mindanao_compact_completed any_owned_location = { area = area:mindanao_area } c:BTU = { is_subject_of = root } }
+		}
+	}
+	effect = {
+		if = { limit = { has_variable = kc_luzon_compact_completed c:TDO = { is_subject_of = root } } area:luzon_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = c:TDO } } }
+		if = { limit = { has_variable = kc_visayas_compact_completed c:CEB = { is_subject_of = root } } area:visayas_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = c:CEB } } }
+		if = { limit = { has_variable = kc_mindanao_compact_completed c:BTU = { is_subject_of = root } } area:mindanao_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = c:BTU } } }
+	}
+}
+
+kc_northern_colonial_administration_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = { NOT = { has_variable = kc_concord_collapsed } }
+		OR = {
+			AND = {
+				NOT = { has_variable = kc_northern_colonial_administration_created }
+				any_owned_location = { region = region:manchuria_region NOT = { area = area:liaodong_area } }
+			}
+			AND = {
+				has_variable = kc_northern_colonial_administration_created
+				any_subject_or_below = { has_variable = kc_northern_colonial_administration }
+				any_owned_location = { region = region:manchuria_region NOT = { area = area:liaodong_area } }
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = { has_variable = kc_northern_colonial_administration_created }
+			kc_transfer_new_northern_settlements = yes
+		}
+		else_if = {
+			limit = {
+				has_variable = kc_northern_colonial_administration_deferred
+				NOT = { has_country_modifier = kc_northern_direct_administration }
+			}
+			remove_variable = kc_northern_colonial_administration_deferred
+			trigger_event_non_silently = kc_overseas_settlements.5
+		}
+		else_if = {
+			limit = { NOT = { has_variable = kc_northern_colonial_administration_deferred } }
+			trigger_event_non_silently = kc_overseas_settlements.5
+		}
+	}
+}
+
+# A player who has already conquered the entire peninsula receives the same
+# constitutional settlement without waiting for 1585 or using the special CB.
+kc_early_korean_settlement_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		NOT = { has_variable = kc_korean_settlement_completed }
+		NOT = { has_variable = kc_korean_settlement_pending }
+		region:korea_region = {
+			any_location_in_region = {
+				OR = { has_owner = no AND = { has_owner = yes NOT = { owner = root } } }
+				count = 0
+			}
+		}
+	}
+	effect = {
+		set_variable = { name = kc_korean_settlement_pending value = yes }
+		trigger_event_non_silently = { id = kc_continental.4 days = 5 }
+	}
+}
+
+kc_continental_question_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1585
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		exists = c:KOR
+		NOT = { has_variable = kc_continental_question_opened }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		at_war = no
+	}
+	effect = {
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_continental.1 days = 5 }
+		remove_variable = kc_historical_chain_active
+	}
+}
+
+# Event-triggered CBs expire after 25 years. The authorization is permanent,
+# so the monthly pulse renews only a missing CB without building spy networks.
+kc_continental_cb_renewal_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		OR = {
+			AND = { has_variable = kc_korean_settlement_cb_authorized exists = c:KOR NOT = { has_casus_belli_of_type_on = { target = c:KOR type = casus_belli:kc_cb_continental_settlement } } }
+			AND = { has_variable = kc_china_charters_authorized exists = c:CHI NOT = { has_casus_belli_of_type_on = { target = c:CHI type = casus_belli:kc_cb_chartered_treaty_coast } } }
+			AND = { has_variable = kc_china_charters_authorized exists = c:CHI NOT = { has_casus_belli_of_type_on = { target = c:CHI type = casus_belli:kc_cb_extraction_treaty_coast } } }
+		}
+	}
+	effect = {
+		if = { limit = { has_variable = kc_korean_settlement_cb_authorized exists = c:KOR NOT = { has_casus_belli_of_type_on = { target = c:KOR type = casus_belli:kc_cb_continental_settlement } } } add_casus_belli = { target = c:KOR type = casus_belli:kc_cb_continental_settlement } }
+		if = { limit = { has_variable = kc_china_charters_authorized exists = c:CHI NOT = { has_casus_belli_of_type_on = { target = c:CHI type = casus_belli:kc_cb_chartered_treaty_coast } } } add_casus_belli = { target = c:CHI type = casus_belli:kc_cb_chartered_treaty_coast } }
+		if = { limit = { has_variable = kc_china_charters_authorized exists = c:CHI NOT = { has_casus_belli_of_type_on = { target = c:CHI type = casus_belli:kc_cb_extraction_treaty_coast } } } add_casus_belli = { target = c:CHI type = casus_belli:kc_cb_extraction_treaty_coast } }
+	}
+}
+
+kc_tensho_embassy_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1582
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		NOT = { has_variable = kc_tensho_embassy_completed }
+		NOT = { has_variable = kc_tensho_embassy_pending }
+		NOT = { has_variable = kc_historical_chain_active }
+	}
+	effect = {
+		set_variable = { name = kc_tensho_embassy_pending value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_tensho_embassy.1 days = 5 }
+	}
+}
+
+# Ordinary Houses begin with one overseas concession license. Senior status
+# permanently adds a second; further licenses are bought from the Concord.
+kc_house_concession_license_monthly_pulse = {
+	trigger = {
+		has_reform = government_reform:kc_chartered_buke_house
+		exists = international_organization:kc_kitayama_concord
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+	effect = {
+		# Backfill the reliable eligibility marker for Kaisho constructed before
+		# alpha.44. New construction maintains it through the building hooks.
+		if = {
+			limit = { any_owned_foreign_building = { building_type = building_type:kc_kaisho } }
+			set_variable = { name = kc_has_kaisho_office value = yes }
+		}
+		if = {
+			limit = { NOT = { has_variable = kc_overseas_concession_licenses_initialized } }
+			set_variable = { name = kc_overseas_concession_licenses value = 1 }
+			set_variable = { name = kc_overseas_concession_licenses_initialized value = yes }
+			set_variable = { name = kc_overseas_concession_license_available value = yes }
+		}
+		if = {
+			limit = {
+				has_special_status_in_international_organization = {
+					type = special_status:kc_senior_chartered_house
+					international_organization = international_organization:kc_kitayama_concord
+				}
+				NOT = { has_variable = kc_senior_concession_license_granted }
+			}
+			change_variable = { name = kc_overseas_concession_licenses add = 1 }
+			set_variable = { name = kc_overseas_concession_license_available value = yes }
+			set_variable = { name = kc_senior_concession_license_granted value = yes }
+		}
+		if = {
+			limit = { var:kc_overseas_concession_licenses >= 1 }
+			set_variable = { name = kc_overseas_concession_license_available value = yes }
+		}
+		else = { remove_variable = kc_overseas_concession_license_available }
+	}
+}
+
+kc_phase2_framework_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		has_any_active_disaster = no
+		NOT = { has_variable = kc_phase2_framework_opened }
+		NOT = { has_variable = kc_phase2_framework_pending }
+		NOT = { is_situation_active = situation:kc_hundred_year_concord }
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		set_variable = { name = kc_phase2_framework_pending value = yes }
+		trigger_event_non_silently = kc_phase2_framework.1
+	}
+}
+
+kc_phase2_registers_backfill_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		NOT = { has_advance = kc_registers_open_sea }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		research_advance = advance_type:kc_registers_open_sea
+	}
+}
+
+kc_phase2_maritime_office_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_advance = kc_registers_open_sea
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		num_open_bureaucracy_slots > 0
+		NOT = { has_bureaucracy_of_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		add_bureaucracy = bureaucracy_type:kc_office_maritime_exchange_bureaucracy
+		every_current_bureaucracy = {
+			limit = { bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy }
+			set_maintenance = 0.50
+		}
+	}
+}
+
+# Saves which already adopted either reform retain that choice when the reform
+# slot moves from Registers of the Open Sea onto the reform itself.
+kc_phase2_maritime_constitution_legacy_backfill = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		NOT = { has_variable = kc_phase2_maritime_constitution_settled }
+		OR = {
+			has_reform = government_reform:kc_council_of_licensed_ports
+			has_reform = government_reform:kc_national_board_of_exchange
+		}
+	}
+
+	effect = {
+		set_variable = { name = kc_phase2_maritime_constitution_settled value = yes }
+		remove_variable = kc_phase2_maritime_constitution_pending
+	}
+}
+
+kc_phase2_maritime_constitution_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_advance = kc_registers_open_sea
+		NOT = { has_variable = kc_phase2_maritime_constitution_settled }
+		NOT = { has_variable = kc_phase2_maritime_constitution_pending }
+		NOT = { has_reform = government_reform:kc_council_of_licensed_ports }
+		NOT = { has_reform = government_reform:kc_national_board_of_exchange }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		set_variable = { name = kc_phase2_maritime_constitution_pending value = yes }
+		trigger_event_non_silently = { id = kc_phase2_framework.2 days = 5 }
+	}
+}
+
+# The 1523 Ningbo Incident becomes a struggle over licenses, precedence, and
+# liability rather than a private battle between rival Japanese missions.
+kc_ningbo_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1521
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_ming_tally_trade_completed
+		NOT = { has_variable = kc_ningbo_chain_started }
+		NOT = { has_variable = kc_ningbo_chain_completed }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		NOT = { is_situation_active = situation:kc_southern_sea_exchange }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		set_variable = { name = kc_ningbo_chain_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_ningbo.1 days = 5 }
+	}
+}
+
+# The Southern Sea Exchange is the Concord's first deliberately sustained
+# encounter with the commercial, military, intellectual, and religious
+# consequences of the southern sea routes.
+kc_southern_sea_exchange_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1543
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_ningbo_chain_completed
+		NOT = { has_variable = kc_southern_sea_exchange_started }
+		NOT = { has_variable = kc_southern_sea_exchange_completed }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		OR = {
+			current_year >= 1550
+			any_known_country = { capital.continent = continent:europe }
+		}
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		set_variable = { name = kc_southern_sea_exchange_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		activate_situation = situation:kc_southern_sea_exchange
+	}
+}
+
+# The completed Southern Articles turn imported engineering, surveying, and
+# administrative techniques toward a second national register of public works.
+kc_phase2_great_projects_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_southern_sea_exchange_completed
+		NOT = { has_variable = kc_phase2_great_projects_announced }
+		NOT = { has_variable = kc_phase2_great_projects_pending }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		NOT = { is_situation_active = situation:kc_southern_sea_exchange }
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_phase_2_great_projects_unlocked }
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		set_variable = { name = kc_phase2_great_projects_pending value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_phase2_projects.1 days = 5 }
+	}
+}
+
+# Colonial Survey Registers are a consequence of actual overseas government,
+# not merely of possessing the abstract capacity to colonize. Existing saves
+# which already saw the institution announcement receive the chain as a
+# backfill because it has its own start and completion flags.
+kc_colonial_surveys_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_southern_sea_exchange_completed
+		NOT = { has_variable = kc_colonial_surveys_started }
+		NOT = { has_variable = kc_colonial_surveys_completed }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		NOT = { is_situation_active = situation:kc_southern_sea_exchange }
+		OR = {
+			has_variable = kc_debug_colonialism_bridge_override
+			AND = {
+				any_subject_or_below = { is_subject_type = colonial_nation }
+				any_known_country = { capital.continent = continent:europe }
+			}
+		}
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	effect = {
+		set_variable = { name = kc_colonial_surveys_started value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_colonial_surveys.1 days = 5 }
+	}
+}
+
+kc_colonialism_bridge_progress_pulse = {
+	trigger = {
+		tag = JAP
+		has_variable = kc_southern_sea_exchange_completed
+		OR = {
+			has_variable = kc_debug_colonialism_bridge_override
+			AND = {
+				any_subject_or_below = { is_subject_type = colonial_nation }
+				any_known_country = { capital.continent = continent:europe }
+			}
+		}
+		capital = { NOT = { has_institution = institution:new_world } }
+	}
+
+	effect = {
+		capital = {
+			change_institution_progress = {
+				type = institution:new_world
+				value = 1
+			}
+		}
+	}
+}
+
+# The vanilla Kirishitan event family is explicitly tied to the Japanese
+# Shogunate, so a formed Concord does not receive it. This smaller chain makes
+# Christian contact a question of registered communities and civil status;
+# conversion remains an exceptional, player-only conclusion.
+kc_christian_contact_monthly_pulse = {
+	trigger = {
+		tag = JAP
+		current_year >= 1555
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		religion.group != religion_group:christian
+		NOT = { has_variable = kc_christian_contact_started }
+		NOT = { has_variable = kc_christian_contact_completed }
+		NOT = { has_variable = kc_christian_contact_pending }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = { NOT = { has_variable = kc_concord_collapsed } }
+	}
+	effect = {
+		set_variable = { name = kc_christian_contact_started value = yes }
+		set_variable = { name = kc_christian_contact_pending value = yes }
+		set_variable = { name = kc_historical_chain_active value = yes }
+		trigger_event_non_silently = { id = kc_christian_contact.1 days = 5 }
+	}
+}
+
+yearly_country_pulse = {
+	on_actions = {
+		kc_dynamic_concord_yearly_pulse
+		kc_ezo_discovery_yearly_pulse
+		kc_overseas_subject_consequence_yearly_pulse
+	}
+}
+
+# The overseas constitutions should create recurring political choices rather
+# than function only as passive subject modifiers. A four-year shared cooldown
+# keeps these incidents consequential without crowding the late-century chains.
+kc_overseas_subject_consequence_yearly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_southern_sea_exchange_completed
+		NOT = { has_variable = kc_overseas_subject_consequence_cooldown }
+		NOT = { has_variable = kc_historical_chain_active }
+		has_any_active_disaster = no
+		any_subject = {
+			OR = {
+				is_subject_type = kc_commercial_protectorate
+				is_subject_type = kc_chartered_extraction_commission
+			}
+		}
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = { NOT = { has_variable = kc_concord_collapsed } }
+	}
+
+	random_events = {
+		chance_to_happen = 60
+		100 = kc_overseas_subjects.1
+		100 = kc_overseas_subjects.2
+		100 = kc_overseas_subjects.3
+		100 = kc_overseas_subjects.4
+		100 = kc_overseas_subjects.5
+		100 = kc_overseas_subjects.6
+	}
+}
+
+kc_dynamic_concord_yearly_pulse = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_concord_flavor_cooldown }
+		NOT = { has_variable = kc_historical_chain_active }
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+	}
+
+	random_events = {
+		chance_to_happen = 55
+		100 = kc_concord_flavor.1
+		100 = kc_concord_flavor.2
+		100 = kc_concord_flavor.3
+		100 = kc_concord_flavor.4
+		100 = kc_concord_flavor.5
+		100 = kc_concord_flavor.6
+		100 = kc_concord_flavor.7
+		100 = kc_concord_flavor.8
+		100 = kc_concord_flavor.9
+		100 = kc_concord_flavor.10
+		100 = kc_concord_flavor.11
+		100 = kc_concord_flavor.12
+		100 = kc_phase2_flavor.1
+		100 = kc_phase2_flavor.2
+		100 = kc_phase2_flavor.3
+		100 = kc_phase2_flavor.4
+		100 = kc_phase2_flavor.5
+		100 = kc_phase2_flavor.6
+		100 = kc_phase2_flavor.7
+		100 = kc_phase2_flavor.8
+		100 = kc_phase2_flavor.9
+		100 = kc_phase2_flavor.10
+	}
+}
+
+kc_ezo_discovery_yearly_pulse = {
+	trigger = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			has_variable = kc_ezo_compact_activated
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		OR = {
+			owns = location:shimamaki
+			owns = location:niikappu
+			owns = location:tokoro
+		}
+	}
+
+	random_events = {
+		chance_to_happen = 50
+		100 = kc_ezo_discoveries.1
+		100 = kc_ezo_discoveries.2
+		30 = kc_ezo_discoveries.3
+		300 = 0
+	}
+}
+
+# JAP dispatches a bounded batch of distinct Houses each quarter. Location
+# searches happen only in the selected Houses' delayed events.
+
+kc_concord_overseas_investment_dispatcher = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+			NOT = { has_variable = kc_overseas_investment_dispatcher_cooldown }
+		}
+		any_subject = {
+			OR = {
+				is_subject_type = colonial_nation
+				is_subject_type = kc_commercial_protectorate
+				is_subject_type = kc_chartered_extraction_commission
+			}
+		}
+	}
+	effect = {
+		international_organization:kc_kitayama_concord = {
+			set_variable = { name = kc_overseas_investment_dispatcher_cooldown value = yes months = 3 }
+			# No more than four location searches/orders per quarter, spread over
+			# four weeks. This does not restore native overseas construction spam.
+			kc_dispatch_one_overseas_house = { delay = 1 }
+			if = { limit = { total_members >= 40 } kc_dispatch_one_overseas_house = { delay = 8 } }
+			if = { limit = { total_members >= 80 } kc_dispatch_one_overseas_house = { delay = 15 } }
+			if = { limit = { total_members >= 120 } kc_dispatch_one_overseas_house = { delay = 22 } }
+		}
+	}
+}
+
+# Chartered Houses are building-country actors and therefore possess no
+# territorial population from which the native AI can derive a positive fleet
+# target. Even a wealthy House with sailors and a working shipyard consequently
+# evaluates its expected navy as zero. This AI-only, paid procurement pulse
+# establishes a small law-sensitive baseline without changing player Houses.
+kc_house_naval_procurement_yearly_pulse = {
+	trigger = {
+		is_ai = yes
+		has_reform = government_reform:kc_chartered_buke_house
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_house_ship_order_cooldown }
+		sailors >= 0.10
+		gold >= { value = monthly_income_trade_and_tax min = 10 max = 100 multiply = 6 }
+		any_owned_foreign_building_location = {
+			is_port = yes
+			any_foreign_buildings_in_location = {
+				building_type = building_type:clan_shipyards
+				owner = root
+			}
+		}
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+			OR = {
+				AND = {
+					international_organization_has_policy = policy:kc_house_port_privileges_policy
+					OR = {
+						root = { navy_size < 1 }
+						root = {
+							navy_size < 3
+							has_special_status_in_international_organization = {
+								type = special_status:kc_senior_chartered_house
+								international_organization = international_organization:kc_kitayama_concord
+							}
+						}
+					}
+				}
+				AND = {
+					international_organization_has_policy = policy:kc_licensed_coastal_convoys_policy
+					root = {
+						navy_size < 1
+						has_special_status_in_international_organization = {
+							type = special_status:kc_senior_chartered_house
+							international_organization = international_organization:kc_kitayama_concord
+						}
+					}
+				}
+				AND = {
+					international_organization_has_policy = policy:kc_concord_maritime_board_policy
+					root = {
+						navy_size < 1
+						has_special_status_in_international_organization = {
+							type = special_status:kc_senior_chartered_house
+							international_organization = international_organization:kc_kitayama_concord
+						}
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		save_scope_as = kc_shipbuilding_house
+		add_gold = { value = monthly_income_trade_and_tax min = 10 max = 100 multiply = -6 }
+		add_sailors = -0.10
+		set_variable = { name = kc_house_ship_order_cooldown value = yes years = 2 }
+		random_owned_foreign_building_location = {
+			limit = {
+				is_port = yes
+				any_foreign_buildings_in_location = {
+					building_type = building_type:clan_shipyards
+					owner = scope:kc_shipbuilding_house
+				}
+			}
+			save_scope_as = kc_house_shipyard_location
+			random_list = {
+				70 = { kc_spawn_house_galley_for_current_age = yes }
+				30 = { kc_spawn_house_transport_for_current_age = yes }
+			}
+		}
+		force_recalc_country_active_status = scope:kc_shipbuilding_house
+	}
+}

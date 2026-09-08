@@ -1,0 +1,33 @@
+﻿# The generic policy-vote resolution ordinarily permits only the IO leader to
+# introduce a law unless the law is included in this scripted trigger. Preserve
+# the vanilla Catholic exceptions and add all Concord laws; the Concord's own
+# `can_initiate_policy_votes` trigger then limits sponsorship to Japan or a
+# human member.
+REPLACE:law_can_be_initiated_by_members = {
+	custom_description = {
+		text = law_can_be_initiated_by_members_text
+		OR = {
+			# Catholic Church-specific laws.
+			this = law:cc_indulgences
+			this = law:cc_papal_authority
+			this = law:cc_veneration_of_saints_and_reliquaries
+			this = law:cc_simony
+			this = law:cc_society_of_jesus
+			this = law:cc_witchcraft
+			this = law:cc_marriage_of_priest
+
+			# Kitayama Concord laws.
+			this = law:kc_concord_council_law
+			this = law:kc_concord_market_law
+			this = law:kc_concord_arms_law
+			this = law:kc_concord_war_service_law
+			this = law:kc_concord_roads_law
+			this = law:kc_concord_arbitration_law
+			this = law:kc_concord_assessment_law
+			this = law:kc_concord_maritime_law
+			this = law:kc_concord_credit_law
+		}
+	}
+}
+
+

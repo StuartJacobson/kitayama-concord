@@ -1,0 +1,19 @@
+﻿kc_taiwan_registered_treaty_ports = {
+	local_market_access = 0.05
+	local_maritime_presence = 0.05
+	local_raw_material_output = -0.05
+}
+kc_taiwan_mixed_settlement_registers = {
+	local_population_growth = 0.001
+	local_monthly_development_modifier = 0.05
+	local_monthly_control = -0.001
+}
+kc_taiwan_house_concession_surveys = {
+	local_raw_material_output = 0.15
+	local_production_efficiency = 0.10
+	local_population_growth = -0.001
+}
+kc_northern_direct_administration = {
+	colonial_migration_size_modifier = 0.10
+	diplomatic_spending_cost = 0.05
+}

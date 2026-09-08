@@ -1,0 +1,14 @@
+﻿monthly_towards_house_privilege = {
+	positive = "gfx/interface/icons/modifier_types/monthly_towards_aristocracy.dds"
+}
+
+monthly_towards_concord_commonwealth = {
+	positive = "gfx/interface/icons/modifier_types/monthly_towards_communalism.dds"
+}
+
+monthly_concord_cohesion = {
+	positive = "gfx/interface/icons/modifier_types/monthly_prestige.dds"
+	negative = "gfx/interface/icons/modifier_types/monthly_prestige.dds"
+}
+
+

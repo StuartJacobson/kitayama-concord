@@ -1,0 +1,100 @@
+﻿namespace = kc_ai_japan
+kc_ai_japan.1 = {
+ type = country_event
+ hidden = yes
+ title = empty_text
+ desc = empty_text
+ trigger = { kc_ai_japan_active_concord = yes at_war = no }
+ immediate = {
+  save_scope_as = actor
+  random_list = {
+   10 = {
+    trigger = {
+     can_build_building = building_type:kc_concord_muster_office
+     total_building_levels_including_construction:kc_concord_muster_office < 3
+     any_owned_location = { kc_ai_japan_can_construct = { building = kc_concord_muster_office cap = 3 } }
+    }
+    random_owned_location = {
+     limit = { kc_ai_japan_can_construct = { building = kc_concord_muster_office cap = 3 } }
+     construct_building = { building_type = building_type:kc_concord_muster_office owner = root payer = root instant = no }
+    }
+   }
+   10 = {
+    trigger = {
+     can_build_building = building_type:kc_concord_ledger_office
+     total_building_levels_including_construction:kc_concord_ledger_office < 3
+     any_owned_location = { kc_ai_japan_can_construct = { building = kc_concord_ledger_office cap = 3 } }
+    }
+    random_owned_location = {
+     limit = { kc_ai_japan_can_construct = { building = kc_concord_ledger_office cap = 3 } }
+     construct_building = { building_type = building_type:kc_concord_ledger_office owner = root payer = root instant = no }
+    }
+   }
+   10 = {
+    trigger = {
+     can_build_building = building_type:kc_concord_council_hall
+     total_building_levels_including_construction:kc_concord_council_hall < 1
+     any_owned_location = { kc_ai_japan_can_construct = { building = kc_concord_council_hall cap = 1 } }
+    }
+    random_owned_location = {
+     limit = { kc_ai_japan_can_construct = { building = kc_concord_council_hall cap = 1 } }
+     construct_building = { building_type = building_type:kc_concord_council_hall owner = root payer = root instant = no }
+    }
+   }
+   10 = {
+    trigger = {
+     can_build_building = building_type:kc_concord_irrigation_works
+     total_building_levels_including_construction:kc_concord_irrigation_works < 35
+     any_owned_location = { kc_ai_japan_can_construct = { building = kc_concord_irrigation_works cap = 35 } }
+    }
+    random_owned_location = {
+     limit = { kc_ai_japan_can_construct = { building = kc_concord_irrigation_works cap = 35 } }
+     construct_building = { building_type = building_type:kc_concord_irrigation_works owner = root payer = root instant = no }
+    }
+   }
+   10 = {
+    trigger = {
+     can_build_building = building_type:kc_seto_harbor_works
+     total_building_levels_including_construction:kc_seto_harbor_works < 30
+     any_owned_location = { kc_ai_japan_can_construct = { building = kc_seto_harbor_works cap = 30 } }
+    }
+    random_owned_location = {
+     limit = { kc_ai_japan_can_construct = { building = kc_seto_harbor_works cap = 30 } }
+     construct_building = { building_type = building_type:kc_seto_harbor_works owner = root payer = root instant = no }
+    }
+   }
+   10 = {
+    trigger = {
+     can_build_building = building_type:kc_concord_floodworks
+     total_building_levels_including_construction:kc_concord_floodworks < 40
+     any_owned_location = { kc_ai_japan_can_construct = { building = kc_concord_floodworks cap = 40 } }
+    }
+    random_owned_location = {
+     limit = { kc_ai_japan_can_construct = { building = kc_concord_floodworks cap = 40 } }
+     construct_building = { building_type = building_type:kc_concord_floodworks owner = root payer = root instant = no }
+    }
+   }
+   10 = {
+    trigger = {
+     can_build_building = building_type:kc_urban_water_bureau
+     total_building_levels_including_construction:kc_urban_water_bureau < 25
+     any_owned_location = { kc_ai_japan_can_construct = { building = kc_urban_water_bureau cap = 25 } }
+    }
+    random_owned_location = {
+     limit = { kc_ai_japan_can_construct = { building = kc_urban_water_bureau cap = 25 } }
+     construct_building = { building_type = building_type:kc_urban_water_bureau owner = root payer = root instant = no }
+    }
+   }
+  }
+ }
+}
+# Manual old-save migration only, for a player who already left their clan
+# before this version could record it. No automatic callers.
+kc_ai_japan.2 = {
+ type = country_event
+ hidden = yes
+ title = empty_text
+ desc = empty_text
+ trigger = { is_human = yes }
+ immediate = { set_global_variable = { name = kc_house_player_campaign value = yes } }
+}

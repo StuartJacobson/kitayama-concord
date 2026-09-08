@@ -1,0 +1,103 @@
+﻿namespace = kc_house_ai_investment
+
+# A selected House pays for one normal construction. The named actor is set
+# before local eligibility checks because scalable colonial buildings use it.
+kc_house_ai_investment.1 = {
+	type = country_event
+	hidden = yes
+	title = empty_text
+	desc = empty_text
+	trigger = {
+		is_ai = yes
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_house_overseas_construction_cooldown }
+		gold >= 100
+		c:JAP ?= { has_reform = government_reform:kc_kitayama_concordate }
+		international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+	}
+	immediate = {
+		save_scope_as = kc_overseas_investing_house
+		save_scope_as = actor
+		c:JAP = {
+			random_subject = {
+				limit = {
+					OR = {
+						is_subject_type = colonial_nation
+						AND = {
+							OR = { is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission }
+							scope:kc_overseas_investing_house = { has_variable = kc_overseas_concession_license_available }
+						}
+					}
+					any_owned_location = { kc_house_has_overseas_building_opportunity = yes }
+				}
+				random_owned_location = {
+					limit = { kc_house_has_overseas_building_opportunity = yes }
+					save_temporary_value_as = { name = kc_house_constructions_before value = num_civil_constructions }
+					random_list = {
+					30 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_overseas_warehouse } }
+						construct_building = { building_type = building_type:kc_overseas_warehouse owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					30 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_resource_concession_office } }
+						construct_building = { building_type = building_type:kc_resource_concession_office owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					20 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_concessionary_naval_depot } }
+						construct_building = { building_type = building_type:kc_concessionary_naval_depot owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					20 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_chartered_enforcers_guild } }
+						construct_building = { building_type = building_type:kc_chartered_enforcers_guild owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					15 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_house_anchorage } }
+						construct_building = { building_type = building_type:kc_house_anchorage owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					12 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_colonial_house_exchange } }
+						construct_building = { building_type = building_type:kc_colonial_house_exchange owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					12 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_colonial_tea_gardens } }
+						construct_building = { building_type = building_type:kc_colonial_tea_gardens owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					12 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_colonial_silk_farm } }
+						construct_building = { building_type = building_type:kc_colonial_silk_farm owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					12 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_chartered_paddy_syndicate } }
+						construct_building = { building_type = building_type:kc_chartered_paddy_syndicate owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					6 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_house_alum_works } }
+						construct_building = { building_type = building_type:kc_house_alum_works owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					8 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_northern_house_whaling_station } }
+						construct_building = { building_type = building_type:kc_northern_house_whaling_station owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					12 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_house_provisioning_depot } }
+						construct_building = { building_type = building_type:kc_house_provisioning_depot owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					12 = {
+						trigger = { kc_house_can_order_overseas_building = { building = kc_chartered_timber_yard } }
+						construct_building = { building_type = building_type:kc_chartered_timber_yard owner = scope:kc_overseas_investing_house payer = scope:kc_overseas_investing_house instant = no }
+					}
+					}
+					# Only an actual new queue entry incurs the two-year cooldown.
+					if = {
+						limit = { num_civil_constructions > scope:kc_house_constructions_before }
+						scope:kc_overseas_investing_house = {
+							set_variable = { name = kc_house_overseas_construction_cooldown value = yes years = 2 }
+						}
+					}
+				}
+			}
+		}
+	}
+}

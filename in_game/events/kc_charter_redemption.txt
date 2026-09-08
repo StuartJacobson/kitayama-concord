@@ -1,0 +1,215 @@
+﻿namespace = kc_charter_redemption
+
+# Complex building-country consolidation is deferred out of the generic action
+# so GUI tooltip preview never attempts to transfer or destroy selected scopes.
+kc_charter_redemption.1 = {
+	type = country_event
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		root = {
+			save_scope_as = kc_redemption_buyer
+		}
+		scope:target = {
+			save_scope_as = kc_redeemed_house
+		}
+
+		if = {
+			limit = {
+				exists = scope:recipient
+				exists = scope:target
+				root = {
+					has_reform = government_reform:kc_chartered_buke_house
+					is_member_of_international_organization = scope:recipient
+					has_special_status_in_international_organization = {
+						type = special_status:kc_senior_chartered_house
+						international_organization = scope:recipient
+					}
+					at_war = no
+					OR = {
+						has_variable = kc_has_kaisho_office
+						any_owned_foreign_building = { building_type = building_type:kc_kaisho }
+					}
+					NOT = {
+						has_variable = kc_charter_redemption_cooldown
+					}
+					gold >= {
+						value = scope:target.monthly_income_trade_and_tax
+						min = 1
+						multiply = 240
+					}
+				}
+				scope:recipient = {
+					international_organization_type = international_organization_type:kc_kitayama_concord
+					var:kc_concord_entrenchment >= 40
+					var:kc_concord_cohesion >= 60
+					trigger_if = {
+						limit = {
+							root = {
+								is_ai = yes
+							}
+						}
+						NOT = {
+							has_variable = kc_ai_charter_redemption_cooldown
+						}
+					}
+					any_international_organization_member = {
+						has_reform = government_reform:kc_chartered_buke_house
+						count > 24
+					}
+				}
+				scope:target = {
+					has_reform = government_reform:kc_chartered_buke_house
+					is_member_of_international_organization = scope:recipient
+					is_ai = yes
+					at_war = no
+					NOT = {
+						is_leader_of_international_organization = scope:recipient
+					}
+					NOT = {
+						has_special_status_in_international_organization = {
+							type = special_status:kc_senior_chartered_house
+							international_organization = scope:recipient
+						}
+					}
+				}
+			}
+
+			save_temporary_scope_value_as = {
+				name = kc_redemption_price
+				value = {
+					value = scope:target.monthly_income_trade_and_tax
+					min = 1
+					multiply = 240
+				}
+			}
+			save_temporary_scope_value_as = {
+				name = kc_redeemed_reserves
+				value = scope:target.gold
+			}
+
+			# The buyer receives all unused overseas concession licenses. Built
+			# concessions are inherited separately when their ownership changes.
+			root = {
+				if = {
+					limit = { NOT = { has_variable = kc_overseas_concession_licenses_initialized } }
+					set_variable = { name = kc_overseas_concession_licenses value = 1 }
+					set_variable = { name = kc_overseas_concession_licenses_initialized value = yes }
+					set_variable = { name = kc_overseas_concession_license_available value = yes }
+				}
+			}
+			scope:target = {
+				if = {
+					limit = { NOT = { has_variable = kc_overseas_concession_licenses_initialized } }
+					set_variable = { name = kc_overseas_concession_licenses value = 1 }
+					set_variable = { name = kc_overseas_concession_licenses_initialized value = yes }
+					set_variable = { name = kc_overseas_concession_license_available value = yes }
+				}
+				scope:kc_redemption_buyer = {
+					change_variable = { name = kc_overseas_concession_licenses add = prev.var:kc_overseas_concession_licenses }
+					if = {
+						limit = { var:kc_overseas_concession_licenses >= 1 }
+						set_variable = { name = kc_overseas_concession_license_available value = yes }
+					}
+					else = { remove_variable = kc_overseas_concession_license_available }
+				}
+			}
+
+			root = {
+				add_gold = {
+					value = scope:kc_redemption_price
+					multiply = -1
+				}
+				# A persistent value on the surviving buyer is available to the
+				# separately queued notification event. Temporary scope values
+				# are not inherited by non-silent events.
+				set_variable = {
+					name = kc_last_redemption_price
+					value = scope:kc_redemption_price
+				}
+				set_variable = {
+					name = kc_last_redeemed_reserves
+					value = scope:kc_redeemed_reserves
+				}
+				set_variable = {
+					name = kc_charter_redemption_cooldown
+					value = yes
+					years = 10
+				}
+			}
+
+			scope:recipient = {
+				add_gold = scope:kc_redemption_buyer.var:kc_last_redemption_price
+				add_gold = scope:kc_redemption_buyer.var:kc_last_redeemed_reserves
+				change_variable = {
+					name = kc_concord_cohesion
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:kc_redemption_buyer = {
+							is_ai = yes
+						}
+					}
+					set_variable = {
+						name = kc_ai_charter_redemption_cooldown
+						value = yes
+						years = 4
+					}
+				}
+			}
+
+			# Notify the actual human observer, whether they are playing JAP or a
+			# House. Previously House players saw holdings change without the event.
+			every_country = {
+				limit = { is_human = yes }
+				trigger_event_non_silently = kc_charter_redemption.2
+			}
+
+			# Characters, manpower, sailors, offices, and clan holdings pass to
+			# the buyer. Liquid reserves are escrowed in the common Treasury so
+			# purchasing a cash-rich House cannot create an instant windfall.
+			scope:target = {
+				scope:kc_redemption_buyer = {
+					add_manpower = prev.manpower
+					add_sailors = prev.sailors
+				}
+				every_character = {
+					move_country = scope:kc_redemption_buyer
+				}
+				every_owned_foreign_building = {
+					if = {
+						limit = {
+							building_type = building_type:kc_kaisho
+						}
+						location = {
+							destroy_building = prev
+						}
+					}
+					else = {
+						change_building_owner = scope:kc_redemption_buyer
+					}
+				}
+			}
+		}
+	}
+}
+
+# Informational notice for the permanent Japanese state. It explains the
+# otherwise easy-to-miss Cohesion cost and does not permit a completed,
+# rules-valid transaction to be vetoed retroactively.
+kc_charter_redemption.2 = {
+	type = country_event
+	title = kc_charter_redemption.2.title
+	desc = kc_charter_redemption.2.desc
+	outcome = negative
+
+	option = {
+		name = kc_charter_redemption.2.a
+	}
+}
+
+

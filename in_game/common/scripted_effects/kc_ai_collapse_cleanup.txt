@@ -1,0 +1,48 @@
+﻿# IO scope; same conversion and ordering as the original collapse, bounded.
+kc_land_collapsed_concord_ai_batch = {
+	ordered_international_organization_member = {
+		limit = {
+			country_type = building
+			has_reform = government_reform:kc_chartered_buke_house
+		}
+		max = 12
+		check_range_bounds = no
+		order_by = {
+			value = total_foreign_buildings_levels
+			if = {
+				limit = {
+					has_special_status_in_international_organization = {
+						type = special_status:kc_senior_chartered_house
+						international_organization = international_organization:kc_kitayama_concord
+					}
+				}
+				add = 100000
+			}
+		}
+		kc_land_collapsed_concord_house = yes
+	}
+
+}
+
+# JAP scope. The short-lived queue flag prevents duplicate follow-ups and
+# permits the monthly watchdog to recover if an old save lost its event.
+kc_queue_ai_collapse_cleanup = {
+	if = {
+		limit = {
+			exists = international_organization:kc_kitayama_concord
+			tag = JAP
+			is_ai = yes
+			has_variable = kc_concord_collapsed
+			NOT = { has_variable = kc_ai_collapse_cleanup_queued }
+			international_organization:kc_kitayama_concord ?= {
+				has_variable = kc_concord_collapsed
+				any_international_organization_member = {
+					country_type = building
+					has_reform = government_reform:kc_chartered_buke_house
+				}
+			}
+		}
+		set_variable = { name = kc_ai_collapse_cleanup_queued value = yes days = 8 }
+		trigger_event_silently = { id = kc_ai_collapse_cleanup.1 days = 7 }
+	}
+}

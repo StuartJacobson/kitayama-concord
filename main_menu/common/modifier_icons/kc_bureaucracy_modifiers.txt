@@ -1,0 +1,28 @@
+﻿kc_concord_secretariat_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/global_max_bureaucracy_slots.dds"
+}
+
+kc_office_maritime_exchange_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/maritime_presence.dds"
+}
+
+kc_concord_secretariat_treasury_share = {
+	positive = "gfx/interface/icons/resources/gold.dds"
+}
+
+kc_maritime_office_funding = {
+	positive = "gfx/interface/icons/modifier_types/maritime_presence.dds"
+}
+
+kc_maritime_office_underfunding = {
+	negative = "gfx/interface/icons/modifier_types/merchant_maintenance_cost.dds"
+}
+
+monthly_concord_bureaucracy_cohesion = {
+	positive = "gfx/interface/icons/modifier_types/country_cabinet_efficiency.dds"
+}
+
+monthly_concord_law_cohesion = {
+	positive = "gfx/interface/icons/modifier_types/change_policy_cost_modifier.dds"
+	negative = "gfx/interface/icons/modifier_types/change_policy_cost_modifier.dds"
+}

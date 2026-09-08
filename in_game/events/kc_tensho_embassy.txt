@@ -1,0 +1,160 @@
+﻿namespace = kc_tensho_embassy
+
+# In this timeline the Tensho mission is not solely a Jesuit embassy. It is a
+# constitutional experiment: can the Concord represent Japan overseas without
+# allowing one House, one confession, or one court faction to own the route?
+
+kc_tensho_embassy.1 = {
+	type = country_event
+	title = kc_tensho_embassy.1.title
+	desc = kc_tensho_embassy.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = { remove_variable = kc_tensho_embassy_pending }
+	option = {
+		name = kc_tensho_embassy.1.a
+		set_variable = { name = kc_tensho_embassy_model value = 1 }
+		add_country_modifier = { modifier = kc_tensho_common_delegation years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.2 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.2 days = 360 } } }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_tensho_embassy.1.b
+		set_variable = { name = kc_tensho_embassy_model value = 2 }
+		add_country_modifier = { modifier = kc_tensho_house_consortium years = 5 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.2 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.2 days = 360 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_tensho_embassy.1.c
+		trigger = {
+			OR = {
+				has_variable = kc_sse_open_preaching
+				has_variable = kc_christian_open_accommodation
+				religion.group = religion_group:christian
+				has_variable = kc_tensho_embassy_debug_rapid
+			}
+		}
+		set_variable = { name = kc_tensho_embassy_model value = 3 }
+		add_country_modifier = { modifier = kc_tensho_christian_scholars years = 5 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 3 }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_penalty }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.2 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.2 days = 360 } } }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_tensho_embassy.2 = {
+	type = country_event
+	title = kc_tensho_embassy.2.title
+	desc = kc_tensho_embassy.2.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_tensho_embassy.2.a
+		add_country_modifier = { modifier = kc_tensho_registered_itinerary years = 10 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.3 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.3 days = 540 } } }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_tensho_embassy.2.b
+		add_country_modifier = { modifier = kc_tensho_house_gift_markets years = 10 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.3 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.3 days = 540 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_tensho_embassy.2.c
+		add_country_modifier = { modifier = kc_tensho_court_credentials years = 10 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.3 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.3 days = 540 } } }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_tensho_embassy.3 = {
+	type = country_event
+	title = kc_tensho_embassy.3.title
+	desc = kc_tensho_embassy.3.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+	option = {
+		name = kc_tensho_embassy.3.a
+		set_variable = { name = kc_tensho_return_observation value = yes }
+		add_country_modifier = { modifier = kc_tensho_printed_observations years = 15 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 3 }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.4 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.4 days = 720 } } }
+		ai_chance = { base = 40 }
+	}
+	option = {
+		name = kc_tensho_embassy.3.b
+		set_variable = { name = kc_tensho_return_exchange value = yes }
+		add_country_modifier = { modifier = kc_tensho_oceanic_contracts years = 15 mode = replace }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 3 }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.4 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.4 days = 720 } } }
+		ai_chance = { base = 40 }
+	}
+	option = {
+		name = kc_tensho_embassy.3.c
+		set_variable = { name = kc_tensho_return_toleration value = yes }
+		add_country_modifier = { modifier = kc_tensho_religious_comparisons years = 15 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 3 }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		hidden_effect = { if = { limit = { has_variable = kc_tensho_embassy_debug_rapid } trigger_event_non_silently = { id = kc_tensho_embassy.4 days = 1 } } else = { trigger_event_non_silently = { id = kc_tensho_embassy.4 days = 720 } } }
+		ai_chance = { base = 20 }
+	}
+}
+
+kc_tensho_embassy.4 = {
+	type = country_event
+	title = kc_tensho_embassy.4.title
+	desc = kc_tensho_embassy.4.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+	option = {
+		name = kc_tensho_embassy.4.a
+		trigger = { has_variable = kc_tensho_return_observation }
+		add_country_modifier = { modifier = kc_tensho_legacy_of_observation years = 20 mode = replace }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 100 }
+	}
+	option = {
+		name = kc_tensho_embassy.4.b
+		trigger = { has_variable = kc_tensho_return_exchange }
+		add_country_modifier = { modifier = kc_tensho_legacy_of_exchange years = 20 mode = replace }
+		ai_chance = { base = 100 }
+	}
+	option = {
+		name = kc_tensho_embassy.4.c
+		trigger = { has_variable = kc_tensho_return_toleration }
+		add_country_modifier = { modifier = kc_tensho_legacy_of_toleration years = 20 mode = replace }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 100 }
+	}
+	after = {
+		hidden_effect = {
+			set_variable = { name = kc_tensho_embassy_completed value = yes }
+			remove_variable = kc_tensho_embassy_debug_rapid
+			remove_variable = kc_historical_chain_active
+		}
+	}
+}

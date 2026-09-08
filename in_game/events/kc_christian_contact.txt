@@ -1,0 +1,163 @@
+﻿namespace = kc_christian_contact
+
+# Christianity remains a port, charity, and constitutional question in the
+# Concord timeline rather than recreating the vanilla Shogunate's Kirishitan
+# crisis. Only a deliberate human choice converts the state and ruling house.
+
+kc_christian_contact.1 = {
+	type = country_event
+	title = kc_christian_contact.1.title
+	desc = kc_christian_contact.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	immediate = { remove_variable = kc_christian_contact_pending }
+	option = {
+		name = kc_christian_contact.1.a
+		set_variable = { name = kc_christian_registered_relief_chosen value = yes }
+		add_country_modifier = { modifier = kc_christian_registered_relief years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_penalty }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_christian_contact_debug_rapid } trigger_event_non_silently = { id = kc_christian_contact.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_christian_contact.2 days = 1095 } }
+		}
+		ai_chance = { base = 35 }
+	}
+	option = {
+		name = kc_christian_contact.1.b
+		set_variable = { name = kc_christian_temple_relief_chosen value = yes }
+		add_country_modifier = { modifier = kc_christian_temple_partnership years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_christian_contact_debug_rapid } trigger_event_non_silently = { id = kc_christian_contact.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_christian_contact.2 days = 1095 } }
+		}
+		ai_chance = { base = 50 }
+	}
+	option = {
+		name = kc_christian_contact.1.c
+		set_variable = { name = kc_christian_foreign_alms_restricted value = yes }
+		add_country_modifier = { modifier = kc_phase2_closed_foreign_charities years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = traditionalist_vs_innovative value = -2 }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_christian_contact_debug_rapid } trigger_event_non_silently = { id = kc_christian_contact.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_christian_contact.2 days = 1095 } }
+		}
+		ai_chance = { base = 15 }
+	}
+}
+
+kc_christian_contact.2 = {
+	type = country_event
+	title = kc_christian_contact.2.title
+	desc = kc_christian_contact.2.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+	option = {
+		name = kc_christian_contact.2.a
+		set_variable = { name = kc_christian_open_accommodation value = yes }
+		add_country_modifier = { modifier = kc_christian_registered_relief years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_penalty }
+		change_societal_value = { type = traditionalist_vs_innovative value = 3 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_christian_contact_debug_rapid } trigger_event_non_silently = { id = kc_christian_contact.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_christian_contact.3 days = 1095 } }
+		}
+		ai_chance = { base = 25 }
+	}
+	option = {
+		name = kc_christian_contact.2.b
+		set_variable = { name = kc_christian_port_compact_chosen value = yes }
+		add_country_modifier = { modifier = kc_christian_port_compact years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_christian_contact_debug_rapid } trigger_event_non_silently = { id = kc_christian_contact.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_christian_contact.3 days = 1095 } }
+		}
+		ai_chance = { base = 55 }
+	}
+	option = {
+		name = kc_christian_contact.2.c
+		set_variable = { name = kc_christian_congregations_restricted value = yes }
+		add_country_modifier = { modifier = kc_phase2_closed_foreign_charities years = 10 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		add_legitimacy = legitimacy_weak_bonus
+		change_societal_value = { type = traditionalist_vs_innovative value = -3 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		hidden_effect = {
+			if = { limit = { has_variable = kc_christian_contact_debug_rapid } trigger_event_non_silently = { id = kc_christian_contact.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_christian_contact.3 days = 1095 } }
+		}
+		ai_chance = { base = 20 }
+	}
+}
+
+kc_christian_contact.3 = {
+	type = country_event
+	title = kc_christian_contact.3.title
+	desc = kc_christian_contact.3.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+	option = {
+		name = kc_christian_contact.3.a
+		add_country_modifier = { modifier = kc_christian_registered_relief years = 20 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 3 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		hidden_effect = {
+			set_variable = { name = kc_christian_contact_completed value = yes }
+			remove_variable = kc_christian_contact_debug_rapid
+			remove_variable = kc_historical_chain_active
+		}
+		ai_chance = { base = 45 }
+	}
+	option = {
+		name = kc_christian_contact.3.b
+		add_country_modifier = { modifier = kc_christian_port_compact years = 20 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		hidden_effect = {
+			set_variable = { name = kc_christian_contact_completed value = yes }
+			remove_variable = kc_christian_contact_debug_rapid
+			remove_variable = kc_historical_chain_active
+		}
+		ai_chance = { base = 55 }
+	}
+	option = {
+		name = kc_christian_contact.3.c
+		high_risk_option = yes
+		trigger = {
+			is_ai = no
+			religion.group != religion_group:christian
+			OR = {
+				has_variable = kc_christian_open_accommodation
+				has_variable = kc_sse_open_preaching
+				has_variable = kc_christian_contact_debug_rapid
+			}
+		}
+		change_religion = religion:catholic
+		change_religion_for_ruler_and_family = { country = ROOT religion = religion:catholic }
+		add_country_modifier = { modifier = kc_christian_converted_court years = 20 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_extreme_penalty }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		add_legitimacy = legitimacy_extreme_penalty
+		change_societal_value = { type = traditionalist_vs_innovative value = 10 }
+		custom_tooltip = { text = kc_christian_conversion_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -20 } } }
+		hidden_effect = {
+			set_variable = { name = kc_christian_contact_completed value = yes }
+			set_variable = { name = kc_shogun_received_baptism value = yes }
+			remove_variable = kc_christian_contact_debug_rapid
+			remove_variable = kc_historical_chain_active
+		}
+		ai_chance = { base = 0 }
+	}
+}

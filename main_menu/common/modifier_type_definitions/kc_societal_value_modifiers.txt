@@ -1,0 +1,30 @@
+﻿monthly_towards_house_privilege = {
+	color = neutral
+	game_data = {
+		category = country
+		min = 0
+		is_societal_value_change = yes
+	}
+}
+
+monthly_towards_concord_commonwealth = {
+	color = neutral
+	game_data = {
+		category = country
+		min = 0
+		is_societal_value_change = yes
+	}
+}
+
+# This country modifier is read by the Concord's monthly organization value.
+# Keeping it on the societal-value side makes the +0.15 maximum scale normally
+# with the country's actual position toward House Privilege.
+monthly_concord_cohesion = {
+	color = good
+	decimals = 2
+	game_data = {
+		category = country
+	}
+}
+
+

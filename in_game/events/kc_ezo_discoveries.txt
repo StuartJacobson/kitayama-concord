@@ -1,0 +1,149 @@
+﻿namespace = kc_ezo_discoveries
+
+kc_ezo_discoveries.1 = { # Black Sands of Shimamaki
+	type = country_event
+	title = kc_ezo_discoveries.1.title
+	desc = kc_ezo_discoveries.1.desc
+	outcome = positive
+	image = "gfx/interface/icons/trade_goods/illustrations/icon_goods_iron.dds"
+	trigger = {
+		owns = location:shimamaki
+		location:shimamaki = { raw_material = goods:sand }
+		province:shiribeshi_province = { has_variable = kc_ezo_settlement_policy }
+	}
+	option = {
+		name = kc_ezo_discoveries.1.a
+		change_gold_effect = { scale = -1 }
+		location:shimamaki = {
+			change_raw_material = goods:iron
+			add_location_modifier = { modifier = kc_shimamaki_ironsand_works years = 20 mode = replace }
+		}
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ezo_discoveries.1.b
+		location:shimamaki = { change_raw_material = goods:iron }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_ezo_discoveries.2 = { # Northern Horse-Breeding Grounds
+	type = country_event
+	title = kc_ezo_discoveries.2.title
+	desc = kc_ezo_discoveries.2.desc
+	outcome = positive
+	image = "gfx/interface/icons/trade_goods/illustrations/icon_goods_horses.dds"
+	trigger = {
+		owns = location:niikappu
+		location:niikappu = { raw_material = goods:millet }
+		province:hidaka_province = { has_variable = kc_ezo_settlement_policy }
+	}
+	option = {
+		name = kc_ezo_discoveries.2.a
+		change_gold_effect = { scale = -1 }
+		location:niikappu = {
+			change_raw_material = goods:horses
+			add_location_modifier = { modifier = kc_northern_stud_register years = 20 mode = replace }
+		}
+		province:hidaka_province = {
+			every_location_in_province = {
+				every_pop = {
+					limit = { culture = culture:ainu_culture }
+					add_pop_satisfaction = pop_satisfaction_weak_bonus
+				}
+			}
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 65 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ezo_discoveries.2.b
+		location:niikappu = {
+			change_raw_material = goods:horses
+			add_location_modifier = { modifier = kc_northern_stud_register years = 20 mode = replace }
+		}
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_ezo_discoveries.3 = { # The Red Stone of Itomuka
+	type = country_event
+	title = kc_ezo_discoveries.3.title
+	desc = kc_ezo_discoveries.3.desc
+	outcome = neutral
+	image = "gfx/interface/icons/trade_goods/illustrations/icon_goods_mercury.dds"
+	trigger = {
+		owns = location:tokoro
+		location:tokoro = { raw_material = goods:fish }
+		province:kitami_province = { has_variable = kc_ezo_settlement_policy }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 80 }
+	}
+	option = {
+		name = kc_ezo_discoveries.3.a
+		change_gold_effect = { scale = -3 }
+		location:tokoro = {
+			change_raw_material = goods:mercury
+			add_location_modifier = { modifier = kc_itomuka_careful_adits years = 25 mode = replace }
+		}
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 65 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_ezo_discoveries.3.b
+		high_risk_option = yes
+		location:tokoro = {
+			change_raw_material = goods:mercury
+			add_location_modifier = { modifier = kc_itomuka_house_concession years = 25 mode = replace }
+		}
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		change_societal_value = { type = capital_economy_vs_traditional_economy value = -2 }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}

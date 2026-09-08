@@ -1,0 +1,138 @@
+﻿kc_unquiet_peace_member_disorder = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = -0.006
+	trade_income = -0.10
+	army_maintenance_efficiency = -0.10
+	navy_maintenance_efficiency = -0.10
+}
+
+kc_unquiet_peace_constabulary_mandate = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = -0.006
+	trade_income = -0.10
+	army_maintenance_efficiency = -0.05
+	navy_maintenance_efficiency = -0.10
+	global_manpower_modifier = 0.10
+}
+
+kc_unquiet_peace_network_mandate = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = -0.006
+	trade_income = -0.05
+	army_maintenance_efficiency = -0.10
+	navy_maintenance_efficiency = -0.10
+	global_building_establishment_speed = 0.05
+}
+
+kc_unquiet_peace_watches_mandate = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = -0.0045
+	trade_income = -0.08
+	army_maintenance_efficiency = -0.10
+	navy_maintenance_efficiency = -0.10
+	country_cabinet_efficiency = 0.025
+}
+
+kc_unquiet_peace_relief_stipends = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = 0.001
+	global_manpower_modifier = 0.10
+	monthly_legitimacy = 0.05
+}
+
+kc_unquiet_peace_ronin_bands = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = -0.0015
+	trade_income = -0.05
+	monthly_legitimacy = -0.05
+}
+
+kc_unquiet_peace_emergency_patrols = {
+	game_data = {
+		category = country
+	}
+
+	global_trade_protection_factor = 0.20
+	navy_maintenance_efficiency = 0.10
+	trade_income = 0.05
+}
+
+kc_unquiet_peace_maritime_disruption = {
+	game_data = {
+		category = country
+	}
+
+	global_trade_protection_factor = -0.10
+	trade_income = -0.10
+	monthly_legitimacy = -0.05
+}
+
+kc_unquiet_peace_common_magistrates = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = 0.001
+	global_max_control = 0.05
+	monthly_legitimacy = 0.05
+}
+
+kc_unquiet_peace_unfunded_decrees = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = -0.001
+	global_max_control = -0.025
+	monthly_legitimacy = -0.10
+}
+
+kc_unquiet_peace_constabulary_legacy = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = 0.05
+	army_maintenance_efficiency = 0.05
+	levy_recovery_modifier = 0.10
+}
+
+kc_unquiet_peace_network_legacy = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = 0.05
+	trade_income = 0.05
+	global_building_establishment_speed = 0.05
+}
+
+kc_unquiet_peace_watches_legacy = {
+	game_data = {
+		category = country
+	}
+
+	global_monthly_control = 0.05
+	global_levy_size_modifier = 0.10
+	levy_recovery_modifier = 0.10
+}
+
+

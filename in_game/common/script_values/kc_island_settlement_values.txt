@@ -1,0 +1,26 @@
+﻿# Five years of the selected Philippine partner's own trade-and-tax income.
+# The one-gold monthly floor prevents a zero-price compact without making the
+# poorer island states unrealistically expensive.
+kc_tondo_loyalty_purchase_value = {
+	value = c:TDO.monthly_income_trade_and_tax
+	min = 1
+	multiply = 60
+}
+
+kc_cebu_loyalty_purchase_value = {
+	value = c:CEB.monthly_income_trade_and_tax
+	min = 1
+	multiply = 60
+}
+
+kc_butuan_loyalty_purchase_value = {
+	value = c:BTU.monthly_income_trade_and_tax
+	min = 1
+	multiply = 60
+}
+
+kc_ryukyu_settlement_purchase_value = {
+	value = location:urasoe.owner.monthly_income_trade_and_tax
+	min = 1
+	multiply = 24
+}

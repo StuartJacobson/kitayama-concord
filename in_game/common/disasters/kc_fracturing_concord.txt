@@ -1,0 +1,190 @@
+﻿kc_fracturing_concord = {
+	image = "gfx/interface/illustrations/disaster/kc_fracturing_concord.dds"
+
+	# The base risk is 1% per month below 25 Cohesion. It rises to 3% below
+	# 15 and 10% below 5. The debug flag raises it to certainty for testing.
+	monthly_spawn_chance = {
+		value = monthly_spawn_chance_very_low
+		if = {
+			limit = {
+				international_organization:kc_kitayama_concord ?= {
+					var:kc_concord_cohesion < 15
+				}
+			}
+			add = monthly_spawn_chance_low
+		}
+		if = {
+			limit = {
+				international_organization:kc_kitayama_concord ?= {
+					var:kc_concord_cohesion < 5
+				}
+			}
+			add = 0.07
+		}
+		if = {
+			limit = {
+				has_variable = kc_debug_force_fracturing_concord
+			}
+			add = monthly_spawn_chance_unique
+		}
+	}
+
+	can_start = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		NOT = {
+			has_variable = kc_concord_collapsed
+		}
+		has_any_active_disaster = no
+		in_civil_war = no
+		NOT = {
+			exists = international_organization:japanese_shogunate
+		}
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			var:kc_concord_cohesion < 25
+		}
+	}
+
+	can_end = {
+		OR = {
+			has_variable = kc_fracturing_concord_recovered
+			has_variable = kc_fracturing_concord_collapsed
+		}
+	}
+
+	modifier = {
+		global_max_control = -0.05
+		monthly_legitimacy = -0.10
+		tax_income_efficiency = -0.05
+	}
+
+	on_start = {
+		remove_variable = kc_debug_force_fracturing_concord
+		# Clear outcome state that may survive in a test save made during an
+		# earlier collapse implementation.
+		remove_variable = kc_fracturing_concord_recovered
+		remove_variable = kc_fracturing_concord_collapsed
+		remove_variable = kc_fracturing_concord_recovery_prompted
+		remove_variable = kc_fracturing_concord_collapse_prompted
+		set_variable = {
+			name = kc_fracturing_concord_incident_timer
+			value = yes
+			months = 6
+		}
+		international_organization:kc_kitayama_concord ?= {
+			set_variable = {
+				name = kc_fracturing_concord_active
+				value = yes
+			}
+			every_international_organization_member = {
+				add_country_modifier = {
+					modifier = kc_fracturing_concord_member
+					years = -1
+					mode = replace
+				}
+			}
+		}
+		trigger_event_non_silently = kc_capstone.2
+	}
+
+	on_monthly = {
+		international_organization:kc_kitayama_concord ?= {
+			every_international_organization_member = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_modifier = kc_fracturing_concord_member
+						}
+					}
+					add_country_modifier = {
+						modifier = kc_fracturing_concord_member
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				international_organization:kc_kitayama_concord ?= {
+					var:kc_concord_cohesion >= 40
+				}
+				NOT = {
+					has_variable = kc_fracturing_concord_recovery_prompted
+				}
+			}
+			set_variable = {
+				name = kc_fracturing_concord_recovery_prompted
+				value = yes
+			}
+			# Display the outcome while the disaster and its UI scope still
+			# exist. The player confirms recovery in the event; only then may
+			# the disaster end.
+			trigger_event_non_silently = kc_capstone.5
+		}
+		else_if = {
+			limit = {
+				international_organization:kc_kitayama_concord ?= {
+					var:kc_concord_cohesion <= 0
+				}
+				NOT = {
+					has_variable = kc_fracturing_concord_collapse_prompted
+				}
+			}
+			set_variable = {
+				name = kc_fracturing_concord_collapse_prompted
+				value = yes
+			}
+			# The old sequence ended the disaster and then opened this event.
+			# That left the event interface holding an already-destroyed
+			# disaster scope and caused an empty-texture render loop. Keep the
+			# disaster alive until the player has acknowledged the outcome.
+			trigger_event_non_silently = kc_capstone.4
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = kc_fracturing_concord_incident_timer
+				}
+			}
+			set_variable = {
+				name = kc_fracturing_concord_incident_timer
+				value = yes
+				months = 6
+			}
+			trigger_event_non_silently = kc_capstone.3
+		}
+	}
+
+	on_end = {
+		international_organization:kc_kitayama_concord ?= {
+			remove_variable = kc_fracturing_concord_active
+			every_international_organization_member = {
+				remove_country_modifier = kc_fracturing_concord_member
+			}
+		}
+
+		# Outcome events are shown before can_end becomes true. Once the
+		# collapse event has closed, defer only the destructive world-state
+		# conversion to a clean following day.
+		if = {
+			limit = {
+				has_variable = kc_fracturing_concord_collapsed
+			}
+			trigger_event_silently = {
+				id = kc_capstone.6
+				days = 1
+			}
+		}
+
+		remove_variable = kc_fracturing_concord_recovered
+		remove_variable = kc_fracturing_concord_collapsed
+		remove_variable = kc_fracturing_concord_recovery_prompted
+		remove_variable = kc_fracturing_concord_collapse_prompted
+		remove_variable = kc_fracturing_concord_incident_timer
+	}
+}
+
+

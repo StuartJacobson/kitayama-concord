@@ -1,0 +1,47 @@
+﻿# Event-granted continental wars. Korea is a single decisive settlement;
+# China remains a sequence of limited, area-sized treaty-coast wars.
+
+kc_cb_continental_settlement = {
+	years = 25
+	create_visible = { always = no }
+	create_enabled = { always = no }
+	declare_enabled = {
+		tag = JAP
+		has_variable = kc_korean_settlement_cb_authorized
+		scope:target = { tag = KOR }
+	}
+	allow_separate_peace = yes
+	allow_white_peace = yes
+	required_attacker_peace_treaties = { kc_impose_korean_settlement }
+	war_goal_type = take_capital
+}
+
+kc_cb_chartered_treaty_coast = {
+	years = 25
+	create_visible = { always = no }
+	create_enabled = { always = no }
+	declare_enabled = {
+		tag = JAP
+		has_variable = kc_china_charters_authorized
+		scope:target = { tag = CHI }
+	}
+	allow_separate_peace = no
+	allow_white_peace = yes
+	required_attacker_peace_treaties = { kc_charter_coastal_protectorate }
+	war_goal_type = superiority
+}
+
+kc_cb_extraction_treaty_coast = {
+	years = 25
+	create_visible = { always = no }
+	create_enabled = { always = no }
+	declare_enabled = {
+		tag = JAP
+		has_variable = kc_china_charters_authorized
+		scope:target = { tag = CHI }
+	}
+	allow_separate_peace = no
+	allow_white_peace = yes
+	required_attacker_peace_treaties = { kc_establish_coastal_extraction_commission }
+	war_goal_type = superiority
+}

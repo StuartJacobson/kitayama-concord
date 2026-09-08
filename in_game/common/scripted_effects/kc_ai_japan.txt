@@ -1,0 +1,21 @@
+﻿# JAP country scope. Existing formation/backfill creates the bureaucracies.
+# Change only their paid maintenance, using cash reserves as a bounded policy.
+kc_ai_japan_budget_bureaucracies = {
+ every_current_bureaucracy = {
+  limit = {
+   OR = {
+    bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+    bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy
+   }
+  }
+  if = {
+   limit = { root = { gold >= { value = monthly_income_trade_and_tax min = 1 multiply = 12 } } }
+   set_maintenance = 1
+  }
+  else_if = {
+   limit = { root = { gold >= { value = monthly_income_trade_and_tax min = 1 multiply = 3 } } }
+   set_maintenance = 0.50
+  }
+  else = { set_maintenance = 0 }
+ }
+}

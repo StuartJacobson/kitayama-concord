@@ -1,0 +1,210 @@
+﻿kc_chartered_house = {
+	priority = 10
+
+	can_bestow_trigger = {
+		country_type = building
+		OR = {
+			has_reform = government_reform:kc_chartered_buke_house
+			has_reform = government_reform:kc_kitayama_concordate
+		}
+		is_member_of_international_organization = scope:recipient
+	}
+
+	auto_bestowal_trigger = {
+		always = yes
+	}
+
+	auto_rescind_trigger = {
+		OR = {
+			NOT = { is_member_of_international_organization = scope:recipient }
+			NOT = {
+				OR = {
+					has_reform = government_reform:kc_chartered_buke_house
+					has_reform = government_reform:kc_kitayama_concordate
+				}
+			}
+		}
+	}
+
+	on_bestowed_effect = {
+	}
+
+	on_rescinded_effect = {
+	}
+
+	modifier = {
+		global_merchant_power = 0.025
+		monthly_prestige = 0.05
+	}
+
+	leader_modifier = {
+		diplomatic_reputation = diplomatic_reputation_weak_bonus
+	}
+
+	# Law votes use the same weight as the shogunal election:
+	# one House seat plus the country's taxable economic base.
+	special_status_power = {
+		add = {
+			desc = "KC_VOTES_HOUSE_SEAT"
+			value = 1
+		}
+		add = {
+			desc = "KC_VOTES_TAX_BASE"
+			value = country_tax_base
+		}
+	}
+
+	map_color = define:NMapColors|INTERNATIONAL_ORGANIZATION_TIER1_COLOR
+}
+
+kc_senior_chartered_house = {
+	priority = 20
+	max_countries = 13
+
+	can_bestow_trigger = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+		is_member_of_international_organization = scope:recipient
+		NOT = {
+			has_special_status_in_international_organization = {
+				type = special_status:japanese_emperor
+				international_organization = scope:recipient
+			}
+		}
+	}
+
+	auto_bestowal_trigger = {
+		always = no
+	}
+
+	auto_rescind_trigger = {
+		OR = {
+			NOT = { is_member_of_international_organization = scope:recipient }
+			NOT = { has_reform = government_reform:kc_chartered_buke_house }
+		}
+	}
+
+	on_bestowed_effect = {
+		add_prestige = prestige_mild_bonus
+	}
+
+	on_rescinded_effect = {
+	}
+
+	modifier = {
+		global_merchant_power = 0.05
+		global_merchant_capacity_modifier = 0.025
+		monthly_prestige = 0.10
+	}
+
+	leader_modifier = {
+		change_policy_cost_modifier = -0.01
+	}
+
+	# Special-status power is combined across every status a country holds.
+	# The ordinary Chartered House status supplies the seat and tax base, so
+	# Senior status contributes only its one additional charter vote.
+	special_status_power = {
+		add = {
+			desc = "KC_VOTES_SENIOR_CHARTER"
+			value = 1
+		}
+	}
+
+	map_color = define:NMapColors|INTERNATIONAL_ORGANIZATION_TIER2_COLOR
+}
+
+kc_concord_state = {
+	priority = 25
+	max_countries = 1
+
+	can_bestow_trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = scope:recipient
+	}
+
+	auto_bestowal_trigger = {
+		always = yes
+	}
+
+	auto_rescind_trigger = {
+		OR = {
+			NOT = { tag = JAP }
+			NOT = { has_reform = government_reform:kc_kitayama_concordate }
+			NOT = { is_member_of_international_organization = scope:recipient }
+		}
+	}
+
+	on_bestowed_effect = {
+	}
+
+	on_rescinded_effect = {
+	}
+
+	modifier = {
+		country_cabinet_efficiency = 0.05
+	}
+
+	# Japan already receives its seat and tax base from Chartered House status.
+	special_status_power = 0
+
+	map_color = define:NMapColors|INTERNATIONAL_ORGANIZATION_TIER2_COLOR
+}
+
+kc_presiding_house = {
+	priority = 30
+	max_countries = 1
+
+	can_bestow_trigger = {
+		is_member_of_international_organization = scope:recipient
+		scope:recipient = {
+			NOT = {
+				has_variable = kc_concord_collapsed
+			}
+			leader_country ?= root
+		}
+	}
+
+	auto_bestowal_trigger = {
+		scope:recipient = {
+			NOT = {
+				has_variable = kc_concord_collapsed
+			}
+			leader_country ?= root
+		}
+	}
+
+	auto_rescind_trigger = {
+		OR = {
+			NOT = { is_member_of_international_organization = scope:recipient }
+			scope:recipient = {
+				OR = {
+					has_variable = kc_concord_collapsed
+					NOT = { leader_country ?= root }
+				}
+			}
+		}
+	}
+
+	on_bestowed_effect = {
+		add_prestige = prestige_mild_bonus
+	}
+
+	on_rescinded_effect = {
+	}
+
+	modifier = {
+		monthly_prestige = 0.15
+		diplomatic_reputation = diplomatic_reputation_weak_bonus
+		change_policy_cost_modifier = -0.10
+		country_cabinet_efficiency = 0.10
+	}
+
+	# Presiding is an office, not an additional voting bloc.
+	special_status_power = 0
+
+	map_color = define:NMapColors|INTERNATIONAL_ORGANIZATION_LEADER_COLOR
+}
+
+

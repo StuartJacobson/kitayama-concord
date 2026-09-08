@@ -1,0 +1,568 @@
+﻿namespace = kc_concord_flavor
+
+# These events are selected by a dedicated yearly pulse. A two-year shared
+# cooldown prevents event fatigue, while ten-year individual cooldowns keep
+# the same story from recurring too often.
+
+kc_concord_flavor.1 = { # Measures at the Inland Sea
+	type = country_event
+	title = kc_concord_flavor.1.title
+	desc = kc_concord_flavor.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = { NOT = { has_variable = kc_concord_flavor_1_recent } }
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_1_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.1.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_standard_measures years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		else = { change_societal_value = { type = traditionalist_vs_innovative value = 2 } }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.1.b
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.2 = { # A House Defaults on its Warehouses
+	type = country_event
+	title = kc_concord_flavor.2.title
+	desc = kc_concord_flavor.2.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_2_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 20 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_2_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.2.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_reconciled_credit years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		ai_chance = { base = 65 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.2.b
+		high_risk_option = yes
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.3 = { # A Bridge Taken by the Rains
+	type = country_event
+	title = kc_concord_flavor.3.title
+	desc = kc_concord_flavor.3.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_3_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 20 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_3_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.3.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_repaired_kaido years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.3.b
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.4 = { # The Pilots' Quarrel
+	type = country_event
+	title = kc_concord_flavor.4.title
+	desc = kc_concord_flavor.4.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_4_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 60 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_4_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.4.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_common_charts years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		else = { change_societal_value = { type = traditionalist_vs_innovative value = 2 } }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.4.b
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.5 = { # Retainers Without a Campaign
+	type = country_event
+	title = kc_concord_flavor.5.title
+	desc = kc_concord_flavor.5.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_5_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 30 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_5_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.5.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_retainer_registry years = 5 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 55 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.5.b
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.6 = { # A Temple Market Seeks Judgment
+	type = country_event
+	title = kc_concord_flavor.6.title
+	desc = kc_concord_flavor.6.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_6_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 20 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_6_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.6.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_registered_trusts years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_weak_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		else = { change_societal_value = { type = traditionalist_vs_innovative value = 2 } }
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.6.b
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.7 = { # The Rice Brokers Close Their Ledgers
+	type = country_event
+	title = kc_concord_flavor.7.title
+	desc = kc_concord_flavor.7.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_great_reckoning.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_7_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 50 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_7_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.7.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_rice_market_reserve years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		ai_chance = { base = 65 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.7.b
+		high_risk_option = yes
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_3_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -3 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.8 = { # The Petition of Five Villages
+	type = country_event
+	title = kc_concord_flavor.8.title
+	desc = kc_concord_flavor.8.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = { NOT = { has_variable = kc_concord_flavor_8_recent } }
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_8_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.8.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_village_registers years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.8.b
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.9 = { # A School of Accounts
+	type = country_event
+	title = kc_concord_flavor.9.title
+	desc = kc_concord_flavor.9.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_9_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 40 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_9_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.9.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_school_of_accounts years = 5 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		ai_chance = { base = 65 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.9.b
+		add_estate_satisfaction = { type = estate_type:clergy_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.10 = { # Foreign Wares at the Customs Gate
+	type = country_event
+	title = kc_concord_flavor.10.title
+	desc = kc_concord_flavor.10.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_10_recent }
+		current_year >= 1450
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_10_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.10.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_calibrated_customs years = 5 mode = replace }
+		change_societal_value = { type = capital_economy_vs_traditional_economy value = -2 }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.10.b
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		change_societal_value = { type = aristocracy_vs_plutocracy value = 2 }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.11 = { # Precedence in the Council Hall
+	type = country_event
+	title = kc_concord_flavor.11.title
+	desc = kc_concord_flavor.11.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/international_organization_types/kc_kitayama_concord.dds"
+	trigger = {
+		NOT = { has_variable = kc_concord_flavor_11_recent }
+		international_organization:kc_kitayama_concord = { var:kc_concord_entrenchment >= 10 }
+	}
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_11_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.11.a
+		add_country_modifier = { modifier = kc_concord_seating_compromise years = 5 mode = replace }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.11.b
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_mild_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+kc_concord_flavor.12 = { # Surplus in the Common Granaries
+	type = country_event
+	title = kc_concord_flavor.12.title
+	desc = kc_concord_flavor.12.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+	trigger = { NOT = { has_variable = kc_concord_flavor_12_recent } }
+	immediate = {
+		set_variable = { name = kc_concord_flavor_cooldown value = 1 years = 2 }
+		set_variable = { name = kc_concord_flavor_12_recent value = 1 years = 10 }
+	}
+	option = {
+		name = kc_concord_flavor.12.a
+		change_gold_effect = { scale = -1 }
+		add_country_modifier = { modifier = kc_concord_granary_works years = 5 mode = replace }
+		add_estate_satisfaction = { type = estate_type:peasants_estate value = estate_satisfaction_weak_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_gain_1_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		}
+		ai_chance = { base = 60 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_concord_flavor.12.b
+		add_estate_satisfaction = { type = estate_type:nobles_estate value = estate_satisfaction_weak_bonus }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_weak_bonus }
+		if = {
+			limit = { has_variable = kc_concord_capstone_completed }
+			change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		}
+		custom_tooltip = {
+			text = kc_concord_lose_2_cohesion_tt
+			international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		}
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}

@@ -1,0 +1,362 @@
+﻿namespace = kc_concord_formation
+
+# The generic action only triggers this hidden event. Keeping the multi-stage
+# organization migration out of the action prevents GUI tooltip preview from
+# evaluating saved scopes that do not exist in preview mode.
+kc_concord_formation.1 = {
+	type = country_event
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		root = {
+			save_scope_as = kc_concord_founder
+		}
+
+		if = {
+			limit = {
+				has_global_variable_list = kc_concord_locations
+			}
+			clear_global_variable_list = kc_concord_locations
+		}
+
+		international_organization:japanese_shogunate = {
+			save_scope_as = kc_old_shogunate
+
+			every_international_organization_owned_location = {
+				add_to_global_variable_list = {
+					name = kc_concord_locations
+					target = this
+				}
+			}
+		}
+
+		root = {
+			create_international_organization = {
+				type = international_organization_type:kc_kitayama_concord
+				save_scope_as = kc_new_concord
+
+				add_country_to_international_organization = scope:kc_concord_founder
+				set_leader_country = scope:kc_concord_founder
+				add_policy_to_international_organization = policy:kc_hereditary_council_policy
+				add_policy_to_international_organization = policy:kc_protected_guilds_policy
+				add_policy_to_international_organization = policy:kc_house_retinues_policy
+				add_policy_to_international_organization = policy:kc_house_war_exemption_policy
+				add_policy_to_international_organization = policy:kc_house_tolls_policy
+			}
+		}
+
+		scope:kc_new_concord = {
+			# The generic law picker pre-evaluates HRE policy weights even for
+			# non-HRE organizations. A defined zero prevents its vanilla
+			# Imperial Authority comparison from logging three errors per
+			# candidate policy while remaining mechanically inert.
+			set_variable = {
+				name = imperial_authority
+				value = 0
+			}
+			set_variable = {
+				name = kc_last_annual_assessment
+				value = 0
+			}
+			set_variable = {
+				name = kc_last_assessment_arrears
+				value = 0
+			}
+			set_variable = {
+				name = kc_senior_house_slots
+				value = 3
+			}
+			set_variable = {
+				name = kc_common_works_licenses_issued
+				value = 0
+			}
+			set_variable = {
+				name = kc_common_works_next_cost
+				value = 500
+			}
+		}
+
+		scope:kc_old_shogunate = {
+			every_international_organization_member = {
+				scope:kc_new_concord = {
+					add_country_to_international_organization = prev
+				}
+			}
+		}
+
+		scope:kc_new_concord = {
+			kc_bestow_founding_senior_houses = yes
+		}
+
+		every_in_global_list = {
+			variable = kc_concord_locations
+			scope:kc_new_concord = {
+				add_location_to_international_organization = prev
+			}
+		}
+
+		clear_global_variable_list = kc_concord_locations
+
+		scope:kc_concord_founder = {
+			if = {
+				limit = {
+					tag = JAP
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:japanese_clan
+					}
+					remove_reform = government_reform:japanese_clan
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:shogunate
+					}
+					remove_reform = government_reform:shogunate
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_reform = government_reform:kc_chartered_buke_house
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_reform = government_reform:kc_kitayama_concordate
+						}
+					}
+					add_reform = government_reform:kc_kitayama_concordate
+				}
+				change_country_name = KC_JAPAN_COUNTRY
+				change_country_adjective = KC_JAPAN_COUNTRY_ADJ
+			}
+			add_prestige = prestige_mild_bonus
+			add_stability = stability_mild_bonus
+			kc_refresh_concord_concession_rights = yes
+		}
+	}
+}
+
+# Legacy repair path for old saves containing both organizations.
+kc_concord_formation.2 = {
+	type = country_event
+	outcome = neutral
+	title = empty_text
+	desc = empty_text
+	hidden = yes
+
+	immediate = {
+		root = {
+			save_scope_as = kc_concord_founder
+		}
+
+		if = {
+			limit = {
+				has_global_variable_list = kc_concord_locations
+			}
+			clear_global_variable_list = kc_concord_locations
+		}
+
+		international_organization:japanese_shogunate = {
+			save_scope_as = kc_old_shogunate
+
+			every_international_organization_owned_location = {
+				add_to_global_variable_list = {
+					name = kc_concord_locations
+					target = this
+				}
+			}
+
+			every_international_organization_member = {
+				international_organization:kc_kitayama_concord = {
+					add_country_to_international_organization = prev
+				}
+			}
+		}
+
+		international_organization:kc_kitayama_concord = {
+			save_scope_as = kc_existing_concord
+			add_country_to_international_organization = scope:kc_concord_founder
+			set_leader_country = scope:kc_concord_founder
+
+			if = {
+				limit = {
+					NOT = {
+						has_variable = imperial_authority
+					}
+				}
+				set_variable = {
+					name = imperial_authority
+					value = 0
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_last_annual_assessment
+					}
+				}
+				set_variable = {
+					name = kc_last_annual_assessment
+					value = 0
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_last_assessment_arrears
+					}
+				}
+				set_variable = {
+					name = kc_last_assessment_arrears
+					value = 0
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_senior_house_slots
+					}
+				}
+				set_variable = {
+					name = kc_senior_house_slots
+					value = 3
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_common_works_licenses_issued
+					}
+				}
+				set_variable = {
+					name = kc_common_works_licenses_issued
+					value = 0
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_common_works_next_cost
+					}
+				}
+				set_variable = {
+					name = kc_common_works_next_cost
+					value = 500
+				}
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						international_organization_has_policy = policy:kc_hereditary_council_policy
+					}
+				}
+				add_policy_to_international_organization = policy:kc_hereditary_council_policy
+			}
+			if = {
+				limit = {
+					NOT = {
+						international_organization_has_policy = policy:kc_protected_guilds_policy
+					}
+				}
+				add_policy_to_international_organization = policy:kc_protected_guilds_policy
+			}
+			if = {
+				limit = {
+					NOT = {
+						international_organization_has_policy = policy:kc_house_retinues_policy
+					}
+				}
+				add_policy_to_international_organization = policy:kc_house_retinues_policy
+			}
+			if = {
+				limit = {
+					NOT = { international_organization_has_policy = policy:kc_house_war_exemption_policy }
+					NOT = { international_organization_has_policy = policy:kc_discretionary_house_service_policy }
+					NOT = { international_organization_has_policy = policy:kc_universal_house_mobilization_policy }
+				}
+				add_policy_to_international_organization = policy:kc_house_war_exemption_policy
+			}
+			if = {
+				limit = {
+					NOT = {
+						international_organization_has_policy = policy:kc_house_tolls_policy
+					}
+				}
+				add_policy_to_international_organization = policy:kc_house_tolls_policy
+			}
+		}
+
+		scope:kc_existing_concord = {
+			if = {
+				limit = {
+					NOT = {
+						has_variable = kc_founding_senior_houses_bestowed
+					}
+				}
+				kc_bestow_founding_senior_houses = yes
+			}
+		}
+
+		every_in_global_list = {
+			variable = kc_concord_locations
+			scope:kc_existing_concord = {
+				add_location_to_international_organization = prev
+			}
+		}
+
+		clear_global_variable_list = kc_concord_locations
+
+		scope:kc_concord_founder = {
+			destroy_international_organization = {
+				target = scope:kc_old_shogunate
+			}
+		}
+
+		scope:kc_concord_founder = {
+			if = {
+				limit = {
+					tag = JAP
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:japanese_clan
+					}
+					remove_reform = government_reform:japanese_clan
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:shogunate
+					}
+					remove_reform = government_reform:shogunate
+				}
+				if = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_reform = government_reform:kc_chartered_buke_house
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_reform = government_reform:kc_kitayama_concordate
+						}
+					}
+					add_reform = government_reform:kc_kitayama_concordate
+				}
+				change_country_name = KC_JAPAN_COUNTRY
+				change_country_adjective = KC_JAPAN_COUNTRY_ADJ
+			}
+			add_prestige = prestige_mild_bonus
+			set_variable = kc_concord_ratified
+			kc_refresh_concord_concession_rights = yes
+		}
+	}
+}
+
+

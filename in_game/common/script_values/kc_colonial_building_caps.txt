@@ -1,0 +1,16 @@
+﻿# Colonial cash-crop and processing concessions use half the development and
+# RGO-capacity scaling of a domestic Shoen, with a floor of one level.
+kc_colonial_house_estate_cap = {
+	value = 0.5
+	add = {
+		desc = "BUILDING_LEVEL_DEVELOPMENT"
+		value = development
+		multiply = 0.025
+	}
+	add = {
+		desc = "BUILDING_LEVEL_RGO_MAX"
+		value = max_rgo_workers
+		multiply = 0.10
+	}
+	min = 1
+}

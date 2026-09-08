@@ -1,0 +1,247 @@
+﻿# Land one Chartered House without referencing the native Japanese Shogunate.
+# The caller must be a qualifying building-based House.
+kc_land_collapsed_concord_house = {
+	set_variable = {
+		name = kc_warring_house
+		value = yes
+	}
+	remove_reform = government_reform:kc_chartered_buke_house
+	add_reform = government_reform:daimyo
+	change_country_type = location
+	save_temporary_scope_as = kc_collapsing_house
+
+	every_owned_foreign_building_location = {
+		limit = {
+			region = region:japan_region
+			owner ?= {
+				is_member_of_international_organization = international_organization:kc_kitayama_concord
+			}
+			scope:kc_collapsing_house = {
+				owns_most_foreign_buildings_in_location = prev
+				prev != location:kyoto
+			}
+		}
+
+		# Preserve the useful native landing behavior for yamashiro and shoen.
+		every_foreign_buildings_in_location = {
+			limit = {
+				owner = scope:kc_collapsing_house
+			}
+			if = {
+				limit = {
+					building_type = building_type:yamashiro
+					location = {
+						NOR = {
+							has_building = building_type:stockade
+							has_building = building_type:castle
+						}
+					}
+				}
+				location = {
+					set_variable = kc_build_stockade
+				}
+			}
+			if = {
+				limit = {
+					building_type = building_type:shoen
+				}
+				location = {
+					set_variable = kc_build_market_village
+				}
+			}
+		}
+
+		change_location_owner = prev
+		add_core = prev
+		change_integration_level = core
+		if = {
+			limit = {
+				has_variable = kc_build_stockade
+			}
+			remove_variable = kc_build_stockade
+			change_building_level_in_location = {
+				building = building_type:stockade
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = kc_build_market_village
+			}
+			remove_variable = kc_build_market_village
+			change_building_level_in_location = {
+				building = building_type:market_village
+				value = 1
+			}
+		}
+	}
+}
+
+# Convert a failed Concord into a bounded custom interregnum without creating
+# or destroying an international organization. AI conversion is spread across
+# weekly batches; the human-controlled path retains its immediate transition.
+kc_dissolve_concord_into_warring_states = {
+	save_scope_as = kc_fallen_concord_state
+	set_variable = {
+		name = kc_concord_collapsed
+		value = yes
+	}
+
+	# The post-capstone privileges describe institutions of the functioning
+	# Concord and must not survive its constitutional collapse.
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_hereditary_charter_courts }
+		revoke_estate_privilege = estate_privilege:kc_hereditary_charter_courts
+	}
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_circuit_stewardship_obligations }
+		revoke_estate_privilege = estate_privilege:kc_circuit_stewardship_obligations
+	}
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_licensed_house_monopolies }
+		revoke_estate_privilege = estate_privilege:kc_licensed_house_monopolies
+	}
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_common_exchange_standards }
+		revoke_estate_privilege = estate_privilege:kc_common_exchange_standards
+	}
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_temple_commercial_immunities }
+		revoke_estate_privilege = estate_privilege:kc_temple_commercial_immunities
+	}
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_registered_religious_trusts }
+		revoke_estate_privilege = estate_privilege:kc_registered_religious_trusts
+	}
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_village_contract_rights }
+		revoke_estate_privilege = estate_privilege:kc_village_contract_rights
+	}
+	if = {
+		limit = { has_estate_privilege = estate_privilege:kc_common_granary_boards }
+		revoke_estate_privilege = estate_privilege:kc_common_granary_boards
+	}
+
+	international_organization:kc_kitayama_concord = {
+		set_variable = {
+			name = kc_concord_collapsed
+			value = yes
+		}
+		set_variable = {
+			name = kc_concord_cohesion
+			value = 0
+		}
+		set_variable = {
+			name = kc_concord_entrenchment
+			value = 0
+		}
+		remove_variable = kc_fracturing_concord_active
+		set_leader_country = scope:kc_fallen_concord_state
+
+		every_international_organization_member = {
+			remove_country_modifier = kc_fracturing_concord_member
+		}
+
+		# A human-triggered collapse retains the proven immediate transition.
+		# AI collapse converts only twelve Houses per weekly batch.
+		if = {
+			limit = { scope:kc_fallen_concord_state = { is_ai = yes } }
+			kc_land_collapsed_concord_ai_batch = yes
+		}
+		else = {
+			ordered_international_organization_member = {
+				limit = {
+					country_type = building
+					has_reform = government_reform:kc_chartered_buke_house
+				}
+				max = international_organization:kc_kitayama_concord.total_members
+				check_range_bounds = no
+				order_by = {
+					value = total_foreign_buildings_levels
+					if = {
+						limit = {
+							has_special_status_in_international_organization = {
+								type = special_status:kc_senior_chartered_house
+								international_organization = international_organization:kc_kitayama_concord
+							}
+						}
+						add = 100000
+					}
+				}
+				kc_land_collapsed_concord_house = yes
+			}
+
+		}
+
+	}
+
+	if = {
+		limit = {
+			has_reform = government_reform:kc_kitayama_concordate
+		}
+		every_current_bureaucracy = {
+			limit = {
+				bureaucracy_type = bureaucracy_type:kc_concord_secretariat_bureaucracy
+			}
+			root = {
+				remove_bureaucracy = prev
+			}
+		}
+		every_current_bureaucracy = {
+			limit = {
+				bureaucracy_type = bureaucracy_type:kc_office_maritime_exchange_bureaucracy
+			}
+			root = {
+				remove_bureaucracy = prev
+			}
+		}
+		if = {
+			limit = { has_reform = government_reform:kc_council_of_licensed_ports }
+			remove_reform = government_reform:kc_council_of_licensed_ports
+		}
+		if = {
+			limit = { has_reform = government_reform:kc_national_board_of_exchange }
+			remove_reform = government_reform:kc_national_board_of_exchange
+		}
+		if = {
+			limit = { has_reform = government_reform:kc_commonwealth_chartered_ports }
+			remove_reform = government_reform:kc_commonwealth_chartered_ports
+		}
+		if = {
+			limit = { has_reform = government_reform:kc_articles_registered_open_ports }
+			remove_reform = government_reform:kc_articles_registered_open_ports
+		}
+		if = {
+			limit = { has_reform = government_reform:kc_national_maritime_administration }
+			remove_reform = government_reform:kc_national_maritime_administration
+		}
+		remove_reform = government_reform:kc_kitayama_concordate
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_reform = government_reform:shogunate
+			}
+		}
+		add_reform = government_reform:shogunate
+	}
+
+	kc_queue_ai_collapse_cleanup = yes
+}
+
+# Compatibility/debug helper: attempt any remaining Chartered Houses after a
+# collapse created under an earlier capped version.
+kc_land_all_remaining_concord_houses = {
+	international_organization:kc_kitayama_concord ?= {
+		ordered_international_organization_member = {
+			limit = {
+				country_type = building
+				has_reform = government_reform:kc_chartered_buke_house
+			}
+			max = international_organization:kc_kitayama_concord.total_members
+			check_range_bounds = no
+			order_by = total_foreign_buildings_levels
+			kc_land_collapsed_concord_house = yes
+		}
+	}
+}

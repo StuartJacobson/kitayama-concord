@@ -1,0 +1,104 @@
+﻿namespace = kc_ezo_compact
+
+# The Concord has begun recognizing Ainu land use and subsidizing winter
+# stores. This occurs shortly after formation and gives the population time to
+# grow before northern colonial competition becomes a major institution.
+kc_ezo_compact.1 = {
+	type = country_event
+	hide_portraits = yes
+	title = kc_ezo_compact.1.title
+	desc = kc_ezo_compact.1.desc
+	outcome = positive
+
+	option = {
+		name = kc_ezo_compact.1.a
+	}
+}
+
+# Fired on the owner after a completed or otherwise acquired Ezo province is
+# detected. The saved kc_ezo_target_province scope is created by the monthly
+# on-action and marked pending before the event opens.
+kc_ezo_compact.2 = {
+	type = country_event
+	hide_portraits = yes
+	title = kc_ezo_compact.2.title
+	desc = kc_ezo_compact.2.desc
+	outcome = neutral
+
+	immediate = {
+		save_scope_as = kc_ezo_sponsor
+		scope:kc_ezo_target_province = {
+			random_location_in_province = {
+				save_scope_as = target_location
+			}
+		}
+	}
+
+	option = {
+		name = kc_ezo_compact.2.a
+
+		custom_tooltip = {
+			text = kc_ezo_compact_treaty_port_tt
+			scope:kc_ezo_target_province = {
+				kc_apply_ezo_treaty_port_policy = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = 1
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 70
+		}
+	}
+
+	option = {
+		name = kc_ezo_compact.2.b
+
+		custom_tooltip = {
+			text = kc_ezo_compact_mixed_settlement_tt
+			scope:kc_ezo_target_province = {
+				kc_apply_ezo_mixed_settlement_policy = yes
+			}
+		}
+
+		ai_chance = {
+			base = 25
+		}
+	}
+
+	option = {
+		name = kc_ezo_compact.2.c
+		high_risk_option = yes
+
+		custom_tooltip = {
+			text = kc_ezo_compact_survey_settlement_tt
+			scope:kc_ezo_target_province = {
+				kc_apply_ezo_survey_settlement_policy = yes
+			}
+			international_organization:kc_kitayama_concord ?= {
+				change_variable = {
+					name = kc_concord_cohesion
+					add = -3
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 5
+			modifier = {
+				trigger = {
+					international_organization:kc_kitayama_concord ?= {
+						var:kc_concord_cohesion < 30
+					}
+				}
+				add = 15
+			}
+		}
+	}
+}
+
+

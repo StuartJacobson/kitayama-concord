@@ -1,0 +1,4 @@
+﻿kc_ai_northern_colonization_actions = {
+	potential = { kc_ai_japan_active_concord = yes }
+	actions = { kc_ai_charter_ezo kc_ai_charter_manchurian }
+}

@@ -1,0 +1,15 @@
+﻿house_privilege_progress_cabinet_efficiency = {
+	game_data = {
+		category = country
+	}
+	monthly_towards_house_privilege = 1
+}
+
+concord_commonwealth_progress_cabinet_efficiency = {
+	game_data = {
+		category = country
+	}
+	monthly_towards_concord_commonwealth = 1
+}
+
+

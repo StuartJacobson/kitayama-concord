@@ -1,0 +1,57 @@
+﻿namespace = kc_southern_islands
+
+# The survey converts knowledge accumulated in the Southern Sea Exchange into
+# a finite legal window. All three constitutional sponsors grant the same map
+# access; the choice determines who pays and who controls the charts.
+kc_southern_islands.1 = {
+	type = country_event
+	title = kc_southern_islands.1.title
+	desc = kc_southern_islands.1.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_southern_islands.1.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= 500 } }
+		international_organization:kc_kitayama_concord = { add_gold = -500 }
+		custom_tooltip = { text = kc_southern_islands_access_tt kc_grant_southern_islands_access = yes }
+		add_country_modifier = { modifier = kc_common_southern_hydrography years = 15 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_southern_islands.1.b
+		custom_tooltip = { text = kc_southern_islands_access_tt kc_grant_southern_islands_access = yes }
+		add_country_modifier = { modifier = kc_house_southern_charts years = 15 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_southern_islands.1.c
+		custom_tooltip = { text = kc_southern_islands_access_tt kc_grant_southern_islands_access = yes }
+		add_country_modifier = { modifier = kc_court_southern_pilotage years = 15 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+# Exact thirty-year cleanup. A hidden delayed event is more reliable than
+# assuming that a temporary boolean has already disappeared on a monthly tick.
+kc_southern_islands.2 = {
+	type = country_event
+	title = empty_text
+	desc = empty_text
+	outcome = neutral
+	hidden = yes
+	immediate = { kc_expire_southern_islands_access = yes }
+}

@@ -1,0 +1,408 @@
+﻿namespace = kc_unquiet_peace
+
+# The first transition crisis: peace has removed private war faster than the
+# Concord has replaced its local policing, convoy, and coercive institutions.
+kc_unquiet_peace.1 = {
+	type = country_event
+	title = kc_unquiet_peace.1.title
+	desc = kc_unquiet_peace.1.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.1.a
+		custom_tooltip = {
+			text = kc_unquiet_peace_constabulary_choice_tt
+			set_variable = {
+				name = kc_unquiet_peace_constabulary_preparation
+				value = yes
+			}
+		}
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				every_international_organization_member = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_country_modifier = kc_unquiet_peace_member_disorder
+					remove_country_modifier = kc_unquiet_peace_network_mandate
+					remove_country_modifier = kc_unquiet_peace_watches_mandate
+					add_country_modifier = {
+						modifier = kc_unquiet_peace_constabulary_mandate
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 30
+			modifier = {
+				trigger = {
+					international_organization:kc_kitayama_concord ?= {
+						international_organization_has_policy = policy:kc_common_arsenals_policy
+					}
+				}
+				add = 60
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.1.b
+		custom_tooltip = {
+			text = kc_unquiet_peace_network_choice_tt
+			set_variable = {
+				name = kc_unquiet_peace_network_preparation
+				value = yes
+			}
+		}
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				every_international_organization_member = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_country_modifier = kc_unquiet_peace_member_disorder
+					remove_country_modifier = kc_unquiet_peace_constabulary_mandate
+					remove_country_modifier = kc_unquiet_peace_watches_mandate
+					add_country_modifier = {
+						modifier = kc_unquiet_peace_network_mandate
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 35
+			modifier = {
+				trigger = {
+					international_organization:kc_kitayama_concord ?= {
+						OR = {
+							international_organization_has_policy = policy:kc_shared_road_fund_policy
+							international_organization_has_policy = policy:kc_central_kaido_assessment_policy
+						}
+					}
+				}
+				add = 50
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.1.c
+		custom_tooltip = {
+			text = kc_unquiet_peace_watches_choice_tt
+			set_variable = {
+				name = kc_unquiet_peace_watches_preparation
+				value = yes
+			}
+		}
+		hidden_effect = {
+			international_organization:kc_kitayama_concord ?= {
+				every_international_organization_member = {
+					limit = {
+						has_reform = government_reform:kc_chartered_buke_house
+					}
+					remove_country_modifier = kc_unquiet_peace_member_disorder
+					remove_country_modifier = kc_unquiet_peace_constabulary_mandate
+					remove_country_modifier = kc_unquiet_peace_network_mandate
+					add_country_modifier = {
+						modifier = kc_unquiet_peace_watches_mandate
+						years = -1
+						mode = replace
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 35
+			modifier = {
+				trigger = {
+					international_organization:kc_kitayama_concord ?= {
+						OR = {
+							international_organization_has_policy = policy:kc_house_retinues_policy
+							international_organization_has_policy = policy:kc_registered_retinues_policy
+						}
+					}
+				}
+				add = 50
+			}
+		
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+}
+
+# Human-controlled Houses receive a concise notice. Japan chooses the national
+# program because the disaster and its Treasury obligations belong to JAP.
+kc_unquiet_peace.2 = {
+	type = country_event
+	title = kc_unquiet_peace.2.title
+	desc = kc_unquiet_peace.2.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.2.a
+	}
+}
+
+kc_unquiet_peace.3 = {
+	type = country_event
+	title = kc_unquiet_peace.3.title
+	desc = kc_unquiet_peace.3.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.3.a
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				var:kc_concord_cohesion >= 10
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 2
+				}
+			}
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = -2
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -10
+			}
+		}
+		add_country_modifier = {
+			modifier = kc_unquiet_peace_relief_stipends
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.3.b
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -15
+			}
+		}
+		add_country_modifier = {
+			modifier = kc_unquiet_peace_ronin_bands
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 15
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.3.c
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -20
+			}
+		}
+		ai_chance = {
+			base = 35
+		}
+	}
+}
+
+kc_unquiet_peace.4 = {
+	type = country_event
+	title = kc_unquiet_peace.4.title
+	desc = kc_unquiet_peace.4.desc
+	outcome = negative
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.4.a
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				var:kc_concord_cohesion >= 10
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 2
+				}
+			}
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = -2
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -10
+			}
+		}
+		add_country_modifier = {
+			modifier = kc_unquiet_peace_emergency_patrols
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.4.b
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -15
+			}
+		}
+		add_country_modifier = {
+			modifier = kc_unquiet_peace_maritime_disruption
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.4.c
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -20
+			}
+		}
+		ai_chance = {
+			base = 40
+		}
+	}
+}
+
+kc_unquiet_peace.5 = {
+	type = country_event
+	title = kc_unquiet_peace.5.title
+	desc = kc_unquiet_peace.5.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.5.a
+		trigger = {
+			international_organization:kc_kitayama_concord ?= {
+				var:kc_concord_cohesion >= 10
+				gold >= {
+					value = c:JAP.monthly_income_trade_and_tax
+					min = 1
+					multiply = 2
+				}
+			}
+		}
+		international_organization:kc_kitayama_concord ?= {
+			add_gold = {
+				value = c:JAP.monthly_income_trade_and_tax
+				min = 1
+				multiply = -2
+			}
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -10
+			}
+		}
+		add_country_modifier = {
+			modifier = kc_unquiet_peace_common_magistrates
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 45
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.5.b
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -15
+			}
+		}
+		add_country_modifier = {
+			modifier = kc_unquiet_peace_unfunded_decrees
+			years = 5
+			mode = replace
+		}
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	option = {
+		name = kc_unquiet_peace.5.c
+		international_organization:kc_kitayama_concord ?= {
+			change_variable = {
+				name = kc_concord_cohesion
+				add = -20
+			}
+		}
+		ai_chance = {
+			base = 45
+		}
+	}
+}
+
+kc_unquiet_peace.10 = {
+	type = country_event
+	title = kc_unquiet_peace.10.title
+	desc = kc_unquiet_peace.10.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.10.a
+	}
+}
+
+kc_unquiet_peace.11 = {
+	type = country_event
+	title = kc_unquiet_peace.11.title
+	desc = kc_unquiet_peace.11.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.11.a
+	}
+}
+
+kc_unquiet_peace.12 = {
+	type = country_event
+	title = kc_unquiet_peace.12.title
+	desc = kc_unquiet_peace.12.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/disaster/kc_unquiet_peace.dds"
+
+	option = {
+		name = kc_unquiet_peace.12.a
+	}
+}
+
+

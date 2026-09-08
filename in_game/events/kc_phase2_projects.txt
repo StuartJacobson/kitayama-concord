@@ -1,0 +1,28 @@
+﻿namespace = kc_phase2_projects
+
+# Foreign measuring instruments and the Concord's mature provincial archives
+# make a second generation of national infrastructure administratively
+# possible. The Treasury still has to authorize and pay for every stage.
+kc_phase2_projects.1 = {
+	type = country_event
+	title = kc_phase2_projects.1.title
+	desc = kc_phase2_projects.1.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_hundred_year_concord.dds"
+
+	immediate = {
+		remove_variable = kc_phase2_great_projects_pending
+	}
+
+	option = {
+		name = kc_phase2_projects.1.a
+		custom_tooltip = kc_phase2_projects_unlock_tt
+		hidden_effect = {
+			international_organization:kc_kitayama_concord = {
+				set_variable = { name = kc_phase_2_great_projects_unlocked value = yes }
+			}
+			set_variable = { name = kc_phase2_great_projects_announced value = yes }
+			remove_variable = kc_historical_chain_active
+		}
+	}
+}

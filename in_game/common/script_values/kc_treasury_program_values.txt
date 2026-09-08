@@ -1,0 +1,180 @@
+﻿# All values are evaluated from the Kitayama Concord IO scope. Basing recurring
+# programs on JAP's current trade-and-tax income keeps the common reserve
+# relevant as Japan grows without creating an exponential late-game sink.
+
+# The Secretariat's full nominal upkeep is five base gold multiplied by
+# 0.008 of Japan's economic base, or 0.04 economic base. Its custom country
+# modifier already contains both the maintenance setting and the native
+# Entrenchment-scaled Treasury share (25% at zero, 50% at 100). Native
+# bureaucracy Entrenchment can overshoot 100 by a floating monthly increment,
+# so the derived share has its own hard ceiling as a second line of defense.
+kc_secretariat_current_treasury_share = {
+	value = c:JAP.modifier:kc_concord_secretariat_treasury_share
+	min = 0
+	max = 0.50
+}
+
+kc_secretariat_monthly_treasury_remittance = {
+	value = c:JAP.country_economical_base
+	multiply = 0.04
+	multiply = kc_secretariat_current_treasury_share
+	min = 0
+}
+
+kc_treasury_granary_cost = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 6
+	max = 5000
+}
+
+kc_treasury_security_cost = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 8
+	max = 5000
+}
+
+kc_treasury_maritime_cost = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 9
+	max = 5000
+}
+
+# Shared by ordinary contributions, mediation, and Fracturing-Concord
+# emergency actions. Scaling remains meaningful in an ordinary campaign but
+# cannot turn a routine six-month program into an unpayable late-game sink.
+kc_treasury_six_month_cost = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 6
+	max = 5000
+}
+
+# Physical-network authorizations are cheaper because Japan must also pay each
+# building's construction and recurring maintenance. Route-only projects retain
+# their former national commission prices.
+kc_project_irrigation_cost = {
+	value = 1000
+	if = { limit = { var:kc_project_irrigation_stage >= 1 } multiply = 2 }
+	if = { limit = { var:kc_project_irrigation_stage >= 2 } multiply = 2 }
+	if = { limit = { var:kc_project_irrigation_stage >= 3 } multiply = 2 }
+	if = { limit = { var:kc_project_irrigation_stage >= 4 } multiply = 2 }
+}
+
+kc_project_floodworks_cost = {
+	value = 2000
+	if = { limit = { var:kc_project_floodworks_stage >= 1 } multiply = 2 }
+	if = { limit = { var:kc_project_floodworks_stage >= 2 } multiply = 2 }
+	if = { limit = { var:kc_project_floodworks_stage >= 3 } multiply = 2 }
+	if = { limit = { var:kc_project_floodworks_stage >= 4 } multiply = 2 }
+}
+
+kc_project_kaido_cost = {
+	value = 2500
+	if = { limit = { var:kc_project_kaido_stage >= 1 } multiply = 2 }
+	if = { limit = { var:kc_project_kaido_stage >= 2 } multiply = 2 }
+	if = { limit = { var:kc_project_kaido_stage >= 3 } multiply = 2 }
+	if = { limit = { var:kc_project_kaido_stage >= 4 } multiply = 2 }
+}
+
+kc_project_tunnels_cost = {
+	value = 5000
+	if = { limit = { var:kc_project_tunnels_stage >= 1 } multiply = 2 }
+	if = { limit = { var:kc_project_tunnels_stage >= 2 } multiply = 2 }
+	if = { limit = { var:kc_project_tunnels_stage >= 3 } multiply = 2 }
+	if = { limit = { var:kc_project_tunnels_stage >= 4 } multiply = 2 }
+}
+
+kc_project_harbors_cost = {
+	value = 1000
+	if = { limit = { var:kc_project_harbors_stage >= 1 } multiply = 2 }
+	if = { limit = { var:kc_project_harbors_stage >= 2 } multiply = 2 }
+	if = { limit = { var:kc_project_harbors_stage >= 3 } multiply = 2 }
+	if = { limit = { var:kc_project_harbors_stage >= 4 } multiply = 2 }
+}
+
+# One-time post-maritime extensions. Their buildings still carry construction,
+# employment, and maintenance costs after the national authorization is paid.
+kc_project_outer_port_charters_cost = { value = 16000 }
+kc_project_southern_ocean_line_cost = { value = 32000 }
+
+kc_project_waterworks_cost = {
+	value = 2000
+	if = { limit = { var:kc_project_waterworks_stage >= 1 } multiply = 2 }
+	if = { limit = { var:kc_project_waterworks_stage >= 2 } multiply = 2 }
+	if = { limit = { var:kc_project_waterworks_stage >= 3 } multiply = 2 }
+	if = { limit = { var:kc_project_waterworks_stage >= 4 } multiply = 2 }
+}
+
+kc_project_megalopolis_cost = { value = 10000 }
+
+# The current national authorization is also the maximum level of each local
+# network building. These are evaluated from location scope by max_levels.
+kc_concord_irrigation_works_cap = {
+	value = 0
+	if = {
+		limit = {
+			exists = international_organization:kc_kitayama_concord
+			international_organization:kc_kitayama_concord ?= { has_variable = kc_project_irrigation_stage }
+		}
+		add = international_organization:kc_kitayama_concord.var:kc_project_irrigation_stage
+	}
+	min = 0
+	max = 5
+}
+
+kc_seto_harbor_works_cap = {
+	value = 0
+	if = {
+		limit = {
+			exists = international_organization:kc_kitayama_concord
+			international_organization:kc_kitayama_concord ?= { has_variable = kc_project_harbors_stage }
+		}
+		add = international_organization:kc_kitayama_concord.var:kc_project_harbors_stage
+	}
+	min = 0
+	max = 5
+}
+
+kc_concord_floodworks_cap = {
+	value = 0
+	if = {
+		limit = {
+			exists = international_organization:kc_kitayama_concord
+			international_organization:kc_kitayama_concord ?= { has_variable = kc_project_floodworks_stage }
+		}
+		add = international_organization:kc_kitayama_concord.var:kc_project_floodworks_stage
+	}
+	min = 0
+	max = 5
+}
+
+kc_urban_water_bureau_cap = {
+	value = 0
+	if = {
+		limit = {
+			exists = international_organization:kc_kitayama_concord
+			international_organization:kc_kitayama_concord ?= { has_variable = kc_project_waterworks_stage }
+		}
+		add = international_organization:kc_kitayama_concord.var:kc_project_waterworks_stage
+	}
+	min = 0
+	max = 5
+}
+kc_urban_waterworks_auto_scale = {
+	value = 0
+	if = {
+		limit = {
+			exists = international_organization:kc_kitayama_concord
+			international_organization:kc_kitayama_concord ?= {
+				has_variable = kc_waterworks_auto_v1
+				has_variable = kc_project_waterworks_stage
+			}
+		}
+		add = international_organization:kc_kitayama_concord.var:kc_project_waterworks_stage
+	}
+	min = 0
+	max = 5
+}

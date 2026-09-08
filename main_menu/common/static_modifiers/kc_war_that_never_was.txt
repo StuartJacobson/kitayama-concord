@@ -1,0 +1,54 @@
+﻿kc_wnw_council_deadlock = {
+	game_data = { category = country }
+	country_cabinet_efficiency = -0.10
+	monthly_legitimacy = -0.05
+}
+
+kc_wnw_house_uncertainty = {
+	game_data = { category = country }
+	trade_income = -0.03
+	global_merchant_power = -0.03
+}
+
+kc_wnw_debt_moratorium = {
+	game_data = { category = country }
+	global_population_growth = 0.001
+	trade_income = -0.02
+	bank_interest = 0.005
+}
+
+kc_wnw_contract_guarantees = {
+	game_data = { category = country }
+	trade_income = 0.03
+	global_population_growth = -0.0005
+}
+
+kc_wnw_tolerated_disorder = {
+	game_data = { category = country }
+	trade_income = -0.04
+	global_build_buildings_efficiency = -0.05
+}
+
+kc_wnw_house_compact_legacy = {
+	game_data = { category = country }
+	global_merchant_power = 0.06
+	trade_income = 0.04
+	global_estate_satisfaction_recovery = 0.001
+	monthly_concord_cohesion = 0.05
+}
+
+kc_wnw_dual_covenant_legacy = {
+	game_data = { category = country }
+	country_cabinet_efficiency = 0.05
+	diplomatic_reputation = 1
+	trade_income = 0.03
+	monthly_concord_cohesion = 0.05
+}
+
+kc_wnw_public_peace_legacy = {
+	game_data = { category = country }
+	country_cabinet_efficiency = 0.08
+	change_policy_cost_modifier = -0.05
+	global_build_buildings_efficiency = 0.05
+	monthly_concord_cohesion = 0.05
+}

@@ -1,0 +1,311 @@
+﻿kc_treasury_common_granaries = {
+	game_data = { category = country }
+	global_monthly_food_modifier = 0.10
+	global_food_capacity_modifier = 0.10
+	food_purchase_efficiency = 0.05
+}
+
+kc_treasury_common_security_state = {
+	game_data = { category = country }
+	global_manpower_modifier = 0.15
+	global_sailors_modifier = 0.15
+	army_maintenance_efficiency = 0.05
+	navy_maintenance_efficiency = 0.05
+	regiment_recruit_speed = 0.10
+	ship_build_speed = 0.10
+}
+
+kc_treasury_registered_security_house = {
+	game_data = { category = country }
+	global_manpower_modifier = 0.05
+	global_sailors_modifier = 0.05
+	army_maintenance_efficiency = 0.025
+	navy_maintenance_efficiency = 0.025
+}
+
+kc_treasury_maritime_underwriting = {
+	game_data = { category = country }
+	global_merchant_power = 0.05
+	trade_range_modifier = 0.15
+	global_sailors_modifier = 0.10
+	ship_build_speed = 0.10
+	navy_light_ship_build_cost_modifier = -0.05
+}
+
+# Deprecated one-click country modifiers retained only so old saves can remove
+# them safely. Localized province and location layers now carry their benefits.
+kc_project_grand_irrigation = { game_data = { category = country } }
+kc_project_floodworks = { game_data = { category = country } }
+kc_project_kaido_spine = {
+	game_data = { category = country }
+	road_cost_on_distance_from_capital = -2.5
+}
+kc_project_mountain_tunnels = {
+	game_data = { category = country }
+	mountains_proximity_impact = -0.40
+	hills_proximity_impact = -0.30
+}
+kc_project_inland_sea_harbors = {
+	game_data = { category = country }
+	port_cost_distance_from_capital = -10
+}
+
+kc_project_metropolitan_charter = {
+	game_data = { category = location }
+	local_population_capacity_modifier = 0.10
+	local_monthly_development = 0.01
+	local_build_buildings_efficiency = 0.10
+}
+
+# Country layers are intentionally narrow. EU5 exposes Road Proximity Cost,
+# Port Proximity Cost, and terrain Proximity Impact only as country modifiers.
+# All economic, population, harbor-capacity, market-access, and urban benefits
+# are carried by the geographically bounded province/location layers below.
+
+# Deprecated country shells for local-only projects.
+kc_project_grand_irrigation_1 = { game_data = { category = country } }
+kc_project_grand_irrigation_2 = { game_data = { category = country } }
+kc_project_grand_irrigation_3 = { game_data = { category = country } }
+kc_project_grand_irrigation_4 = { game_data = { category = country } }
+kc_project_grand_irrigation_5 = { game_data = { category = country } }
+
+kc_project_floodworks_1 = { game_data = { category = country } }
+kc_project_floodworks_2 = { game_data = { category = country } }
+kc_project_floodworks_3 = { game_data = { category = country } }
+kc_project_floodworks_4 = { game_data = { category = country } }
+kc_project_floodworks_5 = { game_data = { category = country } }
+
+kc_project_urban_waterworks_1 = { game_data = { category = country } }
+kc_project_urban_waterworks_2 = { game_data = { category = country } }
+kc_project_urban_waterworks_3 = { game_data = { category = country } }
+kc_project_urban_waterworks_4 = { game_data = { category = country } }
+kc_project_urban_waterworks_5 = { game_data = { category = country } }
+
+# National Kaido country layer: Road Proximity Cost only.
+kc_project_kaido_spine_1 = {
+	game_data = { category = country }
+	road_cost_on_distance_from_capital = -0.5
+}
+kc_project_kaido_spine_2 = {
+	game_data = { category = country }
+	road_cost_on_distance_from_capital = -1.0
+}
+kc_project_kaido_spine_3 = {
+	game_data = { category = country }
+	road_cost_on_distance_from_capital = -1.5
+}
+kc_project_kaido_spine_4 = {
+	game_data = { category = country }
+	road_cost_on_distance_from_capital = -2.0
+}
+kc_project_kaido_spine_5 = {
+	game_data = { category = country }
+	road_cost_on_distance_from_capital = -2.5
+}
+
+# Transmontane Tunnels country layer. Road-construction discounts were removed;
+# the five tiers now reach -30% Hills and -40% Mountains Proximity Impact.
+kc_project_mountain_tunnels_1 = {
+	game_data = { category = country }
+	mountains_proximity_impact = -0.08
+	hills_proximity_impact = -0.06
+}
+kc_project_mountain_tunnels_2 = {
+	game_data = { category = country }
+	mountains_proximity_impact = -0.16
+	hills_proximity_impact = -0.12
+}
+kc_project_mountain_tunnels_3 = {
+	game_data = { category = country }
+	mountains_proximity_impact = -0.24
+	hills_proximity_impact = -0.18
+}
+kc_project_mountain_tunnels_4 = {
+	game_data = { category = country }
+	mountains_proximity_impact = -0.32
+	hills_proximity_impact = -0.24
+}
+kc_project_mountain_tunnels_5 = {
+	game_data = { category = country }
+	mountains_proximity_impact = -0.40
+	hills_proximity_impact = -0.30
+}
+
+# Inland Sea country layer: Port Proximity Cost only.
+kc_project_inland_sea_harbors_1 = {
+	game_data = { category = country }
+	port_cost_distance_from_capital = -2
+}
+kc_project_inland_sea_harbors_2 = {
+	game_data = { category = country }
+	port_cost_distance_from_capital = -4
+}
+kc_project_inland_sea_harbors_3 = {
+	game_data = { category = country }
+	port_cost_distance_from_capital = -6
+}
+kc_project_inland_sea_harbors_4 = {
+	game_data = { category = country }
+	port_cost_distance_from_capital = -8
+}
+kc_project_inland_sea_harbors_5 = {
+	game_data = { category = country }
+	port_cost_distance_from_capital = -10
+}
+
+# Grand Irrigation Basins: every province in the Japan region.
+kc_project_grand_irrigation_province_1 = {
+	game_data = { category = province }
+	local_monthly_food_modifier = 0.05
+	local_raw_material_output = 0.03
+	local_monthly_development = 0.002
+}
+kc_project_grand_irrigation_province_2 = {
+	game_data = { category = province }
+	local_monthly_food_modifier = 0.10
+	local_raw_material_output = 0.06
+	local_monthly_development = 0.004
+}
+kc_project_grand_irrigation_province_3 = {
+	game_data = { category = province }
+	local_monthly_food_modifier = 0.15
+	local_raw_material_output = 0.09
+	local_monthly_development = 0.006
+}
+kc_project_grand_irrigation_province_4 = {
+	game_data = { category = province }
+	local_monthly_food_modifier = 0.20
+	local_raw_material_output = 0.12
+	local_monthly_development = 0.008
+}
+kc_project_grand_irrigation_province_5 = {
+	game_data = { category = province }
+	local_monthly_food_modifier = 0.25
+	local_raw_material_output = 0.15
+	local_monthly_development = 0.010
+}
+
+# National Floodworks: every province in the Japan region.
+kc_project_floodworks_province_1 = {
+	game_data = { category = province }
+	local_population_capacity_modifier = 0.03
+	local_population_growth = 0.0002
+	local_max_control = 0.005
+}
+kc_project_floodworks_province_2 = {
+	game_data = { category = province }
+	local_population_capacity_modifier = 0.06
+	local_population_growth = 0.0004
+	local_max_control = 0.010
+}
+kc_project_floodworks_province_3 = {
+	game_data = { category = province }
+	local_population_capacity_modifier = 0.09
+	local_population_growth = 0.0006
+	local_max_control = 0.015
+}
+kc_project_floodworks_province_4 = {
+	game_data = { category = province }
+	local_population_capacity_modifier = 0.12
+	local_population_growth = 0.0008
+	local_max_control = 0.020
+}
+kc_project_floodworks_province_5 = {
+	game_data = { category = province }
+	local_population_capacity_modifier = 0.15
+	local_population_growth = 0.0010
+	local_max_control = 0.025
+}
+
+# National Kaido provincial layer: every province in the Japan region.
+kc_project_kaido_spine_province_1 = {
+	game_data = { category = province }
+	local_market_access = 0.01
+	local_distance_from_capital_speed_propagation = 0.02
+}
+kc_project_kaido_spine_province_2 = {
+	game_data = { category = province }
+	local_market_access = 0.02
+	local_distance_from_capital_speed_propagation = 0.04
+}
+kc_project_kaido_spine_province_3 = {
+	game_data = { category = province }
+	local_market_access = 0.03
+	local_distance_from_capital_speed_propagation = 0.06
+}
+kc_project_kaido_spine_province_4 = {
+	game_data = { category = province }
+	local_market_access = 0.04
+	local_distance_from_capital_speed_propagation = 0.08
+}
+kc_project_kaido_spine_province_5 = {
+	game_data = { category = province }
+	local_market_access = 0.05
+	local_distance_from_capital_speed_propagation = 0.10
+}
+
+# Inland Sea Harbor Chain location layer: only coastal locations adjoining the
+# Seto Sea province definition receive flat Harbor Capacity.
+kc_project_inland_sea_harbors_location_1 = {
+	game_data = { category = location }
+	harbor_suitability = 0.05
+}
+kc_project_inland_sea_harbors_location_2 = {
+	game_data = { category = location }
+	harbor_suitability = 0.10
+}
+kc_project_inland_sea_harbors_location_3 = {
+	game_data = { category = location }
+	harbor_suitability = 0.15
+}
+kc_project_inland_sea_harbors_location_4 = {
+	game_data = { category = location }
+	harbor_suitability = 0.20
+}
+kc_project_inland_sea_harbors_location_5 = {
+	game_data = { category = location }
+	harbor_suitability = 0.25
+}
+
+# National Urban Waterworks: Japanese towns, cities, and megalopolises. Tier V
+# matches the vanilla Stream (between Brook and River) plus disease resistance.
+kc_project_urban_waterworks_location_1 = {
+	game_data = { category = location }
+	local_disease_resistance = 0.02
+	local_population_capacity_modifier = 0.04
+	local_monthly_food_modifier = 0.02
+	local_supply_limit_modifier = 0.02
+	local_monthly_development_modifier = 0.02
+}
+kc_project_urban_waterworks_location_2 = {
+	game_data = { category = location }
+	local_disease_resistance = 0.04
+	local_population_capacity_modifier = 0.08
+	local_monthly_food_modifier = 0.04
+	local_supply_limit_modifier = 0.04
+	local_monthly_development_modifier = 0.04
+}
+kc_project_urban_waterworks_location_3 = {
+	game_data = { category = location }
+	local_disease_resistance = 0.06
+	local_population_capacity_modifier = 0.12
+	local_monthly_food_modifier = 0.06
+	local_supply_limit_modifier = 0.06
+	local_monthly_development_modifier = 0.06
+}
+kc_project_urban_waterworks_location_4 = {
+	game_data = { category = location }
+	local_disease_resistance = 0.08
+	local_population_capacity_modifier = 0.16
+	local_monthly_food_modifier = 0.08
+	local_supply_limit_modifier = 0.08
+	local_monthly_development_modifier = 0.08
+}
+kc_project_urban_waterworks_location_5 = {
+	game_data = { category = location }
+	local_disease_resistance = 0.10
+	local_population_capacity_modifier = 0.20
+	local_monthly_food_modifier = 0.10
+	local_supply_limit_modifier = 0.10
+	local_monthly_development_modifier = 0.10
+}

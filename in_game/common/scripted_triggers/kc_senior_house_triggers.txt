@@ -1,0 +1,48 @@
+﻿# Senior capacity begins at three and expands by one at each ten points of
+# Entrenchment. The status itself has a hard safety ceiling of thirteen; this
+# trigger supplies the dynamic political ceiling used by both charter actions.
+kc_has_open_senior_house_slot = {
+	OR = {
+		"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 3
+		AND = {
+			var:kc_concord_entrenchment >= 10
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 4
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 20
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 5
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 30
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 6
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 40
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 7
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 50
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 8
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 60
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 9
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 70
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 10
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 80
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 11
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 90
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 12
+		}
+		AND = {
+			var:kc_concord_entrenchment >= 100
+			"num_countries_with_special_status(special_status:kc_senior_chartered_house)" < 13
+		}
+	}
+}

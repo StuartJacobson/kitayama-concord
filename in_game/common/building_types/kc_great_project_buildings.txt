@@ -1,0 +1,219 @@
+﻿# Physical networks authorized by the National Great Projects panel. Each
+# Treasury stage raises the local level cap by one; Japan must then construct,
+# staff, and maintain the corresponding infrastructure in chosen locations.
+
+kc_concord_irrigation_works = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = no
+	forbidden_for_estates = yes
+	pop_type = peasants
+	category = infrastructure_category
+	max_levels = kc_concord_irrigation_works_cap
+	employment_size = 0.75
+	price = rural_settlement_downgrade
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+	important_for_UI = yes
+	important_for_AI = yes
+
+	location_potential = { kc_concord_irrigation_location_eligible = yes }
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+			trigger_if = {
+				limit = { has_variable = kc_project_irrigation_stage }
+				var:kc_project_irrigation_stage >= 1
+			}
+			trigger_else = { always = no }
+		}
+	}
+	allow = {
+		scope:actor = { tag = JAP }
+		owner ?= { tag = JAP }
+	}
+
+	build_time = infrastructure_build_time
+	modifier = {
+		local_monthly_food_modifier = 0.05
+		local_raw_material_output = 0.03
+		local_monthly_development_modifier = 0.03
+	}
+	unique_production_methods = {
+		kc_concord_irrigation_works_maintenance = {
+			tools = 0.12
+			lumber = 0.15
+			masonry = 0.05
+			category = building_maintenance
+		}
+	}
+	construction_demand = village_construction
+}
+
+kc_seto_harbor_works = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = no
+	forbidden_for_estates = yes
+	pop_type = laborers
+	category = naval_category
+	max_levels = kc_seto_harbor_works_cap
+	employment_size = 1
+	price = rural_settlement_downgrade
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+	important_for_UI = yes
+	important_for_AI = yes
+
+	location_potential = { kc_concord_seto_harbor_location_eligible = yes }
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+			trigger_if = {
+				limit = { has_variable = kc_project_harbors_stage }
+				var:kc_project_harbors_stage >= 1
+			}
+			trigger_else = { always = no }
+		}
+	}
+	allow = {
+		scope:actor = { tag = JAP }
+		owner ?= { tag = JAP }
+	}
+
+	build_time = medium_port_building_time
+	modifier = { harbor_suitability = 0.05 }
+	unique_production_methods = {
+		kc_seto_harbor_works_maintenance = {
+			lumber = 0.25
+			masonry = 0.15
+			tools = 0.15
+			naval_supplies = 0.08
+			cloth = 0.10
+			tar = 0.15
+			category = building_maintenance
+		}
+	}
+	construction_demand = port_building_construction
+}
+
+kc_concord_floodworks = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = no
+	forbidden_for_estates = yes
+	pop_type = laborers
+	category = infrastructure_category
+	max_levels = kc_concord_floodworks_cap
+	employment_size = 1
+	price = small_estate_building
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+	important_for_UI = yes
+	important_for_AI = yes
+
+	location_potential = { kc_concord_floodworks_location_eligible = yes }
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+			trigger_if = {
+				limit = { has_variable = kc_project_floodworks_stage }
+				var:kc_project_floodworks_stage >= 1
+			}
+			trigger_else = { always = no }
+		}
+	}
+	allow = {
+		scope:actor = { tag = JAP }
+		owner ?= { tag = JAP }
+	}
+
+	build_time = infrastructure_build_time
+	modifier = {
+		local_population_capacity_modifier = 0.03
+		local_population_growth = 0.0002
+		local_max_control = 0.005
+	}
+	unique_production_methods = {
+		kc_concord_floodworks_maintenance = {
+			masonry = 0.20
+			lumber = 0.15
+			tools = 0.10
+			category = building_maintenance
+		}
+	}
+	construction_demand = polders_construction
+}
+
+kc_urban_water_bureau = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = no
+	forbidden_for_estates = yes
+	pop_type = laborers
+	category = infrastructure_category
+	max_levels = kc_urban_water_bureau_cap
+	employment_size = 1
+	price = small_estate_building
+
+	town = yes
+	city = yes
+	megalopolis = yes
+	important_for_UI = yes
+	important_for_AI = yes
+
+	location_potential = {
+		is_city = yes
+		region = region:japan_region
+	}
+	country_potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+			trigger_if = {
+				limit = { has_variable = kc_project_waterworks_stage }
+				var:kc_project_waterworks_stage >= 1
+			}
+			trigger_else = { always = no }
+		}
+	}
+	allow = {
+		scope:actor = { tag = JAP }
+		owner ?= { tag = JAP }
+	}
+
+	build_time = infrastructure_build_time
+	modifier = {
+		local_disease_resistance = 0.02
+		local_population_capacity_modifier = 0.04
+		local_monthly_food_modifier = 0.02
+		local_supply_limit_modifier = 0.02
+		local_monthly_development_modifier = 0.02
+	}
+	unique_production_methods = {
+		kc_urban_water_bureau_maintenance = {
+			masonry = 0.20
+			tools = 0.15
+			lumber = 0.10
+			pottery = 0.10
+			category = building_maintenance
+		}
+	}
+	construction_demand = aqueduct_system_construction
+}

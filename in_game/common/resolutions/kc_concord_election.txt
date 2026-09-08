@@ -1,0 +1,203 @@
+﻿kc_concord_election = {
+	loc = kc_concord_election
+	show_message = no
+
+	potential = {
+	}
+
+	allow = {
+	}
+
+	ai_tick = monthly
+
+	is_live = {
+		always = yes
+	}
+
+	can_vote = {
+		scope:actor = {
+			has_ruler = yes
+			OR = {
+				has_reform = government_reform:kc_chartered_buke_house
+				has_reform = government_reform:kc_kitayama_concordate
+			}
+			is_member_of_international_organization = scope:recipient
+		}
+	}
+
+	votes = {
+		scope:actor = {
+			add = {
+				desc = "KC_VOTES_HOUSE_SEAT"
+				value = 1
+			}
+			add = {
+				desc = "KC_VOTES_SENIOR_CHARTER"
+				if = {
+					limit = {
+						has_special_status_in_international_organization = {
+							type = special_status:kc_senior_chartered_house
+							international_organization = scope:recipient
+						}
+					}
+					value = 1
+				}
+			}
+			add = {
+				desc = "KC_VOTES_TAX_BASE"
+				value = country_tax_base
+			}
+		}
+	}
+
+	requires_explicit_votes = no
+
+	total_votes_needed = {
+		add = 1
+	}
+
+	should_finalize_vote = {
+		custom_tooltip = {
+			text = KC_ELECTION_HAS_VOTES
+			scope:recipient = {
+				NOT = { exists = leader_country }
+			}
+			scope:highest_vote >= scope:total_votes_needed
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = international_organization
+		target_flag = recipient
+		name = "choose_international_organization"
+		column = {
+			data = name
+		}
+		visible = {
+			international_organization_type = international_organization_type:kc_kitayama_concord
+		}
+		enabled = {
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = country
+		source = recipient
+		target_flag = vote
+		allow_self = yes
+		name = "kc_election_select_house"
+		none_available_msg_key = "trigger_no_kc_election_houses"
+		default_sort = country_tax_base
+		column = {
+			data = name
+		}
+		column = {
+			data = country_tax_base
+		}
+		visible = {
+			can_lead_international_organization = scope:recipient
+		}
+		enabled = {
+			always = yes
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				exists = scope:vote
+			}
+			scope:recipient = {
+				set_leader_country = scope:vote
+			}
+		}
+	}
+
+	ai_will_do = {
+		# Candidate wealth still matters, but cannot drown out the voter's interests.
+		# Raw ballot weights and the Senior/JAP eligibility preference are unchanged.
+		if = {
+			limit = { exists = scope:actor exists = scope:vote exists = scope:recipient }
+			scope:vote = {
+				add = {
+					desc = "KC_AI_PREFERS_SENIOR_HOUSE"
+					if = {
+						limit = {
+							OR = {
+								tag = JAP
+								has_special_status_in_international_organization = {
+									type = special_status:kc_senior_chartered_house
+									international_organization = scope:recipient
+								}
+							}
+						}
+						value = 100
+					}
+				}
+				add = {
+					desc = "KC_ELECTION_ECONOMIC_WEIGHT"
+					value = country_tax_base
+					multiply = 2
+					min = 0
+					max = 100
+				}
+			}
+			scope:actor = {
+				add = {
+					desc = "KC_ELECTION_PERSONAL_OPINION"
+					if = {
+						limit = { NOT = { this = scope:vote } }
+						value = "opinion(scope:vote)"
+						multiply = 0.5
+						min = -75
+						max = 75
+					}
+				}
+				add = {
+					desc = "KC_ELECTION_OWN_HOUSE"
+					if = { limit = { this = scope:vote } value = 30 }
+				}
+				add = {
+					desc = "KC_ELECTION_ALLIED_HOUSE"
+					if = { limit = { is_allied_with = { target = scope:vote } } value = 40 }
+				}
+				subtract = {
+					desc = "KC_ELECTION_RIVAL_HOUSE"
+					if = { limit = { is_rival_of = scope:vote } value = 150 }
+				}
+				add = {
+					desc = "KC_ELECTION_DIPLOMATIC_OUTLOOK"
+					if = {
+						limit = {
+							modifier:bias_for_diplomat_policies > 0
+							scope:vote = { modifier:bias_for_diplomat_policies > 0 }
+						}
+						value = 15
+					}
+				}
+				add = {
+					desc = "KC_ELECTION_ADMINISTRATIVE_OUTLOOK"
+					if = {
+						limit = {
+							modifier:bias_for_administrative_policies > 0
+							scope:vote = { modifier:bias_for_administrative_policies > 0 }
+						}
+						value = 15
+					}
+				}
+				add = {
+					desc = "KC_ELECTION_COMMERCIAL_OUTLOOK"
+					if = {
+						limit = {
+							modifier:bias_for_capitalist_policies > 0
+							scope:vote = { modifier:bias_for_capitalist_policies > 0 }
+						}
+						value = 15
+					}
+				}
+			}
+		}
+	}
+}
+
+

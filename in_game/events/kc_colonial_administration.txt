@@ -1,0 +1,104 @@
+﻿namespace = kc_colonial_administration
+
+# scope:target is the province whose Colonial Charter has just completed.
+kc_colonial_administration.1 = {
+	type = country_event
+	hide_portraits = yes
+	title = kc_colonial_administration.1.title
+	desc = kc_colonial_administration.1.desc
+	outcome = neutral
+
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		exists = scope:target
+		scope:target = {
+			owner ?= root
+			is_overseas_for_owner = no
+			OR = {
+				continent = continent:america
+				continent = continent:oceania
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:target = {
+					any_location_in_province = {
+						is_city = yes
+						count = 0
+					}
+				}
+			}
+			scope:target = {
+				ordered_location_in_province = {
+					max = 1
+					order_by = best_capital_for_colony
+					save_scope_as = kc_colonial_administration_new_town
+				}
+			}
+		}
+	}
+
+	option = {
+		name = kc_colonial_administration.1.a
+		scope:target = { kc_cache_colonial_concessions_in_province = yes }
+
+		if = {
+			limit = { exists = scope:kc_colonial_administration_new_town }
+			scope:kc_colonial_administration_new_town = {
+				change_location_rank_effect = { location_rank = location_rank:town }
+				cc_setup_new_town = yes
+			}
+		}
+
+		# The vanilla Metropolis choice has already integrated the completed
+		# settlement, which usually makes it an immediate Japanese core. Remove
+		# only those fresh cores before transferring the province so this has the
+		# same constitutional result as vanilla colonial-nation formation.
+		hidden_effect = {
+			scope:target = {
+				every_location_in_province = {
+					limit = {
+						owner ?= root
+						is_core_of = root
+					}
+					remove_core = root
+				}
+			}
+		}
+
+		scope:target = {
+			create_location_country_from_province = {
+				save_scope_as = kc_new_colonial_subject
+				subject_type = subject_type:colonial_nation
+				hidden_effect = { setup_colonial_nation = yes }
+			}
+		}
+
+		# A newborn country must grant the Houses rights in its own name. Once
+		# that authorization exists, restore the concessions removed by the
+		# engine's new-country ownership transaction.
+		scope:kc_new_colonial_subject ?= {
+			kc_grant_concord_concession_rights_to_houses = yes
+		}
+		scope:target = {
+			every_location_in_province = {
+				kc_restore_colonial_concessions_in_location = yes
+			}
+		}
+
+		ai_will_select = { value = 100 }
+	}
+
+	option = {
+		name = kc_colonial_administration.1.b
+		ai_will_select = { value = 25 }
+	}
+}

@@ -1,0 +1,29 @@
+﻿# Native dynamic location modifier for the National Urban Waterworks.
+# EU5 defines is_city as any urban location: town, city, or megalopolis.
+# The engine therefore adds and removes this modifier automatically whenever a
+# Japanese location changes rank, with no scripted region scan or maintenance.
+kc_urban_waterworks_auto = {
+	type = location
+	category = location
+
+	potential_trigger = {
+		is_city = yes
+		region = region:japan_region
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			has_variable = kc_waterworks_auto_v1
+			var:kc_project_waterworks_stage >= 1
+		}
+	}
+
+	scales_with = {
+		value = kc_urban_waterworks_auto_scale
+	}
+
+	# Stage-I values; scales_with reaches the requested Stage-V totals.
+	local_disease_resistance = 0.02
+	local_population_capacity_modifier = 0.04
+	local_monthly_food_modifier = 0.02
+	local_supply_limit_modifier = 0.02
+	local_monthly_development_modifier = 0.02
+}

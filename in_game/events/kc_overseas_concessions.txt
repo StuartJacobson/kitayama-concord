@@ -1,0 +1,47 @@
+﻿namespace = kc_overseas_concessions
+
+kc_overseas_concessions.1 = {
+	type = country_event
+	title = kc_overseas_concessions.1.title
+	desc = kc_overseas_concessions.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_southern_sea_exchange.dds"
+
+	option = {
+		name = kc_overseas_concessions.1.a
+		trigger = { gold >= { value = monthly_income_trade_and_tax min = 25 multiply = 12 } }
+		add_gold = { value = monthly_income_trade_and_tax min = 25 multiply = -12 }
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = root.monthly_income_trade_and_tax min = 25 multiply = 12 }
+		}
+		change_variable = { name = kc_overseas_concession_licenses add = 1 }
+		set_variable = { name = kc_overseas_concession_license_available value = yes }
+		set_variable = { name = kc_concession_license_purchase_cooldown value = yes years = 5 }
+		ai_chance = { base = 55 }
+	}
+	option = {
+		name = kc_overseas_concessions.1.b
+		trigger = { gold >= { value = monthly_income_trade_and_tax min = 60 multiply = 30 } }
+		add_gold = { value = monthly_income_trade_and_tax min = 60 multiply = -30 }
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = root.monthly_income_trade_and_tax min = 60 multiply = 30 }
+		}
+		change_variable = { name = kc_overseas_concession_licenses add = 3 }
+		set_variable = { name = kc_overseas_concession_license_available value = yes }
+		set_variable = { name = kc_concession_license_purchase_cooldown value = yes years = 5 }
+		ai_chance = { base = 35 }
+	}
+	option = {
+		name = kc_overseas_concessions.1.c
+		trigger = { gold >= { value = monthly_income_trade_and_tax min = 100 multiply = 54 } }
+		add_gold = { value = monthly_income_trade_and_tax min = 100 multiply = -54 }
+		international_organization:kc_kitayama_concord = {
+			add_gold = { value = root.monthly_income_trade_and_tax min = 100 multiply = 54 }
+		}
+		change_variable = { name = kc_overseas_concession_licenses add = 6 }
+		set_variable = { name = kc_overseas_concession_license_available value = yes }
+		set_variable = { name = kc_concession_license_purchase_cooldown value = yes years = 5 }
+		ai_chance = { base = 10 }
+	}
+	option = { name = kc_overseas_concessions.1.d ai_chance = { base = 0 } }
+}

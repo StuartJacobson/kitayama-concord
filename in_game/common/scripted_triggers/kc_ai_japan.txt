@@ -1,0 +1,63 @@
+﻿# Country scope. The flag records a campaign origin, not the current IO leader.
+kc_is_human_japanese_house = {
+ is_human = yes
+ culture = { has_culture_group = culture_group:japanese_group }
+ OR = {
+  has_reform = government_reform:kc_chartered_buke_house
+  AND = {
+   NOT = { tag = JAP }
+   OR = { has_reform = government_reform:japanese_clan has_reform = government_reform:daimyo }
+  }
+ }
+}
+
+# Event-country scope; human options are never hidden or selected by this rule.
+kc_ai_japan_follows_house_player = {
+ exists = international_organization:kc_kitayama_concord
+ tag = JAP
+ is_ai = yes
+ has_global_variable = kc_house_player_campaign
+ has_reform = government_reform:kc_kitayama_concordate
+ international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+}
+
+kc_ai_japan_active_concord = {
+ exists = international_organization:kc_kitayama_concord
+ tag = JAP
+ is_ai = yes
+ has_reform = government_reform:kc_kitayama_concordate
+ is_member_of_international_organization = international_organization:kc_kitayama_concord
+ international_organization:kc_kitayama_concord ?= { NOT = { has_variable = kc_concord_collapsed } }
+}
+
+# Actor country scope. Emergency actions use their own existing cooldowns.
+kc_ai_japan_ordinary_spending_ready = {
+ kc_ai_japan_active_concord = yes
+ at_war = no
+ NOT = { has_variable = kc_ai_japan_program_cooldown }
+ gold >= { value = monthly_income_trade_and_tax min = 1 multiply = 6 }
+}
+
+# IO scope. Keep a reserve after the quoted national-program price.
+kc_ai_japan_treasury_can_spend = {
+ gold >= {
+  value = $cost$
+  add = { value = c:JAP.monthly_income_trade_and_tax min = 1 multiply = 3 }
+ }
+}
+
+# Location scope inside the hidden Japan construction event.
+kc_ai_japan_can_construct = {
+ num_civil_constructions = 0
+ can_build_building = building_type:$building$
+ root = {
+  can_build_building = building_type:$building$
+  total_building_levels_including_construction:$building$ < $cap$
+  gold >= {
+   value = building_type:$building$.building_base_cost_in_gold
+   multiply = 2
+   add = { value = monthly_income_trade_and_tax min = 1 multiply = 6 }
+   min = 200
+  }
+ }
+}

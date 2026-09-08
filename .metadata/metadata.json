@@ -1,0 +1,18 @@
+{
+  "name": "Japan - The Kitayama Concord (Alpha)",
+  "id": "kitayama_concord",
+  "version": "0.3.0-alpha.78",
+  "supported_game_version": "1.3",
+  "short_description": "External alpha: redirect Japan's warrior houses toward elections, trade, infrastructure, and a century-long constitutional concord.",
+  "tags": [
+    "Advancements",
+    "Alternative history",
+    "Diplomacy",
+    "Events",
+    "Gameplay",
+    "Government and Estates",
+    "Trade and Economics"
+  ],
+  "relationships": [],
+  "game_custom_data": {}
+}

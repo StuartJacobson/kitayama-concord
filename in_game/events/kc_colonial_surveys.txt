@@ -1,0 +1,156 @@
+﻿namespace = kc_colonial_surveys
+
+# Returning colonial officials and translated European charts force the
+# Concord to decide who may measure, name, and administer distant shores.
+kc_colonial_surveys.1 = {
+	type = country_event
+	title = kc_colonial_surveys.1.title
+	desc = kc_colonial_surveys.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	option = {
+		name = kc_colonial_surveys.1.a
+		add_country_modifier = { modifier = kc_colonial_common_hydrography years = 10 mode = replace }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		hidden_effect = {
+			if = {
+				limit = { has_variable = kc_colonial_surveys_debug_rapid }
+				trigger_event_non_silently = { id = kc_colonial_surveys.2 days = 1 }
+			}
+			else = { trigger_event_non_silently = { id = kc_colonial_surveys.2 days = 120 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_colonial_surveys.1.b
+		add_country_modifier = { modifier = kc_colonial_house_chart_companies years = 10 mode = replace }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		hidden_effect = {
+			if = {
+				limit = { has_variable = kc_colonial_surveys_debug_rapid }
+				trigger_event_non_silently = { id = kc_colonial_surveys.2 days = 1 }
+			}
+			else = { trigger_event_non_silently = { id = kc_colonial_surveys.2 days = 120 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_colonial_surveys.1.c
+		add_country_modifier = { modifier = kc_colonial_court_atlas years = 10 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		add_legitimacy = legitimacy_weak_bonus
+		hidden_effect = {
+			if = {
+				limit = { has_variable = kc_colonial_surveys_debug_rapid }
+				trigger_event_non_silently = { id = kc_colonial_surveys.2 days = 1 }
+			}
+			else = { trigger_event_non_silently = { id = kc_colonial_surveys.2 days = 120 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_colonial_surveys.2 = {
+	type = country_event
+	title = kc_colonial_surveys.2.title
+	desc = kc_colonial_surveys.2.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	option = {
+		name = kc_colonial_surveys.2.a
+		set_variable = { name = kc_colonial_common_register_chosen value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		add_government_power = government_power_weak_bonus
+		hidden_effect = {
+			if = {
+				limit = { has_variable = kc_colonial_surveys_debug_rapid }
+				trigger_event_non_silently = { id = kc_colonial_surveys.3 days = 1 }
+			}
+			else = { trigger_event_non_silently = { id = kc_colonial_surveys.3 days = 120 } }
+		}
+		ai_chance = { base = 45 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_colonial_surveys.2.b
+		set_variable = { name = kc_colonial_chartered_registers_chosen value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		add_estate_satisfaction = { type = estate_type:burghers_estate value = estate_satisfaction_mild_bonus }
+		hidden_effect = {
+			if = {
+				limit = { has_variable = kc_colonial_surveys_debug_rapid }
+				trigger_event_non_silently = { id = kc_colonial_surveys.3 days = 1 }
+			}
+			else = { trigger_event_non_silently = { id = kc_colonial_surveys.3 days = 120 } }
+		}
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_colonial_surveys.2.c
+		set_variable = { name = kc_colonial_treaty_compacts_chosen value = yes }
+		international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 3 }
+		add_legitimacy = legitimacy_weak_bonus
+		hidden_effect = {
+			if = {
+				limit = { has_variable = kc_colonial_surveys_debug_rapid }
+				trigger_event_non_silently = { id = kc_colonial_surveys.3 days = 1 }
+			}
+			else = { trigger_event_non_silently = { id = kc_colonial_surveys.3 days = 120 } }
+		}
+		ai_chance = { base = 20 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+}
+
+kc_colonial_surveys.3 = {
+	type = country_event
+	title = kc_colonial_surveys.3.title
+	desc = kc_colonial_surveys.3.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_tallies_ningbo.dds"
+
+	option = {
+		name = kc_colonial_surveys.3.a
+		custom_tooltip = kc_colonial_surveys_unlock_tt
+		set_variable = { name = kc_phase2_colonial_surveys_unlocked value = yes }
+		if = {
+			limit = { NOT = { has_advance = kc_colonial_survey_registers } }
+			research_advance = advance_type:kc_colonial_survey_registers
+		}
+		if = {
+			limit = { has_variable = kc_colonial_common_register_chosen }
+			add_country_modifier = { modifier = kc_colonial_common_register years = 20 mode = replace }
+		}
+		else_if = {
+			limit = { has_variable = kc_colonial_chartered_registers_chosen }
+			add_country_modifier = { modifier = kc_colonial_chartered_registers years = 20 mode = replace }
+		}
+		else_if = {
+			limit = { has_variable = kc_colonial_treaty_compacts_chosen }
+			add_country_modifier = { modifier = kc_colonial_treaty_compacts years = 20 mode = replace }
+		}
+		else = { add_country_modifier = { modifier = kc_colonial_common_register years = 20 mode = replace } }
+		hidden_effect = {
+			set_variable = { name = kc_colonial_surveys_completed value = yes }
+			remove_variable = kc_colonial_surveys_debug_rapid
+			remove_variable = kc_historical_chain_active
+		}
+	}
+}

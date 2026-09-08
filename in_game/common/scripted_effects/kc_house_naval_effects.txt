@@ -1,0 +1,54 @@
+﻿# Current scope is the foreign shipyard location. The procurement pulse saves
+# both the House and origin scopes before calling either effect.
+
+kc_spawn_house_galley_for_current_age = {
+	if = {
+		limit = { current_age_or_later = { age = age_6_revolutions } }
+		create_sub_unit_with_owner = { type = n_archipelago_frigate owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_5_absolutism } }
+		create_sub_unit_with_owner = { type = n_xebec owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_4_reformation } }
+		create_sub_unit_with_owner = { type = n_galleass owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_3_discovery } }
+		create_sub_unit_with_owner = { type = n_war_galley owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_2_renaissance } }
+		create_sub_unit_with_owner = { type = n_mediterrannean_galley owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else = {
+		create_sub_unit_with_owner = { type = n_traditional_galley owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+}
+
+kc_spawn_house_transport_for_current_age = {
+	if = {
+		limit = { current_age_or_later = { age = age_6_revolutions } }
+		create_sub_unit_with_owner = { type = n_eastindiaman owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_5_absolutism } }
+		create_sub_unit_with_owner = { type = n_merchantman owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_4_reformation } }
+		create_sub_unit_with_owner = { type = n_brig owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_3_discovery } }
+		create_sub_unit_with_owner = { type = n_flute owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else_if = {
+		limit = { current_age_or_later = { age = age_2_renaissance } }
+		create_sub_unit_with_owner = { type = n_hulk owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+	else = {
+		create_sub_unit_with_owner = { type = n_cog owner = scope:kc_shipbuilding_house origin = scope:kc_house_shipyard_location }
+	}
+}

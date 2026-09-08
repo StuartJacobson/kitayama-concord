@@ -1,0 +1,61 @@
+﻿# Shared accounting values for the foundational Concord event chains. Their
+# multipliers and caps are intentionally centralized so the later unified
+# Treasury pass can rebalance every historical event without rewriting them.
+
+# Evaluated from JAP country scope.
+kc_historical_minor_national_cost = {
+	value = monthly_income_trade_and_tax
+	min = 1
+	multiply = 2
+	max = 5000
+}
+
+kc_historical_moderate_national_cost = {
+	value = monthly_income_trade_and_tax
+	min = 1
+	multiply = 4
+	max = 5000
+}
+
+kc_historical_minor_national_receipt = {
+	value = monthly_income_trade_and_tax
+	min = 1
+	multiply = 2
+	max = 5000
+}
+
+# Evaluated from the Kitayama Concord IO scope.
+kc_historical_minor_treasury_cost = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 2
+	max = 5000
+}
+
+kc_historical_moderate_treasury_cost = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 4
+	max = 5000
+}
+
+kc_historical_major_treasury_cost = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 6
+	max = 5000
+}
+
+kc_historical_minor_treasury_receipt = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 2
+	max = 5000
+}
+
+kc_historical_moderate_treasury_receipt = {
+	value = c:JAP.monthly_income_trade_and_tax
+	min = 1
+	multiply = 4
+	max = 5000
+}

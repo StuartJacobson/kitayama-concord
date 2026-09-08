@@ -1,0 +1,70 @@
+﻿kc_protectorate_common_harbor_grant = {
+	global_maritime_presence_modifier = 0.05
+	global_monthly_development = 0.002
+	loyalty_to_overlord = 10
+}
+
+kc_protectorate_house_harbor_concession = {
+	export_efficiency = 0.10
+	global_merchant_power = 0.05
+	loyalty_to_overlord = -5
+}
+
+kc_protectorate_local_harbor_compact = {
+	global_monthly_development = 0.001
+	global_estate_satisfaction_recovery = 0.001
+	loyalty_to_overlord = 20
+	export_efficiency = -0.05
+}
+
+kc_overseas_registered_local_courts = {
+	global_estate_satisfaction_recovery = 0.001
+	diplomatic_reputation = 0.25
+	loyalty_to_overlord = 10
+}
+
+kc_overseas_house_tribunals = {
+	export_efficiency = 0.05
+	global_merchant_capacity_modifier = 0.025
+	loyalty_to_overlord = -10
+}
+
+kc_overseas_concord_mediation = {
+	diplomatic_reputation = 0.25
+	diplomatic_spending_cost = -0.025
+}
+
+kc_extraction_quota_relief = {
+	global_monthly_development = 0.002
+	loyalty_to_overlord = 20
+	export_efficiency = -0.05
+}
+
+kc_extraction_enforced_quota = {
+	export_efficiency = 0.10
+	global_monthly_development = -0.002
+	loyalty_to_overlord = -20
+}
+
+kc_extraction_house_guarantee = {
+	export_efficiency = 0.05
+	global_merchant_power = 0.03
+	loyalty_to_overlord = -5
+}
+
+kc_extraction_registered_reforms = {
+	global_monthly_development = 0.001
+	global_estate_satisfaction_recovery = 0.001
+	loyalty_to_overlord = 15
+}
+
+kc_extraction_tightened_charter = {
+	export_efficiency = 0.15
+	global_monthly_development = -0.003
+	loyalty_to_overlord = -25
+}
+
+kc_overseas_assessment_burden = {
+	export_efficiency = 0.05
+	loyalty_to_overlord = -10
+}

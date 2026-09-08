@@ -1,0 +1,28 @@
+﻿kc_concord_concession_rights = {
+	type = diplomacy
+	relation_type = oneway
+	uses_diplo_capacity = none
+	block_when_at_war = no
+	break_on_war = no
+	break_on_becoming_subject = no
+	annulled_by_peace_treaty = no
+	relation_type_for_ai = friendly
+	category = {
+		offer = CATEGORY_ECONOMY_ACTIONS
+		request = CATEGORY_ECONOMY_ACTIONS
+		cancellation = CATEGORY_ECONOMY_ACTIONS
+		break = CATEGORY_ECONOMY_ACTIONS
+	}
+
+	# This is a constitutional authorization maintained by script, not a
+	# negotiable diplomatic action. Japan is the giver and each Chartered
+	# House is the receiver.
+	visible = { always = no }
+	offer_visible = { always = no }
+	request_visible = { always = no }
+	cancel_visible = { always = no }
+	break_visible = { always = no }
+	should_ai_offer_trigger = { always = no }
+
+	wants_to_keep = { add = 100 }
+}

@@ -1,0 +1,14 @@
+﻿antagonism_kc_korean_settlement = {
+	value = 1
+	yearly_decay = 2
+}
+
+antagonism_kc_commercial_treaty_coast = {
+	value = 1
+	yearly_decay = 2
+}
+
+antagonism_kc_extraction_treaty_coast = {
+	value = 1
+	yearly_decay = 2
+}

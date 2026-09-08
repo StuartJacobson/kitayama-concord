@@ -1,0 +1,168 @@
+﻿# Post-capstone Concord privileges. Each estate receives one charter-autonomy
+# path and one public-stewardship path. Paired privileges are exclusive so the
+# estate's constitutional position remains legible.
+
+kc_hereditary_charter_courts = {
+	content_priority = 850
+	estate = nobles_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_circuit_stewardship_obligations } }
+	can_revoke = { }
+	country_modifier = {
+		nobles_estate_target_satisfaction = medium_privilege_target_satisfaction
+		global_nobles_estate_power = 0.25
+		global_merchant_power = 0.10
+		nobles_estate_max_tax = -0.02
+		monthly_towards_house_privilege = societal_value_minor_monthly_move
+	}
+}
+
+kc_circuit_stewardship_obligations = {
+	content_priority = 850
+	estate = nobles_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_hereditary_charter_courts } }
+	can_revoke = { }
+	country_modifier = {
+		nobles_estate_target_satisfaction = small_privilege_target_satisfaction
+		global_nobles_estate_power = 0.15
+		global_max_control = 0.025
+		global_build_buildings_efficiency = 0.03
+		nobles_estate_levy_size = -0.10
+		monthly_towards_concord_commonwealth = societal_value_minor_monthly_move
+	}
+}
+
+kc_licensed_house_monopolies = {
+	content_priority = 850
+	estate = burghers_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_common_exchange_standards } }
+	can_revoke = { }
+	country_modifier = {
+		burghers_estate_target_satisfaction = medium_privilege_target_satisfaction
+		global_burghers_estate_power = 0.20
+		global_merchant_capacity_modifier = 0.10
+		burghers_estate_max_tax = -0.02
+		monthly_towards_house_privilege = societal_value_minor_monthly_move
+	}
+}
+
+kc_common_exchange_standards = {
+	content_priority = 850
+	estate = burghers_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_licensed_house_monopolies } }
+	can_revoke = { }
+	country_modifier = {
+		burghers_estate_target_satisfaction = small_privilege_target_satisfaction
+		global_burghers_estate_power = 0.15
+		trade_income = 0.03
+		global_build_buildings_efficiency = 0.03
+		change_policy_cost_modifier = 0.05
+		monthly_towards_concord_commonwealth = societal_value_minor_monthly_move
+	}
+}
+
+kc_temple_commercial_immunities = {
+	content_priority = 850
+	estate = clergy_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_registered_religious_trusts } }
+	can_revoke = { }
+	country_modifier = {
+		clergy_estate_target_satisfaction = medium_privilege_target_satisfaction
+		global_clergy_estate_power = 0.25
+		global_clergy_max_literacy = 5
+		clergy_estate_max_tax = -0.02
+		monthly_towards_house_privilege = societal_value_minor_monthly_move
+	}
+}
+
+kc_registered_religious_trusts = {
+	content_priority = 850
+	estate = clergy_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_temple_commercial_immunities } }
+	can_revoke = { }
+	country_modifier = {
+		clergy_estate_target_satisfaction = small_privilege_target_satisfaction
+		global_clergy_estate_power = 0.15
+		research_speed_modifier = 0.025
+		global_estate_satisfaction_recovery = 0.001
+		global_pop_conversion_speed_modifier = -0.05
+		monthly_towards_concord_commonwealth = societal_value_minor_monthly_move
+	}
+}
+
+kc_village_contract_rights = {
+	content_priority = 850
+	estate = peasants_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_common_granary_boards } }
+	can_revoke = { }
+	country_modifier = {
+		peasants_estate_target_satisfaction = medium_privilege_target_satisfaction
+		global_peasants_estate_power = 0.20
+		global_peasant_enfranchisment = 0.05
+		global_raw_material_output = 0.05
+		peasants_estate_max_tax = -0.02
+		monthly_towards_house_privilege = societal_value_minor_monthly_move
+	}
+}
+
+kc_common_granary_boards = {
+	content_priority = 850
+	estate = peasants_estate
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	allow = { NOT = { has_estate_privilege = estate_privilege:kc_village_contract_rights } }
+	can_revoke = { }
+	country_modifier = {
+		peasants_estate_target_satisfaction = small_privilege_target_satisfaction
+		global_peasants_estate_power = 0.15
+		global_monthly_food_modifier = 0.05
+		global_food_capacity_modifier = 0.05
+		peasants_estate_levy_size = -0.10
+		monthly_towards_concord_commonwealth = societal_value_minor_monthly_move
+	}
+}

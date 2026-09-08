@@ -1,0 +1,33 @@
+﻿house_privilege_vs_concord_commonwealth = {
+	allow = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+	}
+
+	# House Privilege preserves the Concord as a compact among autonomous
+	# hereditary corporations. Private commercial capacity and elite consent
+	# improve, but the common state has less authority over the Houses.
+	left_modifier = {
+		global_merchant_power = 0.10
+		global_merchant_capacity_modifier = 0.10
+		trade_income = 0.10
+		global_estate_target_satisfaction = 0.10
+		global_crown_estate_power = -0.20
+		monthly_concord_cohesion = 0.15
+	}
+
+	# Concord Commonwealth treats the accumulated councils, registers, roads,
+	# and Treasury as public institutions. Kyoto can tax and build more
+	# effectively, but the estates resent the erosion of chartered autonomy.
+	right_modifier = {
+		global_crown_estate_power = 0.20
+		tax_income_efficiency = 0.05
+		global_build_buildings_efficiency = 0.10
+		global_estate_target_satisfaction = -0.10
+	}
+
+	opinion_importance_multiplier = 0.5
+}
+
+

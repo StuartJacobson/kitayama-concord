@@ -1,0 +1,139 @@
+﻿# The Concord Secretariat is a native EU5 bureaucracy. Its maintenance slider
+# is the player's principal recurring means of purchasing monthly Cohesion.
+# The high cost is intentional: commercial peace requires a permanent clerical,
+# courier, audit, and mediation apparatus rather than paying for itself.
+kc_concord_secretariat_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.008
+	}
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+	}
+
+	estates_that_like = {
+		crown_estate
+		burghers_estate
+	}
+
+	estates_that_dislike = {
+		nobles_estate
+	}
+
+	# The Secretariat retains a modest institutional benefit even when its
+	# discretionary budget is cut. This is deliberately comparable to the
+	# smallest vanilla global satisfaction-recovery sources.
+	neutral_modifier = {
+		global_estate_satisfaction_recovery = 0.001
+	}
+
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+		# The funded Secretariat remits one quarter of its nominal budget at
+		# zero Entrenchment. Native bureaucracy impact raises this linearly to
+		# one half at 100, while the maintenance slider scales the current share.
+		kc_concord_secretariat_treasury_share = 0.25
+
+		# Native bureaucracy Entrenchment strengthens this already-active base
+		# rather than scaling it upward from zero. At full maintenance this
+		# supplies 0.14 at 0 Entrenchment, about 0.21 at 50, and 0.28 at 100.
+		monthly_concord_bureaucracy_cohesion = 0.14
+
+		# A funded diplomatic clerical service makes foreign gifts, subsidies,
+		# guarantees, and similar diplomatic expenditures more efficient.
+		# Native bureaucracy Entrenchment strengthens this from -15% at zero
+		# to approximately -22.5% at 50 and -30% at 100.
+		diplomatic_spending_cost = -0.15
+	}
+}
+
+# The second-century Concord requires a distinct foreign service rather than
+# asking its domestic Secretariat to administer ports, interpreters, maritime
+# courts, and colonial surveys. Its standard 0.004 economic-base multiplier
+# deliberately costs half as much as the unusually large Secretariat.
+kc_office_maritime_exchange_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.004
+	}
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_advance = kc_registers_open_sea
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	allow = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_advance = kc_registers_open_sea
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	estates_that_like = {
+		crown_estate
+		burghers_estate
+	}
+
+	estates_that_dislike = {
+		nobles_estate
+	}
+
+	# Permanent interpreter schools, charts, and accumulated correspondence
+	# retain value even when discretionary missions are suspended.
+	neutral_modifier = {
+		diplomatic_reputation = 1
+		global_maritime_presence_modifier = 0.10
+	}
+
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+
+		# Native bureaucracy Entrenchment doubles these values from zero to 100.
+		global_institution_growth_modifier = 0.05
+		diplomatic_spending_cost = -0.20
+		trade_range = 125
+		naval_range = 125
+		colonial_range = 125
+
+		# Exposed as a dedicated scaled value so the Southern Sea Exchange can
+		# distinguish a fully funded foreign service from a token office without
+		# depending upon unrelated modifiers that Entrenchment also strengthens.
+		kc_maritime_office_funding = 1
+	}
+
+	# Without salaries, foreign agents pass their costs to merchants and the
+	# port councils lose confidence in the common office.
+	negative_modifier = {
+		scale = {
+			value = 1
+			subtract = scope:maintenance
+		}
+		merchant_maintenance_efficiency = -0.15
+		burghers_estate_target_satisfaction = -0.10
+		kc_maritime_office_underfunding = 1
+	}
+}

@@ -1,0 +1,31 @@
+﻿PERFORM_kc_concord_election_ACTION = {
+	log = yes
+	onmap = no
+	popup = no
+	idle = no
+	option = yes
+	pausepopup = no
+	message_category = government
+}
+
+WE_PERFORM_kc_concord_election_ACTION = {
+	log = yes
+	onmap = no
+	popup = no
+	idle = no
+	option = yes
+	pausepopup = no
+	message_category = government
+}
+
+OTHER_PERFORMS_kc_concord_election_ACTION = {
+	log = yes
+	onmap = no
+	popup = no
+	idle = no
+	option = yes
+	pausepopup = no
+	message_category = government
+}
+
+

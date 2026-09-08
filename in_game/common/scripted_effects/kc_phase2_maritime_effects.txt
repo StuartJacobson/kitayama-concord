@@ -1,0 +1,34 @@
+﻿kc_complete_ningbo_compact = {
+	set_variable = { name = kc_ningbo_chain_completed value = yes }
+	set_variable = { name = kc_phase2_convoys_unlocked value = yes }
+	remove_variable = kc_historical_chain_active
+	remove_variable = kc_historical_debug_rapid
+	if = {
+		limit = { NOT = { has_advance = kc_licensed_oceanic_convoys } }
+		research_advance = advance_type:kc_licensed_oceanic_convoys
+	}
+}
+
+kc_unlock_firearms_ratification = {
+	set_variable = { name = kc_phase2_firearms_unlocked value = yes }
+	if = {
+		limit = { NOT = { has_advance = kc_standardized_teppo_workshops } }
+		research_advance = advance_type:kc_standardized_teppo_workshops
+	}
+}
+
+kc_unlock_silver_ratification = {
+	set_variable = { name = kc_phase2_silver_clearing_unlocked value = yes }
+	if = {
+		limit = { NOT = { has_advance = kc_silver_clearing_exchanges } }
+		research_advance = advance_type:kc_silver_clearing_exchanges
+	}
+}
+
+kc_unlock_translation_ratification = {
+	set_variable = { name = kc_phase2_translation_unlocked value = yes }
+	if = {
+		limit = { NOT = { has_advance = kc_houses_of_translation } }
+		research_advance = advance_type:kc_houses_of_translation
+	}
+}

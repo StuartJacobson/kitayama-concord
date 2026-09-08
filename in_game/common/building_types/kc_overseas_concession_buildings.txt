@@ -1,0 +1,196 @@
+﻿# Overseas concessions consume one license belonging to their Chartered House.
+# The license returns if the building is destroyed; a House acquisition transfers
+# the building and all unused licenses to the purchasing House.
+
+kc_overseas_warehouse = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = burghers
+	category = trade_category
+	max_levels = 1
+	employment_size = foreign_trade_employment
+	pop_size_created = foreign_trade_employment
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+	ai_foreign_ignore_naval_range = yes
+	AI_ignore_available_worker_flag = yes
+	location_potential = {
+		owner ?= {
+			overlord ?= { tag = JAP }
+			OR = {
+				is_subject_type = kc_commercial_protectorate
+				is_subject_type = kc_chartered_extraction_commission
+			}
+		}
+		NOT = { any_foreign_buildings_in_location = { building_type = building_type:kc_overseas_warehouse } }
+	}
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+		has_variable = kc_overseas_concession_license_available
+	}
+	build_time = trade_post_build_time
+	modifier = {
+		scaled_gold_to_building_owner = 0.04
+		merchant_capacity_from_building = 0.25
+		building_owner_maritime_presence = 0.01
+		local_market_access = 0.025
+		local_crown_estate_power = -0.025
+	}
+	possible_production_methods = { estate_building_input }
+	construction_demand = japanese_clan_building_construction
+	on_construction_started = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_construction_ended = { owner = { kc_return_overseas_concession_license = yes } }
+	on_built = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_destroyed = { owner ?= { kc_return_overseas_concession_license = yes } }
+}
+
+kc_resource_concession_office = {
+	audio_tier = 1
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = peasants
+	category = rgo_building_category
+	max_levels = 1
+	employment_size = rural_peasant_produce_employment
+	pop_size_created = rural_peasant_produce_employment
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+	ai_foreign_ignore_naval_range = yes
+	AI_ignore_available_worker_flag = yes
+	location_potential = {
+		owner ?= {
+			overlord ?= { tag = JAP }
+			OR = {
+				is_subject_type = kc_commercial_protectorate
+				is_subject_type = kc_chartered_extraction_commission
+			}
+		}
+		NOT = { any_foreign_buildings_in_location = { building_type = building_type:kc_resource_concession_office } }
+	}
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+		has_variable = kc_overseas_concession_license_available
+	}
+	build_time = estate_build_time
+	modifier = {
+		scaled_gold_to_building_owner = 0.05
+		local_raw_material_output = 0.10
+		local_monthly_development = -0.001
+		local_crown_estate_power = -0.05
+	}
+	possible_production_methods = { estate_building_input }
+	construction_demand = japanese_clan_building_construction
+	on_construction_started = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_construction_ended = { owner = { kc_return_overseas_concession_license = yes } }
+	on_built = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_destroyed = { owner ?= { kc_return_overseas_concession_license = yes } }
+}
+
+kc_concessionary_naval_depot = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = burghers
+	category = military_category
+	max_levels = 1
+	employment_size = foreign_trade_employment
+	pop_size_created = foreign_trade_employment
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+	ai_foreign_ignore_naval_range = yes
+	AI_ignore_available_worker_flag = yes
+	location_potential = {
+		is_coastal = yes
+		owner ?= {
+			overlord ?= { tag = JAP }
+			OR = {
+				is_subject_type = kc_commercial_protectorate
+				is_subject_type = kc_chartered_extraction_commission
+			}
+		}
+		NOT = { any_foreign_buildings_in_location = { building_type = building_type:kc_concessionary_naval_depot } }
+	}
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+		has_variable = kc_overseas_concession_license_available
+	}
+	build_time = trade_post_build_time
+	modifier = {
+		sailors_to_building_owner = 0.005
+		building_owner_maritime_presence = 0.025
+		harbor_suitability = 0.05
+		local_crown_estate_power = -0.025
+	}
+	possible_production_methods = { estate_building_input }
+	construction_demand = japanese_clan_building_construction
+	on_construction_started = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_construction_ended = { owner = { kc_return_overseas_concession_license = yes } }
+	on_built = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_destroyed = { owner ?= { kc_return_overseas_concession_license = yes } }
+}
+
+kc_chartered_enforcers_guild = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	own_or_overlord_relation_needed = kc_concord_concession_rights
+	pop_type = soldiers
+	category = military_category
+	max_levels = 1
+	employment_size = foreign_trade_employment
+	pop_size_created = foreign_trade_employment
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+	ai_foreign_ignore_naval_range = yes
+	AI_ignore_available_worker_flag = yes
+	location_potential = {
+		owner ?= {
+			overlord ?= { tag = JAP }
+			OR = {
+				is_subject_type = kc_commercial_protectorate
+				is_subject_type = kc_chartered_extraction_commission
+			}
+		}
+		NOT = { any_foreign_buildings_in_location = { building_type = building_type:kc_chartered_enforcers_guild } }
+	}
+	country_potential = {
+		country_type = building
+		has_reform = government_reform:kc_chartered_buke_house
+		has_variable = kc_overseas_concession_license_available
+	}
+	build_time = estate_build_time
+	modifier = {
+		manpower_to_building_owner = 0.005
+		can_recruit_regiment_in_this_location = yes
+		local_crown_estate_power = -0.05
+	}
+	possible_production_methods = { early_soldier_building_maintenance }
+	construction_demand = japanese_clan_building_construction
+	on_construction_started = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_construction_ended = { owner = { kc_return_overseas_concession_license = yes } }
+	on_built = { owner = { kc_consume_overseas_concession_license = yes } }
+	on_destroyed = { owner ?= { kc_return_overseas_concession_license = yes } }
+}

@@ -1,0 +1,243 @@
+﻿namespace = kc_overseas_communities
+
+# The Red-Seal routes create Japanese wards abroad even when Japan has chosen
+# treaties and commerce over direct colonial government.
+kc_overseas_communities.1 = {
+	type = country_event
+	title = kc_overseas_communities.1.title
+	desc = kc_overseas_communities.1.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+
+	option = {
+		name = kc_overseas_communities.1.a
+		set_variable = { name = kc_overseas_community_opening_model value = 1 }
+		add_country_modifier = { modifier = kc_nihonmachi_municipal_charters years = 10 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.1.b
+		set_variable = { name = kc_overseas_community_opening_model value = 2 }
+		add_country_modifier = { modifier = kc_nihonmachi_house_enclaves years = 10 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.1.c
+		set_variable = { name = kc_overseas_community_opening_model value = 3 }
+		add_country_modifier = { modifier = kc_nihonmachi_consular_register years = 10 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	after = {
+		hidden_effect = {
+			if = { limit = { has_variable = kc_overseas_communities_debug_rapid } trigger_event_non_silently = { id = kc_overseas_communities.2 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_overseas_communities.2 days = 540 } }
+		}
+	}
+}
+
+kc_overseas_communities.2 = {
+	type = country_event
+	title = kc_overseas_communities.2.title
+	desc = kc_overseas_communities.2.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+
+	option = {
+		name = kc_overseas_communities.2.a
+		trigger = { international_organization:kc_kitayama_concord = { gold >= 750 } }
+		international_organization:kc_kitayama_concord = { add_gold = -750 }
+		add_country_modifier = { modifier = kc_nihonmachi_mixed_courts years = 12 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.2.b
+		add_country_modifier = { modifier = kc_nihonmachi_house_guarantors years = 12 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -2 }
+		custom_tooltip = { text = kc_concord_lose_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -1 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.2.c
+		add_country_modifier = { modifier = kc_nihonmachi_consular_jurisdiction years = 12 mode = replace }
+		add_legitimacy = legitimacy_mild_bonus
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	after = {
+		hidden_effect = {
+			if = { limit = { has_variable = kc_overseas_communities_debug_rapid } trigger_event_non_silently = { id = kc_overseas_communities.3 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_overseas_communities.3 days = 720 } }
+		}
+	}
+}
+
+kc_overseas_communities.3 = {
+	type = country_event
+	title = kc_overseas_communities.3.title
+	desc = kc_overseas_communities.3.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+
+	option = {
+		name = kc_overseas_communities.3.a
+		add_country_modifier = { modifier = kc_nihonmachi_civic_families years = 15 mode = replace }
+		change_societal_value = { type = belligerent_vs_conciliatory value = 3 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.3.b
+		add_country_modifier = { modifier = kc_nihonmachi_registered_families years = 15 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.3.c
+		add_country_modifier = { modifier = kc_nihonmachi_house_sponsorship years = 15 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	after = {
+		hidden_effect = {
+			if = { limit = { has_variable = kc_overseas_communities_debug_rapid } trigger_event_non_silently = { id = kc_overseas_communities.4 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_overseas_communities.4 days = 720 } }
+		}
+	}
+}
+
+kc_overseas_communities.4 = {
+	type = country_event
+	title = kc_overseas_communities.4.title
+	desc = kc_overseas_communities.4.desc
+	outcome = neutral
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+	immediate = {
+		if = {
+			limit = { any_subject = { OR = { is_subject_type = colonial_nation is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } } }
+			random_subject = {
+				limit = { OR = { is_subject_type = colonial_nation is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission } }
+				save_scope_as = kc_overseas_subject
+			}
+		}
+		else = { save_scope_as = kc_overseas_subject }
+	}
+
+	option = {
+		name = kc_overseas_communities.4.a
+		trigger = {
+			international_organization:kc_kitayama_concord = { gold >= { value = kc_overseas_subject_moderate_treasury_value } }
+		}
+		international_organization:kc_kitayama_concord = { add_gold = { value = kc_overseas_subject_moderate_treasury_value multiply = -1 } }
+		add_country_modifier = { modifier = kc_returning_merchants_common_works years = 12 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 2 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		ai_chance = { base = 35 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.4.b
+		add_country_modifier = { modifier = kc_returning_merchants_house_capital years = 12 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -3 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 40 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.4.c
+		add_country_modifier = { modifier = kc_returning_merchants_maritime_office years = 12 mode = replace }
+		change_societal_value = { type = traditionalist_vs_innovative value = 2 }
+		custom_tooltip = { text = kc_concord_gain_1_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 1 } } }
+		ai_chance = { base = 25 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	after = {
+		hidden_effect = {
+			if = { limit = { has_variable = kc_overseas_communities_debug_rapid } trigger_event_non_silently = { id = kc_overseas_communities.5 days = 1 } }
+			else = { trigger_event_non_silently = { id = kc_overseas_communities.5 days = 720 } }
+		}
+	}
+}
+
+kc_overseas_communities.5 = {
+	type = country_event
+	title = kc_overseas_communities.5.title
+	desc = kc_overseas_communities.5.desc
+	outcome = positive
+	image = "gfx/interface/illustrations/situation/kc_regulation_open_seas.dds"
+
+	option = {
+		name = kc_overseas_communities.5.a
+		set_variable = { name = kc_overseas_municipal_compact value = yes }
+		add_country_modifier = { modifier = kc_overseas_municipal_compact_legacy years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 3 }
+		custom_tooltip = { text = kc_concord_gain_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = 2 } } }
+		ai_chance = { base = 40 modifier = { trigger = { var:kc_overseas_community_opening_model = 1 } add = 25 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.5.b
+		set_variable = { name = kc_overseas_house_consular_network value = yes }
+		add_country_modifier = { modifier = kc_overseas_house_consular_legacy years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = -4 }
+		custom_tooltip = { text = kc_concord_lose_2_cohesion_tt international_organization:kc_kitayama_concord = { change_variable = { name = kc_concord_cohesion add = -2 } } }
+		ai_chance = { base = 35 modifier = { trigger = { var:kc_overseas_community_opening_model = 2 } add = 25 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 10 }
+		}
+	}
+	option = {
+		name = kc_overseas_communities.5.c
+		set_variable = { name = kc_overseas_national_consular_service value = yes }
+		add_country_modifier = { modifier = kc_overseas_national_consular_legacy years = 25 mode = replace }
+		change_societal_value = { type = house_privilege_vs_concord_commonwealth value = 4 }
+		add_legitimacy = legitimacy_mild_bonus
+		ai_chance = { base = 25 modifier = { trigger = { var:kc_overseas_community_opening_model = 3 } add = 25 } 
+			modifier = { kc_ai_japan_follows_house_player = yes  factor = 0 }
+		}
+	}
+	after = {
+		hidden_effect = {
+			set_variable = { name = kc_overseas_communities_completed value = yes }
+			remove_variable = kc_overseas_communities_debug_rapid
+			remove_variable = kc_historical_chain_active
+			every_subject = {
+				limit = {
+					OR = { is_subject_type = colonial_nation is_subject_type = kc_commercial_protectorate is_subject_type = kc_chartered_extraction_commission }
+					NOT = { has_variable = kc_registered_nihonmachi_received }
+				}
+				capital = { add_location_modifier = { modifier = kc_registered_nihonmachi years = -1 mode = replace } }
+				set_variable = { name = kc_registered_nihonmachi_received value = yes }
+			}
+		}
+	}
+}

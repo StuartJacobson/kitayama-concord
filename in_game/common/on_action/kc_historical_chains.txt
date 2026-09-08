@@ -1,0 +1,63 @@
+﻿# The Concord's foundational historical chains are checked from JAP only.
+# A shared active-chain flag prevents dated stories from overlapping. If the
+# Concord forms after a historical date, the missed chains play sequentially
+# as institutional "catch-up" history rather than disappearing forever.
+
+monthly_country_pulse = {
+	on_actions = {
+		kc_historical_concord_monthly
+	}
+}
+
+kc_historical_concord_monthly = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		has_any_active_disaster = no
+		NOT = { has_variable = kc_historical_chain_active }
+		international_organization:kc_kitayama_concord = {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		OR = {
+			AND = { current_year >= 1401 NOT = { has_variable = kc_ming_tally_trade_completed } }
+			AND = { current_year >= 1408 NOT = { has_variable = kc_after_founder_completed } }
+			AND = { current_year >= 1419 NOT = { has_variable = kc_tsushima_wako_completed } }
+			AND = { current_year >= 1428 NOT = { has_variable = kc_shocho_debt_completed } }
+			AND = { current_year >= 1445 NOT = { has_variable = kc_port_autonomy_completed } }
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { current_year >= 1401 NOT = { has_variable = kc_ming_tally_trade_completed } }
+			set_variable = { name = kc_historical_chain_active value = yes }
+			set_variable = { name = kc_ming_tally_trade_started value = yes }
+			trigger_event_non_silently = kc_historical_concord.1
+		}
+		else_if = {
+			limit = { current_year >= 1408 NOT = { has_variable = kc_after_founder_completed } }
+			set_variable = { name = kc_historical_chain_active value = yes }
+			set_variable = { name = kc_after_founder_started value = yes }
+			trigger_event_non_silently = kc_historical_concord.10
+		}
+		else_if = {
+			limit = { current_year >= 1419 NOT = { has_variable = kc_tsushima_wako_completed } }
+			set_variable = { name = kc_historical_chain_active value = yes }
+			set_variable = { name = kc_tsushima_wako_started value = yes }
+			trigger_event_non_silently = kc_historical_concord.20
+		}
+		else_if = {
+			limit = { current_year >= 1428 NOT = { has_variable = kc_shocho_debt_completed } }
+			set_variable = { name = kc_historical_chain_active value = yes }
+			set_variable = { name = kc_shocho_debt_started value = yes }
+			trigger_event_non_silently = kc_historical_concord.30
+		}
+		else_if = {
+			limit = { current_year >= 1445 NOT = { has_variable = kc_port_autonomy_completed } }
+			set_variable = { name = kc_historical_chain_active value = yes }
+			set_variable = { name = kc_port_autonomy_started value = yes }
+			trigger_event_non_silently = kc_historical_concord.40
+		}
+	}
+}

@@ -1,0 +1,290 @@
+﻿kc_chartered_buke_house = {
+	major = yes
+
+	potential = {
+		NOT = { tag = JAP }
+		culture = {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	allow = {
+		NOT = { tag = JAP }
+		country_type = building
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_reform = government_reform:japanese_imperial_family }
+	}
+
+	locked = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	country_modifier = {
+		government_reform_slots = 1
+		monthly_towards_plutocracy = societal_value_monthly_move
+		monthly_towards_innovative = societal_value_minor_monthly_move
+		monthly_towards_capital_economy = societal_value_monthly_move
+		global_merchant_power = 0.03
+		global_merchant_capacity_modifier = 0.025
+		global_rgo_build_time = -0.025
+		nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+		burghers_estate_target_satisfaction = medium_permanent_target_satisfaction
+	}
+
+	years = 2
+}
+
+kc_kitayama_concordate = {
+	major = yes
+
+	potential = {
+		tag = JAP
+		culture = {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	allow = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	locked = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	country_modifier = {
+		government_reform_slots = 1
+		allow_bureaucracy = yes
+		global_max_bureaucracy_slots = 1
+		country_cabinet_efficiency = 0.10
+		change_policy_cost_modifier = -0.10
+		global_merchant_power = 0.03
+		global_merchant_capacity_modifier = 0.025
+		global_rgo_build_time = -0.025
+		monthly_towards_plutocracy = societal_value_monthly_move
+		monthly_towards_innovative = societal_value_monthly_move
+		monthly_towards_capital_economy = societal_value_monthly_move
+		nobles_estate_target_satisfaction = medium_permanent_target_satisfaction
+		burghers_estate_target_satisfaction = medium_permanent_target_satisfaction
+	}
+
+	years = 2
+}
+
+# The Hundred-Year Articles create a post-capstone constitutional choice.
+# These are ordinary Age 1 reforms rather than a second major reform, allowing
+# the Concordate to retain its permanent constitutional identity.
+kc_articles_of_chartered_liberties = {
+	age = age_1_traditions
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = {
+			has_reform = government_reform:kc_council_of_common_stewardship
+		}
+	}
+
+	allow = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = {
+			has_variable = kc_concord_collapsed
+		}
+	}
+
+	country_modifier = {
+		monthly_towards_house_privilege = societal_value_monthly_move
+		monthly_concord_cohesion = 0.05
+		global_merchant_power = 0.05
+		global_estate_satisfaction_recovery = 0.001
+	}
+
+	years = 2
+}
+
+kc_council_of_common_stewardship = {
+	age = age_1_traditions
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_concord_capstone_completed
+		NOT = {
+			has_reform = government_reform:kc_articles_of_chartered_liberties
+		}
+	}
+
+	allow = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = {
+			has_variable = kc_concord_collapsed
+		}
+	}
+
+	country_modifier = {
+		monthly_towards_concord_commonwealth = societal_value_monthly_move
+		monthly_concord_cohesion = 0.05
+		country_cabinet_efficiency = 0.05
+		global_build_buildings_efficiency = 0.05
+	}
+
+	years = 2
+}
+
+# The second-century foreign-trade settlement is deliberately separate from
+# the earlier Articles interpretation. Japan may therefore combine either Age
+# 1 constitutional reading with either Age 2 maritime constitution.
+kc_council_of_licensed_ports = {
+	age = age_2_renaissance
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_phase2_maritime_constitution_settled
+		has_advance = kc_registers_open_sea
+		NOT = { has_reform = government_reform:kc_national_board_of_exchange }
+		NOT = { has_variable = kc_regulation_open_seas_completed }
+	}
+
+	allow = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+
+	locked = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	country_modifier = {
+		government_reform_slots = 1
+		monthly_towards_house_privilege = societal_value_monthly_move
+		global_merchant_power = 0.10
+		merchant_maintenance_efficiency = 0.15
+		navy_maintenance_efficiency = 0.10
+		country_cabinet_efficiency = -0.05
+	}
+
+	years = 2
+}
+
+kc_national_board_of_exchange = {
+	age = age_2_renaissance
+
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_phase2_framework_opened
+		has_variable = kc_phase2_maritime_constitution_settled
+		has_advance = kc_registers_open_sea
+		NOT = { has_reform = government_reform:kc_council_of_licensed_ports }
+		NOT = { has_variable = kc_regulation_open_seas_completed }
+	}
+
+	allow = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+
+	locked = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+
+	country_modifier = {
+		government_reform_slots = 1
+		monthly_towards_concord_commonwealth = societal_value_monthly_move
+		country_cabinet_efficiency = 0.075
+		global_merchant_capacity_modifier = 0.05
+		global_institution_growth_modifier = 0.075
+		change_policy_cost_modifier = -0.05
+		nobles_estate_target_satisfaction = -0.05
+	}
+
+	years = 2
+}
+
+# The 1630s Open-Seas settlement replaces either provisional maritime reform.
+# Each final model supplies its own reform slot, so completing the situation
+# never consumes one of Japan's ordinary reform choices.
+kc_commonwealth_chartered_ports = {
+	age = age_2_renaissance
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_regulation_open_seas_completed
+		has_variable = kc_open_seas_chartered_ports_outcome
+		NOT = { has_reform = government_reform:kc_articles_registered_open_ports }
+		NOT = { has_reform = government_reform:kc_national_maritime_administration }
+	}
+	allow = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	locked = { is_member_of_international_organization = international_organization:kc_kitayama_concord }
+	country_modifier = {
+		government_reform_slots = 1
+		monthly_towards_house_privilege = societal_value_monthly_move
+		global_merchant_power = 0.10
+		global_merchant_capacity_modifier = 0.05
+		navy_maintenance_efficiency = 0.10
+		monthly_concord_cohesion = -0.05
+	}
+	years = 2
+}
+
+kc_articles_registered_open_ports = {
+	age = age_2_renaissance
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_regulation_open_seas_completed
+		has_variable = kc_open_seas_registered_ports_outcome
+		NOT = { has_reform = government_reform:kc_commonwealth_chartered_ports }
+		NOT = { has_reform = government_reform:kc_national_maritime_administration }
+	}
+	allow = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	locked = { is_member_of_international_organization = international_organization:kc_kitayama_concord }
+	country_modifier = {
+		government_reform_slots = 1
+		diplomatic_reputation = 1
+		global_institution_growth_modifier = 0.05
+		global_estate_satisfaction_recovery = 0.001
+		global_merchant_capacity_modifier = 0.025
+		monthly_concord_cohesion = 0.025
+	}
+	years = 2
+}
+
+kc_national_maritime_administration = {
+	age = age_2_renaissance
+	potential = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		has_variable = kc_regulation_open_seas_completed
+		has_variable = kc_open_seas_national_administration_outcome
+		NOT = { has_reform = government_reform:kc_commonwealth_chartered_ports }
+		NOT = { has_reform = government_reform:kc_articles_registered_open_ports }
+	}
+	allow = {
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+		NOT = { has_variable = kc_concord_collapsed }
+	}
+	locked = { is_member_of_international_organization = international_organization:kc_kitayama_concord }
+	country_modifier = {
+		government_reform_slots = 1
+		monthly_towards_concord_commonwealth = societal_value_monthly_move
+		diplomatic_reputation = 1
+		global_maritime_presence_modifier = 0.10
+		navy_maintenance_efficiency = 0.10
+		monthly_concord_cohesion = 0.05
+		nobles_estate_target_satisfaction = -0.05
+	}
+	years = 2
+}
+
+

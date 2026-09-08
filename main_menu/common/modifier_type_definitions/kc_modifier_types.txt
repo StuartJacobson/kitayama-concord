@@ -1,0 +1,57 @@
+﻿kc_chartered_house_can_participate_in_parliament = {
+	boolean = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+kc_chartered_house_agenda_impact = {
+	percent = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+kc_senior_chartered_house_can_participate_in_parliament = {
+	boolean = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+kc_senior_chartered_house_agenda_impact = {
+	percent = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+kc_concord_state_can_participate_in_parliament = {
+	boolean = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+kc_concord_state_agenda_impact = {
+	percent = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+kc_presiding_house_can_participate_in_parliament = {
+	boolean = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+kc_presiding_house_agenda_impact = {
+	percent = yes
+	game_data = {
+		category = internationalorganization
+	}
+}
+
+

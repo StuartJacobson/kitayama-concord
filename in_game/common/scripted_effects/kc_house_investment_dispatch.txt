@@ -1,0 +1,21 @@
+﻿# IO scope. Only cheap country checks occur in the member selection.
+kc_dispatch_one_overseas_house = {
+	random_international_organization_member = {
+		limit = {
+			is_ai = yes
+			country_type = building
+			has_reform = government_reform:kc_chartered_buke_house
+			NOT = { has_variable = kc_house_overseas_construction_cooldown }
+			NOT = { has_variable = kc_house_overseas_dispatch_reserved }
+			gold >= 100
+			OR = {
+				has_variable = kc_overseas_concession_license_available
+				c:JAP ?= { any_subject = { is_subject_type = colonial_nation } }
+			}
+		}
+		# Reserve before scheduling: a House cannot occupy two batch slots.
+		# Unsuccessful attempts use this short retry interval, not two years.
+		set_variable = { name = kc_house_overseas_dispatch_reserved value = yes months = 3 }
+		trigger_event_silently = { id = kc_house_ai_investment.1 days = $delay$ }
+	}
+}

@@ -1,0 +1,29 @@
+﻿# root = exploring country, scope:target = newly explored area.
+on_exploration_success = {
+	on_actions = { kc_concord_exploration_sharing }
+}
+
+kc_concord_exploration_sharing = {
+	trigger = {
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord = { NOT = { has_variable = kc_concord_collapsed } }
+		OR = {
+			is_member_of_international_organization = international_organization:kc_kitayama_concord
+			AND = {
+				is_subject_type = colonial_nation
+				overlord ?= { tag = JAP }
+			}
+		}
+	}
+	effect = {
+		scope:target = { save_scope_as = kc_newly_explored_area }
+		international_organization:kc_kitayama_concord = {
+			every_international_organization_member = {
+				limit = {
+					NOT = { has_discovered_area = scope:kc_newly_explored_area }
+				}
+				discover_area = scope:kc_newly_explored_area
+			}
+		}
+	}
+}

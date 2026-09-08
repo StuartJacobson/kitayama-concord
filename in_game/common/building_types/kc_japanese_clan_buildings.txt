@@ -1,0 +1,506 @@
+﻿# Narrow EU5 1.3 replacements for the six constructible Japanese clan
+# buildings. Chartered Houses inherit the material infrastructure of the
+# former clans, while null-safe culture links prevent building-browser and AI
+# evaluation from flooding the log when no candidate location exists.
+
+REPLACE:kokufu = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = yes
+	pop_type = nobles
+
+	category = government_category
+
+	max_levels = 1
+	employment_size = large_noble_employment
+	pop_size_created = large_noble_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		OR = {
+			AND = {
+				has_reform = government_reform:japanese_imperial_family
+				country_type = building
+			}
+			has_reform = government_reform:japanese_clan
+		}
+	}
+
+	build_time = soldier_building
+
+	allow = {
+		custom_tooltip = {
+			text = kokufu_why_tt
+			always = no
+		}
+	}
+
+	modifier = {
+		manpower_to_building_owner = 0.001
+		can_recruit_regiment_in_this_location = yes
+		gold_to_building_owner = 0.3
+		merchant_power_from_building = 0.3
+		merchant_capacity_from_building = 0.3
+	}
+
+	possible_production_methods = {
+		estate_building_input
+	}
+
+	construction_demand = early_soldier_building_construction
+}
+
+REPLACE:yamashiro = {
+	audio_tier = 3
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	pop_type = soldiers
+
+	category = military_category
+
+	max_levels = 1
+	employment_size = manpower_employment
+	pop_size_created = manpower_employment
+
+	rural_settlement = yes
+	town = yes
+	city = no
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		OR = {
+			AND = {
+				has_reform = government_reform:japanese_imperial_family
+				country_type = building
+			}
+			has_reform = government_reform:japanese_clan
+			AND = {
+				has_reform = government_reform:kc_chartered_buke_house
+				country_type = building
+			}
+		}
+	}
+
+	build_time = soldier_building
+
+	allow = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		trigger_if = {
+			limit = {
+				any_foreign_building_countries_in_location = {
+					count > 0
+				}
+			}
+			OR = {
+				any_foreign_building_countries_in_location = {
+					OR = {
+						this = scope:actor
+						has_mutual_scripted_relation = {
+							type = relation_type:alliance
+							target = scope:actor
+						}
+					}
+				}
+				custom_tooltip = {
+					text = we_are_shugo_tt
+					AND = {
+						NOR = {
+							this = location:izumi
+							this = location:iga
+							this = location:awa
+							this = location:oki
+							this = location:awaji
+						}
+						province_definition = {
+							any_location_in_province_definition = {
+								any_foreign_buildings_in_location = {
+									owner ?= scope:actor
+									building_type = building_type:kokufu
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	modifier = {
+		manpower_to_building_owner = 0.002
+		can_recruit_regiment_in_this_location = yes
+		gold_to_building_owner = 0.05
+	}
+
+	raw_modifier = {
+	}
+
+	construction_demand = early_soldier_building_construction
+}
+
+REPLACE:yakata = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	pop_type = nobles
+
+	category = government_category
+
+	max_levels = 1
+	employment_size = normal_noble_employment
+	pop_size_created = normal_noble_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		OR = {
+			has_reform = government_reform:japanese_clan
+			AND = {
+				has_reform = government_reform:kc_chartered_buke_house
+				country_type = building
+			}
+		}
+	}
+
+	build_time = soldier_building
+
+	allow = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		any_foreign_building_countries_in_location = {
+			this = scope:actor
+		}
+	}
+
+	modifier = {
+		gold_to_building_owner = 0.2
+	}
+
+	construction_demand = early_soldier_building_construction
+}
+
+REPLACE:shoen = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	pop_type = peasants
+
+	category = rgo_building_category
+
+	max_levels = japanese_clan_building_cap
+	startup_ramp_target = rural_startup_ramp_target
+	employment_size = rural_peasant_produce_employment
+	pop_size_created = rural_peasant_produce_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		OR = {
+			AND = {
+				has_reform = government_reform:japanese_imperial_family
+				country_type = building
+			}
+			has_reform = government_reform:japanese_clan
+			AND = {
+				has_reform = government_reform:kc_chartered_buke_house
+				country_type = building
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	allow = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		OR = {
+			any_foreign_building_countries_in_location = {
+				this = scope:actor
+			}
+			custom_tooltip = {
+				text = we_are_shugo_tt
+				AND = {
+					NOR = {
+						this = location:izumi
+						this = location:iga
+						this = location:awa
+						this = location:oki
+						this = location:awaji
+					}
+					province_definition = {
+						any_location_in_province_definition = {
+							any_foreign_buildings_in_location = {
+								owner ?= scope:actor
+								building_type = building_type:kokufu
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	modifier = {
+		gold_to_building_owner = 0.1
+		merchant_power_from_building = 0.1
+		merchant_capacity_from_building = 0.1
+		manpower_to_building_owner = 0.001
+	}
+
+	# These methods were already registered while the vanilla Shoen was read.
+	# Referencing them avoids redefining global method names during REPLACE.
+	possible_production_methods = {
+		shoen_quarries_maintenance
+		shoen_lumbermills_maintenance
+		shoen_fiber_crops_farm_maintenance
+		shoen_ironsand_maintenance
+		shoen_masonry_maintenance
+	}
+
+	construction_demand = japanese_clan_building_construction
+}
+
+REPLACE:tatara = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	pop_type = peasants
+
+	category = basic_industry_category
+
+	max_levels = japanese_clan_building_cap
+	startup_ramp_target = rural_startup_ramp_target
+	employment_size = estate_peasants_employment
+	pop_size_created = estate_peasants_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		OR = {
+			AND = {
+				has_reform = government_reform:japanese_imperial_family
+				country_type = building
+			}
+			has_reform = government_reform:japanese_clan
+			AND = {
+				has_reform = government_reform:kc_chartered_buke_house
+				country_type = building
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	allow = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		any_foreign_building_countries_in_location = {
+			this = scope:actor
+		}
+	}
+
+	# The vanilla Tatara has already registered these global methods.
+	possible_production_methods = {
+		tamagahane_blacksmith
+		tamagahane_bladesmith
+	}
+
+	construction_demand = japanese_clan_building_construction
+}
+
+REPLACE:clan_shipyards = {
+	audio_tier = 3
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	pop_type = peasants
+
+	category = basic_industry_category
+
+	# One shared House shipyard per port. A fixed type cap alone is per owner,
+	# so the location trigger below also excludes competing House shipyards.
+	max_levels = 1
+	employment_size = manpower_employment
+	pop_size_created = manpower_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+
+	ai_foreign_ignore_naval_range = yes
+	important_for_AI = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		is_port = yes
+		NOT = {
+			any_foreign_buildings_in_location = {
+				building_type = building_type:clan_shipyards
+			}
+		}
+	}
+
+	country_potential = {
+		OR = {
+			AND = {
+				has_reform = government_reform:japanese_imperial_family
+				country_type = building
+			}
+			has_reform = government_reform:japanese_clan
+			AND = {
+				has_reform = government_reform:kc_chartered_buke_house
+				country_type = building
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	allow = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		any_foreign_building_countries_in_location = {
+			this = scope:actor
+		}
+	}
+
+	modifier = {
+		gold_to_building_owner = 0.02
+		building_owner_maritime_presence = 0.5
+		max_ships_built_at_same_time = 1
+		sailors_to_building_owner = 0.001
+		can_build_ships_in_this_location = yes
+		local_repair_speed = 0.01
+	}
+
+	construction_demand = early_soldier_building_construction
+}
+
+REPLACE:clan_family_shrine = {
+	audio_tier = 2
+	is_special = yes
+	is_foreign = yes
+	stronger_power_projection = no
+	need_good_relation = no
+	pop_type = clergy
+
+	category = religious_category
+
+	max_levels = 1
+	employment_size = large_religious_building_employment
+	pop_size_created = large_religious_building_employment
+
+	rural_settlement = yes
+	town = yes
+	city = yes
+	megalopolis = yes
+
+	ai_foreign_ignore_naval_range = yes
+
+	location_potential = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+	}
+
+	country_potential = {
+		OR = {
+			AND = {
+				has_reform = government_reform:japanese_imperial_family
+				country_type = building
+			}
+			has_reform = government_reform:japanese_clan
+			AND = {
+				has_reform = government_reform:kc_chartered_buke_house
+				country_type = building
+			}
+		}
+	}
+
+	build_time = estate_build_time
+
+	allow = {
+		dominant_culture ?= {
+			has_culture_group = culture_group:japanese_group
+		}
+		any_foreign_building_countries_in_location = {
+			this = scope:actor
+		}
+	}
+
+	modifier = {
+		gold_to_building_owner = 0.01
+		manpower_to_building_owner = 0.001
+	}
+
+	construction_demand = japanese_clan_building_construction
+}

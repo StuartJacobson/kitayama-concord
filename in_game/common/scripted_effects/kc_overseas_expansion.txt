@@ -1,0 +1,107 @@
+﻿# Establish a locally governed northern colonial administration from JAP's
+# first holdings beyond Liaodong and transfer later northern settlements to it.
+kc_create_northern_colonial_administration = {
+	ordered_owned_location = {
+		limit = { region = region:manchuria_region NOT = { area = area:liaodong_area } }
+		order_by = population
+		max = 1
+		create_country_from_location = {
+			overlord = root
+			subject_type = subject_type:colonial_nation
+			save_scope_as = kc_northern_colony
+		}
+	}
+	if = {
+		limit = { exists = scope:kc_northern_colony }
+		scope:kc_northern_colony = { set_variable = { name = kc_northern_colonial_administration value = yes } }
+		every_owned_location = {
+			limit = { region = region:manchuria_region NOT = { area = area:liaodong_area } }
+			change_location_owner = scope:kc_northern_colony
+		}
+		set_variable = { name = kc_northern_colonial_administration_created value = yes }
+	}
+}
+
+kc_transfer_new_northern_settlements = {
+	ordered_subject = {
+		limit = { has_variable = kc_northern_colonial_administration }
+		order_by = total_population
+		max = 1
+		save_scope_as = kc_northern_colony
+	}
+	if = {
+		limit = { exists = scope:kc_northern_colony }
+		every_owned_location = {
+			limit = { region = region:manchuria_region NOT = { area = area:liaodong_area } }
+			change_location_owner = scope:kc_northern_colony
+		}
+	}
+}
+
+kc_make_unified_korean_protectorate = {
+	location:namgyeong = {
+		create_country_from_location = {
+			overlord = root
+			subject_type = subject_type:kc_commercial_protectorate
+			save_scope_as = kc_korean_subject
+		}
+	}
+	region:korea_region = {
+		every_location_in_region = {
+			limit = { has_owner = yes owner = root }
+			change_location_owner = scope:kc_korean_subject
+		}
+	}
+	scope:kc_korean_subject = { set_variable = { name = kc_korean_settlement_subject value = yes } }
+}
+
+# Four paired jurisdictions preserve Korea's geographic interests while
+# giving Chartered Houses several distinct concession markets.
+kc_make_four_korean_commissions = {
+	set_variable = { name = kc_extraction_batch_creation_no_individual_cost value = yes }
+	location:seogyeong = {
+		create_country_from_location = { overlord = root subject_type = subject_type:kc_chartered_extraction_commission save_scope_as = kc_korea_north }
+	}
+	area:gwanseo_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_north } }
+	area:gwanbuk_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_north } }
+	scope:kc_korea_north = { set_variable = { name = kc_korean_settlement_subject value = yes } }
+
+	location:myeongju = {
+		create_country_from_location = { overlord = root subject_type = subject_type:kc_chartered_extraction_commission save_scope_as = kc_korea_east }
+	}
+	area:gwandong_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_east } }
+	area:yeongnam_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_east } }
+	scope:kc_korea_east = { set_variable = { name = kc_korean_settlement_subject value = yes } }
+
+	location:namgyeong = {
+		create_country_from_location = { overlord = root subject_type = subject_type:kc_chartered_extraction_commission save_scope_as = kc_korea_capital }
+	}
+	area:gyeonggi_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_capital } }
+	area:haeseo_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_capital } }
+	scope:kc_korea_capital = { set_variable = { name = kc_korean_settlement_subject value = yes } }
+
+	location:jeonju = {
+		create_country_from_location = { overlord = root subject_type = subject_type:kc_chartered_extraction_commission save_scope_as = kc_korea_south }
+	}
+	area:honam_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_south } }
+	area:hoseo_area = { every_location_in_area = { limit = { has_owner = yes owner = root } change_location_owner = scope:kc_korea_south } }
+	scope:kc_korea_south = { set_variable = { name = kc_korean_settlement_subject value = yes } }
+	remove_variable = kc_extraction_batch_creation_no_individual_cost
+}
+
+kc_form_philippine_commercial_compact = {
+	# Expects scope:kc_philippine_partner and scope:kc_philippine_area.
+	scope:kc_philippine_partner = {
+		make_subject_of = {
+			target = root
+			type = subject_type:kc_commercial_protectorate
+		}
+		set_variable = { name = kc_philippine_commercial_compact value = yes }
+	}
+	scope:kc_philippine_area = {
+		every_location_in_area = {
+			limit = { has_owner = yes owner = root }
+			change_location_owner = scope:kc_philippine_partner
+		}
+	}
+}

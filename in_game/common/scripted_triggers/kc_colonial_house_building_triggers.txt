@@ -1,0 +1,21 @@
+﻿# Locations administered directly by Japan beyond the home region, or by one
+# of Japan's ordinary colonial nations. Commercial Protectorates and
+# Extraction Commissions retain their separate licensed concession suite.
+kc_japanese_colonial_house_location = {
+	has_owner = yes
+	OR = {
+		AND = {
+			owner ?= { tag = JAP }
+			NOT = { region = region:japan_region }
+		}
+		owner ?= {
+			is_subject_type = colonial_nation
+			overlord ?= { tag = JAP }
+		}
+	}
+}
+
+kc_chartered_house_building_country = {
+	country_type = building
+	has_reform = government_reform:kc_chartered_buke_house
+}

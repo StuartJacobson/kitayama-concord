@@ -1,0 +1,86 @@
+﻿# Vanilla's definition of overseas excludes adjacent subcontinents. That makes
+# America and Oceania ineligible for colonial nations from an East Asian
+# capital even when they are separated from Kyoto by an ocean. The Concord
+# may reconsider the just-finished charter on the following day, after the
+# vanilla completion event has resolved.
+
+on_colonial_charter_finished = {
+	on_actions = {
+		kc_cache_concord_colonial_concessions_on_finish
+		kc_concord_colonial_administration_on_finish
+	}
+}
+
+# Cache before the vanilla completion event presents its transfer choices.
+# This also covers normally overseas provinces which do not use the Concord's
+# supplemental colonial-administration event.
+kc_cache_concord_colonial_concessions_on_finish = {
+	trigger = {
+		tag = JAP
+		exists = scope:target
+		scope:target = {
+			OR = {
+				continent = continent:america
+				continent = continent:oceania
+			}
+		}
+	}
+	effect = { scope:target = { kc_cache_colonial_concessions_in_province = yes } }
+}
+
+# root = transferred location, scope:loser = former owner,
+# scope:winner = new owner. The new subject grants direct rights immediately;
+# restoration waits one day so any hardcoded transfer cleanup has concluded.
+on_location_changed_owner = {
+	on_actions = { kc_restore_concord_colonial_concessions_after_transfer }
+}
+
+kc_restore_concord_colonial_concessions_after_transfer = {
+	trigger = {
+		exists = scope:loser
+		exists = scope:winner
+		scope:loser = { tag = JAP }
+		scope:winner = { overlord ?= { tag = JAP } }
+		OR = {
+			has_variable = kc_cached_anchorage_levels
+			has_variable = kc_cached_exchange_levels
+			has_variable = kc_cached_tea_levels
+			has_variable = kc_cached_silk_levels
+			has_variable = kc_cached_paddy_levels
+			has_variable = kc_cached_alum_levels
+			has_variable = kc_cached_whaling_levels
+			has_variable = kc_cached_provisioning_levels
+			has_variable = kc_cached_timber_levels
+		}
+	}
+	effect = {
+		scope:winner = { kc_grant_concord_concession_rights_to_houses = yes }
+		trigger_event_silently = { id = kc_colonial_persistence.1 days = 1 }
+	}
+}
+
+kc_concord_colonial_administration_on_finish = {
+	trigger = {
+		tag = JAP
+		has_reform = government_reform:kc_kitayama_concordate
+		exists = international_organization:kc_kitayama_concord
+		international_organization:kc_kitayama_concord ?= {
+			NOT = { has_variable = kc_concord_collapsed }
+		}
+		scope:target = {
+			owner ?= root
+			is_overseas_for_owner = no
+			OR = {
+				continent = continent:america
+				continent = continent:oceania
+			}
+		}
+	}
+
+	effect = {
+		trigger_event_non_silently = {
+			id = kc_colonial_administration.1
+			days = 1
+		}
+	}
+}

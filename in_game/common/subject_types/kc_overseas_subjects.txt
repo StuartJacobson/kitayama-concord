@@ -1,0 +1,133 @@
+﻿kc_commercial_protectorate = {
+	type = location
+	color = subject_trade_company
+	level = 1
+	# Reuse vanilla price categories. Custom subject-payment prices do not
+	# generate the matching cost-modifier type and flood error.log on load.
+	subject_pays = subject_pays_march
+	annullment_favours_required = 20
+
+	join_defensive_wars_always = {
+		scope:actor ?= { is_subject_of = scope:recipient }
+	}
+	join_offensive_wars_can_call = {
+		scope:recipient ?= { is_subject_of = scope:actor }
+	}
+
+	has_overlords_ruler = no
+	can_be_annexed = no
+	subject_can_cancel = no
+	overlord_can_cancel = no
+	overlord_protects_external = yes
+	has_limited_diplomacy = yes
+	allow_subjects = no
+	fleet_basing_rights = yes
+	food_access = yes
+	can_overlord_build_ships = yes
+	can_overlord_build_roads = yes
+	can_overlord_build_buildings = yes
+	can_overlord_build_rgos = yes
+	can_change_rank = yes
+	can_change_heir_selection = no
+	diplomatic_capacity_cost_scale = 0.50
+	strength_vs_overlord = -0.10
+	minimum_opinion_for_offer = 100
+	great_power_score_transfer = 0.50
+	institution_spread_to_overlord = monthly_institution_spread_mild
+	institution_spread_to_subject = monthly_institution_spread_mild
+
+	subject_modifier = {
+		export_efficiency = tiny_trade_efficiency_bonus
+		loyalty_to_overlord = 15
+	}
+
+	creation_visible = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+	subject_creation_enabled = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+	release_country_enabled = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+	visible_through_diplomacy = { always = no }
+	visible_through_treaty = { always = no }
+}
+
+kc_chartered_extraction_commission = {
+	type = location
+	color = subject_vassal
+	level = 2
+	subject_pays = subject_pays_pronoia
+	annullment_favours_required = 30
+
+	join_defensive_wars_always = { always = yes }
+	join_offensive_wars_always = {
+		scope:recipient ?= { is_subject_of = scope:actor }
+	}
+
+	has_overlords_ruler = no
+	can_be_annexed = no
+	subject_can_cancel = no
+	overlord_can_cancel = no
+	overlord_protects_external = yes
+	has_limited_diplomacy = yes
+	allow_subjects = no
+	fleet_basing_rights = yes
+	food_access = yes
+	can_overlord_build_ships = yes
+	can_overlord_build_roads = yes
+	can_overlord_build_buildings = yes
+	can_overlord_build_rgos = yes
+	can_change_rank = no
+	can_change_heir_selection = no
+	diplomatic_capacity_cost_scale = 0.75
+	strength_vs_overlord = -0.10
+	minimum_opinion_for_offer = 150
+	great_power_score_transfer = 0.75
+	institution_spread_to_overlord = monthly_institution_spread_severe
+	institution_spread_to_subject = monthly_institution_spread_weak
+
+	subject_modifier = {
+		global_monthly_development = -0.002
+		loyalty_to_overlord = -10
+	}
+
+	creation_visible = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+	subject_creation_enabled = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+	release_country_enabled = {
+		tag = JAP
+		is_member_of_international_organization = international_organization:kc_kitayama_concord
+	}
+	visible_through_diplomacy = { always = no }
+	visible_through_treaty = { always = no }
+
+	# Every independently chartered Extraction Commission is a political
+	# liability. Korea's four-commission settlement pays one combined cost in
+	# its settlement event and temporarily suppresses these individual charges.
+	on_enable = {
+		scope:future_overlord ?= {
+			if = {
+				limit = {
+					tag = JAP
+					NOT = { has_variable = kc_extraction_batch_creation_no_individual_cost }
+					exists = international_organization:kc_kitayama_concord
+					is_member_of_international_organization = international_organization:kc_kitayama_concord
+				}
+				international_organization:kc_kitayama_concord = {
+					change_variable = { name = kc_concord_cohesion add = -3 }
+				}
+				trigger_event_non_silently = { id = kc_continental.8 days = 1 }
+			}
+		}
+	}
+}

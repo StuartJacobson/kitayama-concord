@@ -1,0 +1,13 @@
+﻿l_english:
+ kc_concord_concession_rights: "Concord Concession Rights"
+ kc_concord_concession_rights_desc: "The Concord recognizes this House's right to maintain chartered buildings in Japanese territory and in territories governed by Japan's overseas subjects."
+ kc_concord_concession_rights_relation: "Concord Concession Rights"
+ kc_concord_concession_rights_relation_desc: "A territorial government recognizes a Chartered House's right to maintain commercial property under its jurisdiction."
+ kc_concord_concession_rights_effect_text: "[SCOPE.sCountry('actor').GetName] recognizes the concessions of [SCOPE.sCountry('recipient').GetName]"
+ kc_concord_concession_rights_effect_text_past: "[SCOPE.sCountry('actor').GetName] recognized the concessions of [SCOPE.sCountry('recipient').GetName]"
+ diplomatic_status_giving_kc_concord_concession_rights_name: "Recognizing Concord Concessions"
+ diplomatic_status_giving_kc_concord_concession_rights_tooltip: "This country recognizes the chartered property of Concord Houses."
+ giving_kc_concord_concession_rights_list_who_tt: "$WHO$ recognizes Concord concessions belonging to $LIST$."
+ diplomatic_status_receiving_kc_concord_concession_rights_name: "Recognized Concord Concessions"
+ diplomatic_status_receiving_kc_concord_concession_rights_tooltip: "This House may maintain chartered property in these countries."
+ receiving_kc_concord_concession_rights_list_who_tt: "$WHO$ holds recognized Concord concessions in $LIST$."
